@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "aa ",
+        " b ",
+        " b "
+    ],
+    "key": {
+        "a": {
+            "item": "lorienlegacies:loralitecrystal"
+        },
+        "b": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "lorienlegacies:loralitehoe",
+        "count": 1
+    }
+}

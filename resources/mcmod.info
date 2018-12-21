@@ -1,0 +1,16 @@
+[
+{
+  "modid": "lorienlegacies",
+  "name": "Lorien Legacies",
+  "description": "Lorien Legacies in Minecraft!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["authors"],
+  "credits": "credits",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
