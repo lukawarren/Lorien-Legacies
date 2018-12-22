@@ -9,6 +9,8 @@ import lorien.legacies.legacies.implementations.LumenLegacy;
 import lorien.legacies.legacies.implementations.NovisLegacy;
 import lorien.legacies.legacies.implementations.NoxenLegacy;
 import lorien.legacies.legacies.implementations.SubmariLegacy;
+import lorien.legacies.legacies.implementations.RegenerasLegacy;
+import lorien.legacies.legacies.implementations.PondusLegacy;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -51,6 +53,12 @@ public class LegacyManager {
 	public FortemLegacy fortemLegacy;
 	public boolean fortemLegacyEnabled;
 	
+	public RegenerasLegacy regenerasLegacy;
+	public boolean regenerasLegacyEnabled;
+	
+	public PondusLegacy pondusLegacy;
+	public boolean pondusLegacyEnabled;
+	
 	public LegacyManager(EntityPlayer player)
 	{
 		this.player = player;
@@ -63,6 +71,8 @@ public class LegacyManager {
 		accelixLegacy = new AccelixLegacy();
 		fortemLegacy = new FortemLegacy();
 		novisLegacy = new NovisLegacy();
+		regenerasLegacy = new RegenerasLegacy();
+		pondusLegacy = new PondusLegacy();
 	}
 	
 	@SubscribeEvent
@@ -78,6 +88,9 @@ public class LegacyManager {
 			
 			if (submariLegacyEnabled)
 				submariLegacy.computeLegacyTick(player);
+			
+			if (regenerasLegacyEnabled)
+				regenerasLegacy.computeLegacyTick(player);
 			
 			if (accelixLegacyEnabled && accelixLegacy.toggled)
 				accelixLegacy.computeLegacyTick(player);

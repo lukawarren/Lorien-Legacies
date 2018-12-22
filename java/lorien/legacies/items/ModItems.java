@@ -27,6 +27,10 @@ public class ModItems {
 	public static NovisBlesser novisBlesser = new NovisBlesser();
 	@GameRegistry.ObjectHolder("lorienlegacies:noxenblesser")
 	public static NoxenBlesser noxenBlesser = new NoxenBlesser();
+	@GameRegistry.ObjectHolder("lorienlegacies:pondusblesser")
+	public static PondusBlesser pondusBlesser = new PondusBlesser();
+	@GameRegistry.ObjectHolder("lorienlegacies:regenerasblesser")
+	public static RegenerasBlesser regenerasBlesser = new RegenerasBlesser();
 	@GameRegistry.ObjectHolder("lorienlegacies:submariblesser")
 	public static SubmariBlesser submariBlesser = new SubmariBlesser();
 	
@@ -62,6 +66,7 @@ public class ModItems {
 		event.getRegistry().register(lumenBlesser);
 		event.getRegistry().register(novisBlesser);
 		event.getRegistry().register(noxenBlesser);
+		event.getRegistry().register(pondusBlesser);
 		event.getRegistry().register(submariBlesser);
 		
 		event.getRegistry().register(loralitepickaxe);
@@ -82,6 +87,7 @@ public class ModItems {
 		CommonProxy.registerRender(lumenBlesser);
 		CommonProxy.registerRender(novisBlesser);
 		CommonProxy.registerRender(noxenBlesser);
+		CommonProxy.registerRender(pondusBlesser);
 		CommonProxy.registerRender(submariBlesser);
 		
 		CommonProxy.registerRender(loralitepickaxe);

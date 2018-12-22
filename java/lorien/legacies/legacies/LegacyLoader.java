@@ -115,6 +115,16 @@ public class LegacyLoader {
 					playerLegacyManager.fortemLegacyEnabled = true;
 					playerLegacyManager.player.sendMessage(new TextComponentString("Fortem - grants super strength").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 				}
+				else if (n == 7)
+				{
+					playerLegacyManager.regenerasLegacyEnabled = true;
+					playerLegacyManager.player.sendMessage(new TextComponentString("Regeneras - grants regeneration").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				}
+				else if (n == 8)
+				{
+					playerLegacyManager.pondusLegacyEnabled = true;
+					playerLegacyManager.player.sendMessage(new TextComponentString("Pondus - grants the ability to walk on water").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				}
 			}
 		}
 		
