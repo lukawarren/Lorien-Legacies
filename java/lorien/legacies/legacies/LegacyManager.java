@@ -101,27 +101,35 @@ public class LegacyManager {
 			if (novisLegacyEnabled && novisLegacy.toggled)
 				novisLegacy.computeLegacyTick(player);
 			
-		}
-		
-		Material m = player.world.getBlockState(new BlockPos(MathHelper.floor(player.posX), 
-		          //MathHelper.floor(player.posY - 0.20000000298023224D - (double)player.getYOffset()), 
-				  MathHelper.floor(player.posY - 0.20000000298023224D - 0.2d), 
-		          MathHelper.floor(player.posZ))).getMaterial();
-		boolean isWater = m.isLiquid();
-		
-		if (isWater != previousWaterDecision)
-		{
-			player.motionY = 0;
-			player.velocityChanged = true;
-		}
+			// Work out if player is above water
+			int i = MathHelper.floor(player.posX);
+			int j = MathHelper.floor(player.getEntityBoundingBox().minY - 1);
+			int k = MathHelper.floor(player.posZ);
+			Material m = player.world.getBlockState(new BlockPos(i, j, k)).getMaterial();
+			boolean isWater = (m == Material.WATER);
+						
+			if (isWater)
+			{
+				yoMomGay = true;
+				System.out.println("bob");
+			}
 			
+			if (yoMomGay)
+			{
+				player.motionY = 0;
+				player.motionX = player.motionX;
+				player.motionZ = player.motionZ;
+				player.velocityChanged = true;
+				player.motionX = player.motionX;
+				player.motionZ = player.motionZ;
+			}
+			
+		}
 		
-		previousWaterDecision = isWater;
 		
-		player.setNoGravity(isWater || player.isAirBorne);
 	}
 	
-	private boolean previousWaterDecision = false;
+	private boolean yoMomGay = false;
 	
 	// So you can't just spam it and crash the server (trust me, it was hilarious)
 	private boolean lumenFireballShot = false;
