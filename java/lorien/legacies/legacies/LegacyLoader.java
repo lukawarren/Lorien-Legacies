@@ -14,7 +14,7 @@ public class LegacyLoader {
 	
 	public static final int CHANCE_OF_LEGACIES = 10; // 10%
 	public static final int AMOUNT_OF_LEGACIES_GIFTED = 2;
-	public static final int NUMBER_OF_LEGACIES = 3; // Used for evenly splitting probability in generateLegacyImplimentations()
+	public static final int NUMBER_OF_LEGACIES = 7; // Used for evenly splitting probability in generateLegacyImplimentations()
 	
 	// Returns either true or false, depending on whether or not player should have legacies
 	public static void loadLegacies(LegacyManager playerLegacyManager, boolean forceLegacies)
@@ -117,13 +117,8 @@ public class LegacyLoader {
 				}
 				else if (n == 7)
 				{
-					playerLegacyManager.regenerasLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Regeneras - grants regeneration").setStyle(new Style().setColor(TextFormatting.YELLOW)));
-				}
-				else if (n == 8)
-				{
 					playerLegacyManager.pondusLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Pondus - grants the ability to walk on water").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					playerLegacyManager.player.sendMessage(new TextComponentString("Pondus - grants water walking").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 				}
 			}
 		}

@@ -8,29 +8,36 @@ import net.minecraft.util.math.MathHelper;
 
 public class PondusLegacy extends Legacy {
 	
+	private boolean previousWaterDecision = false;
+	
 	public PondusLegacy()
 	{
 		LEGACY_NAME = "Pondus";
+		
 	}
+	
 	
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
 		if (toggled)
 		{
-			/*
-			// Work out if player is above water
-			int i = MathHelper.floor(player.posX);
-			int j = MathHelper.floor(player.getEntityBoundingBox().minY);
-			int k = MathHelper.floor(player.posZ);
-			Material m = player.world.getBlockState(new BlockPos(i,  j,  k)).getMaterial();
-			boolean isWater = (m == Material.WATER); // or m.isLiquid() or whatever you want.
+			Material m = player.world.getBlockState(new BlockPos(MathHelper.floor(player.posX), 
+			          //MathHelper.floor(player.posY - 0.20000000298023224D - (double)player.getYOffset()), 
+					  MathHelper.floor(player.posY - 0.20000000298023224D - 0.2d), 
+			          MathHelper.floor(player.posZ))).getMaterial();
+			boolean isWater = m.isLiquid();
 			
-			if (isWater)
+			if (isWater != previousWaterDecision)
 			{
 				player.motionY = 0;
-				System.out.println("bob");
-			}*/
+				player.velocityChanged = true;
+			}
+				
+			
+			previousWaterDecision = isWater;
+			
+			player.setNoGravity(isWater || player.isAirBorne);
 		}
 	}
 

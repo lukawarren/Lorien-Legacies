@@ -38,7 +38,7 @@ public class AccelixBlesser extends Item {
 			{
 				l.legaciesEnabled = true;
 				l.accelixLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with accelix - grants toggleable super speed (currently enabled)").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				l.player.sendMessage(new TextComponentString("You have been blessed with Accelix - grants toggleable super speed (currently enabled)").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 			}
 		}
 		

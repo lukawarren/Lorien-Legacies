@@ -27,12 +27,10 @@ public class ModItems {
 	public static NovisBlesser novisBlesser = new NovisBlesser();
 	@GameRegistry.ObjectHolder("lorienlegacies:noxenblesser")
 	public static NoxenBlesser noxenBlesser = new NoxenBlesser();
-	@GameRegistry.ObjectHolder("lorienlegacies:pondusblesser")
-	public static PondusBlesser pondusBlesser = new PondusBlesser();
-	@GameRegistry.ObjectHolder("lorienlegacies:regenerasblesser")
-	public static RegenerasBlesser regenerasBlesser = new RegenerasBlesser();
 	@GameRegistry.ObjectHolder("lorienlegacies:submariblesser")
 	public static SubmariBlesser submariBlesser = new SubmariBlesser();
+	@GameRegistry.ObjectHolder("lorienlegacies:pondusblesser")
+	public static PondusBlesser pondusBlesser = new PondusBlesser();
 	
 	// Tools
 	public static final ToolMaterial loraliteMaterial = EnumHelper.addToolMaterial("loralitematerial", 3, 2048, 16.0f, 5.0f, 30);
@@ -66,8 +64,8 @@ public class ModItems {
 		event.getRegistry().register(lumenBlesser);
 		event.getRegistry().register(novisBlesser);
 		event.getRegistry().register(noxenBlesser);
-		event.getRegistry().register(pondusBlesser);
 		event.getRegistry().register(submariBlesser);
+		event.getRegistry().register(pondusBlesser);
 		
 		event.getRegistry().register(loralitepickaxe);
 		event.getRegistry().register(loraliteaxe);
@@ -87,8 +85,8 @@ public class ModItems {
 		CommonProxy.registerRender(lumenBlesser);
 		CommonProxy.registerRender(novisBlesser);
 		CommonProxy.registerRender(noxenBlesser);
-		CommonProxy.registerRender(pondusBlesser);
 		CommonProxy.registerRender(submariBlesser);
+		CommonProxy.registerRender(pondusBlesser);
 		
 		CommonProxy.registerRender(loralitepickaxe);
 		CommonProxy.registerRender(loraliteaxe);

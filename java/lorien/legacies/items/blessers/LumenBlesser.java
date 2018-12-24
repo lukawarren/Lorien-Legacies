@@ -39,7 +39,7 @@ public class LumenBlesser extends Item {
 				
 				l.legaciesEnabled = true;
 				l.lumenLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with lumen - grants fire resistance and fire powers").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				l.player.sendMessage(new TextComponentString("You have been blessed with Lumen - grants fire resistance and fire powers").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 			}
 		}
 		

@@ -38,7 +38,7 @@ public class SubmariBlesser extends Item {
 			{
 				l.legaciesEnabled = true;
 				l.submariLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with submari - grants water breathing").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				l.player.sendMessage(new TextComponentString("You have been blessed with Submari - grants water breathing").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 			}
 		}
 		
