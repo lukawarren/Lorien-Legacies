@@ -1,18 +1,11 @@
 package lorien.legacies.proxy;
 
-import java.awt.Component;
-
-import javax.swing.JOptionPane;
-
-import lorien.legacies.blocks.LoraliteOre;
 import lorien.legacies.blocks.ModBlocks;
-import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.entities.ModEntities;
 import lorien.legacies.items.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -22,7 +15,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
-import scala.collection.concurrent.Debug;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
