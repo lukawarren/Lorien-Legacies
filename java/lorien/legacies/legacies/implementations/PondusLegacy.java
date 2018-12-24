@@ -3,6 +3,8 @@ package lorien.legacies.legacies.implementations;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
@@ -20,6 +22,8 @@ public class PondusLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
+		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("water_breathing"), 1, 255, true, false));
+		
 		if (toggled)
 		{
 			Material m = player.world.getBlockState(new BlockPos(MathHelper.floor(player.posX), 

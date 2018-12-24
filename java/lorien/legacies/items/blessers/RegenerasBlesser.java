@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class RegenerasBlesser extends Item {
 	
 	private static String UNLOCALIZED_NAME = "regenerasblesser";
-	
+
 	public RegenerasBlesser()
 	{
 		setUnlocalizedName(LorienLegacies.MODID + "." + UNLOCALIZED_NAME);
@@ -26,8 +26,8 @@ public class RegenerasBlesser extends Item {
 		setMaxStackSize(1);
 		setMaxDamage(0);
 	}
-	
-	
+
+
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
@@ -38,10 +38,10 @@ public class RegenerasBlesser extends Item {
 			{
 				l.legaciesEnabled = true;
 				l.regenerasLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with regeneras - grants water breathing").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				l.player.sendMessage(new TextComponentString("You have been blessed with regeneras - grants regeneration").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 			}
 		}
-		
+
         return EnumActionResult.PASS;
     }
 	

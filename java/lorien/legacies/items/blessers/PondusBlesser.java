@@ -38,7 +38,7 @@ public class PondusBlesser extends Item {
 			{
 				l.legaciesEnabled = true;
 				l.pondusLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with Pondus - grants water walking (currently enabled)").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				l.player.sendMessage(new TextComponentString("You have been blessed with Pondus - grants water walking (currently enabled) and water breathing").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 			}
 		}
 		

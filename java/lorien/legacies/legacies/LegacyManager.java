@@ -3,12 +3,14 @@ package lorien.legacies.legacies;
 import javax.swing.text.html.parser.Entity;
 
 import lorien.legacies.CustomPlayer;
+import lorien.legacies.items.blessers.RegenerasBlesser;
 import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
 import lorien.legacies.legacies.implementations.LumenLegacy;
 import lorien.legacies.legacies.implementations.NovisLegacy;
 import lorien.legacies.legacies.implementations.NoxenLegacy;
 import lorien.legacies.legacies.implementations.PondusLegacy;
+import lorien.legacies.legacies.implementations.RegenerasLegacy;
 import lorien.legacies.legacies.implementations.SubmariLegacy;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.material.Material;
@@ -55,6 +57,9 @@ public class LegacyManager {
 	public PondusLegacy pondusLegacy;
 	public boolean pondusLegacyEnabled;
 	
+	public RegenerasLegacy regenerasLegacy;
+	public boolean regenerasLegacyEnabled;
+	
 	public LegacyManager(EntityPlayer player)
 	{
 		this.player = player;
@@ -68,6 +73,7 @@ public class LegacyManager {
 		fortemLegacy = new FortemLegacy();
 		novisLegacy = new NovisLegacy();
 		pondusLegacy = new PondusLegacy();
+		regenerasLegacy = new RegenerasLegacy();
 	}
 	
 	@SubscribeEvent
@@ -95,6 +101,9 @@ public class LegacyManager {
 			
 			if (pondusLegacyEnabled && pondusLegacy.toggled)
 				pondusLegacy.computeLegacyTick(player);
+			
+			if (regenerasLegacyEnabled)
+				regenerasLegacy.computeLegacyTick(player);
 			
 		}
 		
