@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import lorien.legacies.core.LorienLegacies;
-import lorien.legacies.entities.Chimaera.*;
+import lorien.legacies.entities.chimaera.*;
 
 public class ModEntities {
 	
