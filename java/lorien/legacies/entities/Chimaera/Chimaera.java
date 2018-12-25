@@ -2,6 +2,7 @@ package lorien.legacies.entities.chimaera;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import lorien.legacies.core.LorienLegacies;
@@ -17,13 +18,15 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -33,13 +36,46 @@ public class Chimaera extends EntityCreature {
 
 	public EntityAIBase TARGET_PLAYER = new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true, true);
 
+	@SideOnly(Side.CLIENT)
+	public MorphHandler morphHandler;
+
 	public long lastMorph = 0;
 
-	public long lastAngerPhase;
+	public long lastAngerPhase = 0;
 
 	public Chimaera(World worldIn) {
 		super(worldIn);
 		setSize(width, height);
+	}
+
+	@Override
+	public void onEntityUpdate() {
+		if ((world.getTotalWorldTime() - lastMorph) > 4000) {
+			morph();
+		}
+		if ((world.getTotalWorldTime() - lastAngerPhase) > 4000) {
+			setFriendly();
+		}
+		super.onEntityUpdate();
+	}
+
+	private void morph() {
+		switch (this.getRNG().nextInt(1)) {
+		case 0:
+			int index = this.getRNG().nextInt(MorphHandler.renders$forge.size() - 1);
+			Entity key = (Entity) MorphHandler.renders$forge.keySet().toArray()[index];
+			IRenderFactory<?> factory = MorphHandler.renders$forge.get(key);
+			this.morphHandler.setCurrent(factory);
+			break;
+		case 1:
+			int index1 = this.getRNG().nextInt(MorphHandler.renders$vanilla.size() - 1);
+			Entity key1 = (Entity) MorphHandler.renders$forge.keySet().toArray()[index1];
+			this.morphHandler
+					.setCurrent(morphHandler.getRenderer(EntityRegistry.getEntry(key1.getClass()).getRegistryName()));
+			break;
+		default:
+			return;
+		}
 	}
 
 	@Override
@@ -71,8 +107,13 @@ public class Chimaera extends EntityCreature {
 		this.lastAngerPhase = world.getTotalWorldTime();
 		this.lastMorph = lastAngerPhase;
 		tasks.addTask(10, TARGET_PLAYER);
-		// TODO: import monster models, and randomly pick one
-		this.morph(MorphHandler.ZOMBIE);
+		this.morph((String) MorphHandler.renders$lorienlegacies.keySet().toArray()//
+		[this.getRNG().nextInt(MorphHandler.renders$lorienlegacies.size() - 1)]);
+	}
+
+	private void setFriendly() {
+		this.morph();
+		tasks.removeTask(TARGET_PLAYER);
 	}
 
 	private void morph(String mobname) {
@@ -84,10 +125,30 @@ public class Chimaera extends EntityCreature {
 
 	@SideOnly(Side.CLIENT)
 	public void handleMorph(String modelName) {
-
+		this.morphHandler.setCurrent(morphHandler.getRenderer(modelName));
 	}
 
+	@SideOnly(Side.CLIENT)
 	public static class MorphHandler {
+
+		public static <T extends Entity> T getEntityFor(Render<T> renderer, World world) {
+			Class<T> clazz = (Class<T>) renders$classes.get(renderer.getClass());
+			Class[] args = { World.class };
+			if (clazz != null) {
+				for (Constructor constructor : clazz.getConstructors()) {
+					if (Arrays.equals(constructor.getParameterTypes(), args)) {
+
+						try {
+							return (T) constructor.newInstance(world);
+						} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+								| InvocationTargetException e) {
+							LorienLegacies.LOGGER.catching(e);
+						}
+					}
+				}
+			}
+			return null;
+		}
 
 		private IRenderFactory<? extends Entity> current;
 
@@ -105,9 +166,14 @@ public class Chimaera extends EntityCreature {
 		static HashMap<Entity, IRenderFactory<?>> renders$forge = new HashMap<>();
 		// Monster renders for Lorien Legacies
 		static HashMap<String, IRenderFactory<?>> renders$lorienlegacies = new HashMap<>();
+		// All classes
+		static HashMap<Class<? extends Render<? extends Entity>>, Class<? extends Entity>> renders$classes = new HashMap<>();
 
 		public static void postInit() {
-			// TODO: insert renderers
+			for(EntityEntry entry : ForgeRegistries.ENTITIES) {
+				
+				
+			}
 		}
 
 		public static final String ZOMBIE = "zombie";
@@ -125,7 +191,7 @@ public class Chimaera extends EntityCreature {
 		}
 
 		@SideOnly(Side.CLIENT)
-		public IRenderFactory<? extends Entity> getRenderer(ResourceLocation morph) {
+		private IRenderFactory<? extends Entity> getRenderer(ResourceLocation morph) {
 			for (Entity entity : renders$forge.keySet()) {
 				if (EntityRegistry.getEntry(entity.getClass()).getRegistryName().equals(morph)) {
 					return renders$forge.get(entity);
@@ -141,24 +207,19 @@ public class Chimaera extends EntityCreature {
 
 		private <T extends Entity> IRenderFactory<T> genFactory(Render<T> render) {
 			return new IRenderFactory<T>() {
-
 				@Override
 				public Render<? super T> createRenderFor(RenderManager manager) {
 					Class<? extends Render> renderclass = render.getClass();
+					Class[] args = { RenderManager.class };
 					for (Constructor constructor : renderclass.getConstructors()) {
-						if (constructor.getParameterTypes().length == 1
-								&& constructor.getParameterTypes()[0] == RenderManager.class) {
+						if (Arrays.equals(constructor.getParameterTypes(), args)) {
 							try {
 								return (Render<? super T>) constructor.newInstance(manager);
-							} catch (InstantiationException e) {
-								LorienLegacies.LOGGER.catching(e);
-							} catch (IllegalAccessException e) {
-								LorienLegacies.LOGGER.catching(e);
-							} catch (IllegalArgumentException e) {
-								LorienLegacies.LOGGER.catching(e);
-							} catch (InvocationTargetException e) {
+							} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+									| InvocationTargetException e) {
 								LorienLegacies.LOGGER.catching(e);
 							}
+
 							LorienLegacies.LOGGER.error(
 									"Couldn't create the render!! Falling back into the default one! This might cause problems");
 						}
@@ -169,4 +230,5 @@ public class Chimaera extends EntityCreature {
 		}
 
 	}
+
 }

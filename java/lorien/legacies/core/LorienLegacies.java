@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import lorien.legacies.entities.chimaera.Chimaera;
 import lorien.legacies.items.ModItems;
 import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.KeyInputHandler;
@@ -116,6 +117,7 @@ public class LorienLegacies {
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
+		Chimaera.MorphHandler.postInit();
 		proxy.postInit(e);
 	}
 

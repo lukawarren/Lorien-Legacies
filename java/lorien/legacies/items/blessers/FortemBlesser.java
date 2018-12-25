@@ -38,7 +38,7 @@ public class FortemBlesser extends Item {
 			{
 				l.legaciesEnabled = true;
 				l.fortemLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with Fortem - grants toggleable super strength (currently enabled)").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				l.player.sendMessage(new TextComponentString("You have been blessed with fortem - grants toggleable super strength (currently enabled)").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 			}
 		}
 		

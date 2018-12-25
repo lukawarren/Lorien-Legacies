@@ -38,7 +38,7 @@ public class NoxenBlesser extends Item {
 			{
 				l.legaciesEnabled = true;
 				l.noxenLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with Noxen - grants night vision").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				l.player.sendMessage(new TextComponentString("You have been blessed with noxen - grants night vision").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 			}
 		}
 		

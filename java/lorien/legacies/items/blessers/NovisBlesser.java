@@ -38,7 +38,7 @@ public class NovisBlesser extends Item {
 			{
 				l.legaciesEnabled = true;
 				l.novisLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with Novis - grants toggleable invisiblity (currently enabled)").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				l.player.sendMessage(new TextComponentString("You have been blessed with novis - grants toggleable invisiblity (currently enabled)").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 			}
 		}
 		

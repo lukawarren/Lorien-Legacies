@@ -23,7 +23,7 @@ public class ModEntities {
 		
 		Object mod = LorienLegacies.instance;
 		
-		EntityRegistry.registerModEntity(new ResourceLocation(LorienLegacies.MODID + ":" + chimaera.UNLOCALIZED_NAME), Chimaera.class, chimaera.UNLOCALIZED_NAME, ++entityID, LorienLegacies.instance, 244, 1, false);
+		EntityRegistry.registerModEntity(new ResourceLocation(LorienLegacies.MODID + ":" + "chimaera"), Chimaera.class, "Chimaera", ++entityID, LorienLegacies.instance, 244, 1, false);
 	}
 	
 }

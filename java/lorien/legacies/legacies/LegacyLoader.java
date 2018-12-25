@@ -13,8 +13,8 @@ import scala.util.Random;
 public class LegacyLoader {
 	
 	public static final int CHANCE_OF_LEGACIES = 10; // 10%
-	public static final int AMOUNT_OF_LEGACIES_GIFTED = 3;
-	public static final int NUMBER_OF_LEGACIES = 8; // Used for evenly splitting probability in generateLegacyImplimentations()
+	public static final int AMOUNT_OF_LEGACIES_GIFTED = 2;
+	public static final int NUMBER_OF_LEGACIES = 3; // Used for evenly splitting probability in generateLegacyImplimentations()
 	
 	// Returns either true or false, depending on whether or not player should have legacies
 	public static void loadLegacies(LegacyManager playerLegacyManager, boolean forceLegacies)
@@ -117,13 +117,13 @@ public class LegacyLoader {
 				}
 				else if (n == 7)
 				{
-					playerLegacyManager.pondusLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Pondus - grants water walking and water breathing").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					playerLegacyManager.regenerasLegacyEnabled = true;
+					playerLegacyManager.player.sendMessage(new TextComponentString("Regeneras - grants regeneration").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 				}
 				else if (n == 8)
 				{
-					playerLegacyManager.regenerasLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Regeneras - grants regeneration").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					playerLegacyManager.pondusLegacyEnabled = true;
+					playerLegacyManager.player.sendMessage(new TextComponentString("Pondus - grants the ability to walk on water").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 				}
 			}
 		}
@@ -140,16 +140,6 @@ public class LegacyLoader {
 		if (n == 2 && playerLegacyManager.noxenLegacyEnabled)
 			return true;
 		if (n == 3 && playerLegacyManager.submariLegacyEnabled)
-			return true;
-		if (n == 4 && playerLegacyManager.novisLegacyEnabled)
-			return true;
-		if (n == 5 && playerLegacyManager.accelixLegacyEnabled)
-			return true;
-		if (n == 6 && playerLegacyManager.fortemLegacyEnabled)
-			return true;
-		if (n == 4 && playerLegacyManager.pondusLegacyEnabled)
-			return true;
-		if (n == 4 && playerLegacyManager.regenerasLegacyEnabled)
 			return true;
 		
 		return false;

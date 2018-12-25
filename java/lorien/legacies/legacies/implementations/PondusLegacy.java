@@ -3,45 +3,34 @@ package lorien.legacies.legacies.implementations;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
 public class PondusLegacy extends Legacy {
 	
-	private boolean previousWaterDecision = false;
-	
 	public PondusLegacy()
 	{
 		LEGACY_NAME = "Pondus";
-		
 	}
-	
 	
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("water_breathing"), 1, 255, true, false));
-		
 		if (toggled)
 		{
-			Material m = player.world.getBlockState(new BlockPos(MathHelper.floor(player.posX), 
-			          //MathHelper.floor(player.posY - 0.20000000298023224D - (double)player.getYOffset()), 
-					  MathHelper.floor(player.posY - 0.20000000298023224D - 0.2d), 
-			          MathHelper.floor(player.posZ))).getMaterial();
-			boolean isWater = m.isLiquid();
+			/*
+			// Work out if player is above water
+			int i = MathHelper.floor(player.posX);
+			int j = MathHelper.floor(player.getEntityBoundingBox().minY);
+			int k = MathHelper.floor(player.posZ);
+			Material m = player.world.getBlockState(new BlockPos(i,  j,  k)).getMaterial();
+			boolean isWater = (m == Material.WATER); // or m.isLiquid() or whatever you want.
 			
-			if (isWater != previousWaterDecision)
+			if (isWater)
 			{
 				player.motionY = 0;
-				player.velocityChanged = true;
-			}
-				
-			
-			previousWaterDecision = isWater;
-			
-			player.setNoGravity(isWater || player.isAirBorne);
+				System.out.println("bob");
+			}*/
 		}
 	}
 
