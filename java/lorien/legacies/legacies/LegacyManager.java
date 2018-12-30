@@ -3,14 +3,15 @@ package lorien.legacies.legacies;
 import javax.swing.text.html.parser.Entity;
 
 import lorien.legacies.CustomPlayer;
+import lorien.legacies.items.blessers.RegenerasBlesser;
 import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
 import lorien.legacies.legacies.implementations.LumenLegacy;
 import lorien.legacies.legacies.implementations.NovisLegacy;
 import lorien.legacies.legacies.implementations.NoxenLegacy;
-import lorien.legacies.legacies.implementations.SubmariLegacy;
-import lorien.legacies.legacies.implementations.RegenerasLegacy;
 import lorien.legacies.legacies.implementations.PondusLegacy;
+import lorien.legacies.legacies.implementations.RegenerasLegacy;
+import lorien.legacies.legacies.implementations.SubmariLegacy;
 import net.java.games.input.Keyboard;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -53,11 +54,11 @@ public class LegacyManager {
 	public FortemLegacy fortemLegacy;
 	public boolean fortemLegacyEnabled;
 	
-	public RegenerasLegacy regenerasLegacy;
-	public boolean regenerasLegacyEnabled;
-	
 	public PondusLegacy pondusLegacy;
 	public boolean pondusLegacyEnabled;
+	
+	public RegenerasLegacy regenerasLegacy;
+	public boolean regenerasLegacyEnabled;
 	
 	public LegacyManager(EntityPlayer player)
 	{
@@ -71,8 +72,8 @@ public class LegacyManager {
 		accelixLegacy = new AccelixLegacy();
 		fortemLegacy = new FortemLegacy();
 		novisLegacy = new NovisLegacy();
-		regenerasLegacy = new RegenerasLegacy();
 		pondusLegacy = new PondusLegacy();
+		regenerasLegacy = new RegenerasLegacy();
 	}
 	
 	@SubscribeEvent
@@ -89,9 +90,6 @@ public class LegacyManager {
 			if (submariLegacyEnabled)
 				submariLegacy.computeLegacyTick(player);
 			
-			if (regenerasLegacyEnabled)
-				regenerasLegacy.computeLegacyTick(player);
-			
 			if (accelixLegacyEnabled && accelixLegacy.toggled)
 				accelixLegacy.computeLegacyTick(player);
 			
@@ -101,35 +99,17 @@ public class LegacyManager {
 			if (novisLegacyEnabled && novisLegacy.toggled)
 				novisLegacy.computeLegacyTick(player);
 			
-			// Work out if player is above water
-			int i = MathHelper.floor(player.posX);
-			int j = MathHelper.floor(player.getEntityBoundingBox().minY - 1);
-			int k = MathHelper.floor(player.posZ);
-			Material m = player.world.getBlockState(new BlockPos(i, j, k)).getMaterial();
-			boolean isWater = (m == Material.WATER);
-						
-			if (isWater)
-			{
-				yoMomGay = true;
-				System.out.println("bob");
-			}
+			if (pondusLegacyEnabled && pondusLegacy.toggled)
+				pondusLegacy.computeLegacyTick(player);
 			
-			if (yoMomGay)
-			{
-				player.motionY = 0;
-				player.motionX = player.motionX;
-				player.motionZ = player.motionZ;
-				player.velocityChanged = true;
-				player.motionX = player.motionX;
-				player.motionZ = player.motionZ;
-			}
+			if (regenerasLegacyEnabled)
+				regenerasLegacy.computeLegacyTick(player);
 			
 		}
 		
 		
 	}
-	
-	private boolean yoMomGay = false;
+	private boolean previousWaterDecision = false;
 	
 	// So you can't just spam it and crash the server (trust me, it was hilarious)
 	private boolean lumenFireballShot = false;
@@ -156,6 +136,10 @@ public class LegacyManager {
 		// Novis toggle
 		if (KeyBindings.toggleNovis.isPressed() && legaciesEnabled && novisLegacyEnabled)
 			novisLegacy.toggle(player);
+		
+		// Pondus toggle
+		if (KeyBindings.togglePondus.isPressed() && legaciesEnabled && pondusLegacyEnabled)
+			pondusLegacy.toggle(player);
 		
 		/*
 		if (org.lwjgl.input.Keyboard.isKeyDown(org.lwjgl.input.Keyboard.KEY_HOME))
