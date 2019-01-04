@@ -2,7 +2,7 @@ package lorien.legacies.proxy;
 
 import lorien.legacies.blocks.ModBlocks;
 import lorien.legacies.entities.ModEntities;
-import lorien.legacies.entities.chimaera.Chimaera;
+import lorien.legacies.entities.Chimaera.Chimaera;
 import lorien.legacies.items.ModItems;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;

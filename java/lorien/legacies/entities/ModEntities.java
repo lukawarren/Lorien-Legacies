@@ -2,11 +2,12 @@ package lorien.legacies.entities;
 
 import lorien.legacies.client.render.RenderChimaera;
 import lorien.legacies.core.LorienLegacies;
-import lorien.legacies.entities.chimaera.Chimaera;
+import lorien.legacies.entities.Chimaera.Chimaera;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModEntities {
 
