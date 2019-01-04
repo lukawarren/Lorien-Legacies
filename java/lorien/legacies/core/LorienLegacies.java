@@ -73,6 +73,9 @@ public class LorienLegacies {
 		LegacyManager playerLegacyManager = new LegacyManager(player);
 		legacyManagers.add(playerLegacyManager);
 
+		// In order to fix Pondus
+		player.setNoGravity(false);
+		
 		// Load legacies for the player
 		LegacyLoader.loadLegacies(playerLegacyManager, false);
 	}
@@ -117,7 +120,6 @@ public class LorienLegacies {
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
-		Chimaera.MorphHandler.postInit();
 		proxy.postInit(e);
 	}
 

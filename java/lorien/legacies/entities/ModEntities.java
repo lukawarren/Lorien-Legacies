@@ -1,29 +1,26 @@
 package lorien.legacies.entities;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.registries.IForgeRegistry;
+import lorien.legacies.client.render.RenderChimaera;
 import lorien.legacies.core.LorienLegacies;
-import lorien.legacies.entities.chimaera.*;
+import lorien.legacies.entities.chimaera.Chimaera;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModEntities {
-	
-	private static World worldIn = Minecraft.getMinecraft().world;
-	
-	public static Chimaera chimaera = new Chimaera(worldIn);
-	
-	
-	public static void register(IForgeRegistry<EntityEntry> registry)
-	{
-		int entityID = 420;
-		//registry.register(new EntityEntry(chimaera.getClass(), "bob").setRegistryName(chimaera.getName()));
-		
-		Object mod = LorienLegacies.instance;
-		
-		EntityRegistry.registerModEntity(new ResourceLocation(LorienLegacies.MODID + ":" + "chimaera"), Chimaera.class, "Chimaera", ++entityID, LorienLegacies.instance, 244, 1, false);
+
+	@SideOnly(Side.CLIENT)
+	public static void registerRenders() {
+		RenderingRegistry.registerEntityRenderingHandler(Chimaera.class, new RenderChimaera.Factory());
 	}
-	
+
+	public static void register() {
+		int entityID = 420;
+
+		EntityRegistry.registerModEntity(new ResourceLocation(LorienLegacies.MODID + ":" + "chimaera"), Chimaera.class,
+				"Chimaera", ++entityID, LorienLegacies.instance, 244, 1, false);
+	}
+
 }

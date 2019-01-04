@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.registry.EntityEntry;
 public class CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent e) {
+		ModEntities.register();
     }
 
     public void init(FMLInitializationEvent e) {
@@ -34,10 +35,6 @@ public class CommonProxy {
     	ModBlocks.register(event.getRegistry());
     }
     
-    @SubscribeEvent
-	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-		ModEntities.register(event.getRegistry());
-	}
     
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)

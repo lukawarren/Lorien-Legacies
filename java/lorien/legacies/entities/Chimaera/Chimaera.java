@@ -6,7 +6,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import lorien.legacies.core.LorienLegacies;
+import lorien.legacies.dummy.DummyWorld;
 import lorien.legacies.network.MessageMorphChimaera;
+import lorien.legacies.registry.EntityRegistryReflection;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -21,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
@@ -61,18 +65,21 @@ public class Chimaera extends EntityCreature {
 
 	private void morph() {
 		switch (this.getRNG().nextInt(1)) {
+
 		case 0:
 			int index = this.getRNG().nextInt(MorphHandler.renders$forge.size() - 1);
 			Entity key = (Entity) MorphHandler.renders$forge.keySet().toArray()[index];
 			IRenderFactory<?> factory = MorphHandler.renders$forge.get(key);
 			this.morphHandler.setCurrent(factory);
 			break;
+
 		case 1:
 			int index1 = this.getRNG().nextInt(MorphHandler.renders$vanilla.size() - 1);
 			Entity key1 = (Entity) MorphHandler.renders$forge.keySet().toArray()[index1];
 			this.morphHandler
 					.setCurrent(morphHandler.getRenderer(EntityRegistry.getEntry(key1.getClass()).getRegistryName()));
 			break;
+
 		default:
 			return;
 		}
@@ -161,7 +168,7 @@ public class Chimaera extends EntityCreature {
 		}
 
 		// Vanilla renders
-		static HashMap<Entity, Render<?>> renders$vanilla = new HashMap<>();
+		static HashMap<Entity, Render> renders$vanilla = new HashMap<>();
 		// All modded renders
 		static HashMap<Entity, IRenderFactory<?>> renders$forge = new HashMap<>();
 		// Monster renders for Lorien Legacies
@@ -169,11 +176,59 @@ public class Chimaera extends EntityCreature {
 		// All classes
 		static HashMap<Class<? extends Render<? extends Entity>>, Class<? extends Entity>> renders$classes = new HashMap<>();
 
+		private static World dummy = new DummyWorld();
+
 		public static void postInit() {
-			for(EntityEntry entry : ForgeRegistries.ENTITIES) {
-				
-				
+			EntityRegistryReflection.setup();
+			if (EntityRegistryReflection.getEntityRenderers() == null) {
+				return;
 			}
+
+			for (EntityEntry entry : ForgeRegistries.ENTITIES) {
+				IRenderFactory<Entity> factory = (IRenderFactory<Entity>) EntityRegistryReflection.getEntityRenderers()
+						.get(entry.getEntityClass());
+				Class[] args = { World.class };
+				if (factory != null) {
+					Entity e = null;
+					for (Constructor constructor : entry.getEntityClass().getConstructors()) {
+						if (Arrays.equals(args, constructor.getParameterTypes())) {
+							try {
+								e = (Entity) constructor.newInstance(dummy);
+							} catch (Exception exception) {
+								LorienLegacies.LOGGER.catching(exception);
+							}
+						}
+					}
+					if (e == null)
+						return;
+					renders$forge.put(e, factory);
+					renders$classes.put(
+							(Class<? extends Render<? extends Entity>>) factory.createRenderFor(null).getClass(),
+							entry.getEntityClass());
+				} else {
+					Render<Entity> render = (Render<Entity>) EntityRegistryReflection.getEntityRenderersOld()
+							.get(entry.getEntityClass());
+					if (render != null) {
+						Entity e = null;
+						for (Constructor constructor : entry.getEntityClass().getConstructors()) {
+							if (Arrays.equals(args, constructor.getParameterTypes())) {
+								try {
+									e = (Entity) constructor.newInstance(dummy);
+								} catch (Exception exception) {
+									LorienLegacies.LOGGER.catching(exception);
+								}
+							}
+						}
+						if (e == null)
+							return;
+						renders$vanilla.put(e, render);
+						renders$classes.put((Class<? extends Render<? extends Entity>>) render.getClass(),
+								entry.getEntityClass());
+					}
+				}
+
+			}
+
 		}
 
 		public static final String ZOMBIE = "zombie";
