@@ -68,6 +68,7 @@ public class ModItems {
 		event.getRegistry().register(noxenBlesser);
 		event.getRegistry().register(pondusBlesser);
 		event.getRegistry().register(submariBlesser);
+		event.getRegistry().register(regenerasBlesser);
 		
 		event.getRegistry().register(loralitepickaxe);
 		event.getRegistry().register(loraliteaxe);
@@ -89,6 +90,7 @@ public class ModItems {
 		CommonProxy.registerRender(noxenBlesser);
 		CommonProxy.registerRender(pondusBlesser);
 		CommonProxy.registerRender(submariBlesser);
+		CommonProxy.registerRender(regenerasBlesser);
 		
 		CommonProxy.registerRender(loralitepickaxe);
 		CommonProxy.registerRender(loraliteaxe);
