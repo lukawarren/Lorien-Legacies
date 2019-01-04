@@ -18,16 +18,16 @@ public class EntityRegistryReflection {
 
 	}
 
-	private static Map<Class<? extends Entity>, IRenderFactory<? extends Entity>> entityRenderers;
-	private static Map<Class<? extends Entity>, Render<? extends Entity>> entityRenderersOld;
+	private static Map<Class<? extends Entity>, IRenderFactory> entityRenderers;
+	private static Map<Class<? extends Entity>, Render> entityRenderersOld;
 	private static RenderingRegistry renderingRegistry;
 	private static Class<RenderingRegistry> class$renderingregistry = RenderingRegistry.class;
 
-	public static Map<Class<? extends Entity>, IRenderFactory<? extends Entity>> getEntityRenderers() {
+	public static Map<Class<? extends Entity>, IRenderFactory> getEntityRenderers() {
 		return entityRenderers;
 	}
 
-	public static Map<Class<? extends Entity>, Render<? extends Entity>> getEntityRenderersOld() {
+	public static Map<Class<? extends Entity>, Render> getEntityRenderersOld() {
 		return entityRenderersOld;
 	}
 
@@ -35,13 +35,9 @@ public class EntityRegistryReflection {
 		return renderingRegistry;
 	}
 
-	public static Class<RenderingRegistry> getClass$renderingregistry() {
-		return class$renderingregistry;
-	}
-
 	public static void setup() {
 		try {
-			Field instance = class$renderingregistry.getField("INSTANCE");
+			Field instance = class$renderingregistry.getDeclaredField("INSTANCE");
 			instance.setAccessible(true);
 			renderingRegistry = (RenderingRegistry) instance.get(null);
 		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
@@ -54,14 +50,14 @@ public class EntityRegistryReflection {
 		}
 
 		try {
-			Field entityRenderers = class$renderingregistry.getField("entityRenderers");
+			Field entityRenderers = class$renderingregistry.getDeclaredField("entityRenderers");
 			entityRenderers.setAccessible(true);
-			EntityRegistryReflection.entityRenderers = (Map<Class<? extends Entity>, IRenderFactory<? extends Entity>>) entityRenderers
+			EntityRegistryReflection.entityRenderers = (Map<Class<? extends Entity>, IRenderFactory>) entityRenderers
 					.get(renderingRegistry);
-			Field entityRenderersOld = class$renderingregistry.getField("entityRenderersOld");
+			Field entityRenderersOld = class$renderingregistry.getDeclaredField("entityRenderersOld");
 			entityRenderersOld.setAccessible(true);
-			EntityRegistryReflection.entityRenderersOld = (Map<Class<? extends Entity>, Render<? extends Entity>>) entityRenderers
-					.get(entityRenderersOld);
+			EntityRegistryReflection.entityRenderersOld = (Map<Class<? extends Entity>, Render>) entityRenderers
+					.get(renderingRegistry);
 		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
 			LorienLegacies.LOGGER.catching(e);
 		}

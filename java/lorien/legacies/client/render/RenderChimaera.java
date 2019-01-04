@@ -27,4 +27,13 @@ public class RenderChimaera extends Render<Chimaera> {
 		this.render.doRender((Entity) entity, x, y, z, entityYaw, partialTicks);
 	}
 
+	public static class Factory implements IRenderFactory<Chimaera> {
+
+		@Override
+		public Render<? super Chimaera> createRenderFor(RenderManager manager) {
+			return new RenderChimaera(manager);
+		}
+
+	}
+
 }
