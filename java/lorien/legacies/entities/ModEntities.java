@@ -1,13 +1,13 @@
 package lorien.legacies.entities;
 
+import lorien.legacies.core.LorienLegacies;
+import lorien.legacies.entities.Chimaera.Chimaera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import lorien.legacies.core.LorienLegacies;
-import lorien.legacies.entities.chimaera.*;
 
 public class ModEntities {
 	

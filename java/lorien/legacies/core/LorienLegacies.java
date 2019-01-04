@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import lorien.legacies.entities.chimaera.Chimaera;
+import lorien.legacies.entities.Chimaera.Chimaera;
 import lorien.legacies.items.ModItems;
 import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.KeyInputHandler;
@@ -67,7 +67,10 @@ public class LorienLegacies {
 	}
 
 	public void setupLegaciesForPlayer(EntityPlayer player) {
-
+		// In order to fix Pondus
+		player.setNoGravity(false);
+		
+		
 		// The LegacyManager class will handle all the legacies, and the keyboard events
 		// associated with them
 		LegacyManager playerLegacyManager = new LegacyManager(player);

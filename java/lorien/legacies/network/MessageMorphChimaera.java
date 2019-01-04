@@ -3,8 +3,7 @@ package lorien.legacies.network;
 import java.util.UUID;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
-import lorien.legacies.entities.chimaera.Chimaera;
+import lorien.legacies.entities.Chimaera.Chimaera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

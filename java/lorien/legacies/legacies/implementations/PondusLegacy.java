@@ -41,7 +41,7 @@ public class PondusLegacy extends Legacy {
 			
 			previousWaterDecision = isWater;
 			
-			player.setNoGravity(isWater || player.isAirBorne);
+			player.setNoGravity(isWater || player.capabilities.isFlying);
 		}
 	}
 

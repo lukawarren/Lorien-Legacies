@@ -1,6 +1,6 @@
 package lorien.legacies.client.render;
 
-import lorien.legacies.entities.chimaera.Chimaera;
+import lorien.legacies.entities.Chimaera.Chimaera;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
