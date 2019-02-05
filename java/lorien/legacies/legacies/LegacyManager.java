@@ -1,7 +1,5 @@
 package lorien.legacies.legacies;
 
-import javax.swing.text.html.parser.Entity;
-
 import lorien.legacies.CustomPlayer;
 import lorien.legacies.items.blessers.RegenerasBlesser;
 import lorien.legacies.legacies.implementations.AccelixLegacy;
@@ -82,33 +80,49 @@ public class LegacyManager {
 		if (event.player != null && event.player.getUniqueID() == player.getUniqueID() && legaciesEnabled) // If player is this instance's player
 		{
 			if (lumenLegacyEnabled)
-				lumenLegacy.computeLegacyTick(player);
+				lumenLegacy.computeLegacyTick(event.player);
 			
 			if (noxenLegacyEnabled)
-				noxenLegacy.computeLegacyTick(player);
+				noxenLegacy.computeLegacyTick(event.player);
 			
 			if (submariLegacyEnabled)
-				submariLegacy.computeLegacyTick(player);
+				submariLegacy.computeLegacyTick(event.player);
 			
 			if (accelixLegacyEnabled && accelixLegacy.toggled)
-				accelixLegacy.computeLegacyTick(player);
+				accelixLegacy.computeLegacyTick(event.player);
 			
 			if (fortemLegacyEnabled && fortemLegacy.toggled)
-				fortemLegacy.computeLegacyTick(player);
+				fortemLegacy.computeLegacyTick(event.player);
 			
 			if (novisLegacyEnabled && novisLegacy.toggled)
-				novisLegacy.computeLegacyTick(player);
+				novisLegacy.computeLegacyTick(event.player);
 			
 			if (pondusLegacyEnabled && pondusLegacy.toggled)
-				pondusLegacy.computeLegacyTick(player);
+				pondusLegacy.computeLegacyTick(event.player);
 			
 			if (regenerasLegacyEnabled)
-				regenerasLegacy.computeLegacyTick(player);
+				regenerasLegacy.computeLegacyTick(event.player);
+			
+			// Flying legacy stuff
+			if (!player.world.isRemote)
+			{
+				float speedVariableThatIReallyShouldBotherToChange = 3f;
+				event.player.capabilities.allowFlying = true;
+				event.player.capabilities.setFlySpeed(speedVariableThatIReallyShouldBotherToChange);
+				event.player.sendPlayerAbilities();
+			}
+			
 			
 		}
 		
+	}
+	
+	@SubscribeEvent
+	public void WorldEvent(TickEvent.WorldTickEvent event)
+	{
 		
 	}
+	
 	private boolean previousWaterDecision = false;
 	
 	// So you can't just spam it and crash the server (trust me, it was hilarious)
