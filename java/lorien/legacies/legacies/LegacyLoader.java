@@ -14,7 +14,7 @@ public class LegacyLoader {
 	
 	public static final int CHANCE_OF_LEGACIES = 10; // 10%
 	public static final int AMOUNT_OF_LEGACIES_GIFTED = 3;
-	public static final int NUMBER_OF_LEGACIES = 8; // Used for evenly splitting probability in generateLegacyImplimentations()
+	public static final int NUMBER_OF_LEGACIES = 9; // Used for evenly splitting probability in generateLegacyImplimentations()
 	
 	// Returns either true or false, depending on whether or not player should have legacies
 	public static void loadLegacies(LegacyManager playerLegacyManager, boolean forceLegacies)
@@ -125,6 +125,11 @@ public class LegacyLoader {
 					playerLegacyManager.regenerasLegacyEnabled = true;
 					playerLegacyManager.player.sendMessage(new TextComponentString("Regeneras - grants regeneration").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 				}
+				else if (n == 9)
+				{
+					playerLegacyManager.avexLegacyEnabled = true;
+					playerLegacyManager.player.sendMessage(new TextComponentString("Avex - grants swift flight").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				}
 			}
 		}
 		
@@ -147,9 +152,11 @@ public class LegacyLoader {
 			return true;
 		if (n == 6 && playerLegacyManager.fortemLegacyEnabled)
 			return true;
-		if (n == 4 && playerLegacyManager.pondusLegacyEnabled)
+		if (n == 7 && playerLegacyManager.pondusLegacyEnabled)
 			return true;
-		if (n == 4 && playerLegacyManager.regenerasLegacyEnabled)
+		if (n == 8 && playerLegacyManager.regenerasLegacyEnabled)
+			return true;
+		if (n == 9 && playerLegacyManager.avexLegacyEnabled)
 			return true;
 		
 		return false;

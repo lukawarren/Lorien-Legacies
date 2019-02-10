@@ -3,6 +3,7 @@ package lorien.legacies.legacies;
 import lorien.legacies.CustomPlayer;
 import lorien.legacies.items.blessers.RegenerasBlesser;
 import lorien.legacies.legacies.implementations.AccelixLegacy;
+import lorien.legacies.legacies.implementations.AvexLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
 import lorien.legacies.legacies.implementations.LumenLegacy;
 import lorien.legacies.legacies.implementations.NovisLegacy;
@@ -58,6 +59,9 @@ public class LegacyManager {
 	public RegenerasLegacy regenerasLegacy;
 	public boolean regenerasLegacyEnabled;
 	
+	public AvexLegacy avexLegacy;
+	public boolean avexLegacyEnabled;
+	
 	public LegacyManager(EntityPlayer player)
 	{
 		this.player = player;
@@ -72,6 +76,7 @@ public class LegacyManager {
 		novisLegacy = new NovisLegacy();
 		pondusLegacy = new PondusLegacy();
 		regenerasLegacy = new RegenerasLegacy();
+		avexLegacy = new AvexLegacy();
 	}
 	
 	@SubscribeEvent
@@ -103,15 +108,8 @@ public class LegacyManager {
 			if (regenerasLegacyEnabled)
 				regenerasLegacy.computeLegacyTick(event.player);
 			
-			// Flying legacy stuff
-			if (!player.world.isRemote)
-			{
-				float speedVariableThatIReallyShouldBotherToChange = 3f;
-				event.player.capabilities.allowFlying = true;
-				event.player.capabilities.setFlySpeed(speedVariableThatIReallyShouldBotherToChange);
-				event.player.sendPlayerAbilities();
-			}
-			
+			if (avexLegacyEnabled)
+				avexLegacy.computeLegacyTick(event.player);
 			
 		}
 		

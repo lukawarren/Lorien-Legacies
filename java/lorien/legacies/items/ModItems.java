@@ -1,7 +1,21 @@
 package lorien.legacies.items;
 
-import lorien.legacies.items.blessers.*;
-import lorien.legacies.items.tools.*;
+import lorien.legacies.items.blessers.AccelixBlesser;
+import lorien.legacies.items.blessers.AvexBlesser;
+import lorien.legacies.items.blessers.FortemBlesser;
+import lorien.legacies.items.blessers.LegacyBlesser;
+import lorien.legacies.items.blessers.LumenBlesser;
+import lorien.legacies.items.blessers.NovisBlesser;
+import lorien.legacies.items.blessers.NoxenBlesser;
+import lorien.legacies.items.blessers.PondusBlesser;
+import lorien.legacies.items.blessers.RegenerasBlesser;
+import lorien.legacies.items.blessers.SubmariBlesser;
+import lorien.legacies.items.tools.LoraliteAxe;
+import lorien.legacies.items.tools.LoraliteDagger;
+import lorien.legacies.items.tools.LoraliteHoe;
+import lorien.legacies.items.tools.LoralitePickaxe;
+import lorien.legacies.items.tools.LoraliteShovel;
+import lorien.legacies.items.tools.LoraliteSword;
 import lorien.legacies.proxy.CommonProxy;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -33,6 +47,8 @@ public class ModItems {
 	public static RegenerasBlesser regenerasBlesser = new RegenerasBlesser();
 	@GameRegistry.ObjectHolder("lorienlegacies:submariblesser")
 	public static SubmariBlesser submariBlesser = new SubmariBlesser();
+	@GameRegistry.ObjectHolder("lorienlegacies:avexblesser")
+	public static AvexBlesser avexBlesser = new AvexBlesser();
 	
 	// Tools
 	public static final ToolMaterial loraliteMaterial = EnumHelper.addToolMaterial("loralitematerial", 3, 2048, 16.0f, 5.0f, 30);
@@ -69,6 +85,7 @@ public class ModItems {
 		event.getRegistry().register(pondusBlesser);
 		event.getRegistry().register(submariBlesser);
 		event.getRegistry().register(regenerasBlesser);
+		event.getRegistry().register(avexBlesser);
 		
 		event.getRegistry().register(loralitepickaxe);
 		event.getRegistry().register(loraliteaxe);
@@ -91,6 +108,7 @@ public class ModItems {
 		CommonProxy.registerRender(pondusBlesser);
 		CommonProxy.registerRender(submariBlesser);
 		CommonProxy.registerRender(regenerasBlesser);
+		CommonProxy.registerRender(avexBlesser);
 		
 		CommonProxy.registerRender(loralitepickaxe);
 		CommonProxy.registerRender(loraliteaxe);
