@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class AvexLegacy extends Legacy {
 
 	private static final float SCROLL_SENSITIVITY = 0.3f;
-	private static final float MIN_SPEED = 0.2f;
+	private static final float MIN_SPEED = 0.1f;
 	private static final float MAX_SPEED = 3f;
 	
 	private float speed = 1f;
