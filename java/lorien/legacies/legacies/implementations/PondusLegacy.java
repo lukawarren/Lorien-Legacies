@@ -11,6 +11,7 @@ import net.minecraft.util.math.MathHelper;
 public class PondusLegacy extends Legacy {
 	
 	private boolean previousWaterDecision = false;
+	private boolean lastFrameWasToggled = false;
 	
 	public PondusLegacy()
 	{
@@ -22,7 +23,7 @@ public class PondusLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("water_breathing"), 1, 255, true, false));
+		//player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("water_breathing"), 1, 255, true, false)); // sorry this took so long to get rid of! xD
 		
 		if (toggled)
 		{
@@ -32,17 +33,14 @@ public class PondusLegacy extends Legacy {
 			          MathHelper.floor(player.posZ))).getMaterial();
 			boolean isWater = m.isLiquid();
 			
-			if (isWater != previousWaterDecision)
+			if (isWater)
 			{
-				player.motionY = 0;
-				player.velocityChanged = true;
+				player.motionX = player.motionX;
+				player.motionY = 0.0f;
+				player.motionZ = player.motionZ;
 			}
-				
-			
-			previousWaterDecision = isWater;
-			
-			player.setNoGravity(isWater || player.capabilities.isFlying);
 		}
+
 	}
 
 }

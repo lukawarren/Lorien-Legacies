@@ -7,17 +7,19 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class AvexLegacy extends Legacy {
 
-	private static final float SCROLL_SENSITIVITY = 0.3f;
-	private static final float MIN_SPEED = 0.1f;
-	private static final float MAX_SPEED = 3f;
+	private static final float SCROLL_SENSITIVITY = 0.03f;
+	private static final float MIN_SPEED = 0.01f;
+	private static final float MAX_SPEED = 1f;
 	
-	private float speed = 1f;
+	private float speed = 0.25f;
 	
 	@Override
-	public void computeLegacyTick(EntityPlayer player) {
+	public void computeLegacyTick(EntityPlayer player)
+	{
+		
 		// Returns 0 if not scrolling, -1 is scrolling down, and 1 if scrolling up
 		int i = Integer.signum(Mouse.getEventDWheel());
-
+		
 		// Add to the speed
 		speed += (float)i * SCROLL_SENSITIVITY;
 		

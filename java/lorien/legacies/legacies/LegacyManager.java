@@ -67,6 +67,10 @@ public class LegacyManager {
 		this.player = player;
 		MinecraftForge.EVENT_BUS.register(this);
 		
+		// Fix avex?
+		player.capabilities.setFlySpeed(0.25f);
+		player.sendPlayerAbilities();
+		
 		// Setup legacies
 		lumenLegacy = new LumenLegacy();
 		noxenLegacy = new NoxenLegacy();
@@ -112,7 +116,7 @@ public class LegacyManager {
 				avexLegacy.computeLegacyTick(event.player);
 			
 		}
-		
+				
 	}
 	
 	@SubscribeEvent
