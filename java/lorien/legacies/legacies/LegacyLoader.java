@@ -71,17 +71,32 @@ public class LegacyLoader {
 	// Randomly chooses x amount of legacies
 	private static void generateLegacyImplimentations(LegacyManager playerLegacyManager, boolean forceLegacies)
 	{
+		if (forceLegacies)
+		{
+			// get rid of all legacies first
+			playerLegacyManager.accelixLegacyEnabled = false;
+			playerLegacyManager.avexLegacyEnabled = false;
+			playerLegacyManager.fortemLegacyEnabled = false;
+			playerLegacyManager.lumenLegacyEnabled = false;
+			playerLegacyManager.novisLegacyEnabled = false;
+			playerLegacyManager.noxenLegacyEnabled = false;
+			playerLegacyManager.pondusLegacyEnabled = false;
+			playerLegacyManager.regenerasLegacyEnabled = false;
+			playerLegacyManager.submariLegacyEnabled = false;
+		}
+		
 		float chanceOfIndividualLegacyBeingChosen = AMOUNT_OF_LEGACIES_GIFTED / NUMBER_OF_LEGACIES;
 		
+		int toGift = AMOUNT_OF_LEGACIES_GIFTED;
 		for (int i = 0; i < AMOUNT_OF_LEGACIES_GIFTED; i++)
 		{
 			// Choose what legacy the player should get
 			float n = getRandomNumberInRange(1, NUMBER_OF_LEGACIES);
 			
 			// If player already has legacy, choose another number
-			if (checkIfLegacyAlreadyAssigned(n, playerLegacyManager, forceLegacies))
+			if (checkIfLegacyAlreadyAssigned(n, playerLegacyManager, false))
 			{
-				i++;
+				toGift++;
 			}
 			else
 			{

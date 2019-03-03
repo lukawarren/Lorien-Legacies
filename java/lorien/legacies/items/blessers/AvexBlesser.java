@@ -4,6 +4,8 @@ import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.LegacyManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -29,7 +31,7 @@ private static String UNLOCALIZED_NAME = "avexblesser";
 	
 	
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
     {
 		// Give player using it legacy by finding LegacyManager with player UUID that corresponds to player that is using the item's UUID
 		for (LegacyManager l : LorienLegacies.legacyManagers)
@@ -42,7 +44,7 @@ private static String UNLOCALIZED_NAME = "avexblesser";
 			}
 		}
 		
-        return EnumActionResult.PASS;
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
     }
 	
 }
