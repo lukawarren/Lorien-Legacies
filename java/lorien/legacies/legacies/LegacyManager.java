@@ -1,7 +1,5 @@
 package lorien.legacies.legacies;
 
-import lorien.legacies.CustomPlayer;
-import lorien.legacies.items.blessers.RegenerasBlesser;
 import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.AvexLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
@@ -11,21 +9,14 @@ import lorien.legacies.legacies.implementations.NoxenLegacy;
 import lorien.legacies.legacies.implementations.PondusLegacy;
 import lorien.legacies.legacies.implementations.RegenerasLegacy;
 import lorien.legacies.legacies.implementations.SubmariLegacy;
-import net.java.games.input.Keyboard;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import lorien.legacies.legacies.implementations.Telekinesis;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentBase;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -62,6 +53,8 @@ public class LegacyManager {
 	public AvexLegacy avexLegacy;
 	public boolean avexLegacyEnabled;
 	
+	public Telekinesis telekinesis;
+	
 	public LegacyManager(EntityPlayer player)
 	{
 		this.player = player;
@@ -81,7 +74,12 @@ public class LegacyManager {
 		pondusLegacy = new PondusLegacy();
 		regenerasLegacy = new RegenerasLegacy();
 		avexLegacy = new AvexLegacy();
+		telekinesis = new Telekinesis();
 	}
+	
+	private static final float DISTANCE = 10f;
+	Entity previousEntity = null;
+	Entity pointedEntity = null;
 	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) { // called every time player is updated
@@ -115,15 +113,51 @@ public class LegacyManager {
 			if (avexLegacyEnabled)
 				avexLegacy.computeLegacyTick(event.player);
 			
+			player = event.player; // should only be for telekinesis
+			
+			
 		}
-				
+		
+		if (legaciesEnabled)
+		{
+			telekinesis.computeLegacyTick(player, event.side.isServer());
+		}
+		
 	}
 	
 	@SubscribeEvent
+	public void onRenderLiving(RenderLivingEvent.Pre<EntityLivingBase> event)
+	{
+		//telekinesis.computeLegacyTick(player);
+	}
+	
+		
+	@SubscribeEvent
 	public void WorldEvent(TickEvent.WorldTickEvent event)
 	{
-		
+		//telekinesis.computeLegacyTick(player);
 	}
+	
+	@SubscribeEvent
+	public void ClientEvent(TickEvent.ClientTickEvent event)
+	{
+		
+		//telekinesis.computeLegacyTick(player);
+	}
+	
+	@SubscribeEvent
+	public void ServerEvent(TickEvent.ServerTickEvent event)
+	{
+		//if(event.side.isServer())
+			//telekinesis.computeLegacyTick(player);
+	}
+	
+	/*@SubscribeEvent
+	public void onUpdate(ItemStack itemStack, World world, Entity entity, int i, boolean flag)
+	{
+		System.out.println("bob");
+	
+	}*/
 	
 	private boolean previousWaterDecision = false;
 	
@@ -143,7 +177,7 @@ public class LegacyManager {
 		// Accelix toggle
 		if (KeyBindings.toggleAccelix.isPressed() && legaciesEnabled && accelixLegacyEnabled)
 			accelixLegacy.toggle(player);
-		
+			
 		// Fortem toggle
 		if (KeyBindings.toggleFortem.isPressed() && legaciesEnabled && fortemLegacyEnabled)
 			fortemLegacy.toggle(player);
