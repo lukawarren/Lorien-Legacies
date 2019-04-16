@@ -1,7 +1,7 @@
 package lorien.legacies.legacies;
 
-import lorien.legacies.CustomPlayer;
-import lorien.legacies.items.blessers.RegenerasBlesser;
+import org.lwjgl.input.Keyboard;
+
 import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.AvexLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
@@ -11,21 +11,14 @@ import lorien.legacies.legacies.implementations.NoxenLegacy;
 import lorien.legacies.legacies.implementations.PondusLegacy;
 import lorien.legacies.legacies.implementations.RegenerasLegacy;
 import lorien.legacies.legacies.implementations.SubmariLegacy;
-import net.java.games.input.Keyboard;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import lorien.legacies.legacies.implementations.Telekinesis;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentBase;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -62,6 +55,8 @@ public class LegacyManager {
 	public AvexLegacy avexLegacy;
 	public boolean avexLegacyEnabled;
 	
+	public Telekinesis telekinesis;
+	
 	public LegacyManager(EntityPlayer player)
 	{
 		this.player = player;
@@ -81,11 +76,16 @@ public class LegacyManager {
 		pondusLegacy = new PondusLegacy();
 		regenerasLegacy = new RegenerasLegacy();
 		avexLegacy = new AvexLegacy();
+		telekinesis = new Telekinesis();
 	}
 	
+	private static final float DISTANCE = 10f;
+	Entity previousEntity = null;
+	Entity pointedEntity = null;
+	
 	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event) { // called every time player is updated
-		
+	public void onPlayerTick(TickEvent.PlayerTickEvent event)
+	{
 		if (event.player != null && event.player.getUniqueID() == player.getUniqueID() && legaciesEnabled) // If player is this instance's player
 		{
 			if (lumenLegacyEnabled)
@@ -115,13 +115,32 @@ public class LegacyManager {
 			if (avexLegacyEnabled)
 				avexLegacy.computeLegacyTick(event.player);
 			
+			player = event.player; // should only be for telekinesis
+			
+			
 		}
+		
+		// Telekinesis
+		if (legaciesEnabled)
+		{
+			
+			if (event.side.isServer())
+			{
+				telekinesis.launchEntity(player, true);
+				telekinesis.computeLegacyTick(player, true);
+			}
+			else
+			{
 				
-	}
-	
-	@SubscribeEvent
-	public void WorldEvent(TickEvent.WorldTickEvent event)
-	{
+				if (KeyBindings.lumenFireball.isKeyDown())
+					telekinesis.launchEntity(player, false);
+				
+				if (KeyBindings.activateTelekinesis.isPressed())
+				{
+					telekinesis.computeLegacyTick(player, event.side.isServer());
+				}
+			}
+		}
 		
 	}
 	
@@ -143,7 +162,7 @@ public class LegacyManager {
 		// Accelix toggle
 		if (KeyBindings.toggleAccelix.isPressed() && legaciesEnabled && accelixLegacyEnabled)
 			accelixLegacy.toggle(player);
-		
+			
 		// Fortem toggle
 		if (KeyBindings.toggleFortem.isPressed() && legaciesEnabled && fortemLegacyEnabled)
 			fortemLegacy.toggle(player);
@@ -156,52 +175,6 @@ public class LegacyManager {
 		// Pondus toggle
 		if (KeyBindings.togglePondus.isPressed() && legaciesEnabled && pondusLegacyEnabled)
 			pondusLegacy.toggle(player);
-		
-		/*
-		if (org.lwjgl.input.Keyboard.isKeyDown(org.lwjgl.input.Keyboard.KEY_HOME))
-		{
-			EntityPlayerSP player = Minecraft.getMinecraft().player;
-	    	//CustomPlayer customPlayer = new CustomPlayer();
-			EntityPlayerSP customPlayer = new EntityPlayerSP(Minecraft.getMinecraft(), Minecraft.getMinecraft().player.world, Minecraft.getMinecraft().player.connection, Minecraft.getMinecraft().player.getStatFileWriter(), Minecraft.getMinecraft().player.getRecipeBook());
-	    	
-	    	customPlayer.capabilities = player.capabilities;
-	    	customPlayer.bedLocation = player.bedLocation;
-	    	customPlayer.capturedDrops = player.capturedDrops;
-	    	customPlayer.fishEntity = player.fishEntity;
-	    	customPlayer.inventory = player.inventory;
-	    	customPlayer.inventoryContainer = player.inventoryContainer;
-	    	customPlayer.movementInput = player.movementInput;
-	    	customPlayer.openContainer = player.openContainer;
-	    	customPlayer.swingingHand = player.swingingHand;
-	    	
-	    	customPlayer.posX = player.posX;
-	    	customPlayer.posY = player.posY;
-	    	customPlayer.posZ = player.posZ;
-	    	
-	    	customPlayer.rotationPitch = player.rotationPitch;
-	    	customPlayer.rotationYaw = player.rotationYaw;
-	    	
-	    	customPlayer.motionX = player.motionX;
-	    	customPlayer.motionY = player.motionY;
-	    	customPlayer.motionZ = player.motionZ;
-	    	
-	    	customPlayer.chasingPosX = player.chasingPosX;
-	    	customPlayer.chasingPosY = player.chasingPosY;
-	    	customPlayer.chasingPosZ = player.chasingPosZ;
-	    	
-	    	customPlayer.setAir(player.getAir());
-	    	customPlayer.setEntityId(player.getEntityId());
-	    	customPlayer.setArrowCountInEntity(player.getArrowCountInEntity());
-	    	customPlayer.setHealth(player.getHealth());
-	    	
-	    	//customPlayer.setGameType(gameType);;
-	    	
-	    	Minecraft.getMinecraft().player = customPlayer;
-	    	
-	    	customPlayer.isDead = true;
-		}
-		*/
-		
 	}
 
 	

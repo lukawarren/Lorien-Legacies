@@ -15,6 +15,7 @@ public class KeyBindings {
 	public static KeyBinding toggleAccelix;
 	public static KeyBinding toggleFortem;
 	public static KeyBinding togglePondus;
+	public static KeyBinding activateTelekinesis;
 	
 	public static void init()
 	{
@@ -32,6 +33,9 @@ public class KeyBindings {
 		
 		togglePondus = new KeyBinding("key.togglePondus", Keyboard.KEY_HOME, "key.categories." + LorienLegacies.MODID);
 		ClientRegistry.registerKeyBinding(togglePondus);
+		
+		activateTelekinesis = new KeyBinding("key.activateTelekinesis", Keyboard.KEY_DELETE, "key.categories." + LorienLegacies.MODID);
+		ClientRegistry.registerKeyBinding(activateTelekinesis);
 	}
 	
 }
