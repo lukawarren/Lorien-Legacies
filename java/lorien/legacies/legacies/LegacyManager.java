@@ -82,8 +82,8 @@ public class LegacyManager {
 	Entity pointedEntity = null;
 	
 	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event) { // called every time player is updated
-		
+	public void onPlayerTick(TickEvent.PlayerTickEvent event)
+	{
 		if (event.player != null && event.player.getUniqueID() == player.getUniqueID() && legaciesEnabled) // If player is this instance's player
 		{
 			if (lumenLegacyEnabled)
@@ -120,44 +120,21 @@ public class LegacyManager {
 		
 		if (legaciesEnabled)
 		{
-			telekinesis.computeLegacyTick(player, event.side.isServer());
+			
+			if (event.side.isServer())
+				telekinesis.computeLegacyTick(player, true);
+			else
+			{
+				if (KeyBindings.activateTelekinesis.isPressed())
+					telekinesis.computeLegacyTick(player, event.side.isServer());
+				else
+				{
+					//telekinesis.deselectPreviousEntity();
+				}
+			}
 		}
 		
 	}
-	
-	@SubscribeEvent
-	public void onRenderLiving(RenderLivingEvent.Pre<EntityLivingBase> event)
-	{
-		//telekinesis.computeLegacyTick(player);
-	}
-	
-		
-	@SubscribeEvent
-	public void WorldEvent(TickEvent.WorldTickEvent event)
-	{
-		//telekinesis.computeLegacyTick(player);
-	}
-	
-	@SubscribeEvent
-	public void ClientEvent(TickEvent.ClientTickEvent event)
-	{
-		
-		//telekinesis.computeLegacyTick(player);
-	}
-	
-	@SubscribeEvent
-	public void ServerEvent(TickEvent.ServerTickEvent event)
-	{
-		//if(event.side.isServer())
-			//telekinesis.computeLegacyTick(player);
-	}
-	
-	/*@SubscribeEvent
-	public void onUpdate(ItemStack itemStack, World world, Entity entity, int i, boolean flag)
-	{
-		System.out.println("bob");
-	
-	}*/
 	
 	private boolean previousWaterDecision = false;
 	
@@ -190,52 +167,6 @@ public class LegacyManager {
 		// Pondus toggle
 		if (KeyBindings.togglePondus.isPressed() && legaciesEnabled && pondusLegacyEnabled)
 			pondusLegacy.toggle(player);
-		
-		/*
-		if (org.lwjgl.input.Keyboard.isKeyDown(org.lwjgl.input.Keyboard.KEY_HOME))
-		{
-			EntityPlayerSP player = Minecraft.getMinecraft().player;
-	    	//CustomPlayer customPlayer = new CustomPlayer();
-			EntityPlayerSP customPlayer = new EntityPlayerSP(Minecraft.getMinecraft(), Minecraft.getMinecraft().player.world, Minecraft.getMinecraft().player.connection, Minecraft.getMinecraft().player.getStatFileWriter(), Minecraft.getMinecraft().player.getRecipeBook());
-	    	
-	    	customPlayer.capabilities = player.capabilities;
-	    	customPlayer.bedLocation = player.bedLocation;
-	    	customPlayer.capturedDrops = player.capturedDrops;
-	    	customPlayer.fishEntity = player.fishEntity;
-	    	customPlayer.inventory = player.inventory;
-	    	customPlayer.inventoryContainer = player.inventoryContainer;
-	    	customPlayer.movementInput = player.movementInput;
-	    	customPlayer.openContainer = player.openContainer;
-	    	customPlayer.swingingHand = player.swingingHand;
-	    	
-	    	customPlayer.posX = player.posX;
-	    	customPlayer.posY = player.posY;
-	    	customPlayer.posZ = player.posZ;
-	    	
-	    	customPlayer.rotationPitch = player.rotationPitch;
-	    	customPlayer.rotationYaw = player.rotationYaw;
-	    	
-	    	customPlayer.motionX = player.motionX;
-	    	customPlayer.motionY = player.motionY;
-	    	customPlayer.motionZ = player.motionZ;
-	    	
-	    	customPlayer.chasingPosX = player.chasingPosX;
-	    	customPlayer.chasingPosY = player.chasingPosY;
-	    	customPlayer.chasingPosZ = player.chasingPosZ;
-	    	
-	    	customPlayer.setAir(player.getAir());
-	    	customPlayer.setEntityId(player.getEntityId());
-	    	customPlayer.setArrowCountInEntity(player.getArrowCountInEntity());
-	    	customPlayer.setHealth(player.getHealth());
-	    	
-	    	//customPlayer.setGameType(gameType);;
-	    	
-	    	Minecraft.getMinecraft().player = customPlayer;
-	    	
-	    	customPlayer.isDead = true;
-		}
-		*/
-		
 	}
 
 	

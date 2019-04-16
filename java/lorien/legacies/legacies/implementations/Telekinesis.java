@@ -12,6 +12,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.ibm.icu.impl.ICUService.Key;
 
+import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -36,6 +37,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class Telekinesis extends Legacy
 {
@@ -49,9 +51,14 @@ public class Telekinesis extends Legacy
 	
 	private EntityPlayer player;
 	
-	private void updatePointedEntity(EntityPlayer entity)
+	public Telekinesis()
 	{
-		
+		super();
+		MinecraftForge.EVENT_BUS.register(this);
+	}
+	
+	private void updatePointedEntity(EntityPlayer entity)
+	{	
 		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
 		
 	    if (entity != null)
@@ -158,89 +165,59 @@ public class Telekinesis extends Legacy
 	            Minecraft.getMinecraft().mcProfiler.endSection();
 	        }
 	    }
-		
-		//RayTraceResult bob = getEntityLook(entity, 1.0D, false, false, true, Minecraft.getMinecraft().getRenderPartialTicks());
-	    //pointedEntity = bob.entityHit;
 
+	    if (pointedEntity == null)
+	    	return;
 	    
-	    if (previousEntity != null && previousEntity.getDistance(entity) > DISTANCE)
-	    {
-	    	previousEntity.setGlowing(false);
-	    	previousEntity = null;
-	    	entityDeseclected(previousEntity);
-	    }
+	    deselectPreviousEntity();
 	    
-	    if (pointedEntity != null && pointedEntity.isInvisibleToPlayer(entity) == false && pointedEntity instanceof EntityPlayer == false)
-	    {
-	    	if (previousEntity == null)
-	    		previousEntity = pointedEntity;
-	    	
-	    	if (pointedEntity != previousEntity)
-	    	{
-	    		previousEntity.setGlowing(false);
-	    		entityDeseclected(previousEntity);
-	    	}
-	    	
-	    	previousEntity = pointedEntity;
-	    	
-	    	//pointedEntity.setDead();
-	    	pointedEntity.setGlowing(true);
-	    }
-	    else if (pointedEntity == null && previousEntity != null)
-	    {
-	    	previousEntity.setGlowing(false);
-	    	entityDeseclected(previousEntity);
-	    	
-	    }
-	}
+	    previousEntity = pointedEntity;
 
-	public Telekinesis() {
-		super();
-		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
-	private void entityDeseclected(Entity entity)
+	public void deselectPreviousEntity()
 	{
-		if (entity == null)
+		if (previousEntity == null)
 			return;
 		
-		entity.setGlowing(false);
+		previousEntity.setGlowing(false);
+		previousEntity = null;
 	}
 	
-	
-	@SubscribeEvent
-	public void onEntityUpdate(LivingUpdateEvent event)
+	public void deselectCurrentEntity()
 	{
-		if (event.getEntity() == null)
+		entityID = 0;
+		
+		if (pointedEntity == null)
 			return;
 		
-		if (event.getEntity().getEntityId() != entityID)
-		{
-			event.getEntity().setGlowing(false);		
-		}
-		else
-		{
-			if (Keyboard.isKeyDown(Keyboard.KEY_Z))
-			{
-				event.getEntity().setGlowing(false);
-				entityID = 0;
-			}
-		}
+		pointedEntity.setGlowing(false);
+		pointedEntity.noClip = false;
+		pointedEntity = null;
+		
+		if (previousEntity == null)
+			return;
+		
+		previousEntity.setGlowing(false);
+		previousEntity.noClip = false;
+		previousEntity = null;
+		
 	}
+
 	
 	public void computeLegacyTick(EntityPlayer player, boolean server)
 	{
+		
+		if (previousEntity != null)
+			previousEntity.setGlowing(false);
+		
 		this.player = player;
 
-		if (player == null)
-		{
-			System.err.println("Player is null");
+		if (player == null || KeyBindings.activateTelekinesis.isKeyDown() == false)
 			return;
-		}
-		
 		
 		if (!server)
-		{
+		{	
 			updatePointedEntity(player);
 			
 			if (pointedEntity == null)
@@ -248,13 +225,13 @@ public class Telekinesis extends Legacy
 			if (pointedEntity instanceof EntityPlayer)
 				return;
 			
-			entityID = pointedEntity.getEntityId();
+			entityID = pointedEntity.getEntityId();	
 		}
 		else
-		{
+		{	
 			if (entityID == 0)
 				return;
-			
+				
 			pointedEntity = player.world.getEntityByID(entityID);
 			
 			if (pointedEntity == null)
@@ -264,16 +241,23 @@ public class Telekinesis extends Legacy
 			
 		}
 		
+		if (pointedEntity == null)
+			return;
+
 		final float distance = 3f;
 		Vec3d desiredPosition = new Vec3d(player.getLookVec().x * distance, player.getLookVec().y * distance + 1, player.getLookVec().z * distance).add(player.getPositionVector());
 		pointedEntity.setPositionAndUpdate(desiredPosition.x, desiredPosition.y, desiredPosition.z);
+		
+		if (pointedEntity == null)
+			return;
+		
 		pointedEntity.fallDistance = 0f;
 		pointedEntity.motionX = 0f;
 		pointedEntity.motionY = 0f;
 		pointedEntity.motionZ = 0f;
 		
-		previousEntity.setGlowing(false);
-		pointedEntity.setGlowing(true);
+		if (previousEntity != null)
+			previousEntity.setGlowing(true);
 		
 	}
 	
