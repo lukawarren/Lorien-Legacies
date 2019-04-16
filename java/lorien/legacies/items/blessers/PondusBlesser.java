@@ -1,7 +1,10 @@
 package lorien.legacies.items.blessers;
 
 import lorien.legacies.core.LorienLegacies;
+import lorien.legacies.legacies.LegacyLoader;
 import lorien.legacies.legacies.LegacyManager;
+import lorien.legacies.legacies.implementations.PondusLegacy;
+import lorien.legacies.legacies.worldSave.LegacyWorldSaveData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -36,14 +39,15 @@ public class PondusBlesser extends Item {
 		// Give player using it legacy by finding LegacyManager with player UUID that corresponds to player that is using the item's UUID
 		for (LegacyManager l : LorienLegacies.legacyManagers)
 		{
-			if (l.player.getUniqueID() == player.getUniqueID() && player.world.isRemote == false)
+			if (l.player.getUniqueID() == player.getUniqueID())
 			{
 				l.legaciesEnabled = true;
 				l.pondusLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with pondus - grants the ability to walk on water").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				new PondusLegacy().blessedMessage(player);
 			}
 		}
 		
+		LegacyLoader.saveLegacyImplimentations(LorienLegacies.legacyManagers.get(0), LegacyWorldSaveData.get(worldIn));
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
     }
 	

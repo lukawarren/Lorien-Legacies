@@ -1,13 +1,22 @@
 package lorien.legacies.legacies;
 
 import lorien.legacies.core.LorienLegacies;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.ITextComponent;
+import lorien.legacies.legacies.implementations.AccelixLegacy;
+import lorien.legacies.legacies.implementations.AvexLegacy;
+import lorien.legacies.legacies.implementations.FortemLegacy;
+import lorien.legacies.legacies.implementations.LumenLegacy;
+import lorien.legacies.legacies.implementations.NovisLegacy;
+import lorien.legacies.legacies.implementations.NoxenLegacy;
+import lorien.legacies.legacies.implementations.PondusLegacy;
+import lorien.legacies.legacies.implementations.RegenerasLegacy;
+import lorien.legacies.legacies.implementations.SubmariLegacy;
+import lorien.legacies.legacies.implementations.Telekinesis;
+import lorien.legacies.legacies.worldSave.LegacyData;
+import lorien.legacies.legacies.worldSave.LegacyDataHolder;
+import lorien.legacies.legacies.worldSave.LegacyWorldSaveData;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import scala.swing.TextComponent;
 import scala.util.Random;
 
 public class LegacyLoader {
@@ -18,23 +27,27 @@ public class LegacyLoader {
 	
 	// Returns either true or false, depending on whether or not player should have legacies
 	public static void loadLegacies(LegacyManager playerLegacyManager, boolean forceLegacies)
-	{
-		// Check if legacies are already assigned to player
-		boolean playerIsAlreadyAsigned = false; // TODO: Set to true if exists in save
+	{		
+		// Attempt to load world data
+		LegacyWorldSaveData saveData = LegacyWorldSaveData.get(playerLegacyManager.player.world);
+		LegacyDataHolder legacyData = saveData.getLegacyData();
 		
-		if (playerIsAlreadyAsigned)
+		// Check if legacies are already assigned to player
+		boolean playerIsAlreadyAsigned = legacyData.legacyDataSaved.value;
+		
+		if (playerIsAlreadyAsigned && !forceLegacies)
 		{
-			LorienLegacies.print("Loading legacies for player with UUID " + playerLegacyManager.player.getUniqueID());
+			LorienLegacies.print("Loading legacies data for player with UUID " + playerLegacyManager.player.getUniqueID());
 			
-			// Retrieve from save what legacies they have
-			boolean playerPreviouslyHadLegacies = true; // TODO: Load this using capabilites class
+			for (LegacyData l : legacyData.data)
+				System.out.println("Value with name " + l.name + " is set to " + l.value);
 			
-			if (playerPreviouslyHadLegacies)
+			
+			
+			if (legacyData.legaciesEnabled.value)
 			{
-				playerLegacyManager.player.sendMessage(new TextComponentString("Your legacies have been loaded! You are blessed with:").setStyle(new Style().setColor(TextFormatting.RED)));
-				
-				loadLegacyImplimentations(playerLegacyManager);
-				
+				playerLegacyManager.player.sendMessage(new TextComponentString("Your legacies have been loaded! You are blessed with:").setStyle(new Style().setColor(TextFormatting.RED)));			
+				loadLegacyImplimentations(playerLegacyManager, legacyData);			
 			}
 			
 		}
@@ -59,13 +72,83 @@ public class LegacyLoader {
 				playerLegacyManager.legaciesEnabled = false;
 				//LorienLegacies.print("Player with UUID " + playerLegacyManager.player.getUniqueID() + " ___ has not been blessed with legacies."); // Should actually set playerIsAlreadyAsigned to be "false" in save
 			}
+			
+			saveLegacyImplimentations(playerLegacyManager, saveData);
 		}
 	}
 	
 	// Loads from save
-	private static void loadLegacyImplimentations(LegacyManager playerLegacyManager)
+	private static void loadLegacyImplimentations(LegacyManager playerLegacyManager, LegacyDataHolder legacyData)
 	{
-		// TODO: Load from save
+		playerLegacyManager.legaciesEnabled = true;
+		
+		if (legacyData.lumenLegacyEnabled.value)
+		{	
+			playerLegacyManager.lumenLegacyEnabled = true;
+			new LumenLegacy().blessedMessage(playerLegacyManager.player);
+		} 
+		if (legacyData.noxenLegacyEnabled.value)
+		{
+			playerLegacyManager.noxenLegacyEnabled = true;
+			new NoxenLegacy().blessedMessage(playerLegacyManager.player);
+		}
+		if (legacyData.submariLegacyEnabled.value)
+		{
+			playerLegacyManager.submariLegacyEnabled = true;
+			new SubmariLegacy().blessedMessage(playerLegacyManager.player);
+		}
+		if (legacyData.novisLegacyEnabled.value)
+		{
+			playerLegacyManager.novisLegacyEnabled = true;
+			new NovisLegacy().blessedMessage(playerLegacyManager.player);
+		}
+		if (legacyData.accelixLegacyEnabled.value)
+		{
+			playerLegacyManager.accelixLegacyEnabled = true;
+			new AccelixLegacy().blessedMessage(playerLegacyManager.player);
+		}
+		if (legacyData.fortemLegacyEnabled.value)
+		{
+			playerLegacyManager.fortemLegacyEnabled = true;
+			new FortemLegacy().blessedMessage(playerLegacyManager.player);
+		}
+		if (legacyData.pondusLegacyEnabled.value)
+		{
+			playerLegacyManager.pondusLegacyEnabled = true;
+			new PondusLegacy().blessedMessage(playerLegacyManager.player);
+		}
+		if (legacyData.regenerasLegacyEnabled.value)
+		{
+			playerLegacyManager.regenerasLegacyEnabled = true;
+			new RegenerasLegacy().blessedMessage(playerLegacyManager.player);
+		}
+		if (legacyData.avexLegacyEnabled.value)
+		{
+			playerLegacyManager.avexLegacyEnabled = true;
+			new AvexLegacy().blessedMessage(playerLegacyManager.player);
+		}
+		new Telekinesis().blessedMessage(playerLegacyManager.player);
+	}
+	
+	// Saves legacies to world
+	public static void saveLegacyImplimentations(LegacyManager playerLegacyManager, LegacyWorldSaveData saveData)
+	{
+		LegacyDataHolder legacyDataHolder = new LegacyDataHolder();
+		legacyDataHolder.legacyDataSaved.value = true;
+		
+		legacyDataHolder.legaciesEnabled.value = playerLegacyManager.legaciesEnabled;
+		
+		legacyDataHolder.accelixLegacyEnabled.value = playerLegacyManager.accelixLegacyEnabled;
+		legacyDataHolder.avexLegacyEnabled.value = playerLegacyManager.avexLegacyEnabled;
+		legacyDataHolder.fortemLegacyEnabled.value = playerLegacyManager.fortemLegacyEnabled;
+		legacyDataHolder.lumenLegacyEnabled.value = playerLegacyManager.lumenLegacyEnabled;
+		legacyDataHolder.novisLegacyEnabled.value = playerLegacyManager.novisLegacyEnabled;
+		legacyDataHolder.noxenLegacyEnabled.value = playerLegacyManager.noxenLegacyEnabled;
+		legacyDataHolder.pondusLegacyEnabled.value = playerLegacyManager.pondusLegacyEnabled;
+		legacyDataHolder.regenerasLegacyEnabled.value = playerLegacyManager.regenerasLegacyEnabled;
+		legacyDataHolder.submariLegacyEnabled.value = playerLegacyManager.submariLegacyEnabled;
+		
+		saveData.setLegacyData(legacyDataHolder, playerLegacyManager.player.world);
 	}
 	
 	// Randomly chooses x amount of legacies
@@ -103,51 +186,51 @@ public class LegacyLoader {
 				if (n == 1)
 				{	
 					playerLegacyManager.lumenLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Lumen - grants fire resistance and fire powers").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					new LumenLegacy().blessedMessage(playerLegacyManager.player);
 				} 
 				else if (n == 2)
 				{
 					playerLegacyManager.noxenLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Noxen - grants night vision").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					new NoxenLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 3)
 				{
 					playerLegacyManager.submariLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Submari - grants water breathing").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					new SubmariLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 4)
 				{
 					playerLegacyManager.novisLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Novis - grants invisibility at will").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					new NovisLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 5)
 				{
 					playerLegacyManager.accelixLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Accelix - grants super speed at will").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					new AccelixLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 6)
 				{
 					playerLegacyManager.fortemLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Fortem - grants super strength").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					new FortemLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 7)
 				{
 					playerLegacyManager.pondusLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Pondus - grants water walking and water breathing").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					new PondusLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 8)
 				{
 					playerLegacyManager.regenerasLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Regeneras - grants regeneration").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					new RegenerasLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 9)
 				{
 					playerLegacyManager.avexLegacyEnabled = true;
-					playerLegacyManager.player.sendMessage(new TextComponentString("Avex - grants swift flight").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+					new AvexLegacy().blessedMessage(playerLegacyManager.player);
 				}
 			}
 		}
-		
+		new Telekinesis().blessedMessage(playerLegacyManager.player);
 	}
 	
 	private static boolean checkIfLegacyAlreadyAssigned(float n, LegacyManager playerLegacyManager, boolean forceLegacies)

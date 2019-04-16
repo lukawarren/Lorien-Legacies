@@ -11,6 +11,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.sound.SoundEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent.Fireball;
 
@@ -19,6 +22,7 @@ public class LumenLegacy extends Legacy {
 	public LumenLegacy()
 	{
 		LEGACY_NAME = "Lumen";
+		DESCRIPTION ="grants fire resistance and fire powers";
 	}
 	
 	@Override
@@ -67,6 +71,12 @@ public class LumenLegacy extends Legacy {
 		}
 		
 		fireball.playSound(SoundEvents.ENTITY_GHAST_SHOOT, 1.0f, 1.0f); // According to docs, if called by a PlayerEntity it plays the sound to everyone *except* the player. Like what the frick?
+	}
+	
+	@Override
+	public void blessedMessage(EntityPlayer player)
+	{
+		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
 	}
 	
 }

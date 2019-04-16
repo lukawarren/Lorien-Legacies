@@ -7,6 +7,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 public class PondusLegacy extends Legacy {
 	
@@ -16,7 +19,7 @@ public class PondusLegacy extends Legacy {
 	public PondusLegacy()
 	{
 		LEGACY_NAME = "Pondus";
-		
+		DESCRIPTION = "grants water walking and water breathing";
 	}
 	
 	
@@ -42,5 +45,11 @@ public class PondusLegacy extends Legacy {
 		}
 
 	}
-
+	
+	@Override
+	public void blessedMessage(EntityPlayer player)
+	{
+		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
+	}
+	
 }

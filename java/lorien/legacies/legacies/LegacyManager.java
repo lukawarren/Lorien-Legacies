@@ -62,7 +62,7 @@ public class LegacyManager {
 		this.player = player;
 		MinecraftForge.EVENT_BUS.register(this);
 		
-		// Fix avex?
+		// Fix Avex?
 		player.capabilities.setFlySpeed(0.25f);
 		player.sendPlayerAbilities();
 		

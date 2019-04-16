@@ -1,7 +1,10 @@
 package lorien.legacies.items.blessers;
 
 import lorien.legacies.core.LorienLegacies;
+import lorien.legacies.legacies.LegacyLoader;
 import lorien.legacies.legacies.LegacyManager;
+import lorien.legacies.legacies.implementations.LumenLegacy;
+import lorien.legacies.legacies.worldSave.LegacyWorldSaveData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,10 +44,11 @@ public class LumenBlesser extends Item {
 				
 				l.legaciesEnabled = true;
 				l.lumenLegacyEnabled = true;
-				l.player.sendMessage(new TextComponentString("You have been blessed with lumen - grants fire resistance and fire powers").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+				new LumenLegacy().blessedMessage(player);
 			}
 		}
 		
+		LegacyLoader.saveLegacyImplimentations(LorienLegacies.legacyManagers.get(0), LegacyWorldSaveData.get(worldIn));
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
     }
 	

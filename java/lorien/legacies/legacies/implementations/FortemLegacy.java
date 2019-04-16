@@ -6,12 +6,16 @@ import lorien.legacies.legacies.Legacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 public class FortemLegacy extends Legacy {
 
 	public FortemLegacy()
 	{
 		LEGACY_NAME = "Fortem";
+		DESCRIPTION = "grants super strength";
 	}
 	
 	@Override
@@ -20,5 +24,9 @@ public class FortemLegacy extends Legacy {
 		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("strength"), 1, 100, true, false));
 	}
 	
-	
+	@Override
+	public void blessedMessage(EntityPlayer player)
+	{
+		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
+	}
 }

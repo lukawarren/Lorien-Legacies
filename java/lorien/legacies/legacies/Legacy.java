@@ -10,15 +10,20 @@ import net.minecraft.util.text.TextFormatting;
 public abstract class Legacy {
 	
 	public String LEGACY_NAME = "[legacy name not set]";
+	public String DESCRIPTION = "[description not set]";
 	
 	public boolean toggled = true;
 	
 	// Called every tick
 	public abstract void computeLegacyTick(EntityPlayer player);
 	
+	public abstract void blessedMessage(EntityPlayer player);
+	
 	public void toggle(EntityPlayer player)
 	{
 		player.sendMessage(new TextComponentString(LEGACY_NAME + " legacy toggled - set to " + !toggled).setStyle(new Style().setColor(TextFormatting.RED)));
 		toggled = !toggled;
 	}
+	
+	
 }

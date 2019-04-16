@@ -4,6 +4,9 @@ import org.lwjgl.input.Mouse;
 
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 public class AvexLegacy extends Legacy {
 
@@ -12,6 +15,12 @@ public class AvexLegacy extends Legacy {
 	private static final float MAX_SPEED = 1f;
 	
 	private float speed = 0.25f;
+	
+	public AvexLegacy()
+	{
+		LEGACY_NAME = "Avex";
+		DESCRIPTION = "grants swift flight";
+	}
 	
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
@@ -38,5 +47,11 @@ public class AvexLegacy extends Legacy {
 		}
 	
 	}
-
+	
+	@Override
+	public void blessedMessage(EntityPlayer player)
+	{
+		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
+	}
+	
 }

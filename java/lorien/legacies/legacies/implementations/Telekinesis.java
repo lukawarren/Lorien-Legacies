@@ -20,6 +20,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 
 public class Telekinesis extends Legacy
@@ -41,6 +44,7 @@ public class Telekinesis extends Legacy
 	public Telekinesis()
 	{
 		super();
+		LEGACY_NAME = "Telekinesis";
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
@@ -287,6 +291,12 @@ public class Telekinesis extends Legacy
 	public void computeLegacyTick(EntityPlayer player)
 	{
 		System.err.println("Error - you're calling the wrong method!");
+	}
+
+	@Override
+	public void blessedMessage(EntityPlayer player)
+	{
+		player.sendMessage(new TextComponentString(LEGACY_NAME).setStyle(new Style().setColor(TextFormatting.GOLD)));
 	}
 	
 }
