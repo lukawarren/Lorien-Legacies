@@ -1,5 +1,7 @@
 package lorien.legacies.legacies;
 
+import org.lwjgl.input.Keyboard;
+
 import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.AvexLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
@@ -118,18 +120,24 @@ public class LegacyManager {
 			
 		}
 		
+		// Telekinesis
 		if (legaciesEnabled)
 		{
 			
 			if (event.side.isServer())
+			{
+				telekinesis.launchEntity(player, true);
 				telekinesis.computeLegacyTick(player, true);
+			}
 			else
 			{
+				
+				if (KeyBindings.lumenFireball.isKeyDown())
+					telekinesis.launchEntity(player, false);
+				
 				if (KeyBindings.activateTelekinesis.isPressed())
-					telekinesis.computeLegacyTick(player, event.side.isServer());
-				else
 				{
-					//telekinesis.deselectPreviousEntity();
+					telekinesis.computeLegacyTick(player, event.side.isServer());
 				}
 			}
 		}

@@ -1,43 +1,26 @@
 package lorien.legacies.legacies.implementations;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.util.vector.Vector3f;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.ibm.icu.impl.ICUService.Key;
 
 import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.Packet;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class Telekinesis extends Legacy
 {
@@ -50,6 +33,10 @@ public class Telekinesis extends Legacy
 	private static int entityID;
 	
 	private EntityPlayer player;
+	
+	// Launching variables
+	private static boolean launchRequired;
+	private static Vec3d force = new Vec3d(0, 0, 0);
 	
 	public Telekinesis()
 	{
@@ -259,6 +246,41 @@ public class Telekinesis extends Legacy
 		if (previousEntity != null)
 			previousEntity.setGlowing(true);
 		
+	}
+	
+	public void launchEntity(EntityPlayer player, boolean server)
+	{
+		if (pointedEntity == null || pointedEntity instanceof EntityPlayer)
+			return;
+		
+		// Client side - decide if there is the need to launch, and if so calculate parameters
+		if (server == false)
+		{
+			launchRequired = KeyBindings.lumenFireball.isKeyDown();
+			if (launchRequired)
+			{
+				final float magnitude = 0.3f;
+				force = new Vec3d(player.getLookVec().x * magnitude, player.getLookVec().y * magnitude, player.getLookVec().z * magnitude);
+				applyLaunchEffect();
+			}
+		}
+		
+		// Launch the entity if required
+		if (server && launchRequired)
+		{
+			applyLaunchEffect();
+			launchRequired = false;
+			deselectCurrentEntity();
+			deselectPreviousEntity();
+		}
+		
+	}
+	
+	// Helper function to clean up code - executed on client and server to avoid inconsistencies
+	private void applyLaunchEffect()
+	{
+		pointedEntity.fallDistance = 1000f;
+		pointedEntity.addVelocity(force.x, force.y, force.z);
 	}
 	
 	@Override
