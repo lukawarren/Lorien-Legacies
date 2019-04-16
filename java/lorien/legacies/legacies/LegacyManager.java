@@ -104,7 +104,7 @@ public class LegacyManager {
 				fortemLegacy.computeLegacyTick(event.player);
 			
 			if (novisLegacyEnabled && novisLegacy.toggled)
-				novisLegacy.computeLegacyTick(event.player);
+				novisLegacy.computeLegacyTick(player);
 			
 			if (pondusLegacyEnabled && pondusLegacy.toggled)
 				pondusLegacy.computeLegacyTick(event.player);

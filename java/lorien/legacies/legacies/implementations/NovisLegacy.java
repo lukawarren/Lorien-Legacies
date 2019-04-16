@@ -21,22 +21,23 @@ public class NovisLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
+		
+		
 		if (toggled)
 			player.setInvisible(toggled);
 		else if (toggled == false)
 		{
-			boolean breakLoop = false;
+			boolean playerIsAlreadyInvisible = false;
+			
 			for (PotionEffect e : player.getActivePotionEffects())
 			{
 				if (e.getEffectName() == "invisibility")
 				{
-					player.setInvisible(true);
-					breakLoop = true;
+					playerIsAlreadyInvisible = true;
 				}
 			}
 			
-			if (breakLoop == false)
-				player.setInvisible(false);
+			player.setInvisible(playerIsAlreadyInvisible);
 		}
 	}
 	
