@@ -16,6 +16,7 @@ public class KeyBindings {
 	public static KeyBinding toggleFortem;
 	public static KeyBinding togglePondus;
 	public static KeyBinding activateTelekinesis;
+	public static KeyBinding scrollWithAvex;
 	
 	public static void init()
 	{
@@ -36,6 +37,9 @@ public class KeyBindings {
 		
 		activateTelekinesis = new KeyBinding("key.activateTelekinesis", Keyboard.KEY_DELETE, "key.categories." + LorienLegacies.MODID);
 		ClientRegistry.registerKeyBinding(activateTelekinesis);
+		
+		scrollWithAvex = new KeyBinding("key.scrollWithAvex", Keyboard.KEY_BACK, "key.categories." + LorienLegacies.MODID);
+		ClientRegistry.registerKeyBinding(scrollWithAvex);
 	}
 	
 }

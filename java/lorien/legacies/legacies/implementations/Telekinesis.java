@@ -9,6 +9,7 @@ import com.google.common.base.Predicates;
 
 import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.Legacy;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -235,9 +236,16 @@ public class Telekinesis extends Legacy
 		if (pointedEntity == null)
 			return;
 
+		// Fix entity no-clipping
+		Vec3d oldPosition = pointedEntity.getPositionVector();
+		
 		final float distance = 3f;
 		Vec3d desiredPosition = new Vec3d(player.getLookVec().x * distance, player.getLookVec().y * distance + 1, player.getLookVec().z * distance).add(player.getPositionVector());
 		pointedEntity.setPositionAndUpdate(desiredPosition.x, desiredPosition.y, desiredPosition.z);
+		
+		// Fix entity no-clipping
+		if(pointedEntity.isInsideOfMaterial(Material.AIR) == false) // If inside of another block
+			pointedEntity.setPositionAndUpdate(oldPosition.x, oldPosition.y, oldPosition.z); // Move back to last known working position
 		
 		if (pointedEntity == null)
 			return;
@@ -250,6 +258,22 @@ public class Telekinesis extends Legacy
 		if (previousEntity != null)
 			previousEntity.setGlowing(true);
 		
+		System.out.println(getEntityColliderSize(pointedEntity));
+	
+	}
+	
+	private double getEntityColliderSize(Entity entity)
+	{
+		AxisAlignedBB collider = pointedEntity.getEntityBoundingBox();
+		
+		if (collider == null)
+			return 0;
+		
+		double diffX = collider.maxX - collider.minX;
+		double diffY = collider.maxY - collider.minY;
+		double diffZ = collider.maxZ - collider.minZ;
+		double finalDifference = diffX * diffY * diffZ;
+		return finalDifference;
 	}
 	
 	public void launchEntity(EntityPlayer player, boolean server)

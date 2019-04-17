@@ -62,10 +62,6 @@ public class LegacyManager {
 		this.player = player;
 		MinecraftForge.EVENT_BUS.register(this);
 		
-		// Fix Avex?
-		player.capabilities.setFlySpeed(0.25f);
-		player.sendPlayerAbilities();
-		
 		// Setup legacies
 		lumenLegacy = new LumenLegacy();
 		noxenLegacy = new NoxenLegacy();
@@ -86,6 +82,13 @@ public class LegacyManager {
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event)
 	{
+		// Fix Avex?
+		if (!avexLegacyEnabled)
+		{
+			player.capabilities.setFlySpeed(AvexLegacy.DEFAULT_SPEED);
+			//player.sendPlayerAbilities();
+		}
+		
 		if (event.player != null && event.player.getUniqueID() == player.getUniqueID() && legaciesEnabled) // If player is this instance's player
 		{
 			if (lumenLegacyEnabled)
