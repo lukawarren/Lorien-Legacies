@@ -25,9 +25,9 @@ Since the code base is getting rather large at this point, you will most certain
 To learn how to contribute to a GitHub open-source project, [read a guide such as this one](https://akrabat.com/the-beginners-guide-to-contributing-to-a-github-project/), or [watch this Youtube video](https://www.youtube.com/watch?v=yr6IzOGoMsQ).
 
 ## Authors
-* [TheUltimateKerbonaut] (https://github.com/TheUltimateKerbonaut)
-* [Blue20Boy17] (https://github.com/Blue20Boy17)
-* [tebreca] (https://github.com/Tebreca)
+* [TheUltimateKerbonaut](https://github.com/TheUltimateKerbonaut)
+* [Blue20Boy17](https://github.com/Blue20Boy17)
+* [tebreca](https://github.com/Tebreca)
 
 ## Acknowledgements
 We are awaiting further confirmation before adding to this section
