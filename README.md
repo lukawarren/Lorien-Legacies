@@ -1,7 +1,7 @@
 # Lorien-Legacies
 
 ## Description
-Lorien Legacies is a high-quality in-depth mod that seeks so recreate Lorien Legacies in Minecraft! It adds legacies such as telekinesis and lumen, as well as telekinesis and a host of other awesome abilities. A skill tree/progression system is currently planned too. Currently, the mod does not support multiplayer (but it's certainly a planned feature!)
+Lorien Legacies is a high-quality in-depth mod that seeks so recreate Lorien Legacies in Minecraft! It adds legacies such as Regeneras and Lumen, as well as telekinesis and a host of other awesome abilities. A skill tree/progression system is currently planned too. Currently, the mod does not support multiplayer (but it's certainly a planned feature!)
 
 ## Prerequisites and setting up a workspace
 To contribute to the mod you'll need a working environment of Forge for Minecraft version 1.12.2 (any version of Forge should work, and the mod will most likely be compatible with different sub-versions of 1.12, but don't quote me on that). Once that's set up simply replace *src/main/resources* and *src/main/java* with the folders supplied in this GitHub repo (in the root directory). Run the project and if all goes well you should now have your workspace set up ready for working on Lorien Legacies! If you have any issues at all with setting things up please don't hesitate to ask for help (maybe start an issue on the repo or something).
