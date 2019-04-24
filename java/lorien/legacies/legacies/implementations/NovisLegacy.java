@@ -41,10 +41,4 @@ public class NovisLegacy extends Legacy {
 		}
 	}
 	
-	@Override
-	public void blessedMessage(EntityPlayer player)
-	{
-		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
-	}
-	
 }

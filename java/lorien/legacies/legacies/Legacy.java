@@ -17,7 +17,10 @@ public abstract class Legacy {
 	// Called every tick
 	public abstract void computeLegacyTick(EntityPlayer player);
 	
-	public abstract void blessedMessage(EntityPlayer player);
+	public void blessedMessage(EntityPlayer player)
+	{
+		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
+	}
 	
 	public void toggle(EntityPlayer player)
 	{

@@ -22,9 +22,4 @@ public class NoxenLegacy extends Legacy {
 		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("night_vision"), 11, 10, true, false));
 	}
 	
-	@Override
-	public void blessedMessage(EntityPlayer player)
-	{
-		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
-	}
 }

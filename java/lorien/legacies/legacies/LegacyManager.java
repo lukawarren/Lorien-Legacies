@@ -135,7 +135,7 @@ public class LegacyManager {
 			else
 			{
 				
-				if (KeyBindings.lumenFireball.isKeyDown())
+				if (KeyBindings.launchTelekinesis.isKeyDown())
 					telekinesis.launchEntity(player, false);
 				
 				if (KeyBindings.activateTelekinesis.isPressed())

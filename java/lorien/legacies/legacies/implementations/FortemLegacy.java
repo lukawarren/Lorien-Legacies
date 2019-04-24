@@ -23,10 +23,5 @@ public class FortemLegacy extends Legacy {
 	{
 		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("strength"), 1, 100, true, false));
 	}
-	
-	@Override
-	public void blessedMessage(EntityPlayer player)
-	{
-		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
-	}
+
 }

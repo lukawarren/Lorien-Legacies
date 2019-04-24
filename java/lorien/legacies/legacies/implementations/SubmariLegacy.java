@@ -23,10 +23,5 @@ public class SubmariLegacy extends Legacy {
 	{
 		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("water_breathing"), 1, 255, true, false));
 	}
-	
-	@Override
-	public void blessedMessage(EntityPlayer player)
-	{
-		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
-	}
+
 }

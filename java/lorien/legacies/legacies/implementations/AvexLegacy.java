@@ -79,10 +79,4 @@ public class AvexLegacy extends Legacy {
 		return sigmoid;
 	}
 	
-	@Override
-	public void blessedMessage(EntityPlayer player)
-	{
-		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
-	}
-	
 }

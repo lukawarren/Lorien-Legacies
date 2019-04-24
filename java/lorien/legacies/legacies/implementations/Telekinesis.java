@@ -257,8 +257,6 @@ public class Telekinesis extends Legacy
 		
 		if (previousEntity != null)
 			previousEntity.setGlowing(true);
-		
-		System.out.println(getEntityColliderSize(pointedEntity));
 	
 	}
 	
@@ -284,7 +282,7 @@ public class Telekinesis extends Legacy
 		// Client side - decide if there is the need to launch, and if so calculate parameters
 		if (server == false)
 		{
-			launchRequired = KeyBindings.lumenFireball.isKeyDown();
+			launchRequired = KeyBindings.launchTelekinesis.isKeyDown();
 			if (launchRequired)
 			{
 				final float magnitude = 0.3f;
