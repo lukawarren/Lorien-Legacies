@@ -100,16 +100,16 @@ public class LegacyManager {
 			if (submariLegacyEnabled)
 				submariLegacy.computeLegacyTick(event.player);
 			
-			if (accelixLegacyEnabled && accelixLegacy.toggled)
+			if (accelixLegacyEnabled)
 				accelixLegacy.computeLegacyTick(event.player);
 			
-			if (fortemLegacyEnabled && fortemLegacy.toggled)
+			if (fortemLegacyEnabled)
 				fortemLegacy.computeLegacyTick(event.player);
 			
-			if (novisLegacyEnabled && novisLegacy.toggled)
+			if (novisLegacyEnabled)
 				novisLegacy.computeLegacyTick(player);
 			
-			if (pondusLegacyEnabled && pondusLegacy.toggled)
+			if (pondusLegacyEnabled)
 				pondusLegacy.computeLegacyTick(event.player);
 			
 			if (regenerasLegacyEnabled)

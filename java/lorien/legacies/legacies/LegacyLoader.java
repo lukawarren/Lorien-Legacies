@@ -23,7 +23,7 @@ public class LegacyLoader {
 	
 	public static final int CHANCE_OF_LEGACIES = 10; // 10%
 	public static final int AMOUNT_OF_LEGACIES_GIFTED = 3;
-	public static final int NUMBER_OF_LEGACIES = 9; // Used for evenly splitting probability in generateLegacyImplimentations()
+	public static final int NUMBER_OF_LEGACIES = 9; // Used for evenly splitting probability in generateLegacyImplimentations() - don't include Telekinesis!
 	
 	// Returns either true or false, depending on whether or not player should have legacies
 	public static void loadLegacies(LegacyManager playerLegacyManager, boolean forceLegacies)

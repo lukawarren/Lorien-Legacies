@@ -34,6 +34,8 @@ public class AvexLegacy extends Legacy {
 	public void computeLegacyTick(EntityPlayer player)
 	{
 		
+		player.capabilities.allowFlying = true;
+		
 		if (KeyBindings.scrollWithAvex.isKeyDown())
 		{
 			player.inventory.currentItem = lastScrolledItem;
@@ -59,8 +61,6 @@ public class AvexLegacy extends Legacy {
 		// Change player's flight speed accordingly
 		if (!player.world.isRemote)
 		{
-			System.out.println(customSigmoid(speed));
-			player.capabilities.allowFlying = true;
 			player.capabilities.setFlySpeed(customSigmoid(speed));
 			player.sendPlayerAbilities();	
 		}

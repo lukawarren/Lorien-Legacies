@@ -21,7 +21,8 @@ public class FortemLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("strength"), 1, 100, true, false));
+		if (toggled)
+			player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("strength"), 1, 100, true, false));
 	}
 
 }
