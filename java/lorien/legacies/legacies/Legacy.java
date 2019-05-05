@@ -12,7 +12,7 @@ public abstract class Legacy {
 	public String LEGACY_NAME = "[legacy name not set]";
 	public String DESCRIPTION = "[description not set]";
 	
-	public boolean toggled = true;
+	public boolean toggled = false;
 	
 	// Called every tick
 	public abstract void computeLegacyTick(EntityPlayer player);
