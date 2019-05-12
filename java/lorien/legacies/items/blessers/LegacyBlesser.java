@@ -24,6 +24,7 @@ public class LegacyBlesser extends Item {
 		setUnlocalizedName(LorienLegacies.MODID + "." + UNLOCALIZED_NAME);
 		setCreativeTab(LorienLegacies.instance.blessersTab);
 		setMaxStackSize(1);
+		setMaxDamage(1);
 	}
 	
 	@Override
@@ -38,7 +39,7 @@ public class LegacyBlesser extends Item {
 			}
 		}
 
-		
+		player.inventory.deleteStack(player.getHeldItem(handIn));
 		LegacyLoader.saveLegacyImplimentations(LorienLegacies.legacyManagers.get(0), LegacyWorldSaveData.get(worldIn));
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
     }

@@ -19,7 +19,8 @@ public abstract class Legacy {
 	
 	public void blessedMessage(EntityPlayer player)
 	{
-		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
+		if (player.world.isRemote)
+			player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
 	}
 	
 	public void toggle(EntityPlayer player)

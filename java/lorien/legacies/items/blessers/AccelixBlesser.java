@@ -29,15 +29,13 @@ public class AccelixBlesser extends Item {
 		setRegistryName(new ResourceLocation(LorienLegacies.MODID, UNLOCALIZED_NAME));
 		setCreativeTab(LorienLegacies.instance.blessersTab);
 		setMaxStackSize(1);
-		setMaxDamage(0);
+		setMaxDamage(1);
 	}
-	
 	 
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
     {
-		System.out.println("bob");
 		
 		// Give player using it legacy by finding LegacyManager with player UUID that corresponds to player that is using the item's UUID
 		for (LegacyManager l : LorienLegacies.legacyManagers)
@@ -46,10 +44,14 @@ public class AccelixBlesser extends Item {
 			{
 				l.legaciesEnabled = true;
 				l.accelixLegacyEnabled = true;
-				new AccelixLegacy().blessedMessage(player);
+				
+				if (worldIn.isRemote) // Stops it being called twice
+					new AccelixLegacy().blessedMessage(player);
 			}
 		}
 		
+		
+		player.inventory.deleteStack(player.getHeldItem(handIn));
 		LegacyLoader.saveLegacyImplimentations(LorienLegacies.legacyManagers.get(0), LegacyWorldSaveData.get(worldIn));
         return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
     }

@@ -3,6 +3,7 @@ package lorien.legacies.items.blessers;
 import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.LegacyLoader;
 import lorien.legacies.legacies.LegacyManager;
+import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.NoxenLegacy;
 import lorien.legacies.legacies.worldSave.LegacyWorldSaveData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +30,7 @@ public class NoxenBlesser extends Item {
 		setRegistryName(new ResourceLocation(LorienLegacies.MODID, UNLOCALIZED_NAME));
 		setCreativeTab(LorienLegacies.instance.blessersTab);
 		setMaxStackSize(1);
-		setMaxDamage(0);
+		setMaxDamage(1);
 	}
 	
 	
@@ -43,10 +44,13 @@ public class NoxenBlesser extends Item {
 			{
 				l.legaciesEnabled = true;
 				l.noxenLegacyEnabled = true;
-				new NoxenLegacy().blessedMessage(player);
+				
+				if (worldIn.isRemote) // Stops it being called twice
+					new AccelixLegacy().blessedMessage(player);
 			}
 		}
 		
+		player.inventory.deleteStack(player.getHeldItem(handIn));
 		LegacyLoader.saveLegacyImplimentations(LorienLegacies.legacyManagers.get(0), LegacyWorldSaveData.get(worldIn));
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
     }

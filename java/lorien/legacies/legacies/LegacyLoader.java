@@ -46,7 +46,8 @@ public class LegacyLoader {
 			
 			if (legacyData.legaciesEnabled.value)
 			{
-				playerLegacyManager.player.sendMessage(new TextComponentString("Your legacies have been loaded! You are blessed with:").setStyle(new Style().setColor(TextFormatting.RED)));			
+				if (playerLegacyManager.player.world.isRemote)
+					playerLegacyManager.player.sendMessage(new TextComponentString("Your legacies have been loaded! You are blessed with:").setStyle(new Style().setColor(TextFormatting.RED)));			
 				loadLegacyImplimentations(playerLegacyManager, legacyData);			
 			}
 			
@@ -61,7 +62,9 @@ public class LegacyLoader {
 			if (n <= CHANCE_OF_LEGACIES) // 10% chance to return true
 			{
 				playerLegacyManager.legaciesEnabled = true;
-				playerLegacyManager.player.sendMessage(new TextComponentString("You have been blessed with legacies! They are:").setStyle(new Style().setColor(TextFormatting.RED)));
+				
+				if (playerLegacyManager.player.world.isRemote)
+					playerLegacyManager.player.sendMessage(new TextComponentString("You have been blessed with legacies! They are:").setStyle(new Style().setColor(TextFormatting.RED)));
 			
 				// Give player a random legacy
 				generateLegacyImplimentations(playerLegacyManager, forceLegacies);

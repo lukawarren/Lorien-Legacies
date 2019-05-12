@@ -3,6 +3,7 @@ package lorien.legacies.items.blessers;
 import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.LegacyLoader;
 import lorien.legacies.legacies.LegacyManager;
+import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.AvexLegacy;
 import lorien.legacies.legacies.worldSave.LegacyWorldSaveData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +30,7 @@ private static String UNLOCALIZED_NAME = "avexblesser";
 		setRegistryName(new ResourceLocation(LorienLegacies.MODID, UNLOCALIZED_NAME));
 		setCreativeTab(LorienLegacies.instance.blessersTab);
 		setMaxStackSize(1);
-		setMaxDamage(0);
+		setMaxDamage(1);
 	}
 	
 	
@@ -43,10 +44,13 @@ private static String UNLOCALIZED_NAME = "avexblesser";
 			{
 				l.legaciesEnabled = true;
 				l.avexLegacyEnabled = true;
-				new AvexLegacy().blessedMessage(player);
+				
+				if (worldIn.isRemote) // Stops it being called twice
+					new AvexLegacy().blessedMessage(player);
 			}
 		}
 		
+		player.inventory.deleteStack(player.getHeldItem(handIn));
 		LegacyLoader.saveLegacyImplimentations(LorienLegacies.legacyManagers.get(0), LegacyWorldSaveData.get(worldIn));
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
     }

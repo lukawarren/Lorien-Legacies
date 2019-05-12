@@ -318,7 +318,8 @@ public class Telekinesis extends Legacy
 	@Override
 	public void blessedMessage(EntityPlayer player)
 	{
-		player.sendMessage(new TextComponentString(LEGACY_NAME).setStyle(new Style().setColor(TextFormatting.GOLD)));
+		if (player.world.isRemote)
+			player.sendMessage(new TextComponentString(LEGACY_NAME).setStyle(new Style().setColor(TextFormatting.GOLD)));
 	}
 	
 }
