@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -61,15 +62,26 @@ public class LorienLegacies {
 	// TODO: replace below method with "on player log in" event - it's only like
 	// this so I can kill myself to reload legacies
 	@SubscribeEvent
-	public void EntityJoinWorldEvent(EntityJoinWorldEvent event) {
-		if (!event.getWorld().isRemote && event.getEntity() instanceof EntityPlayer)
-			setupLegaciesForPlayer((EntityPlayer) event.getEntity());
+	public void EntityJoinWorldEvent(EntityJoinWorldEvent  event)
+	{
+		if (event.getEntity() instanceof EntityPlayer == false)
+			return;
+		
+		// Delete old legacies
+		// Doing it this way in case modifying the list as I iterate over it causes weirdness
+		int size = legacyManagers.size();
+		for (int i = 0; i < size; i++)
+			legacyManagers.remove(i);
+		
+		// Load new legacies
+		setupLegaciesForPlayer((EntityPlayer) event.getEntity());
 	}
+	
 
-	public void setupLegaciesForPlayer(EntityPlayer player) {
+	public void setupLegaciesForPlayer(EntityPlayer player)
+	{
 		// In order to fix Pondus
 		player.setNoGravity(false);
-		
 		
 		// The LegacyManager class will handle all the legacies, and the keyboard events
 		// associated with them
