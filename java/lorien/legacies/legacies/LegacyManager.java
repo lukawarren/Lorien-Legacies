@@ -26,34 +26,34 @@ public class LegacyManager {
 	
 	public EntityPlayer player;
 	
-	public boolean legaciesEnabled;
+	public static boolean legaciesEnabled;
 	
 	public LumenLegacy lumenLegacy;
-	public boolean lumenLegacyEnabled;
+	public static boolean lumenLegacyEnabled;
 	
 	public NoxenLegacy noxenLegacy;
-	public boolean noxenLegacyEnabled;
+	public static boolean noxenLegacyEnabled;
 	
 	public SubmariLegacy submariLegacy;
-	public boolean submariLegacyEnabled;
+	public static boolean submariLegacyEnabled;
 	
 	public NovisLegacy novisLegacy;
-	public boolean novisLegacyEnabled;
+	public static boolean novisLegacyEnabled;
 	
 	public AccelixLegacy accelixLegacy;
-	public boolean accelixLegacyEnabled;
+	public static boolean accelixLegacyEnabled;
 	
 	public FortemLegacy fortemLegacy;
-	public boolean fortemLegacyEnabled;
+	public static boolean fortemLegacyEnabled;
 	
 	public PondusLegacy pondusLegacy;
-	public boolean pondusLegacyEnabled;
+	public static boolean pondusLegacyEnabled;
 	
 	public RegenerasLegacy regenerasLegacy;
-	public boolean regenerasLegacyEnabled;
+	public static boolean regenerasLegacyEnabled;
 	
 	public AvexLegacy avexLegacy;
-	public boolean avexLegacyEnabled;
+	public static boolean avexLegacyEnabled;
 	
 	public Telekinesis telekinesis;
 	
@@ -85,8 +85,9 @@ public class LegacyManager {
 		// Fix Avex?
 		if (!avexLegacyEnabled)
 		{
-			player.capabilities.setFlySpeed(AvexLegacy.DEFAULT_SPEED);
-			//player.sendPlayerAbilities();
+			//event.player.capabilities.allowFlying = avexLegacyEnabled;
+			event.player.capabilities.setFlySpeed(AvexLegacy.DEFAULT_SPEED);
+			event.player.sendPlayerAbilities();
 		}
 		
 		if (event.player != null && event.player.getUniqueID() == player.getUniqueID() && legaciesEnabled) // If player is this instance's player
@@ -154,6 +155,7 @@ public class LegacyManager {
 	
 	public void onKeyPress()
 	{	
+		
 		// Lumen fire powers
 		if (org.lwjgl.input.Keyboard.isKeyDown(KeyBindings.lumenFireball.getKeyCode()) && legaciesEnabled && lumenLegacyEnabled && lumenFireballShot == false)
 		{
@@ -161,6 +163,10 @@ public class LegacyManager {
 			lumenFireballShot = true;
 		} else if (org.lwjgl.input.Keyboard.isKeyDown(KeyBindings.lumenFireball.getKeyCode()) == false)
 			lumenFireballShot = false;
+		
+		// Lumen self-igniting
+		if (KeyBindings.igniteLumen.isPressed() && legaciesEnabled && lumenLegacyEnabled)
+			lumenLegacy.ignite(player);
 		
 		// Accelix toggle
 		if (KeyBindings.toggleAccelix.isPressed() && legaciesEnabled && accelixLegacyEnabled)

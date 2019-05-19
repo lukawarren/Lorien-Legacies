@@ -46,7 +46,7 @@ public class NoxenBlesser extends Item {
 				l.noxenLegacyEnabled = true;
 				
 				if (worldIn.isRemote) // Stops it being called twice
-					new AccelixLegacy().blessedMessage(player);
+					new AccelixLegacy().blessedMessage(player, true);
 			}
 		}
 		

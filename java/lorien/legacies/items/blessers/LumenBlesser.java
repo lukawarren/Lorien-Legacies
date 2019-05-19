@@ -48,7 +48,7 @@ public class LumenBlesser extends Item {
 				l.lumenLegacyEnabled = true;
 				
 				if (worldIn.isRemote) // Stops it being called twice
-					new LumenLegacy().blessedMessage(player);
+					new LumenLegacy().blessedMessage(player, true);
 			}
 		}
 		

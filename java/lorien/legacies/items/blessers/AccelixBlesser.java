@@ -46,7 +46,7 @@ public class AccelixBlesser extends Item {
 				l.accelixLegacyEnabled = true;
 				
 				if (worldIn.isRemote) // Stops it being called twice
-					new AccelixLegacy().blessedMessage(player);
+					new AccelixLegacy().blessedMessage(player, true);
 			}
 		}
 		

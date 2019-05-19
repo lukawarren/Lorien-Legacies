@@ -46,7 +46,7 @@ public class PondusBlesser extends Item {
 				l.pondusLegacyEnabled = true;
 				
 				if (worldIn.isRemote) // Stops it being called twice
-					new PondusLegacy().blessedMessage(player);
+					new PondusLegacy().blessedMessage(player, true);
 			}
 		}
 		

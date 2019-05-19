@@ -46,7 +46,7 @@ public class FortemBlesser extends Item {
 				l.fortemLegacyEnabled = true;
 				
 				if (worldIn.isRemote) // Stops it being called twice
-					new FortemLegacy().blessedMessage(player);
+					new FortemLegacy().blessedMessage(player, true);
 			}
 		}
 		

@@ -46,7 +46,7 @@ public class LegacyLoader {
 			
 			if (legacyData.legaciesEnabled.value)
 			{
-				if (playerLegacyManager.player.world.isRemote)
+				if (!playerLegacyManager.player.world.isRemote)
 					playerLegacyManager.player.sendMessage(new TextComponentString("Your legacies have been loaded! You are blessed with:").setStyle(new Style().setColor(TextFormatting.RED)));			
 				loadLegacyImplimentations(playerLegacyManager, legacyData);			
 			}
@@ -61,9 +61,9 @@ public class LegacyLoader {
 			
 			if (n <= CHANCE_OF_LEGACIES) // 10% chance to return true
 			{
-				playerLegacyManager.legaciesEnabled = true;
+				LegacyManager.legaciesEnabled = true;
 				
-				if (playerLegacyManager.player.world.isRemote)
+				if (!playerLegacyManager.player.world.isRemote)
 					playerLegacyManager.player.sendMessage(new TextComponentString("You have been blessed with legacies! They are:").setStyle(new Style().setColor(TextFormatting.RED)));
 			
 				// Give player a random legacy
@@ -72,7 +72,7 @@ public class LegacyLoader {
 			}
 			else
 			{
-				playerLegacyManager.legaciesEnabled = false;
+				LegacyManager.legaciesEnabled = false;
 				//LorienLegacies.print("Player with UUID " + playerLegacyManager.player.getUniqueID() + " ___ has not been blessed with legacies."); // Should actually set playerIsAlreadyAsigned to be "false" in save
 			}
 			
@@ -83,51 +83,51 @@ public class LegacyLoader {
 	// Loads from save
 	private static void loadLegacyImplimentations(LegacyManager playerLegacyManager, LegacyDataHolder legacyData)
 	{
-		playerLegacyManager.legaciesEnabled = true;
+		LegacyManager.legaciesEnabled = true;
 		
 		if (legacyData.lumenLegacyEnabled.value)
 		{	
-			playerLegacyManager.lumenLegacyEnabled = true;
+			LegacyManager.lumenLegacyEnabled = true;
 			new LumenLegacy().blessedMessage(playerLegacyManager.player);
 		} 
 		if (legacyData.noxenLegacyEnabled.value)
 		{
-			playerLegacyManager.noxenLegacyEnabled = true;
+			LegacyManager.noxenLegacyEnabled = true;
 			new NoxenLegacy().blessedMessage(playerLegacyManager.player);
 		}
 		if (legacyData.submariLegacyEnabled.value)
 		{
-			playerLegacyManager.submariLegacyEnabled = true;
+			LegacyManager.submariLegacyEnabled = true;
 			new SubmariLegacy().blessedMessage(playerLegacyManager.player);
 		}
 		if (legacyData.novisLegacyEnabled.value)
 		{
-			playerLegacyManager.novisLegacyEnabled = true;
+			LegacyManager.novisLegacyEnabled = true;
 			new NovisLegacy().blessedMessage(playerLegacyManager.player);
 		}
 		if (legacyData.accelixLegacyEnabled.value)
 		{
-			playerLegacyManager.accelixLegacyEnabled = true;
+			LegacyManager.accelixLegacyEnabled = true;
 			new AccelixLegacy().blessedMessage(playerLegacyManager.player);
 		}
 		if (legacyData.fortemLegacyEnabled.value)
 		{
-			playerLegacyManager.fortemLegacyEnabled = true;
+			LegacyManager.fortemLegacyEnabled = true;
 			new FortemLegacy().blessedMessage(playerLegacyManager.player);
 		}
 		if (legacyData.pondusLegacyEnabled.value)
 		{
-			playerLegacyManager.pondusLegacyEnabled = true;
+			LegacyManager.pondusLegacyEnabled = true;
 			new PondusLegacy().blessedMessage(playerLegacyManager.player);
 		}
 		if (legacyData.regenerasLegacyEnabled.value)
 		{
-			playerLegacyManager.regenerasLegacyEnabled = true;
+			LegacyManager.regenerasLegacyEnabled = true;
 			new RegenerasLegacy().blessedMessage(playerLegacyManager.player);
 		}
 		if (legacyData.avexLegacyEnabled.value)
 		{
-			playerLegacyManager.avexLegacyEnabled = true;
+			LegacyManager.avexLegacyEnabled = true;
 			new AvexLegacy().blessedMessage(playerLegacyManager.player);
 		}
 		new Telekinesis().blessedMessage(playerLegacyManager.player);
@@ -160,15 +160,15 @@ public class LegacyLoader {
 		if (forceLegacies)
 		{
 			// get rid of all legacies first
-			playerLegacyManager.accelixLegacyEnabled = false;
-			playerLegacyManager.avexLegacyEnabled = false;
-			playerLegacyManager.fortemLegacyEnabled = false;
-			playerLegacyManager.lumenLegacyEnabled = false;
-			playerLegacyManager.novisLegacyEnabled = false;
-			playerLegacyManager.noxenLegacyEnabled = false;
-			playerLegacyManager.pondusLegacyEnabled = false;
-			playerLegacyManager.regenerasLegacyEnabled = false;
-			playerLegacyManager.submariLegacyEnabled = false;
+			LegacyManager.accelixLegacyEnabled = false;
+			LegacyManager.avexLegacyEnabled = false;
+			LegacyManager.fortemLegacyEnabled = false;
+			LegacyManager.lumenLegacyEnabled = false;
+			LegacyManager.novisLegacyEnabled = false;
+			LegacyManager.noxenLegacyEnabled = false;
+			LegacyManager.pondusLegacyEnabled = false;
+			LegacyManager.regenerasLegacyEnabled = false;
+			LegacyManager.submariLegacyEnabled = false;
 		}
 		
 		float chanceOfIndividualLegacyBeingChosen = AMOUNT_OF_LEGACIES_GIFTED / NUMBER_OF_LEGACIES;
@@ -188,47 +188,47 @@ public class LegacyLoader {
 			{
 				if (n == 1)
 				{	
-					playerLegacyManager.lumenLegacyEnabled = true;
+					LegacyManager.lumenLegacyEnabled = true;
 					new LumenLegacy().blessedMessage(playerLegacyManager.player);
 				} 
 				else if (n == 2)
 				{
-					playerLegacyManager.noxenLegacyEnabled = true;
+					LegacyManager.noxenLegacyEnabled = true;
 					new NoxenLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 3)
 				{
-					playerLegacyManager.submariLegacyEnabled = true;
+					LegacyManager.submariLegacyEnabled = true;
 					new SubmariLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 4)
 				{
-					playerLegacyManager.novisLegacyEnabled = true;
+					LegacyManager.novisLegacyEnabled = true;
 					new NovisLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 5)
 				{
-					playerLegacyManager.accelixLegacyEnabled = true;
+					LegacyManager.accelixLegacyEnabled = true;
 					new AccelixLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 6)
 				{
-					playerLegacyManager.fortemLegacyEnabled = true;
+					LegacyManager.fortemLegacyEnabled = true;
 					new FortemLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 7)
 				{
-					playerLegacyManager.pondusLegacyEnabled = true;
+					LegacyManager.pondusLegacyEnabled = true;
 					new PondusLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 8)
 				{
-					playerLegacyManager.regenerasLegacyEnabled = true;
+					LegacyManager.regenerasLegacyEnabled = true;
 					new RegenerasLegacy().blessedMessage(playerLegacyManager.player);
 				}
 				else if (n == 9)
 				{
-					playerLegacyManager.avexLegacyEnabled = true;
+					LegacyManager.avexLegacyEnabled = true;
 					new AvexLegacy().blessedMessage(playerLegacyManager.player);
 				}
 			}

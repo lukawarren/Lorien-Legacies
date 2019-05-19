@@ -46,7 +46,7 @@ public class NovisBlesser extends Item {
 				l.novisLegacyEnabled = true;
 				
 				if (worldIn.isRemote) // Stops it being called twice
-					new NovisLegacy().blessedMessage(player);
+					new NovisLegacy().blessedMessage(player, true);
 			}
 		}
 		

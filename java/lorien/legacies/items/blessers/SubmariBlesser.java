@@ -46,7 +46,7 @@ public class SubmariBlesser extends Item {
 				l.submariLegacyEnabled = true;
 
 				if (worldIn.isRemote) // Stops it being called twice
-					new SubmariLegacy().blessedMessage(player);
+					new SubmariLegacy().blessedMessage(player, true);
 			}
 		}
 		

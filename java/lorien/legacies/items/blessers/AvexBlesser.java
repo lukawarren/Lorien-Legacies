@@ -46,7 +46,7 @@ private static String UNLOCALIZED_NAME = "avexblesser";
 				l.avexLegacyEnabled = true;
 				
 				if (worldIn.isRemote) // Stops it being called twice
-					new AvexLegacy().blessedMessage(player);
+					new AvexLegacy().blessedMessage(player, true);
 			}
 		}
 		

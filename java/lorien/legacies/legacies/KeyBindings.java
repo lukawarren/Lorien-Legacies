@@ -18,6 +18,7 @@ public class KeyBindings {
 	public static KeyBinding activateTelekinesis;
 	public static KeyBinding scrollWithAvex;
 	public static KeyBinding launchTelekinesis;
+	public static KeyBinding igniteLumen;
 	
 	public static void init()
 	{
@@ -44,6 +45,9 @@ public class KeyBindings {
 		
 		launchTelekinesis = new KeyBinding("key.launchTelekinesis", Keyboard.KEY_APOSTROPHE, "key.categories." + LorienLegacies.MODID);
 		ClientRegistry.registerKeyBinding(launchTelekinesis);
+		
+		igniteLumen = new KeyBinding("key.igniteLumen", Keyboard.KEY_U, "key.categories." + LorienLegacies.MODID);
+		ClientRegistry.registerKeyBinding(igniteLumen);
 	}
 	
 }
