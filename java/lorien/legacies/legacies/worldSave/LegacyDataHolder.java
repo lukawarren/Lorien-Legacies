@@ -2,6 +2,7 @@ package lorien.legacies.legacies.worldSave;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class LegacyDataHolder 
 {
@@ -23,7 +24,7 @@ public class LegacyDataHolder
 	public LegacyData avexLegacyEnabled = new LegacyData("avexLegacyEnabled");
 	
 	public LegacyDataHolder()
-	{
+	{	
 		data.add(legacyDataSaved);
 		
 		data.add(legaciesEnabled);
@@ -37,6 +38,29 @@ public class LegacyDataHolder
 		data.add(pondusLegacyEnabled);
 		data.add(regenerasLegacyEnabled);
 		data.add(avexLegacyEnabled);
+	}
+	
+	public void convertArrayToData(int[] array)
+	{	
+		try { int x = array[0]; } catch (Exception e)
+		{
+			for (LegacyData l : data)
+				l.value = false;
+			return;
+		}
+		
+		for (int i = 0; i < data.size(); i++)
+			data.get(i).value = (array[i] == 1) ? true : false;
+	}
+	
+	public int[] convertDataToArray()
+	{
+		int[] array = new int[data.size()];
+		
+		for (int i = 0; i < data.size(); i++)
+			array[i] = (data.get(i).value == true) ? 1 : 0;
+		
+		return array;
 	}
 	
 }

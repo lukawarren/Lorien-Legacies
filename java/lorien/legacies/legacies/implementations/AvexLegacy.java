@@ -33,7 +33,6 @@ public class AvexLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		
 		player.capabilities.allowFlying = true;
 		
 		if (KeyBindings.scrollWithAvex.isKeyDown())

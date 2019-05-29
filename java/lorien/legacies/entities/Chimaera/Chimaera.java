@@ -35,6 +35,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Chimaera extends EntityCreature {
 
+	public Chimaera(World worldIn) {
+		super(worldIn);
+		// TODO Auto-generated constructor stub
+	}
+
+	/*
 	public static final String UNLOCALIZED_NAME = "chimaera";
 
 	public EntityAIBase TARGET_PLAYER = new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true, true);
@@ -124,8 +130,8 @@ public class Chimaera extends EntityCreature {
 
 	private void morph(String mobname) {
 		if (!world.isRemote) {
-			LorienLegacies.NETWORK.sendToAllAround(new MessageMorphChimaera(mobname, this),
-					new TargetPoint(dimension, posX, posY, posY, 64));
+			//LorienLegacies.NETWORK.sendToAllAround(new MessageMorphChimaera(mobname, this),
+					//new TargetPoint(dimension, posX, posY, posY, 64));
 		}
 	}
 
@@ -284,5 +290,5 @@ public class Chimaera extends EntityCreature {
 		}
 
 	}
-
+	*/
 }

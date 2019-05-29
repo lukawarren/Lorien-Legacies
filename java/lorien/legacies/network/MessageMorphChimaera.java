@@ -12,6 +12,19 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageMorphChimaera implements IMessage {
 
+	@Override
+	public void fromBytes(ByteBuf buf) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/*
 	UUID uuid;
 	String newModel;
 
@@ -52,5 +65,5 @@ public class MessageMorphChimaera implements IMessage {
 		}
 
 	}
-
+	*/
 }

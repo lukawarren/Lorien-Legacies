@@ -20,7 +20,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class RegenerasBlesser extends Item {
+public class RegenerasBlesser extends Blesser {
 	
 	private static String UNLOCALIZED_NAME = "regenerasblesser";
 	
@@ -35,24 +35,19 @@ public class RegenerasBlesser extends Item {
 	
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
-    {
-		// Give player using it legacy by finding LegacyManager with player UUID that corresponds to player that is using the item's UUID
-		for (LegacyManager l : LorienLegacies.legacyManagers)
-		{
-			if (l.player.getUniqueID() == player.getUniqueID())
-			{
-				l.legaciesEnabled = true;
-				l.regenerasLegacyEnabled = true;
+	protected void handleClient(EntityPlayer player)
+	{
+		LorienLegacies.clientLegacyManager.legaciesEnabled = true;
+		LorienLegacies.clientLegacyManager.regenerasLegacyEnabled = true;
+		new RegenerasLegacy().blessedMessage(player);
+	}
 
-				if (worldIn.isRemote) // Stops it being called twice
-					new RegenerasLegacy().blessedMessage(player);
-			}
-		}
-		
-		player.inventory.deleteStack(player.getHeldItem(handIn));
-		LegacyLoader.saveLegacyImplimentations(LorienLegacies.legacyManagers.get(0), LegacyWorldSaveData.get(worldIn));
-		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
-    }
+
+	@Override
+	protected void handleServer(LegacyManager l) 
+	{
+		l.legaciesEnabled = true;
+		l.regenerasLegacyEnabled = true;
+	}
 	
 }

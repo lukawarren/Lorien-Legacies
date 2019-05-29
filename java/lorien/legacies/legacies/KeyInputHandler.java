@@ -17,7 +17,7 @@ public class KeyInputHandler {
 		for (LegacyManager l : LorienLegacies.legacyManagers)
 		{
 			if (l.player.getUniqueID() == Minecraft.getMinecraft().player.getUniqueID())
-				l.onKeyPress();
+				l.onKeyClient();
 		}
 	}
 	

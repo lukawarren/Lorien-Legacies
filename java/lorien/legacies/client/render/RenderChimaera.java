@@ -23,8 +23,8 @@ public class RenderChimaera extends Render<Chimaera> {
 
 	@Override
 	public void doRender(Chimaera entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		render = (Render<Entity>) entity.morphHandler.getCurrent().createRenderFor(renderManager);
-		this.render.doRender((Entity) entity, x, y, z, entityYaw, partialTicks);
+		/*render = (Render<Entity>) entity.morphHandler.getCurrent().createRenderFor(renderManager);
+		this.render.doRender((Entity) entity, x, y, z, entityYaw, partialTicks);*/
 	}
 
 	public static class Factory implements IRenderFactory<Chimaera> {

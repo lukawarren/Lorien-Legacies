@@ -20,7 +20,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class FortemBlesser extends Item {
+public class FortemBlesser extends Blesser {
 	
 	private static String UNLOCALIZED_NAME = "fortemblesser";
 	
@@ -35,25 +35,20 @@ public class FortemBlesser extends Item {
 	
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
-    {
-		// Give player using it legacy by finding LegacyManager with player UUID that corresponds to player that is using the item's UUID
-		for (LegacyManager l : LorienLegacies.legacyManagers)
-		{
-			if (l.player.getUniqueID() == player.getUniqueID())
-			{
-				l.legaciesEnabled = true;
-				l.fortemLegacyEnabled = true;
-				
-				if (worldIn.isRemote) // Stops it being called twice
-					new FortemLegacy().blessedMessage(player, true);
-			}
-		}
-		
-		player.inventory.deleteStack(player.getHeldItem(handIn));
-		LegacyLoader.saveLegacyImplimentations(LorienLegacies.legacyManagers.get(0), LegacyWorldSaveData.get(worldIn));
-		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
-    }
+	protected void handleClient(EntityPlayer player)
+	{
+		LorienLegacies.clientLegacyManager.legaciesEnabled = true;
+		LorienLegacies.clientLegacyManager.fortemLegacyEnabled = true;
+		new FortemLegacy().blessedMessage(player);
+	}
+
+
+	@Override
+	protected void handleServer(LegacyManager l) 
+	{
+		l.legaciesEnabled = true;
+		l.fortemLegacyEnabled = true;
+	}
 	
 	
 }

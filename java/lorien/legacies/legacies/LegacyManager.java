@@ -2,6 +2,8 @@ package lorien.legacies.legacies;
 
 import org.lwjgl.input.Keyboard;
 
+import lorien.legacies.core.LorienLegacies;
+import lorien.legacies.gui.LegacyGui;
 import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.AvexLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
@@ -12,6 +14,12 @@ import lorien.legacies.legacies.implementations.PondusLegacy;
 import lorien.legacies.legacies.implementations.RegenerasLegacy;
 import lorien.legacies.legacies.implementations.SubmariLegacy;
 import lorien.legacies.legacies.implementations.Telekinesis;
+import lorien.legacies.legacies.worldSave.LegacyWorldSaveData;
+import lorien.legacies.network.NetworkHandler;
+import lorien.legacies.network.mesages.legacyActions.LegacyAction;
+import lorien.legacies.network.mesages.legacyActions.LegacyActionConverter;
+import lorien.legacies.network.mesages.legacyActions.MessageLegacyAction;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,34 +34,34 @@ public class LegacyManager {
 	
 	public EntityPlayer player;
 	
-	public static boolean legaciesEnabled;
+	public boolean legaciesEnabled;
 	
 	public LumenLegacy lumenLegacy;
-	public static boolean lumenLegacyEnabled;
+	public boolean lumenLegacyEnabled;
 	
 	public NoxenLegacy noxenLegacy;
-	public static boolean noxenLegacyEnabled;
+	public boolean noxenLegacyEnabled;
 	
 	public SubmariLegacy submariLegacy;
-	public static boolean submariLegacyEnabled;
+	public boolean submariLegacyEnabled;
 	
 	public NovisLegacy novisLegacy;
-	public static boolean novisLegacyEnabled;
+	public boolean novisLegacyEnabled;
 	
 	public AccelixLegacy accelixLegacy;
-	public static boolean accelixLegacyEnabled;
+	public boolean accelixLegacyEnabled;
 	
 	public FortemLegacy fortemLegacy;
-	public static boolean fortemLegacyEnabled;
+	public boolean fortemLegacyEnabled;
 	
 	public PondusLegacy pondusLegacy;
-	public static boolean pondusLegacyEnabled;
+	public boolean pondusLegacyEnabled;
 	
 	public RegenerasLegacy regenerasLegacy;
-	public static boolean regenerasLegacyEnabled;
+	public boolean regenerasLegacyEnabled;
 	
 	public AvexLegacy avexLegacy;
-	public static boolean avexLegacyEnabled;
+	public boolean avexLegacyEnabled;
 	
 	public Telekinesis telekinesis;
 	
@@ -75,13 +83,54 @@ public class LegacyManager {
 		telekinesis = new Telekinesis();
 	}
 	
-	private static final float DISTANCE = 10f;
-	Entity previousEntity = null;
-	Entity pointedEntity = null;
+	public void computeLegacyTick(boolean isServer)
+	{
+		
+		if (lumenLegacyEnabled)
+			lumenLegacy.computeLegacyTick(player);
+			
+		if (noxenLegacyEnabled)
+			noxenLegacy.computeLegacyTick(player);
+			
+		if (submariLegacyEnabled)
+			submariLegacy.computeLegacyTick(player);
+			
+		if (accelixLegacyEnabled)
+			accelixLegacy.computeLegacyTick(player);
+			
+		if (fortemLegacyEnabled)
+			fortemLegacy.computeLegacyTick(player);
+			
+		if (novisLegacyEnabled)
+			novisLegacy.computeLegacyTick(player);
+			
+		if (pondusLegacyEnabled)
+			pondusLegacy.computeLegacyTick(player);
+			
+		if (regenerasLegacyEnabled)
+			regenerasLegacy.computeLegacyTick(player);
+			
+		if (avexLegacyEnabled)
+			avexLegacy.computeLegacyTick(player);
+	}
 	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event)
-	{
+	{	
+	
+		if (event.player == null || player == null)
+			return;
+		
+		if (event.player.world.isRemote && legaciesEnabled) // Client
+			computeLegacyTick(false);
+		else if (legaciesEnabled) // Server
+			computeLegacyTick(true);
+	}
+	
+	/*
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent event)
+	{	
 		// Fix Avex?
 		if (!avexLegacyEnabled)
 		{
@@ -146,13 +195,42 @@ public class LegacyManager {
 			}
 		}
 		
+		//Minecraft.getMinecraft().displayGuiScreen(new LegacyGui()); Client only!
+		
+		if (player.world.isRemote && KeyBindings.activateTelekinesis.isPressed())
+			NetworkHandler.sendToServer(new MessageLegacyAction(69, 420));
+		
 	}
+	*/
 	
 	private boolean previousWaterDecision = false;
 	
 	// So you can't just spam it and crash the server (trust me, it was hilarious)
 	private boolean lumenFireballShot = false;
 	
+	public void onKeyClient()
+	{
+		
+		LegacyAction action = null;
+		
+		if (KeyBindings.lumenFireball.isPressed())
+			action = LegacyAction.LumenFireball;
+		else if (KeyBindings.igniteLumen.isPressed())
+			action = LegacyAction.LumenIgnition;
+		else if (KeyBindings.toggleAccelix.isPressed())
+			action = LegacyAction.Accelix;
+		else if (KeyBindings.toggleFortem.isPressed())
+			action = LegacyAction.Fortem;
+		else if (KeyBindings.toggleNovis.isPressed())
+			action = LegacyAction.Novis;
+		else if (KeyBindings.togglePondus.isPressed())
+			action = LegacyAction.Pondus;
+		
+		NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
+		
+	}
+
+	/*
 	public void onKeyPress()
 	{	
 		
@@ -184,7 +262,7 @@ public class LegacyManager {
 		// Pondus toggle
 		if (KeyBindings.togglePondus.isPressed() && legaciesEnabled && pondusLegacyEnabled)
 			pondusLegacy.toggle(player);
-	}
-
+	}*/
+	
 	
 }

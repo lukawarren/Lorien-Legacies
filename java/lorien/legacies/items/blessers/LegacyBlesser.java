@@ -30,17 +30,28 @@ public class LegacyBlesser extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
     {
-		// Give player using it legacy by finding LegacyManager with player UUID that corresponds to player that is using the item's UUID
-		for (LegacyManager l : LorienLegacies.legacyManagers)
+		if (!worldIn.isRemote) // Server
 		{
-			if (l.player.getUniqueID() == player.getUniqueID())
+			boolean playerAlreadyHasLegacyManager = false;
+			LegacyManager legacyManager = null;
+			
+			for (LegacyManager l : LorienLegacies.legacyManagers)
 			{
-				LegacyLoader.loadLegacies(l, true);
+				if (l.player.getUniqueID() == player.getUniqueID())
+				{
+					playerAlreadyHasLegacyManager = true;
+					legacyManager = l;
+				}
 			}
+			
+			if (playerAlreadyHasLegacyManager == false)
+				legacyManager = new LegacyManager(player);
+			
+			LegacyLoader.generateLegacies(legacyManager, true);
 		}
 
 		player.inventory.deleteStack(player.getHeldItem(handIn));
-		LegacyLoader.saveLegacyImplimentations(LorienLegacies.legacyManagers.get(0), LegacyWorldSaveData.get(worldIn));
+		
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
     }
 	

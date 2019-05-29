@@ -20,15 +20,7 @@ public abstract class Legacy {
 	
 	public void blessedMessage(EntityPlayer player)
 	{
-		if (!player.world.isRemote)
-			player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
-	}
-	
-	// To fix blessers
-	public void blessedMessage(EntityPlayer player, boolean fixRemote)
-	{
-		if (player.world.isRemote)
-			player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
+		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
 	}
 	
 	public void toggle(EntityPlayer player)

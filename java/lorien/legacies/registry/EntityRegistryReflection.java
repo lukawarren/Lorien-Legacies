@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class EntityRegistryReflection {
 
+	/*
 	private EntityRegistryReflection() {
 
 	}
@@ -63,5 +64,7 @@ public class EntityRegistryReflection {
 		}
 
 	}
+	
+	*/
 
 }

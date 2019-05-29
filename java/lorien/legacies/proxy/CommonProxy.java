@@ -1,8 +1,10 @@
 package lorien.legacies.proxy;
 
 import lorien.legacies.blocks.ModBlocks;
+import lorien.legacies.commands.ModCommands;
 import lorien.legacies.entities.ModEntities;
 import lorien.legacies.items.ModItems;
+import lorien.legacies.network.NetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -14,19 +16,24 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityEntry;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
 	
-	public void preInit(FMLPreInitializationEvent e) {
+	public void preInit(FMLPreInitializationEvent e)
+	{
+		NetworkHandler.init();
 		ModEntities.register();
     }
 
-    public void init(FMLInitializationEvent e) {
+    public void init(FMLInitializationEvent e)
+    {
+    	
     }
 
-    public void postInit(FMLPostInitializationEvent e) {
+    public void postInit(FMLPostInitializationEvent e)
+    {
+    	
     }
 
     @SubscribeEvent
@@ -55,7 +62,8 @@ public class CommonProxy {
     
     
     @SubscribeEvent
-	public static void registerRenders(ModelRegistryEvent event) {
+	public static void registerRenders(ModelRegistryEvent event)
+    {
     	// Don't do this server side, silly!
 	}
 	

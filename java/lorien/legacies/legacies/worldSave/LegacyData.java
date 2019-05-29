@@ -1,5 +1,7 @@
 package lorien.legacies.legacies.worldSave;
 
+import java.util.UUID;
+
 public class LegacyData
 {
 	
@@ -10,6 +12,7 @@ public class LegacyData
 	{
 		super();
 		this.name = name;
+		this.value = false;
 	}
 	
 }
