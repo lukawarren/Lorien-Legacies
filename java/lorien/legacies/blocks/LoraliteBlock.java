@@ -4,11 +4,13 @@ import lorien.legacies.core.LorienLegacies;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
-public class LoraliteBlock extends Block {
+public class LoraliteBlock extends Block
+{
 
 	public static final String UNLOCALIZED_NAME = "loraliteblock";
 	
-	public LoraliteBlock() {
+	public LoraliteBlock()
+	{
 		super(Material.ROCK);
 		
 		setUnlocalizedName(LorienLegacies.MODID + "." + UNLOCALIZED_NAME); // Used for naming stuff (like in en_US.lang)
