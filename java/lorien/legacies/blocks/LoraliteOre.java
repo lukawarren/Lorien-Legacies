@@ -13,7 +13,8 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class LoraliteOre extends Block {
+public class LoraliteOre extends Block
+{
 	
 	private static final String UNLOCALIZED_NAME = "loraliteore";
 	
