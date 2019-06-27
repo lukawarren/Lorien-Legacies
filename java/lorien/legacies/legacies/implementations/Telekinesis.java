@@ -1,5 +1,6 @@
 package lorien.legacies.legacies.implementations;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -29,18 +30,23 @@ import net.minecraftforge.common.MinecraftForge;
 public class Telekinesis extends Legacy
 {
 
+	@Override
+	public void computeLegacyTick(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/*
 	private static final float DISTANCE = 10;
-	
-	private Entity pointedEntity = null;
-	private Entity previousEntity = null;
-	
-	private static int entityID;
-	
-	private EntityPlayer player;
+
+	private HashMap<Integer, Entity> pointedEntities = new HashMap<>();
+	private HashMap<Integer, Entity> previousEntities = new HashMap<>();
+	private HashMap<Integer, Integer> entityIDs = new HashMap<>();
 	
 	// Launching variables
-	private static boolean launchRequired;
-	private static Vec3d force = new Vec3d(0, 0, 0);
+	private HashMap<Integer, Boolean> launchRequired = new HashMap<>();
+	private HashMap<Integer, Vec3d> force = new HashMap<>();
+	
 	
 	public Telekinesis()
 	{
@@ -49,6 +55,7 @@ public class Telekinesis extends Legacy
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
+	// Server side, decided what entity player is selecting
 	private void updatePointedEntity(EntityPlayer entity)
 	{	
 		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
@@ -87,7 +94,10 @@ public class Telekinesis extends Legacy
 
 	            Vec3d vec3d1 = entity.getLook(1.0F);
 	            Vec3d vec3d2 = vec3d.addVector(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0);
-	            pointedEntity = null;
+	            
+	            if(pointedEntities.containsKey(entity.getEntityId()))
+	            	pointedEntities.put(entity.getEntityId(), null);
+	            
 	            Vec3d vec3d3 = null;
 	            float f = 1.0F;
 	            List<Entity> list = Minecraft.getMinecraft().world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().expand(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0).grow(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>()
@@ -107,9 +117,9 @@ public class Telekinesis extends Legacy
 
 	                if (axisalignedbb.contains(vec3d))
 	                {
-	                    if (d2 >= 0.0D && pointedEntity instanceof EntityPlayer == false)
+	                    if (d2 >= 0.0D && pointedEntities.get(entity.getEntityId()) instanceof EntityPlayer == false)
 	                    {
-	                        pointedEntity = entity1;
+	                    	pointedEntities.put(entity.getEntityId(), entity1);
 	                        vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;
 	                        d2 = 0.0D;
 	                    }
@@ -122,15 +132,15 @@ public class Telekinesis extends Legacy
 	                    {
 	                        if (entity1.getLowestRidingEntity() == entity.getLowestRidingEntity() && !entity1.canRiderInteract())
 	                        {
-	                            if (d2 == 0.0D && pointedEntity instanceof EntityPlayer == false)
+	                            if (d2 == 0.0D && pointedEntities.get(entity.getEntityId()) instanceof EntityPlayer == false)
 	                            {
-	                                pointedEntity = entity1;
+	                            	pointedEntities.put(entity.getEntityId(), entity1);
 	                                vec3d3 = raytraceresult.hitVec;
 	                            }
 	                        }
-	                        else if (pointedEntity instanceof EntityPlayer == false)
+	                        else if ( pointedEntities.get(entity.getEntityId()) instanceof EntityPlayer == false)
 	                        {
-	                            pointedEntity = entity1;
+	                        	pointedEntities.put(entity.getEntityId(), entity1);
 	                            vec3d3 = raytraceresult.hitVec;
 	                            d2 = d3;
 	                        }
@@ -138,19 +148,19 @@ public class Telekinesis extends Legacy
 	                }
 	            }
 
-	            if (pointedEntity != null && flag && vec3d.distanceTo(vec3d3) > 3.0D)
+	            if ( pointedEntities.get(entity.getEntityId()) != null && flag && vec3d.distanceTo(vec3d3) > 3.0D)
 	            {
-	                pointedEntity = null;
+	                pointedEntities.put(entity.getEntityId(), null);
 	                Minecraft.getMinecraft().objectMouseOver = new RayTraceResult(RayTraceResult.Type.MISS, vec3d3, (EnumFacing)null, new BlockPos(vec3d3));
 	            }
 
-	            if (pointedEntity != null && (d2 < d1 || Minecraft.getMinecraft().objectMouseOver == null))
+	            if (pointedEntities.get(entity.getEntityId()) instanceof EntityPlayer == false && (d2 < d1 || Minecraft.getMinecraft().objectMouseOver == null))
 	            {
 	                Minecraft.getMinecraft().objectMouseOver = new RayTraceResult(pointedEntity, vec3d3);
 
-	                if (pointedEntity instanceof EntityLivingBase || pointedEntity instanceof EntityItemFrame)
+	                if (pointedEntities.get(entity.getEntityId()) instanceof EntityLivingBase || pointedEntities.get(entity.getEntityId()) instanceof EntityItemFrame)
 	                {
-	                    Minecraft.getMinecraft().pointedEntity = pointedEntity;
+	                    Minecraft.getMinecraft().pointedEntity = pointedEntities.get(entity.getEntityId());
 	                }
 	            }
 
@@ -158,41 +168,41 @@ public class Telekinesis extends Legacy
 	        }
 	    }
 
-	    if (pointedEntity == null)
+	    if (pointedEntities.get(entity.getEntityId()) == null)
 	    	return;
 	    
-	    deselectPreviousEntity();
+	    deselectPreviousEntity(entity);
 	    
-	    previousEntity = pointedEntity;
+	    previousEntities.put(entity.getEntityId(), pointedEntities.get(entity.getEntityId()));
 
 	}
 	
-	public void deselectPreviousEntity()
+	public void deselectPreviousEntity(Entity player)
 	{
-		if (previousEntity == null)
+		if (previousEntities.get(player.getEntityId()) == null)
 			return;
 		
-		previousEntity.setGlowing(false);
-		previousEntity = null;
+		previousEntities.get(player.getEntityId()).setGlowing(false);
+		previousEntities.put(player.getEntityId(), null);
 	}
 	
-	public void deselectCurrentEntity()
+	public void deselectCurrentEntity(Entity player)
 	{
-		entityID = 0;
+		entityIDs.put(player.getEntityId(), 0);
 		
-		if (pointedEntity == null)
+		if (pointedEntities.get(player.getEntityId()) == null)
 			return;
 		
-		pointedEntity.setGlowing(false);
-		pointedEntity.noClip = false;
-		pointedEntity = null;
+		pointedEntities.get(player.getEntityId()).setGlowing(false);
+		pointedEntities.get(player.getEntityId()).noClip = false;
+		pointedEntities.put(player.getEntityId(), null);
 		
-		if (previousEntity == null)
+		if (previousEntities.get(player.getEntityId()) == null)
 			return;
 		
-		previousEntity.setGlowing(false);
-		previousEntity.noClip = false;
-		previousEntity = null;
+		previousEntities.get(player.getEntityId()).setGlowing(false);
+		previousEntities.get(player.getEntityId()).noClip = false;
+		previousEntities.put(player.getEntityId(), null);
 		
 	}
 
@@ -321,5 +331,5 @@ public class Telekinesis extends Legacy
 		if (player.world.isRemote)
 			player.sendMessage(new TextComponentString(LEGACY_NAME).setStyle(new Style().setColor(TextFormatting.GOLD)));
 	}
-	
+	*/
 }

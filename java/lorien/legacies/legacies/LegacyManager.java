@@ -20,9 +20,11 @@ import lorien.legacies.network.mesages.legacyActions.LegacyAction;
 import lorien.legacies.network.mesages.legacyActions.LegacyActionConverter;
 import lorien.legacies.network.mesages.legacyActions.MessageLegacyAction;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -121,10 +123,36 @@ public class LegacyManager {
 		if (event.player == null || player == null)
 			return;
 		
+		// Find EntityPlayerMP of EntityPlayer
+//		if (event.player instanceof EntityPlayerMP)
+//			((EntityPlayerMP)event.player).setElytraFlying();
+		
+		
 		if (event.player.world.isRemote && legaciesEnabled) // Client
 			computeLegacyTick(false);
 		else if (legaciesEnabled) // Server
 			computeLegacyTick(true);
+	}
+	
+	@SubscribeEvent
+	public void renderPlayer (RenderLivingEvent.Pre event)
+	{
+		if (event.getEntity() instanceof EntityPlayer)
+		{
+			
+			System.out.println("bob");
+			((EntityPlayerMP) event.getEntity()).setElytraFlying();
+		}
+	}
+	
+	@SubscribeEvent
+	public void renderPlayer (RenderLivingEvent.Post event)
+	{
+		if (event.getEntity() instanceof EntityPlayer)
+		{
+			System.out.println("jeff");
+			((EntityPlayerMP) event.getEntity()).clearElytraFlying();
+		}
 	}
 	
 	/*
@@ -226,7 +254,8 @@ public class LegacyManager {
 		else if (KeyBindings.togglePondus.isPressed())
 			action = LegacyAction.Pondus;
 		
-		NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
+		if (action != null)
+			NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
 		
 	}
 

@@ -8,23 +8,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import lorien.legacies.commands.CommandLegacies;
-import lorien.legacies.entities.Chimaera.Chimaera;
+import lorien.legacies.gui.LegacyInventory;
 import lorien.legacies.items.ModItems;
 import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.KeyInputHandler;
 import lorien.legacies.legacies.LegacyLoader;
 import lorien.legacies.legacies.LegacyManager;
-import lorien.legacies.legacies.worldSave.LegacyWorldSaveData;
-import lorien.legacies.network.MessageMorphChimaera;
-import lorien.legacies.network.NetworkHandler;
 import lorien.legacies.proxy.CommonProxy;
 import lorien.legacies.worldgen.OreGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -32,11 +27,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.*;
 
 @Mod(modid = LorienLegacies.MODID, name = LorienLegacies.NAME, version = LorienLegacies.VERSION)
 
@@ -66,7 +59,8 @@ public class LorienLegacies {
 	@SubscribeEvent
 	public void PlayerLoggedInEvent(PlayerLoggedInEvent event)
 	{
-
+		
+		
 		if (event.player.world.isRemote)
 			loadLegaciesForClient(event);
 		else
@@ -93,11 +87,15 @@ public class LorienLegacies {
 	private void loadLegaciesForClient(PlayerLoggedInEvent event)
 	{
 		clientLegacyManager = new LegacyManager((EntityPlayer) event.player);
+		
+		
+		//((EntityPlayer) event.player).inventory.armorInventory.add(new ItemStack(new ItemRedstone()));
 	}
 
 	private void loadLegaciesForServer(PlayerLoggedInEvent event)
 	{	
 		EntityPlayer player = (EntityPlayer) event.player;
+		//player.inventory = new LegacyInventory(player);
 		
 		// In order to fix Pondus
 		player.setNoGravity(false);
