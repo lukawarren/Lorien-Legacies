@@ -19,6 +19,7 @@ public class RegenerasLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
+		if (player.isPotionActive(Potion.getPotionFromResourceLocation("regeneration")) == false)
 		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("regeneration"), 1, 35, true, false));
 		
 	}

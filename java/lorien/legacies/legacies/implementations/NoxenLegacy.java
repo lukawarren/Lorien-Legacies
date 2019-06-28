@@ -19,7 +19,8 @@ public class NoxenLegacy extends Legacy {
 	
 	@Override
 	public void computeLegacyTick(EntityPlayer player) {
-		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("night_vision"), 11, 10, true, false));
+		if (player.isPotionActive(Potion.getPotionFromResourceLocation("night_vision")) == false)
+			player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("night_vision"), 11, 10, true, false));
 	}
 	
 }

@@ -20,7 +20,7 @@ public class AccelixLegacy extends Legacy
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		if (toggled)
+		if (toggled && player.isPotionActive(Potion.getPotionFromResourceLocation("speed")) == false)
 			player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("speed"), 1, 35, true, false));
 	}
 	
