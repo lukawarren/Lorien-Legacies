@@ -21,7 +21,8 @@ public class SubmariLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("water_breathing"), 1, 255, true, false));
+		if (player.isPotionActive(Potion.getPotionFromResourceLocation("water_breathing")) == false)
+			player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("water_breathing"), 1, 255, true, false));
 	}
 
 }

@@ -23,7 +23,7 @@ public class NovisLegacy extends Legacy {
 	{
 		
 		
-		if (toggled)
+		if (toggled && player.isInvisible() == false)
 			player.setInvisible(toggled);
 		else if (toggled == false)
 		{

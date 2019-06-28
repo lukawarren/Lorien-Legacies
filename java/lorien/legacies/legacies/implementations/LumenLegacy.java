@@ -40,7 +40,8 @@ public class LumenLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("fire_resistance"), 1, 255, true, false));
+		if (player.isPotionActive(Potion.getPotionFromResourceLocation("fire_resistance")) == false)
+			player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("fire_resistance"), 1, 255, true, false));
 	}
 	
 	// Immune to burning
