@@ -119,40 +119,15 @@ public class LegacyManager {
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event)
 	{	
-	
+		
 		if (event.player == null || player == null)
 			return;
-		
-		// Find EntityPlayerMP of EntityPlayer
-//		if (event.player instanceof EntityPlayerMP)
-//			((EntityPlayerMP)event.player).setElytraFlying();
-		
+
 		
 		if (event.player.world.isRemote && legaciesEnabled) // Client
 			computeLegacyTick(false);
 		else if (legaciesEnabled) // Server
 			computeLegacyTick(true);
-	}
-	
-	@SubscribeEvent
-	public void renderPlayer (RenderLivingEvent.Pre event)
-	{
-		if (event.getEntity() instanceof EntityPlayer)
-		{
-			
-			System.out.println("bob");
-			((EntityPlayerMP) event.getEntity()).setElytraFlying();
-		}
-	}
-	
-	@SubscribeEvent
-	public void renderPlayer (RenderLivingEvent.Post event)
-	{
-		if (event.getEntity() instanceof EntityPlayer)
-		{
-			System.out.println("jeff");
-			((EntityPlayerMP) event.getEntity()).clearElytraFlying();
-		}
 	}
 	
 	/*
@@ -257,6 +232,27 @@ public class LegacyManager {
 		if (action != null)
 			NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
 		
+		// --- Also apply toggling on client-side --- \\
+		
+		if (action == null)
+			return;
+				
+		// Accelix toggle
+		if (action == LegacyAction.Accelix && legaciesEnabled && accelixLegacyEnabled)
+				accelixLegacy.toggle(player);
+					
+		// Fortem toggle
+		if (action == LegacyAction.Fortem && legaciesEnabled && fortemLegacyEnabled)
+				fortemLegacy.toggle(player);
+				
+		// Novis toggle
+		if (action == LegacyAction.Novis && legaciesEnabled && novisLegacyEnabled)
+				novisLegacy.toggle(player);
+		
+		// Pondus toggle
+		if (action == LegacyAction.Pondus && legaciesEnabled && pondusLegacyEnabled)
+				pondusLegacy.toggle(player);
+		
 	}
 
 	/*
@@ -271,26 +267,7 @@ public class LegacyManager {
 		} else if (org.lwjgl.input.Keyboard.isKeyDown(KeyBindings.lumenFireball.getKeyCode()) == false)
 			lumenFireballShot = false;
 		
-		// Lumen self-igniting
-		if (KeyBindings.igniteLumen.isPressed() && legaciesEnabled && lumenLegacyEnabled)
-			lumenLegacy.ignite(player);
 		
-		// Accelix toggle
-		if (KeyBindings.toggleAccelix.isPressed() && legaciesEnabled && accelixLegacyEnabled)
-			accelixLegacy.toggle(player);
-			
-		// Fortem toggle
-		if (KeyBindings.toggleFortem.isPressed() && legaciesEnabled && fortemLegacyEnabled)
-			fortemLegacy.toggle(player);
-		
-		
-		// Novis toggle
-		if (KeyBindings.toggleNovis.isPressed() && legaciesEnabled && novisLegacyEnabled)
-			novisLegacy.toggle(player);
-		
-		// Pondus toggle
-		if (KeyBindings.togglePondus.isPressed() && legaciesEnabled && pondusLegacyEnabled)
-			pondusLegacy.toggle(player);
 	}*/
 	
 	

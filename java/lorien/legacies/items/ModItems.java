@@ -16,7 +16,7 @@ import lorien.legacies.items.tools.LoraliteHoe;
 import lorien.legacies.items.tools.LoralitePickaxe;
 import lorien.legacies.items.tools.LoraliteShovel;
 import lorien.legacies.items.tools.LoraliteSword;
-import lorien.legacies.items.tools.LoraliteStaff;
+//import lorien.legacies.items.tools.LoraliteStaff;
 import lorien.legacies.proxy.CommonProxy;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -73,8 +73,8 @@ public class ModItems {
 	@GameRegistry.ObjectHolder("lorienlegacies:loralitehoe")
 	public static LoraliteHoe loralitehoe = new LoraliteHoe(loraliteMaterial);
 	
-	@GameRegistry.ObjectHolder("lorienlegacies:loralitestaff")
-	public static LoraliteStaff loralitestaff = new LoraliteStaff(loraliteMaterial);	
+	//@GameRegistry.ObjectHolder("lorienlegacies:loralitestaff")
+	//public static LoraliteStaff loralitestaff = new LoraliteStaff(loraliteMaterial);	
 	
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
@@ -97,7 +97,7 @@ public class ModItems {
 		event.getRegistry().register(loralitesword);
 		event.getRegistry().register(loralitedagger);
 		event.getRegistry().register(loralitehoe);
-		event.getRegistry().register(loralitestaff);
+		//event.getRegistry().register(loralitestaff);
 	}
 	
 	public static void registerModels()
@@ -121,7 +121,7 @@ public class ModItems {
 		CommonProxy.registerRender(loralitespade);
 		CommonProxy.registerRender(loralitedagger);
 		CommonProxy.registerRender(loralitehoe);
-		CommonProxy.registerRender(loralitestaff);
+		//CommonProxy.registerRender(loralitestaff);
 	}
 	
 }

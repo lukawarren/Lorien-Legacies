@@ -21,10 +21,9 @@ public class NovisLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		
-		
-		if (toggled && player.isInvisible() == false)
-			player.setInvisible(toggled);
+
+		if (toggled)
+			player.setInvisible(true);
 		else if (toggled == false)
 		{
 			boolean playerIsAlreadyInvisible = false;
@@ -39,6 +38,9 @@ public class NovisLegacy extends Legacy {
 			
 			player.setInvisible(playerIsAlreadyInvisible);
 		}
+		
+		//System.out.println("bob: " + toggled);
+		
 	}
 	
 }
