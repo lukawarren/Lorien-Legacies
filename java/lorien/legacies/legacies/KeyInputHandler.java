@@ -13,12 +13,7 @@ public class KeyInputHandler {
 	@SubscribeEvent
 	public void onKeyInput(InputEvent.KeyInputEvent event)
 	{	
-		// Find legacy manager for player
-		for (LegacyManager l : LorienLegacies.legacyManagers)
-		{
-			if (l.player.getUniqueID() == Minecraft.getMinecraft().player.getUniqueID())
-				l.onKeyClient();
-		}
+		LorienLegacies.clientLegacyManager.onKeyClient();
 	}
 	
 	/*
