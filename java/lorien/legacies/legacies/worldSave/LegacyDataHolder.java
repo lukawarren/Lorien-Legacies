@@ -22,6 +22,7 @@ public class LegacyDataHolder
 	public LegacyData pondusLegacyEnabled = new LegacyData("pondusLegacyEnabled");
 	public LegacyData regenerasLegacyEnabled = new LegacyData("regenerasLegacyEnabled");
 	public LegacyData avexLegacyEnabled = new LegacyData("avexLegacyEnabled");
+	public LegacyData glacenLegacyEnabled = new LegacyData("glacenLegacyEnabled");
 	
 	public LegacyDataHolder()
 	{	
@@ -38,6 +39,7 @@ public class LegacyDataHolder
 		data.add(pondusLegacyEnabled);
 		data.add(regenerasLegacyEnabled);
 		data.add(avexLegacyEnabled);
+		data.add(glacenLegacyEnabled);
 	}
 	
 	public void convertArrayToData(int[] array)

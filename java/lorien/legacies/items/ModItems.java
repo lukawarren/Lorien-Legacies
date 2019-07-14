@@ -3,6 +3,7 @@ package lorien.legacies.items;
 import lorien.legacies.items.blessers.AccelixBlesser;
 import lorien.legacies.items.blessers.AvexBlesser;
 import lorien.legacies.items.blessers.FortemBlesser;
+import lorien.legacies.items.blessers.GlacenBlesser;
 import lorien.legacies.items.blessers.LegacyBlesser;
 import lorien.legacies.items.blessers.LumenBlesser;
 import lorien.legacies.items.blessers.NovisBlesser;
@@ -50,6 +51,8 @@ public class ModItems {
 	public static SubmariBlesser submariBlesser = new SubmariBlesser();
 	@GameRegistry.ObjectHolder("lorienlegacies:avexblesser")
 	public static AvexBlesser avexBlesser = new AvexBlesser();
+	@GameRegistry.ObjectHolder("lorienlegacies:glacenblesser")
+	public static GlacenBlesser glacenBlesser = new GlacenBlesser();
 	
 	// Tools
 	public static final ToolMaterial loraliteMaterial = EnumHelper.addToolMaterial("loralitematerial", 3, 2048, 16.0f, 5.0f, 30);
@@ -90,6 +93,7 @@ public class ModItems {
 		event.getRegistry().register(submariBlesser);
 		event.getRegistry().register(regenerasBlesser);
 		event.getRegistry().register(avexBlesser);
+		event.getRegistry().register(glacenBlesser);
 		
 		event.getRegistry().register(loralitepickaxe);
 		event.getRegistry().register(loraliteaxe);
@@ -114,6 +118,7 @@ public class ModItems {
 		CommonProxy.registerRender(submariBlesser);
 		CommonProxy.registerRender(regenerasBlesser);
 		CommonProxy.registerRender(avexBlesser);
+		CommonProxy.registerRender(glacenBlesser);
 		
 		CommonProxy.registerRender(loralitepickaxe);
 		CommonProxy.registerRender(loraliteaxe);

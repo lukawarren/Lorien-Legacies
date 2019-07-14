@@ -12,12 +12,17 @@ import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.datafix.fixes.EntityId;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -29,18 +34,11 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class Telekinesis extends Legacy
 {
-
-	@Override
-	public void computeLegacyTick(EntityPlayer player) {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	/*
 	private static final float DISTANCE = 10;
 
-	private HashMap<Integer, Entity> pointedEntities = new HashMap<>();
-	private HashMap<Integer, Entity> previousEntities = new HashMap<>();
+	private HashMap<Integer, Integer> pointedEntities = new HashMap<>();
+	private HashMap<Integer, Integer> previousEntities = new HashMap<>();
 	private HashMap<Integer, Integer> entityIDs = new HashMap<>();
 	
 	// Launching variables
@@ -117,9 +115,9 @@ public class Telekinesis extends Legacy
 
 	                if (axisalignedbb.contains(vec3d))
 	                {
-	                    if (d2 >= 0.0D && pointedEntities.get(entity.getEntityId()) instanceof EntityPlayer == false)
+	                    if (d2 >= 0.0D && getEntityBelongingToPlayer(entity) instanceof EntityPlayer == false && getEntityBelongingToPlayer(entity) instanceof EntityPlayerSP == false)
 	                    {
-	                    	pointedEntities.put(entity.getEntityId(), entity1);
+	                    	pointedEntities.put(entity.getEntityId(), entity1.getEntityId());
 	                        vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;
 	                        d2 = 0.0D;
 	                    }
@@ -132,15 +130,15 @@ public class Telekinesis extends Legacy
 	                    {
 	                        if (entity1.getLowestRidingEntity() == entity.getLowestRidingEntity() && !entity1.canRiderInteract())
 	                        {
-	                            if (d2 == 0.0D && pointedEntities.get(entity.getEntityId()) instanceof EntityPlayer == false)
+	                            if (d2 == 0.0D && getEntityBelongingToPlayer(entity) instanceof EntityPlayer == false && getEntityBelongingToPlayer(entity) instanceof EntityPlayerSP == false)
 	                            {
-	                            	pointedEntities.put(entity.getEntityId(), entity1);
+	                            	pointedEntities.put(entity.getEntityId(), entity1.getEntityId());
 	                                vec3d3 = raytraceresult.hitVec;
 	                            }
 	                        }
-	                        else if ( pointedEntities.get(entity.getEntityId()) instanceof EntityPlayer == false)
+	                        else if ( getEntityBelongingToPlayer(entity) instanceof EntityPlayer == false && getEntityBelongingToPlayer(entity) instanceof EntityPlayerSP == false)
 	                        {
-	                        	pointedEntities.put(entity.getEntityId(), entity1);
+	                        	pointedEntities.put(entity.getEntityId(), entity1.getEntityId());
 	                            vec3d3 = raytraceresult.hitVec;
 	                            d2 = d3;
 	                        }
@@ -148,19 +146,19 @@ public class Telekinesis extends Legacy
 	                }
 	            }
 
-	            if ( pointedEntities.get(entity.getEntityId()) != null && flag && vec3d.distanceTo(vec3d3) > 3.0D)
+	            if ( getEntityBelongingToPlayer(entity) != null && flag && vec3d.distanceTo(vec3d3) > 3.0D)
 	            {
 	                pointedEntities.put(entity.getEntityId(), null);
 	                Minecraft.getMinecraft().objectMouseOver = new RayTraceResult(RayTraceResult.Type.MISS, vec3d3, (EnumFacing)null, new BlockPos(vec3d3));
 	            }
 
-	            if (pointedEntities.get(entity.getEntityId()) instanceof EntityPlayer == false && (d2 < d1 || Minecraft.getMinecraft().objectMouseOver == null))
+	            if (getEntityBelongingToPlayer(entity) instanceof EntityPlayer == false && getEntityBelongingToPlayer(entity) instanceof EntityPlayerSP == false && (d2 < d1 || Minecraft.getMinecraft().objectMouseOver == null))
 	            {
-	                Minecraft.getMinecraft().objectMouseOver = new RayTraceResult(pointedEntity, vec3d3);
+	                Minecraft.getMinecraft().objectMouseOver = new RayTraceResult(getEntityBelongingToPlayer(entity), vec3d3);
 
-	                if (pointedEntities.get(entity.getEntityId()) instanceof EntityLivingBase || pointedEntities.get(entity.getEntityId()) instanceof EntityItemFrame)
+	                if (getEntityBelongingToPlayer(entity) instanceof EntityLivingBase || getEntityBelongingToPlayer(entity) instanceof EntityItemFrame)
 	                {
-	                    Minecraft.getMinecraft().pointedEntity = pointedEntities.get(entity.getEntityId());
+	                    Minecraft.getMinecraft().pointedEntity = getEntityBelongingToPlayer(entity);
 	                }
 	            }
 
@@ -168,21 +166,24 @@ public class Telekinesis extends Legacy
 	        }
 	    }
 
-	    if (pointedEntities.get(entity.getEntityId()) == null)
+	    if (getEntityBelongingToPlayer(entity) instanceof EntityPlayerSP || getEntityBelongingToPlayer(entity) instanceof EntityPlayer)
+	    	pointedEntities.put(entity.getEntityId(), null);
+	    	
+	    if (getEntityBelongingToPlayer(entity) == null)
 	    	return;
 	    
 	    deselectPreviousEntity(entity);
 	    
-	    previousEntities.put(entity.getEntityId(), pointedEntities.get(entity.getEntityId()));
+	    previousEntities.put(entity.getEntityId(), getEntityBelongingToPlayer(entity).getEntityId());
 
 	}
 	
 	public void deselectPreviousEntity(Entity player)
 	{
-		if (previousEntities.get(player.getEntityId()) == null)
+		if (getEntityBelongingToPlayerPreviously(player) == null)
 			return;
 		
-		previousEntities.get(player.getEntityId()).setGlowing(false);
+		getEntityBelongingToPlayerPreviously(player).setGlowing(false);
 		previousEntities.put(player.getEntityId(), null);
 	}
 	
@@ -190,18 +191,18 @@ public class Telekinesis extends Legacy
 	{
 		entityIDs.put(player.getEntityId(), 0);
 		
-		if (pointedEntities.get(player.getEntityId()) == null)
+		if (getEntityBelongingToPlayer(player) == null)
 			return;
 		
-		pointedEntities.get(player.getEntityId()).setGlowing(false);
-		pointedEntities.get(player.getEntityId()).noClip = false;
+		getEntityBelongingToPlayer(player).setGlowing(false);
+		getEntityBelongingToPlayer(player).noClip = false;
 		pointedEntities.put(player.getEntityId(), null);
 		
-		if (previousEntities.get(player.getEntityId()) == null)
+		if (getEntityBelongingToPlayerPreviously(player) == null)
 			return;
 		
-		previousEntities.get(player.getEntityId()).setGlowing(false);
-		previousEntities.get(player.getEntityId()).noClip = false;
+		getEntityBelongingToPlayerPreviously(player).setGlowing(false);
+		getEntityBelongingToPlayerPreviously(player).noClip = false;
 		previousEntities.put(player.getEntityId(), null);
 		
 	}
@@ -209,70 +210,48 @@ public class Telekinesis extends Legacy
 	
 	public void computeLegacyTick(EntityPlayer player, boolean server)
 	{
-		
-		if (previousEntity != null)
-			previousEntity.setGlowing(false);
-		
-		this.player = player;
 
-		if (player == null || KeyBindings.activateTelekinesis.isKeyDown() == false)
+		/*
+		if (getEntityBelongingToPlayerPreviously(player) != null)
+			getEntityBelongingToPlayerPreviously(player).setGlowing(false);
+		
+		updatePointedEntity(player);
+		
+		if (getEntityBelongingToPlayer(player) == null)
 			return;
 		
-		if (!server)
-		{	
-			updatePointedEntity(player);
-			
-			if (pointedEntity == null)
-				return;
-			if (pointedEntity instanceof EntityPlayer)
-				return;
-			
-			entityID = pointedEntity.getEntityId();	
-		}
-		else
-		{	
-			if (entityID == 0)
-				return;
-				
-			pointedEntity = player.world.getEntityByID(entityID);
-			
-			if (pointedEntity == null)
-				return;
-			if (pointedEntity instanceof EntityPlayer)
-				return;
-			
-		}
-		
-		if (pointedEntity == null)
-			return;
-
 		// Fix entity no-clipping
-		Vec3d oldPosition = pointedEntity.getPositionVector();
+		Vec3d oldPosition = getEntityBelongingToPlayer(player).getPositionVector();
 		
 		final float distance = 3f;
 		Vec3d desiredPosition = new Vec3d(player.getLookVec().x * distance, player.getLookVec().y * distance + 1, player.getLookVec().z * distance).add(player.getPositionVector());
-		pointedEntity.setPositionAndUpdate(desiredPosition.x, desiredPosition.y, desiredPosition.z);
+		float pitch = player.cameraPitch;
+		float yaw = player.cameraYaw;
+		
+		
+		//getEntityBelongingToPlayer(player).setPositionAndUpdate(desiredPosition.x, desiredPosition.y, desiredPosition.z);
+		
+		System.out.println(getEntityBelongingToPlayer(player).posX + " " + getEntityBelongingToPlayer(player).posY + " " + getEntityBelongingToPlayer(player).posZ);
+		
+		getEntityBelongingToPlayerPreviously(player).onKillCommand();
 		
 		// Fix entity no-clipping
-		if(pointedEntity.isInsideOfMaterial(Material.AIR) == false) // If inside of another block
-			pointedEntity.setPositionAndUpdate(oldPosition.x, oldPosition.y, oldPosition.z); // Move back to last known working position
+		//if(getEntityBelongingToPlayer(player).isInsideOfMaterial(Material.AIR) == false) // If inside of another block
+		//	getEntityBelongingToPlayer(player).setPositionAndUpdate(oldPosition.x, oldPosition.y, oldPosition.z); // Move back to last known working position
 		
-		if (pointedEntity == null)
-			return;
+		getEntityBelongingToPlayer(player).fallDistance = 0f;
+		getEntityBelongingToPlayer(player).motionX = 0f;
+		getEntityBelongingToPlayer(player).motionY = 0f;
+		getEntityBelongingToPlayer(player).motionZ = 0f;
 		
-		pointedEntity.fallDistance = 0f;
-		pointedEntity.motionX = 0f;
-		pointedEntity.motionY = 0f;
-		pointedEntity.motionZ = 0f;
-		
-		if (previousEntity != null)
-			previousEntity.setGlowing(true);
-	
+		getEntityBelongingToPlayer(player).setGlowing(true);
+
+		*/
 	}
 	
 	private double getEntityColliderSize(Entity entity)
 	{
-		AxisAlignedBB collider = pointedEntity.getEntityBoundingBox();
+		AxisAlignedBB collider = entity.getEntityBoundingBox();
 		
 		if (collider == null)
 			return 0;
@@ -285,7 +264,7 @@ public class Telekinesis extends Legacy
 	}
 	
 	public void launchEntity(EntityPlayer player, boolean server)
-	{
+	{/*
 		if (pointedEntity == null || pointedEntity instanceof EntityPlayer)
 			return;
 		
@@ -309,14 +288,14 @@ public class Telekinesis extends Legacy
 			deselectCurrentEntity();
 			deselectPreviousEntity();
 		}
-		
+		*/
 	}
 	
 	// Helper function to clean up code - executed on client and server to avoid inconsistencies
 	private void applyLaunchEffect()
 	{
-		pointedEntity.fallDistance = 1000f;
-		pointedEntity.addVelocity(force.x, force.y, force.z);
+		//pointedEntity.fallDistance = 1000f;
+		//pointedEntity.addVelocity(force.x, force.y, force.z);
 	}
 	
 	@Override
@@ -331,5 +310,22 @@ public class Telekinesis extends Legacy
 		if (player.world.isRemote)
 			player.sendMessage(new TextComponentString(LEGACY_NAME).setStyle(new Style().setColor(TextFormatting.GOLD)));
 	}
-	*/
+	
+	public Entity getEntityBelongingToPlayer(Entity player)
+	{			
+		if (player == null || player.world == null || pointedEntities.get(player.getEntityId()) == null)
+			return null;
+		
+		try { return  player.world.getEntityByID(pointedEntities.get(player.getEntityId())); } catch (Exception e) { return null; }
+	}
+	
+	public Entity getEntityBelongingToPlayerPreviously(Entity player)
+	{
+		if (player == null || player.world == null || previousEntities.get(player.getEntityId()) == null)
+			return null;
+		
+		try { return  player.world.getEntityByID(previousEntities.get(player.getEntityId())); } catch (Exception e) { return null; }
+	}
+
+	
 }

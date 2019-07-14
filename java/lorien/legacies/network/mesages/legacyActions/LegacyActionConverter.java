@@ -14,34 +14,39 @@ public class LegacyActionConverter
 		
 		EntityPlayer player = legacyManager.player;
 		
-		if (action == LegacyAction.LumenFireball)
+		if (action == LegacyAction.LumenFireball && legacyManager.lumenLegacyEnabled)
 		{
 			legacyManager.lumenLegacy.fireball(player);
 		}
 		
-		else if (action == LegacyAction.LumenIgnition)
+		else if (action == LegacyAction.LumenIgnition && legacyManager.lumenLegacyEnabled)
 		{
 			legacyManager.lumenLegacy.ignite(player);
 		}
 		
-		else if (action == LegacyAction.Accelix)
+		else if (action == LegacyAction.Accelix && legacyManager.accelixLegacyEnabled)
 		{
 			legacyManager.accelixLegacy.toggle(player);
 		}
 		
-		else if (action == LegacyAction.Fortem)
+		else if (action == LegacyAction.Fortem && legacyManager.fortemLegacyEnabled)
 		{
 			legacyManager.fortemLegacy.toggle(player);
 		}
 		
-		else if (action == LegacyAction.Novis)
+		else if (action == LegacyAction.Novis && legacyManager.novisLegacyEnabled)
 		{
 			legacyManager.novisLegacy.toggle(player);
 		}
 		
-		else if (action == LegacyAction.Pondus)
+		else if (action == LegacyAction.Pondus && legacyManager.pondusLegacyEnabled)
 		{
 			legacyManager.pondusLegacy.toggle(player);
+		}
+		
+		else if (action == LegacyAction.GlacenFreeze && legacyManager.glacenLegacyEnabled)
+		{
+			legacyManager.glacenLegacy.freezeWaterIfNeeded(player);
 		}
 		
 		
@@ -62,6 +67,8 @@ public class LegacyActionConverter
 			return LegacyAction.Novis;
 		else if (i == 5)
 			return LegacyAction.Pondus;
+		else if (i == 6)
+			return LegacyAction.GlacenFreeze;
 		
 		return null;
 		
@@ -82,6 +89,8 @@ public class LegacyActionConverter
 			return 4;
 		else if (i == LegacyAction.Pondus)
 			return 5;
+		else if (i == LegacyAction.GlacenFreeze)
+			return 6;
 		
 		return -1;
 		

@@ -19,6 +19,7 @@ public class KeyBindings {
 	public static KeyBinding scrollWithAvex;
 	public static KeyBinding launchTelekinesis;
 	public static KeyBinding igniteLumen;
+	public static KeyBinding glacenFreeze;
 	
 	public static void init()
 	{
@@ -48,6 +49,10 @@ public class KeyBindings {
 		
 		igniteLumen = new KeyBinding("key.igniteLumen", Keyboard.KEY_U, "key.categories." + LorienLegacies.MODID);
 		ClientRegistry.registerKeyBinding(igniteLumen);
+		
+		glacenFreeze = new KeyBinding("key.glacenFreeze", Keyboard.KEY_Y, "key.categories." + LorienLegacies.MODID);
+		ClientRegistry.registerKeyBinding(glacenFreeze);
+		
 	}
 	
 }
