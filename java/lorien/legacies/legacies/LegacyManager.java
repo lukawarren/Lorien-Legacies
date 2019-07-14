@@ -7,6 +7,7 @@ import lorien.legacies.gui.LegacyGui;
 import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.AvexLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
+import lorien.legacies.legacies.implementations.GlacenLegacy;
 import lorien.legacies.legacies.implementations.LumenLegacy;
 import lorien.legacies.legacies.implementations.NovisLegacy;
 import lorien.legacies.legacies.implementations.NoxenLegacy;
@@ -25,6 +26,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -65,6 +67,9 @@ public class LegacyManager {
 	public AvexLegacy avexLegacy;
 	public boolean avexLegacyEnabled;
 	
+	public GlacenLegacy glacenLegacy;
+	public boolean glacenLegacyEnabled;
+	
 	public Telekinesis telekinesis;
 	
 	public LegacyManager(EntityPlayer player)
@@ -82,11 +87,14 @@ public class LegacyManager {
 		pondusLegacy = new PondusLegacy();
 		regenerasLegacy = new RegenerasLegacy();
 		avexLegacy = new AvexLegacy();
+		glacenLegacy = new GlacenLegacy();
+		
 		telekinesis = new Telekinesis();
 	}
 	
 	public void computeLegacyTick(boolean isServer)
 	{
+		//System.out.println("flying video desktop");
 		
 		if (lumenLegacyEnabled)
 			lumenLegacy.computeLegacyTick(player);
@@ -114,6 +122,11 @@ public class LegacyManager {
 			
 		if (avexLegacyEnabled)
 			avexLegacy.computeLegacyTick(player);
+		
+		if (glacenLegacyEnabled)
+			glacenLegacy.computeLegacyTick(player);
+		
+		telekinesis.computeLegacyTick(player, isServer);
 	}
 	
 	@SubscribeEvent
@@ -123,11 +136,22 @@ public class LegacyManager {
 		if (event.player == null || player == null)
 			return;
 
-		
 		if (event.player.world.isRemote && legaciesEnabled) // Client
 			computeLegacyTick(false);
 		else if (legaciesEnabled) // Server
 			computeLegacyTick(true);
+	}
+	
+	@SubscribeEvent
+	public void onRenderTick(TickEvent.RenderTickEvent event)
+	{	
+		
+		onKeyClient();
+		
+		if (player == null)
+			return;
+
+		//telekinesis.computeLegacyTick(player, event.side.isServer());
 	}
 	
 	/*
@@ -213,22 +237,23 @@ public class LegacyManager {
 	
 	public void onKeyClient()
 	{
-		
 		LegacyAction action = null;
 		
-		if (KeyBindings.lumenFireball.isPressed())
+		if (KeyBindings.lumenFireball.isPressed() && lumenLegacyEnabled) // Don't worry, I'm not doing client-side verification!
 			action = LegacyAction.LumenFireball;
-		else if (KeyBindings.igniteLumen.isPressed())
+		else if (KeyBindings.igniteLumen.isPressed() && lumenLegacyEnabled) // I'm testing it on the server-side too!
 			action = LegacyAction.LumenIgnition;
-		else if (KeyBindings.toggleAccelix.isPressed())
+		else if (KeyBindings.toggleAccelix.isPressed() && accelixLegacyEnabled) // Phew!
 			action = LegacyAction.Accelix;
-		else if (KeyBindings.toggleFortem.isPressed())
+		else if (KeyBindings.toggleFortem.isPressed() && fortemLegacyEnabled)
 			action = LegacyAction.Fortem;
-		else if (KeyBindings.toggleNovis.isPressed())
+		else if (KeyBindings.toggleNovis.isPressed() && novisLegacyEnabled)
 			action = LegacyAction.Novis;
-		else if (KeyBindings.togglePondus.isPressed())
+		else if (KeyBindings.togglePondus.isPressed() && pondusLegacyEnabled)
 			action = LegacyAction.Pondus;
-		
+		else if (KeyBindings.glacenFreeze.isKeyDown() && glacenLegacyEnabled)
+			action = LegacyAction.GlacenFreeze;
+
 		if (action != null)
 			NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
 		

@@ -4,6 +4,7 @@ import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.AvexLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
+import lorien.legacies.legacies.implementations.GlacenLegacy;
 import lorien.legacies.legacies.implementations.LumenLegacy;
 import lorien.legacies.legacies.implementations.NovisLegacy;
 import lorien.legacies.legacies.implementations.NoxenLegacy;
@@ -27,7 +28,7 @@ public class LegacyLoader {
 	
 	public static final int CHANCE_OF_LEGACIES = 10; // 10%
 	public static final int AMOUNT_OF_LEGACIES_GIFTED = 3;
-	public static final int NUMBER_OF_LEGACIES = 9; // Used for evenly splitting probability in generateLegacyImplimentations() - don't include Telekinesis!
+	public static final int NUMBER_OF_LEGACIES = 10; // Used for evenly splitting probability in generateLegacyImplimentations() - don't include Telekinesis!
 	
 	public static void generateLegacies(LegacyManager playerLegacyManager, boolean forceLegacies)
 	{
@@ -97,7 +98,9 @@ public class LegacyLoader {
 		messageLegacyData.fortemLegacyEnabled = playerLegacyManager.fortemLegacyEnabled;
 		messageLegacyData.pondusLegacyEnabled = playerLegacyManager.pondusLegacyEnabled;
 		messageLegacyData.regenerasLegacyEnabled = playerLegacyManager.regenerasLegacyEnabled;
-		messageLegacyData.avexLegacyEnabled = playerLegacyManager.avexLegacyEnabled;	
+		messageLegacyData.avexLegacyEnabled = playerLegacyManager.avexLegacyEnabled;
+		messageLegacyData.glacenLegacyEnabled = playerLegacyManager.glacenLegacyEnabled;
+		
 		NetworkHandler.sendToPlayer(messageLegacyData, (EntityPlayerMP) playerLegacyManager.player);
 	}
 	
@@ -115,6 +118,7 @@ public class LegacyLoader {
 		playerLegacyManager.pondusLegacyEnabled = legacyData.pondusLegacyEnabled.value;
 		playerLegacyManager.regenerasLegacyEnabled = legacyData.regenerasLegacyEnabled.value;
 		playerLegacyManager.avexLegacyEnabled = legacyData.avexLegacyEnabled.value;
+		playerLegacyManager.glacenLegacyEnabled = legacyData.glacenLegacyEnabled.value;
 	}
 	
 	// Saves legacies to world
@@ -135,6 +139,7 @@ public class LegacyLoader {
 		legacyDataHolder.pondusLegacyEnabled.value = playerLegacyManager.pondusLegacyEnabled;
 		legacyDataHolder.regenerasLegacyEnabled.value = playerLegacyManager.regenerasLegacyEnabled;
 		legacyDataHolder.submariLegacyEnabled.value = playerLegacyManager.submariLegacyEnabled;
+		legacyDataHolder.glacenLegacyEnabled.value = playerLegacyManager.glacenLegacyEnabled;
 		
 		saveData.setLegacyData(legacyDataHolder, playerLegacyManager.player.world, playerLegacyManager.player.getUniqueID());
 		
@@ -156,6 +161,7 @@ public class LegacyLoader {
 			playerLegacyManager.pondusLegacyEnabled = false;
 			playerLegacyManager.regenerasLegacyEnabled = false;
 			playerLegacyManager.submariLegacyEnabled = false;
+			playerLegacyManager.glacenLegacyEnabled = false;
 		}
 		
 		float chanceOfIndividualLegacyBeingChosen = AMOUNT_OF_LEGACIES_GIFTED / NUMBER_OF_LEGACIES;
@@ -209,6 +215,10 @@ public class LegacyLoader {
 				{
 					playerLegacyManager.avexLegacyEnabled = true;
 				}
+				else if (n == 10)
+				{
+					playerLegacyManager.glacenLegacyEnabled = true;
+				}
 			}
 		}
 		
@@ -237,6 +247,8 @@ public class LegacyLoader {
 		if (n == 8 && playerLegacyManager.regenerasLegacyEnabled)
 			return true;
 		if (n == 9 && playerLegacyManager.avexLegacyEnabled)
+			return true;
+		if (n == 10 && playerLegacyManager.glacenLegacyEnabled)
 			return true;
 		
 		return false;
@@ -279,6 +291,8 @@ public class LegacyLoader {
 			new RegenerasLegacy().blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.avexLegacyEnabled)
 			new AvexLegacy().blessedMessage(player);
+		if (LorienLegacies.clientLegacyManager.glacenLegacyEnabled)
+			new GlacenLegacy().blessedMessage(player);
 		
 		new Telekinesis().blessedMessage(player);
 		player.sendMessage(new TextComponentString("----------------------------------------").setStyle(new Style().setColor(TextFormatting.BLUE)));

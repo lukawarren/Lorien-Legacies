@@ -31,6 +31,7 @@ public boolean legaciesEnabled;
 	public boolean pondusLegacyEnabled;
 	public boolean regenerasLegacyEnabled;
 	public boolean avexLegacyEnabled;
+	public boolean glacenLegacyEnabled;
 	
 	public MessageLegacyData()
 	{
@@ -52,6 +53,7 @@ public boolean legaciesEnabled;
 		buf.writeBoolean(pondusLegacyEnabled);
 		buf.writeBoolean(regenerasLegacyEnabled);
 		buf.writeBoolean(avexLegacyEnabled);
+		buf.writeBoolean(glacenLegacyEnabled);
 		
 	}
 
@@ -70,6 +72,7 @@ public boolean legaciesEnabled;
 		pondusLegacyEnabled = buf.readBoolean();
 		regenerasLegacyEnabled = buf.readBoolean();
 		avexLegacyEnabled = buf.readBoolean();
+		glacenLegacyEnabled = buf.readBoolean();
 	}
 
 	@Override
@@ -90,6 +93,7 @@ public boolean legaciesEnabled;
 			LorienLegacies.clientLegacyManager.pondusLegacyEnabled = message.pondusLegacyEnabled;
 			LorienLegacies.clientLegacyManager.regenerasLegacyEnabled = message.regenerasLegacyEnabled;
 			LorienLegacies.clientLegacyManager.avexLegacyEnabled = message.avexLegacyEnabled;
+			LorienLegacies.clientLegacyManager.glacenLegacyEnabled = message.glacenLegacyEnabled;
 			
 			if (LorienLegacies.clientLegacyManager.legaciesEnabled)
 				LegacyLoader.displayBlessedMessgaes(Minecraft.getMinecraft().player);			
