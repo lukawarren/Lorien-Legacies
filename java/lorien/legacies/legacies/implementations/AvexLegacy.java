@@ -1,81 +1,107 @@
 package lorien.legacies.legacies.implementations;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
-import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.Legacy;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntitySnowball;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 public class AvexLegacy extends Legacy {
 
-	private static final float SCROLL_SENSITIVITY = 0.045f;
-	private static final float MIN_SPEED = 0.01f;
-	public static final float DEFAULT_SPEED = 0.05f;
-	private static final float MAX_SPEED = 0.3f;
+	private static final float SPEED = 2.0f;
+	private static final float UPWARDS_BOOST = 2.0f;
 	
-	private float speed;
+	private int ticksSinceToggled = 0;
 	
-	// Disabling scroll wheel's effects
-	private int lastScrolledItem;
+	EntitySnowball entity; // For sound
 	
 	public AvexLegacy()
 	{
 		LEGACY_NAME = "Avex";
 		DESCRIPTION = "grants swift flight";
-		speed = DEFAULT_SPEED;
 	}
 	
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		player.capabilities.allowFlying = true;
 		
-		if (KeyBindings.scrollWithAvex.isKeyDown())
+		// If player is touching the ground, disable Avex (otherwise they go straight forward and it ruins Accelix)
+		if (player.onGround && toggled && ticksSinceToggled > 20)
+		{		
+			toggle(player);
+			
+			entity = new EntitySnowball(player.world);
+			entity.posX = player.posX;
+			entity.posY = player.posY;
+			entity.posZ = player.posZ;
+			entity.playSound(SoundEvents.ENTITY_HORSE_LAND, 1f, 0.3f);
+			entity.onKillCommand();
+			
+			
+		}
+		else if (toggled)
 		{
-			player.inventory.currentItem = lastScrolledItem;
+			ticksSinceToggled++;
+			
+			// If first frame toggled, apply an upward velocity
+			if (ticksSinceToggled < 20)
+			{
+				if (ticksSinceToggled == 1) // Play sound
+				{				
+					// Play sound audible to everyone by making a new entity at the position of player and making it play the sound
+					entity = new EntitySnowball(player.world);
+					entity.posX = player.posX;
+					entity.posY = player.posY;
+					entity.posZ = player.posZ;
+					entity.playSound(SoundEvents.ENTITY_ENDERDRAGON_FLAP, 1f, 1f);
+					entity.onKillCommand();
+				}
+				
+				player.addVelocity(0, 0.1f, 0);
+			}
+				
+			// Then wait for a second or two
+			else if (ticksSinceToggled < 80)
+			{
+				ticksSinceToggled++;
+				return;
+			}
+			
+			// Then carry on
+			else
+			{
+				Vec3d direction = player.getLookVec();
+	
+				// Add velocity until velocity exceeds that which is desired (clamp the velocity m8)
+				player.setVelocity(direction.x * SPEED, direction.y * SPEED, direction.z * SPEED);
+				
+		//		if (player.motionX > direction.x * SPEED)
+		//			player.motionX = direction.x * SPEED;
+		//		if (player.motionY > direction.y * SPEED)
+		//			player.motionY = direction.y * SPEED;
+		//		if (player.motionZ > direction.z * SPEED)
+		//			player.motionZ = direction.z * SPEED;
+				
+				// Play sound every X amount of ticks so they don't overlap
+				if (ticksSinceToggled % 200 == 0 || ticksSinceToggled == 81)
+				{
+					entity = new EntitySnowball(player.world);
+					entity.posX = player.posX;
+					entity.posY = player.posY;
+					entity.posZ = player.posZ;
+					//entity.playSound(SoundEvents.ITEM_FIRECHARGE_USE, 30f, 1.0f);
+					entity.onKillCommand();
+				}
+			}
+			
 		}
 		else
 		{
-			lastScrolledItem = player.inventory.currentItem;
-			return;
+			ticksSinceToggled = 0;
 		}
-		
-		// Returns 0 if not scrolling, -1 is scrolling down, and 1 if scrolling up
-		int i = Integer.signum(Mouse.getEventDWheel());
-		
-		// Add to the speed
-		speed += (float)i * SCROLL_SENSITIVITY * 0.1f;;
-		
-		// Clamp values
-		if (speed < MIN_SPEED)
-			speed = MIN_SPEED;
-		if (speed > MAX_SPEED)
-			speed = MAX_SPEED;
-		
-		// Change player's flight speed accordingly
-		if (!player.world.isRemote)
-		{
-			player.capabilities.setFlySpeed(customSigmoid(speed));
-			player.sendPlayerAbilities();	
-		}
-		
-		
-		
-	}
-	
-	private float customSigmoid(float x)
-	{
-		float sigmoid = (float) (1/( 0.1f + Math.pow(Math.E,(-1.0f*x)))) - 0.907f;
-		if (sigmoid < MIN_SPEED)
-			sigmoid = MIN_SPEED;
-		if (sigmoid > MAX_SPEED)
-			sigmoid = MAX_SPEED;
-		return sigmoid;
 	}
 	
 }

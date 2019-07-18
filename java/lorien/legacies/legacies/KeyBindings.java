@@ -16,10 +16,10 @@ public class KeyBindings {
 	public static KeyBinding toggleFortem;
 	public static KeyBinding togglePondus;
 	public static KeyBinding activateTelekinesis;
-	public static KeyBinding scrollWithAvex;
 	public static KeyBinding launchTelekinesis;
 	public static KeyBinding igniteLumen;
 	public static KeyBinding glacenFreeze;
+	public static KeyBinding toggleAvex;
 	
 	public static void init()
 	{
@@ -41,9 +41,6 @@ public class KeyBindings {
 		activateTelekinesis = new KeyBinding("key.activateTelekinesis", Keyboard.KEY_DELETE, "key.categories." + LorienLegacies.MODID);
 		ClientRegistry.registerKeyBinding(activateTelekinesis);
 		
-		scrollWithAvex = new KeyBinding("key.scrollWithAvex", Keyboard.KEY_BACK, "key.categories." + LorienLegacies.MODID);
-		ClientRegistry.registerKeyBinding(scrollWithAvex);
-		
 		launchTelekinesis = new KeyBinding("key.launchTelekinesis", Keyboard.KEY_APOSTROPHE, "key.categories." + LorienLegacies.MODID);
 		ClientRegistry.registerKeyBinding(launchTelekinesis);
 		
@@ -52,6 +49,9 @@ public class KeyBindings {
 		
 		glacenFreeze = new KeyBinding("key.glacenFreeze", Keyboard.KEY_Y, "key.categories." + LorienLegacies.MODID);
 		ClientRegistry.registerKeyBinding(glacenFreeze);
+		
+		toggleAvex = new KeyBinding("key.toggleAvex", Keyboard.KEY_G, "key.categories." + LorienLegacies.MODID);
+		ClientRegistry.registerKeyBinding(toggleAvex);
 		
 	}
 	

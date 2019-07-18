@@ -96,7 +96,7 @@ public class LegacyManager {
 	{
 		//System.out.println("flying video desktop");
 		
-		if (lumenLegacyEnabled)
+		if (lumenLegacyEnabled && lumenLegacy.toggled)
 			lumenLegacy.computeLegacyTick(player);
 			
 		if (noxenLegacyEnabled)
@@ -253,7 +253,9 @@ public class LegacyManager {
 			action = LegacyAction.Pondus;
 		else if (KeyBindings.glacenFreeze.isKeyDown() && glacenLegacyEnabled)
 			action = LegacyAction.GlacenFreeze;
-
+		else if (KeyBindings.toggleAvex.isPressed() && avexLegacyEnabled)
+			action = LegacyAction.Avex;
+		
 		if (action != null)
 			NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
 		
@@ -277,6 +279,10 @@ public class LegacyManager {
 		// Pondus toggle
 		if (action == LegacyAction.Pondus && legaciesEnabled && pondusLegacyEnabled)
 				pondusLegacy.toggle(player);
+		
+		// Avex toggle
+		if (action == LegacyAction.Avex && legaciesEnabled && avexLegacyEnabled)
+				avexLegacy.toggle(player);
 		
 	}
 

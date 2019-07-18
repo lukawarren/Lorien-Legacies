@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class GlacenLegacy extends Legacy {
 	
 	private static final float DISTANCE = 10f;
+	private static final boolean RAY_GOES_THROUGH_ICE = true;
 	
 	public GlacenLegacy()
 	{
@@ -40,7 +41,7 @@ public class GlacenLegacy extends Legacy {
 	public void freezeWaterIfNeeded(EntityPlayer player)
 	{		
 		// Get block player is looking at
-		RayTraceResult rayResult = rayTrace(player, DISTANCE, Minecraft.getMinecraft().getRenderPartialTicks());
+		RayTraceResult rayResult = rayTrace(player, DISTANCE, Minecraft.getMinecraft().getRenderPartialTicks(), RAY_GOES_THROUGH_ICE);
 			
 		if (rayResult == null || rayResult.getBlockPos() == null || player.world.getBlockState(rayResult.getBlockPos()) == null)
 			return;
@@ -59,7 +60,7 @@ public class GlacenLegacy extends Legacy {
 	
 	// Custom, slightly modified version of ray-tracing function that detects flowing water
 	@SuppressWarnings("unused") // Eclipse gives me an annoying warning; I care little for it
-	private RayTraceResult rayTrace(EntityPlayer player, double blockReachDistance, float partialTicks)
+	private RayTraceResult rayTrace(EntityPlayer player, double blockReachDistance, float partialTicks, boolean rayGoesThroughIce)
 	{
 		Vec3d vec31 = player.getPositionEyes(partialTicks);
         Vec3d vec3d1 = player.getLook(partialTicks);
@@ -218,10 +219,19 @@ public class GlacenLegacy extends Legacy {
 
                     if (!ignoreBlockWithoutBoundingBox || iblockstate1.getMaterial() == Material.PORTAL || iblockstate1.getCollisionBoundingBox(player.world, blockpos) != Block.NULL_AABB)
                     {
-                        if ((block1.canCollideCheck(iblockstate1, stopOnLiquid) || iblockstate1.getMaterial() == Material.WATER) && iblockstate1.getMaterial() != Material.ICE)
+                    	
+                    	boolean rayIceCondition = rayGoesThroughIce ? (iblockstate1.getMaterial() != Material.ICE) : true;
+                    	
+                        if ((block1.canCollideCheck(iblockstate1, stopOnLiquid) || iblockstate1.getMaterial() == Material.WATER) && rayIceCondition)
                         {
                             RayTraceResult raytraceresult1 = iblockstate1.collisionRayTrace(player.world, blockpos, vec31, vec32);
-
+                            
+                            if (rayGoesThroughIce == false)
+                            {
+                            	if (iblockstate1.getMaterial() == Material.ICE)
+                            		return null;
+                            }
+                            
                             if (raytraceresult1 != null)
                             {
                                 return raytraceresult1;
