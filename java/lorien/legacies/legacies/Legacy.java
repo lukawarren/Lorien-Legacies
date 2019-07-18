@@ -25,7 +25,8 @@ public abstract class Legacy {
 	
 	public void toggle(EntityPlayer player)
 	{
-		player.sendMessage(new TextComponentString(LEGACY_NAME + " legacy toggled - set to " + !toggled).setStyle(new Style().setColor(TextFormatting.RED)));
+		if (!player.world.isRemote)
+			player.sendMessage(new TextComponentString(LEGACY_NAME + " legacy toggled - set to " + !toggled).setStyle(new Style().setColor(TextFormatting.RED)));
 		toggled = !toggled;
 	}
 	

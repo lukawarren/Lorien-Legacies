@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import lorien.legacies.commands.CommandLegacies;
-import lorien.legacies.gui.LegacyInventory;
 import lorien.legacies.items.ModItems;
 import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.KeyInputHandler;
@@ -27,8 +26,10 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = LorienLegacies.MODID, name = LorienLegacies.NAME, version = LorienLegacies.VERSION)
@@ -68,6 +69,32 @@ public class LorienLegacies {
 	}
 	
 	@SubscribeEvent
+	public void PlayerRespawnEvent(PlayerRespawnEvent event)
+	{
+		
+		// Get rid of old instances
+		clientLegacyManager = null;
+		
+		List<Integer> offendingLegacyManagers = new ArrayList<>();
+		for (int i = 0; i < legacyManagers.size(); i++)
+		{
+			if (legacyManagers.get(i).player.getUniqueID().equals(event.player.getUniqueID()))
+				offendingLegacyManagers.add(i);
+		}
+		
+		
+		for (int i : offendingLegacyManagers)
+			legacyManagers.remove(i);
+		
+		System.out.println(offendingLegacyManagers.size());
+		
+		if (event.player.world.isRemote)
+			loadLegaciesForClient(event);
+		else
+			loadLegaciesForServer(event); // Called first
+	}
+	
+	@SubscribeEvent
 	public void PlayerLoggedOutEvent(PlayerLoggedOutEvent event)
 	{		
 		boolean managerAlreadyExists = false;
@@ -84,7 +111,7 @@ public class LorienLegacies {
 			legacyManagers.remove(index);
 	}
 	
-	private void loadLegaciesForClient(PlayerLoggedInEvent event)
+	private void loadLegaciesForClient(PlayerEvent event)
 	{
 		clientLegacyManager = new LegacyManager((EntityPlayer) event.player);
 		
@@ -92,7 +119,7 @@ public class LorienLegacies {
 		//((EntityPlayer) event.player).inventory.armorInventory.add(new ItemStack(new ItemRedstone()));
 	}
 
-	private void loadLegaciesForServer(PlayerLoggedInEvent event)
+	private void loadLegaciesForServer(PlayerEvent event)
 	{	
 		EntityPlayer player = (EntityPlayer) event.player;
 		//player.inventory = new LegacyInventory(player);

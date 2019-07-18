@@ -19,7 +19,7 @@ public class PondusLegacy extends Legacy {
 	public PondusLegacy()
 	{
 		LEGACY_NAME = "Pondus";
-		DESCRIPTION = "grants water walking and water breathing";
+		DESCRIPTION = "grants water walking";
 	}
 	
 	
@@ -36,7 +36,7 @@ public class PondusLegacy extends Legacy {
 			          MathHelper.floor(player.posZ))).getMaterial();
 			boolean isWater = m.isLiquid();
 			
-			if (isWater)
+			if (isWater && !player.isInWater())
 			{
 				player.motionX = player.motionX;
 				player.motionY = 0.0f;

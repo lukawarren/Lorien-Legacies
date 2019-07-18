@@ -49,6 +49,10 @@ public class LegacyActionConverter
 			legacyManager.glacenLegacy.freezeWaterIfNeeded(player);
 		}
 		
+		else if (action == LegacyAction.Avex && legacyManager.avexLegacyEnabled)
+		{
+			legacyManager.avexLegacy.toggle(player);
+		}
 		
 	}
 	
@@ -69,6 +73,8 @@ public class LegacyActionConverter
 			return LegacyAction.Pondus;
 		else if (i == 6)
 			return LegacyAction.GlacenFreeze;
+		else if (i == 7)
+			return LegacyAction.Avex;
 		
 		return null;
 		
@@ -91,6 +97,8 @@ public class LegacyActionConverter
 			return 5;
 		else if (i == LegacyAction.GlacenFreeze)
 			return 6;
+		else if (i == LegacyAction.Avex)
+			return 7;
 		
 		return -1;
 		
