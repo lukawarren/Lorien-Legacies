@@ -1,7 +1,10 @@
 package lorien.legacies.legacies.implementations;
 
+import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.Legacy;
+import lorien.legacies.legacies.LegacyManager;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -38,9 +41,27 @@ public class PondusLegacy extends Legacy {
 			
 			if (isWater && !player.isInWater())
 			{
-				player.motionX = player.motionX;
-				player.motionY = 0.0f;
-				player.motionZ = player.motionZ;
+				//player.motionX *= -player.getAIMoveSpeed() * 10;
+				player.motionX *= 1.0;
+				player.motionZ *= 1.0;
+
+				for (LegacyManager l : LorienLegacies.legacyManagers)
+				{
+					if (l.player.getUniqueID().equals(player.getUniqueID()))
+					{
+						if (l.accelixLegacyEnabled && l.accelixLegacy.getToggled())
+						{				
+							player.motionX *= 1.01;
+							player.motionX *= 1.01;
+						}
+					}
+				}
+
+				
+				//player.motionX = player.motionX;
+					player.motionY = 0.005f;
+				//player.jump();
+				//player.motionZ = player.motionZ;
 			}
 		}
 

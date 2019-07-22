@@ -30,5 +30,6 @@ public abstract class Legacy {
 		toggled = !toggled;
 	}
 	
+	public boolean getToggled() { return toggled; }
 	
 }
