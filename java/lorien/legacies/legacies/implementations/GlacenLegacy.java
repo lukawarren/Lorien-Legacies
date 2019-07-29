@@ -47,15 +47,18 @@ public class GlacenLegacy extends Legacy {
 			return;
 				
 		// Set the block to ice
-		player.world.setBlockState(rayResult.getBlockPos(), Block.getStateById(Block.getIdFromBlock(Blocks.ICE)));
+		if (player.world.getBlockState(rayResult.getBlockPos()).getMaterial() == Material.WATER)
+		{
+			player.world.setBlockState(rayResult.getBlockPos(), Block.getStateById(Block.getIdFromBlock(Blocks.ICE)));
 		
-		// Play sound audible to everyone by making a new entity at the position of player and making it play the sound
-		EntitySnowball entity = new EntitySnowball(player.world);
-		entity.posX = player.posX;
-		entity.posY = player.posY;
-		entity.posZ = player.posZ;
-		entity.playSound(SoundEvents.ENTITY_BOAT_PADDLE_WATER, 1f, 2f);
-		entity.onKillCommand();
+			// Play sound audible to everyone by making a new entity at the position of player and making it play the sound
+			EntitySnowball entity = new EntitySnowball(player.world);
+			entity.posX = player.posX;
+			entity.posY = player.posY;
+			entity.posZ = player.posZ;
+			entity.playSound(SoundEvents.ENTITY_BOAT_PADDLE_WATER, 1f, 2f);
+			entity.onKillCommand();
+		}
 	}
 	
 	// Custom, slightly modified version of ray-tracing function that detects flowing water
