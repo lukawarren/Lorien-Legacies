@@ -53,7 +53,7 @@ public class Telekinesis extends Legacy
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
-	// Server side, decided what entity player is selecting
+	// Decides what entity player is selecting
 	private void updatePointedEntity(EntityPlayer entity)
 	{	
 		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
@@ -79,7 +79,7 @@ public class Telekinesis extends Legacy
 	            }
 	            else
 	            {
-	                if (d0 > 3.0D)
+	                if (d0 > DISTANCE)
 	                {
 	                    flag = true;
 	                }
@@ -125,7 +125,6 @@ public class Telekinesis extends Legacy
 	                else if (raytraceresult != null)
 	                {
 	                    double d3 = vec3d.distanceTo(raytraceresult.hitVec);
-
 	                    if (d3 < d2 || d2 == 0.0D)
 	                    {
 	                        if (entity1.getLowestRidingEntity() == entity.getLowestRidingEntity() && !entity1.canRiderInteract())
@@ -146,7 +145,7 @@ public class Telekinesis extends Legacy
 	                }
 	            }
 
-	            if ( getEntityBelongingToPlayer(entity) != null && flag && vec3d.distanceTo(vec3d3) > 3.0D)
+	            if ( getEntityBelongingToPlayer(entity) != null && flag && vec3d.distanceTo(vec3d3) > DISTANCE)
 	            {
 	                pointedEntities.put(entity.getEntityId(), null);
 	                Minecraft.getMinecraft().objectMouseOver = new RayTraceResult(RayTraceResult.Type.MISS, vec3d3, (EnumFacing)null, new BlockPos(vec3d3));
@@ -211,7 +210,7 @@ public class Telekinesis extends Legacy
 	public void computeLegacyTick(EntityPlayer player, boolean server)
 	{
 
-		/*
+		
 		if (getEntityBelongingToPlayerPreviously(player) != null)
 			getEntityBelongingToPlayerPreviously(player).setGlowing(false);
 		
@@ -231,13 +230,14 @@ public class Telekinesis extends Legacy
 		
 		//getEntityBelongingToPlayer(player).setPositionAndUpdate(desiredPosition.x, desiredPosition.y, desiredPosition.z);
 		
-		System.out.println(getEntityBelongingToPlayer(player).posX + " " + getEntityBelongingToPlayer(player).posY + " " + getEntityBelongingToPlayer(player).posZ);
-		
 		getEntityBelongingToPlayerPreviously(player).onKillCommand();
 		
 		// Fix entity no-clipping
 		//if(getEntityBelongingToPlayer(player).isInsideOfMaterial(Material.AIR) == false) // If inside of another block
 		//	getEntityBelongingToPlayer(player).setPositionAndUpdate(oldPosition.x, oldPosition.y, oldPosition.z); // Move back to last known working position
+		
+		if (getEntityBelongingToPlayer(player) == null)
+			return;
 		
 		getEntityBelongingToPlayer(player).fallDistance = 0f;
 		getEntityBelongingToPlayer(player).motionX = 0f;
@@ -246,7 +246,7 @@ public class Telekinesis extends Legacy
 		
 		getEntityBelongingToPlayer(player).setGlowing(true);
 
-		*/
+		
 	}
 	
 	private double getEntityColliderSize(Entity entity)

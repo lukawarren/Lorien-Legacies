@@ -255,7 +255,9 @@ public class LegacyManager {
 			action = LegacyAction.GlacenFreeze;
 		else if (KeyBindings.toggleAvex.isPressed() && avexLegacyEnabled)
 			action = LegacyAction.Avex;
-		
+		else if (KeyBindings.avexHover.isPressed() && avexLegacyEnabled)
+			action = LegacyAction.AvexHover;
+
 		if (action != null)
 			NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
 		
@@ -266,23 +268,30 @@ public class LegacyManager {
 				
 		// Accelix toggle
 		if (action == LegacyAction.Accelix && legaciesEnabled && accelixLegacyEnabled)
-				accelixLegacy.toggle(player);
+			accelixLegacy.toggle(player);
 					
 		// Fortem toggle
 		if (action == LegacyAction.Fortem && legaciesEnabled && fortemLegacyEnabled)
-				fortemLegacy.toggle(player);
+			fortemLegacy.toggle(player);
 				
 		// Novis toggle
 		if (action == LegacyAction.Novis && legaciesEnabled && novisLegacyEnabled)
-				novisLegacy.toggle(player);
+			novisLegacy.toggle(player);
 		
 		// Pondus toggle
 		if (action == LegacyAction.Pondus && legaciesEnabled && pondusLegacyEnabled)
-				pondusLegacy.toggle(player);
+			pondusLegacy.toggle(player);
 		
 		// Avex toggle
 		if (action == LegacyAction.Avex && legaciesEnabled && avexLegacyEnabled)
-				avexLegacy.toggle(player);
+			avexLegacy.toggle(player);
+		
+		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
+			System.out.println("jeff");
+		
+		// Avex hover
+		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
+			avexLegacy.hover(player);
 		
 	}
 

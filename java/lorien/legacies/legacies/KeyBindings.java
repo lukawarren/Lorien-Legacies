@@ -20,6 +20,7 @@ public class KeyBindings {
 	public static KeyBinding igniteLumen;
 	public static KeyBinding glacenFreeze;
 	public static KeyBinding toggleAvex;
+	public static KeyBinding avexHover;
 	
 	public static void init()
 	{
@@ -52,6 +53,9 @@ public class KeyBindings {
 		
 		toggleAvex = new KeyBinding("key.toggleAvex", Keyboard.KEY_G, "key.categories." + LorienLegacies.MODID);
 		ClientRegistry.registerKeyBinding(toggleAvex);
+		
+		avexHover = new KeyBinding("key.avexHover", Keyboard.KEY_INSERT, "key.categories." + LorienLegacies.MODID);
+		ClientRegistry.registerKeyBinding(avexHover);
 		
 	}
 	

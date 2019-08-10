@@ -11,7 +11,6 @@ public class LegacyActionConverter
 		if (action == null)
 			return;
 		
-		
 		EntityPlayer player = legacyManager.player;
 		
 		if (action == LegacyAction.LumenFireball && legacyManager.lumenLegacyEnabled)
@@ -54,6 +53,11 @@ public class LegacyActionConverter
 			legacyManager.avexLegacy.toggle(player);
 		}
 		
+		else if (action == LegacyAction.AvexHover && legacyManager.avexLegacyEnabled)
+		{
+			legacyManager.avexLegacy.hover(player);
+		}
+		
 	}
 	
 	public static LegacyAction legacyActionFromInt(int i)
@@ -75,6 +79,8 @@ public class LegacyActionConverter
 			return LegacyAction.GlacenFreeze;
 		else if (i == 7)
 			return LegacyAction.Avex;
+		else if (i == 8)
+			return LegacyAction.AvexHover;
 		
 		return null;
 		
@@ -99,6 +105,8 @@ public class LegacyActionConverter
 			return 6;
 		else if (i == LegacyAction.Avex)
 			return 7;
+		else if (i == LegacyAction.AvexHover)
+			return 8;
 		
 		return -1;
 		
