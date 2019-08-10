@@ -107,7 +107,7 @@ public class AvexLegacy extends Legacy {
 				ticksSinceToggled = 0;
 			}
 		}
-		else
+		else if (toggled)
 		{
 			player.capabilities.isFlying = true;
 		}
