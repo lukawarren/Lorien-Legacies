@@ -30,7 +30,7 @@ public class AvexLegacy extends Legacy {
 	@Override
 	public void computeLegacyTick(EntityPlayer player)
 	{
-		if (hoverMode)
+		if (!hoverMode)
 		{
 			// If player is touching the ground, disable Avex (otherwise they go straight forward and it ruins Accelix)
 			if (player.onGround && toggled && ticksSinceToggled > 20)
