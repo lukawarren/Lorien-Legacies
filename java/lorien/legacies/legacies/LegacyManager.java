@@ -126,7 +126,7 @@ public class LegacyManager {
 		if (glacenLegacyEnabled)
 			glacenLegacy.computeLegacyTick(player);
 		
-		telekinesis.computeLegacyTick(player, isServer);
+		//telekinesis.computeLegacyTick(player, isServer);
 	}
 	
 	@SubscribeEvent
@@ -153,82 +153,6 @@ public class LegacyManager {
 
 		//telekinesis.computeLegacyTick(player, event.side.isServer());
 	}
-	
-	/*
-	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event)
-	{	
-		// Fix Avex?
-		if (!avexLegacyEnabled)
-		{
-			//event.player.capabilities.allowFlying = avexLegacyEnabled;
-			event.player.capabilities.setFlySpeed(AvexLegacy.DEFAULT_SPEED);
-			event.player.sendPlayerAbilities();
-		}
-		
-		if (event.player != null && event.player.getUniqueID() == player.getUniqueID() && legaciesEnabled) // If player is this instance's player
-		{
-			if (lumenLegacyEnabled)
-				lumenLegacy.computeLegacyTick(event.player);
-			
-			if (noxenLegacyEnabled)
-				noxenLegacy.computeLegacyTick(event.player);
-			
-			if (submariLegacyEnabled)
-				submariLegacy.computeLegacyTick(event.player);
-			
-			if (accelixLegacyEnabled)
-				accelixLegacy.computeLegacyTick(event.player);
-			
-			if (fortemLegacyEnabled)
-				fortemLegacy.computeLegacyTick(event.player);
-			
-			if (novisLegacyEnabled)
-				novisLegacy.computeLegacyTick(player);
-			
-			if (pondusLegacyEnabled)
-				pondusLegacy.computeLegacyTick(event.player);
-			
-			if (regenerasLegacyEnabled)
-				regenerasLegacy.computeLegacyTick(event.player);
-			
-			if (avexLegacyEnabled)
-				avexLegacy.computeLegacyTick(event.player);
-			
-			player = event.player; // should only be for telekinesis
-			
-			
-		}
-		
-		// Telekinesis
-		if (legaciesEnabled)
-		{
-			
-			if (event.side.isServer())
-			{
-				telekinesis.launchEntity(player, true);
-				telekinesis.computeLegacyTick(player, true);
-			}
-			else
-			{
-				
-				if (KeyBindings.launchTelekinesis.isKeyDown())
-					telekinesis.launchEntity(player, false);
-				
-				if (KeyBindings.activateTelekinesis.isPressed())
-				{
-					telekinesis.computeLegacyTick(player, event.side.isServer());
-				}
-			}
-		}
-		
-		//Minecraft.getMinecraft().displayGuiScreen(new LegacyGui()); Client only!
-		
-		if (player.world.isRemote && KeyBindings.activateTelekinesis.isPressed())
-			NetworkHandler.sendToServer(new MessageLegacyAction(69, 420));
-		
-	}
-	*/
 	
 	private boolean previousWaterDecision = false;
 	
@@ -294,21 +218,6 @@ public class LegacyManager {
 			avexLegacy.hover(player);
 		
 	}
-
-	/*
-	public void onKeyPress()
-	{	
-		
-		// Lumen fire powers
-		if (org.lwjgl.input.Keyboard.isKeyDown(KeyBindings.lumenFireball.getKeyCode()) && legaciesEnabled && lumenLegacyEnabled && lumenFireballShot == false)
-		{
-			lumenLegacy.fireball(player);
-			lumenFireballShot = true;
-		} else if (org.lwjgl.input.Keyboard.isKeyDown(KeyBindings.lumenFireball.getKeyCode()) == false)
-			lumenFireballShot = false;
-		
-		
-	}*/
 	
 	
 }
