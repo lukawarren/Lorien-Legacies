@@ -127,6 +127,9 @@ public class LegacyManager {
 			glacenLegacy.computeLegacyTick(player);
 		
 		//telekinesis.computeLegacyTick(player, isServer);
+		
+		if (accelixLegacyEnabled && player.world.isRemote)
+			Minecraft.getMinecraft().displayGuiScreen(new LegacyGui());
 	}
 	
 	@SubscribeEvent
