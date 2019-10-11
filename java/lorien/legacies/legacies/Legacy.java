@@ -16,6 +16,10 @@ public abstract class Legacy {
 	
 	protected boolean toggled = false;
 	
+	//protected static boolean HAS_LEVELS;
+	
+	
+	
 	// Called every tick
 	public abstract void computeLegacyTick(EntityPlayer player);
 	
