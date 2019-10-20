@@ -210,9 +210,6 @@ public class LegacyManager {
 		if (action == LegacyAction.Avex && legaciesEnabled && avexLegacyEnabled)
 			avexLegacy.toggle(player);
 		
-		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
-			System.out.println("jeff");
-		
 		// Avex hover
 		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
 			avexLegacy.hover(player);
