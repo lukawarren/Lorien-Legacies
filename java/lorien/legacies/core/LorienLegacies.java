@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import lorien.legacies.commands.CommandLegacies;
+import lorien.legacies.commands.CommandLegacyLevels;
 import lorien.legacies.items.ModItems;
 import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.KeyInputHandler;
@@ -185,6 +186,7 @@ public class LorienLegacies {
 	public void FMLServerStartingEvent(FMLServerStartingEvent event)
 	{	
 		event.registerServerCommand(new CommandLegacies());
+		event.registerServerCommand(new CommandLegacyLevels());
 	}
 	
 	

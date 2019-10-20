@@ -127,9 +127,6 @@ public class LegacyManager {
 			glacenLegacy.computeLegacyTick(player);
 		
 		//telekinesis.computeLegacyTick(player, isServer);
-		
-		if (accelixLegacyEnabled && player.world.isRemote)
-			Minecraft.getMinecraft().displayGuiScreen(new LegacyGui());
 	}
 	
 	@SubscribeEvent
@@ -212,9 +209,6 @@ public class LegacyManager {
 		// Avex toggle
 		if (action == LegacyAction.Avex && legaciesEnabled && avexLegacyEnabled)
 			avexLegacy.toggle(player);
-		
-		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
-			System.out.println("jeff");
 		
 		// Avex hover
 		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
