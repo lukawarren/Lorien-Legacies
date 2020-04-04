@@ -1,9 +1,10 @@
 package lorien.legacies.legacies;
 
-import org.lwjgl.input.Keyboard;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import lorien.legacies.core.LorienLegacies;
-import net.minecraft.client.Minecraft;
+import lorien.legacies.legacies.levels.LegacyLevel;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
@@ -15,6 +16,9 @@ public abstract class Legacy {
 	public String DESCRIPTION = "[description not set]";
 	
 	protected boolean toggled = false;
+	
+	public List<LegacyLevel> legacyLevels = new ArrayList<LegacyLevel>(Arrays.asList(new LegacyLevel("Base level")));
+	public int currentLegacyLevel = 0;
 	
 	// Called every tick
 	public abstract void computeLegacyTick(EntityPlayer player);
@@ -38,5 +42,11 @@ public abstract class Legacy {
 	}
 	
 	public boolean getToggled() { return toggled; }
+	
+	public boolean hasLevels()
+	{
+		return legacyLevels.size() > 1;
+	}
+	
 	
 }

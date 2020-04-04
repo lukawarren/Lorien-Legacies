@@ -1,16 +1,9 @@
 package lorien.legacies.legacies.implementations;
 
-import java.util.UUID;
-
-import org.lwjgl.opengl.GL11;
-
 import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.Legacy;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
+import lorien.legacies.legacies.levels.LegacyLevel;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.entity.projectile.EntitySmallFireball;
@@ -20,11 +13,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.ProjectileImpactEvent.Fireball;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -35,6 +24,9 @@ public class LumenLegacy extends Legacy {
 		LEGACY_NAME = "Lumen";
 		DESCRIPTION ="grants fire resistance and fire powers";
 		MinecraftForge.EVENT_BUS.register(this);
+		
+		// Levels
+		legacyLevels.add(new LegacyLevel("Grants increased fire strength"));
 	}
 	
 	@Override

@@ -1,5 +1,8 @@
 package lorien.legacies.legacies;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.input.Keyboard;
 
 import lorien.legacies.core.LorienLegacies;
@@ -39,6 +42,11 @@ public class LegacyManager {
 	public EntityPlayer player;
 	
 	public boolean legaciesEnabled;
+	
+	// Used in legacies.levels package
+	public List legacyList = new ArrayList<Legacy>(); // I don't have a clue why I'm not using a fancy array instead of all the code below,
+													// All I can remember is that I probably had a good reason... (by all means refactor the 
+													// code if you want to)
 	
 	public LumenLegacy lumenLegacy;
 	public boolean lumenLegacyEnabled;
@@ -90,12 +98,23 @@ public class LegacyManager {
 		glacenLegacy = new GlacenLegacy();
 		
 		telekinesis = new Telekinesis();
+		
+		// Add legacies to an array for levels purposes
+		legacyList.add(lumenLegacy);
+		legacyList.add(noxenLegacy);
+		legacyList.add(submariLegacy);
+		legacyList.add(accelixLegacy);
+		legacyList.add(fortemLegacy);
+		legacyList.add(novisLegacy);
+		legacyList.add(pondusLegacy);
+		legacyList.add(regenerasLegacy);
+		legacyList.add(avexLegacy);
+		legacyList.add(glacenLegacy);
+		legacyList.add(telekinesis);
 	}
 	
 	public void computeLegacyTick(boolean isServer)
 	{
-		//System.out.println("flying video desktop");
-		
 		if (lumenLegacyEnabled && lumenLegacy.toggled)
 			lumenLegacy.computeLegacyTick(player);
 			
@@ -209,9 +228,6 @@ public class LegacyManager {
 		// Avex toggle
 		if (action == LegacyAction.Avex && legaciesEnabled && avexLegacyEnabled)
 			avexLegacy.toggle(player);
-		
-		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
-			System.out.println("jeff");
 		
 		// Avex hover
 		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
