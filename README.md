@@ -28,9 +28,10 @@ To learn how to contribute to a GitHub open-source project, [read a guide such a
 * [TheUltimateKerbonaut](https://github.com/TheUltimateKerbonaut)
 * [Blue20Boy17](https://github.com/Blue20Boy17)
 * [tebreca](https://github.com/Tebreca)
+* [Phantom](https://github.com/PhantomTheDev)
 
 ## Acknowledgements
 We are awaiting further confirmation before adding to this section
 
 ## Contact us
-We are awaiting further confirmation before adding to this section
+Join [our discord](https://discord.gg/WU9qM39)!
