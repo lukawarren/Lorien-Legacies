@@ -13,7 +13,8 @@ public class KeyInputHandler {
 	@SubscribeEvent
 	public void onKeyInput(InputEvent.KeyInputEvent event)
 	{	
-		LorienLegacies.clientLegacyManager.onKeyClient();
+		if (LorienLegacies.clientLegacyManager != null)
+			LorienLegacies.clientLegacyManager.onKeyClient();
 	}
 	
 	/*

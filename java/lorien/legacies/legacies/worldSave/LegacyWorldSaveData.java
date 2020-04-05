@@ -18,8 +18,6 @@ public class LegacyWorldSaveData extends WorldSavedData {
 	public static List<LegacyDataHolder> legacyData = new ArrayList<>();
 	public static List<UUID> playerUUIDs = new ArrayList<>();
 	
-	public static boolean initialLoadingRequired = false;
-	
 	public LegacyWorldSaveData()
 	{
 		super(DATA_NAME);
@@ -34,28 +32,24 @@ public class LegacyWorldSaveData extends WorldSavedData {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
+		// Reset data first
+		legacyData.clear();
+		playerUUIDs.clear();
 		
-		if (initialLoadingRequired == true)
+		int max = nbt.getInteger("maxUUIDs");
+		for (int i = 0; i < max; i++)
 		{
-			
-			int max = nbt.getInteger("maxUUIDs");
-			for (int i = 0; i < max; i++)
-			{
-				playerUUIDs.add(UUID.fromString(nbt.getString(Integer.toString(i))));
-				legacyData.add(new LegacyDataHolder());
-			}
-			
-			initialLoadingRequired = false;
-			
-			readFromNBT(nbt);
-			return;
+			playerUUIDs.add(UUID.fromString(nbt.getString(Integer.toString(i))));
+			legacyData.add(new LegacyDataHolder());
 		}
-		
+
 		for (int i = 0; i < playerUUIDs.size(); i++)
 		{
-			int[] data =  nbt.getIntArray(playerUUIDs.get(i).toString());
+			int[] enabledData =  nbt.getIntArray(playerUUIDs.get(i).toString());
+			legacyData.get(i).convertArrayToLegacyEnabledData(enabledData);
 			
-			legacyData.get(i).convertArrayToData(data);
+			int[] levelsData = nbt.getIntArray(playerUUIDs.get(i).toString() + "levels");
+			legacyData.get(i).convertArrayToLegacyLevelData(levelsData);
 		}
 	}
 
@@ -67,7 +61,8 @@ public class LegacyWorldSaveData extends WorldSavedData {
 		for (int i = 0; i < playerUUIDs.size(); i++)
 		{
 			nbt.setString(Integer.toString(i), playerUUIDs.get(i).toString());
-			nbt.setIntArray(playerUUIDs.get(i).toString(), legacyData.get(i).convertDataToArray());
+			nbt.setIntArray(playerUUIDs.get(i).toString(), legacyData.get(i).convertLegacyEnabledDataToArray());
+			nbt.setIntArray(playerUUIDs.get(i).toString() + "levels", legacyData.get(i).convertLegacyLevelDataToArray());
 		}
 		
 		return nbt;
@@ -75,7 +70,7 @@ public class LegacyWorldSaveData extends WorldSavedData {
 	
 	public static LegacyWorldSaveData get(World world)
 	{	
-		initialLoadingRequired = true;
+		//initialLoadingRequired = true;
 		MapStorage storage = IS_GLOBAL ? world.getMapStorage() : world.getPerWorldStorage();
 		LegacyWorldSaveData instance = (LegacyWorldSaveData) storage.getOrLoadData(LegacyWorldSaveData.class, DATA_NAME);
 		
@@ -95,10 +90,16 @@ public class LegacyWorldSaveData extends WorldSavedData {
 		{		
 			if (playerUUIDs.get(i).equals(playerUUID))
 			{
-				for (int j = 0; j < legacyData.get(i).data.size(); j++)
+				for (int j = 0; j < legacyData.get(i).enabledData.size(); j++)
 				{
-					legacyData.get(i).data.get(j).name = newData.data.get(j).name;
-					legacyData.get(i).data.get(j).value = newData.data.get(j).value;
+					legacyData.get(i).enabledData.get(j).name = newData.enabledData.get(j).name;
+					legacyData.get(i).enabledData.get(j).value = newData.enabledData.get(j).value;
+				}
+				
+				for (int j = 0; j < legacyData.get(i).levelData.size(); j++)
+				{
+					legacyData.get(i).levelData.get(j).name = newData.levelData.get(j).name;
+					legacyData.get(i).levelData.get(j).value = newData.levelData.get(j).value;
 				}
 			}
 		}

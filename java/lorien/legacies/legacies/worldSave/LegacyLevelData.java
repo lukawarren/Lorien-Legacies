@@ -2,17 +2,17 @@ package lorien.legacies.legacies.worldSave;
 
 import java.util.UUID;
 
-public class LegacyData
+public class LegacyLevelData
 {
 	
 	public String name;
-	public boolean value;
+	public int value;
 	
-	public LegacyData(String name)
+	public LegacyLevelData(String name)
 	{
 		super();
 		this.name = name;
-		this.value = false;
+		this.value = 0;
 	}
 	
 }

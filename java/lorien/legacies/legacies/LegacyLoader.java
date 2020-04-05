@@ -12,7 +12,7 @@ import lorien.legacies.legacies.implementations.PondusLegacy;
 import lorien.legacies.legacies.implementations.RegenerasLegacy;
 import lorien.legacies.legacies.implementations.SubmariLegacy;
 import lorien.legacies.legacies.implementations.Telekinesis;
-import lorien.legacies.legacies.worldSave.LegacyData;
+import lorien.legacies.legacies.worldSave.LegacyEnabledData;
 import lorien.legacies.legacies.worldSave.LegacyDataHolder;
 import lorien.legacies.legacies.worldSave.LegacyWorldSaveData;
 import lorien.legacies.network.NetworkHandler;
@@ -39,7 +39,7 @@ public class LegacyLoader {
 		LegacyWorldSaveData saveData = LegacyWorldSaveData.get(playerLegacyManager.player.world); // Load previous data
 		LegacyDataHolder legacyData = saveData.getLegacyDataForPlayer(playerLegacyManager.player.getUniqueID()); // Get data for player (if it exists)
 		
-		if (legacyData == null || legacyData.data == null) // If it doens't exist
+		if (legacyData == null || legacyData.enabledData == null) // If it doens't exist
 		{
 			LegacyWorldSaveData.addPlayer(playerLegacyManager.player.getUniqueID());
 			playerIsAlreadyAsigned = false;
@@ -53,7 +53,7 @@ public class LegacyLoader {
 		{	
 			LorienLegacies.print("Loading legacies data for player with UUID " + playerLegacyManager.player.getUniqueID());
 			
-			for (LegacyData l : legacyData.data)
+			for (LegacyEnabledData l : legacyData.enabledData)
 				LorienLegacies.print("Value with name " + l.name + " is set to " + l.value);
 			
 			loadLegaciesFromSave(playerLegacyManager, legacyData);
@@ -101,6 +101,17 @@ public class LegacyLoader {
 		messageLegacyData.avexLegacyEnabled = playerLegacyManager.avexLegacyEnabled;
 		messageLegacyData.glacenLegacyEnabled = playerLegacyManager.glacenLegacyEnabled;
 		
+		messageLegacyData.lumenLegacyLevel = playerLegacyManager.lumenLegacy.currentLegacyLevel;
+		messageLegacyData.noxenLegacyLevel = playerLegacyManager.noxenLegacy.currentLegacyLevel;
+		messageLegacyData.submariLegacyLevel = playerLegacyManager.submariLegacy.currentLegacyLevel;
+		messageLegacyData.novisLegacyLevel = playerLegacyManager.novisLegacy.currentLegacyLevel;
+		messageLegacyData.accelixLegacyLevel = playerLegacyManager.accelixLegacy.currentLegacyLevel;
+		messageLegacyData.fortemLegacyLevel = playerLegacyManager.fortemLegacy.currentLegacyLevel;
+		messageLegacyData.pondusLegacyLevel = playerLegacyManager.pondusLegacy.currentLegacyLevel;
+		messageLegacyData.regenerasLegacyLevel = playerLegacyManager.regenerasLegacy.currentLegacyLevel;
+		messageLegacyData.avexLegacyLevel = playerLegacyManager.avexLegacy.currentLegacyLevel;
+		messageLegacyData.glacenLegacyLevel = playerLegacyManager.glacenLegacy.currentLegacyLevel;
+		
 		NetworkHandler.sendToPlayer(messageLegacyData, (EntityPlayerMP) playerLegacyManager.player);
 	}
 	
@@ -119,6 +130,17 @@ public class LegacyLoader {
 		playerLegacyManager.regenerasLegacyEnabled = legacyData.regenerasLegacyEnabled.value;
 		playerLegacyManager.avexLegacyEnabled = legacyData.avexLegacyEnabled.value;
 		playerLegacyManager.glacenLegacyEnabled = legacyData.glacenLegacyEnabled.value;
+		
+		playerLegacyManager.lumenLegacy.currentLegacyLevel =  legacyData.lumenLegacyLevel.value;
+		playerLegacyManager.noxenLegacy.currentLegacyLevel =  legacyData.noxenLegacyLevel.value;
+		playerLegacyManager.submariLegacy.currentLegacyLevel =  legacyData.submariLegacyLevel.value;
+		playerLegacyManager.novisLegacy.currentLegacyLevel =  legacyData.novisLegacyLevel.value;
+		playerLegacyManager.accelixLegacy.currentLegacyLevel =  legacyData.accelixLegacyLevel.value;
+		playerLegacyManager.fortemLegacy.currentLegacyLevel =  legacyData.fortemLegacyLevel.value;
+		playerLegacyManager.pondusLegacy.currentLegacyLevel =  legacyData.pondusLegacyLevel.value;
+		playerLegacyManager.regenerasLegacy.currentLegacyLevel =  legacyData.regenerasLegacyLevel.value;
+		playerLegacyManager.avexLegacy.currentLegacyLevel =  legacyData.avexLegacyLevel.value;
+		playerLegacyManager.glacenLegacy.currentLegacyLevel =  legacyData.glacenLegacyLevel.value;
 	}
 	
 	// Saves legacies to world
@@ -141,6 +163,17 @@ public class LegacyLoader {
 		legacyDataHolder.submariLegacyEnabled.value = playerLegacyManager.submariLegacyEnabled;
 		legacyDataHolder.glacenLegacyEnabled.value = playerLegacyManager.glacenLegacyEnabled;
 		
+		legacyDataHolder.accelixLegacyLevel.value = playerLegacyManager.accelixLegacy.currentLegacyLevel;
+		legacyDataHolder.avexLegacyLevel.value = playerLegacyManager.avexLegacy.currentLegacyLevel;
+		legacyDataHolder.fortemLegacyLevel.value = playerLegacyManager.fortemLegacy.currentLegacyLevel;
+		legacyDataHolder.lumenLegacyLevel.value = playerLegacyManager.lumenLegacy.currentLegacyLevel;
+		legacyDataHolder.novisLegacyLevel.value = playerLegacyManager.novisLegacy.currentLegacyLevel;
+		legacyDataHolder.noxenLegacyLevel.value = playerLegacyManager.noxenLegacy.currentLegacyLevel;
+		legacyDataHolder.pondusLegacyLevel.value = playerLegacyManager.pondusLegacy.currentLegacyLevel;
+		legacyDataHolder.regenerasLegacyLevel.value = playerLegacyManager.regenerasLegacy.currentLegacyLevel;
+		legacyDataHolder.submariLegacyLevel.value = playerLegacyManager.submariLegacy.currentLegacyLevel;
+		legacyDataHolder.glacenLegacyLevel.value = playerLegacyManager.glacenLegacy.currentLegacyLevel;
+		
 		saveData.setLegacyData(legacyDataHolder, playerLegacyManager.player.world, playerLegacyManager.player.getUniqueID());
 		
 	}
@@ -162,6 +195,17 @@ public class LegacyLoader {
 			playerLegacyManager.regenerasLegacyEnabled = false;
 			playerLegacyManager.submariLegacyEnabled = false;
 			playerLegacyManager.glacenLegacyEnabled = false;
+			
+			playerLegacyManager.accelixLegacy.currentLegacyLevel = 0;
+			playerLegacyManager.avexLegacy.currentLegacyLevel = 0;
+			playerLegacyManager.fortemLegacy.currentLegacyLevel = 0;
+			playerLegacyManager.lumenLegacy.currentLegacyLevel = 0;
+			playerLegacyManager.novisLegacy.currentLegacyLevel = 0;
+			playerLegacyManager.noxenLegacy.currentLegacyLevel = 0;
+			playerLegacyManager.pondusLegacy.currentLegacyLevel = 0;
+			playerLegacyManager.regenerasLegacy.currentLegacyLevel = 0;
+			playerLegacyManager.submariLegacy.currentLegacyLevel = 0;
+			playerLegacyManager.glacenLegacy.currentLegacyLevel = 0;
 		}
 		
 		float chanceOfIndividualLegacyBeingChosen = AMOUNT_OF_LEGACIES_GIFTED / NUMBER_OF_LEGACIES;
@@ -274,27 +318,27 @@ public class LegacyLoader {
 		player.sendMessage(new TextComponentString("You are blessed with legacies! They are:").setStyle(new Style().setColor(TextFormatting.RED)));
 		
 		if (LorienLegacies.clientLegacyManager.lumenLegacyEnabled)
-			new LumenLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.lumenLegacy.blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.noxenLegacyEnabled)
-			new NoxenLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.noxenLegacy.blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.submariLegacyEnabled)
-			new SubmariLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.submariLegacy.blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.novisLegacyEnabled)
-			new NovisLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.novisLegacy.blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.accelixLegacyEnabled)
-			new AccelixLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.accelixLegacy.blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.fortemLegacyEnabled)
-			new FortemLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.fortemLegacy.blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.pondusLegacyEnabled)
-			new PondusLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.pondusLegacy.blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.regenerasLegacyEnabled)
-			new RegenerasLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.regenerasLegacy.blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.avexLegacyEnabled)
-			new AvexLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.avexLegacy.blessedMessage(player);
 		if (LorienLegacies.clientLegacyManager.glacenLegacyEnabled)
-			new GlacenLegacy().blessedMessage(player);
+			LorienLegacies.clientLegacyManager.glacenLegacy.blessedMessage(player);
 		
-		new Telekinesis().blessedMessage(player);
+		LorienLegacies.clientLegacyManager.telekinesis.blessedMessage(player);
 		player.sendMessage(new TextComponentString("----------------------------------------").setStyle(new Style().setColor(TextFormatting.BLUE)));
 	}
 	

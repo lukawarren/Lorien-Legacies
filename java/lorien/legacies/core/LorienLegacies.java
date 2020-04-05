@@ -71,8 +71,7 @@ public class LorienLegacies {
 	
 	@SubscribeEvent
 	public void PlayerRespawnEvent(PlayerRespawnEvent event)
-	{
-		
+	{		
 		// Get rid of old instances
 		clientLegacyManager = null;
 		
@@ -86,8 +85,6 @@ public class LorienLegacies {
 		
 		for (int i : offendingLegacyManagers)
 			legacyManagers.remove(i);
-		
-		System.out.println(offendingLegacyManagers.size());
 		
 		if (event.player.world.isRemote)
 			loadLegaciesForClient(event);
@@ -114,10 +111,7 @@ public class LorienLegacies {
 	
 	private void loadLegaciesForClient(PlayerEvent event)
 	{
-		clientLegacyManager = new LegacyManager((EntityPlayer) event.player);
-		
-		
-		//((EntityPlayer) event.player).inventory.armorInventory.add(new ItemStack(new ItemRedstone()));
+		clientLegacyManager = new LegacyManager((EntityPlayer) event.player); // No need for data, we get that from MessageLegacyData
 	}
 
 	private void loadLegaciesForServer(PlayerEvent event)

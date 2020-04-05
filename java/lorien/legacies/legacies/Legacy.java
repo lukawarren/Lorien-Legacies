@@ -25,7 +25,7 @@ public abstract class Legacy {
 	
 	public void blessedMessage(EntityPlayer player)
 	{
-		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION).setStyle(new Style().setColor(TextFormatting.YELLOW)));
+		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION + " - Level " + (currentLegacyLevel+1)).setStyle(new Style().setColor(TextFormatting.YELLOW)));
 	}
 	
 	public void toggle(EntityPlayer player)
