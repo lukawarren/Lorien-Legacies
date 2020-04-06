@@ -52,7 +52,7 @@ public class LegacyGui extends GuiScreen
 		public float draw(LegacyGui gui, float mouseX, float mouseY, float heightOfList, boolean mouseClicked)
 		{
 			// If scrolling down or up, respond appropriately
-			y += SCROLL_SENSITIVITY * scrollAmount;
+			y -= SCROLL_SENSITIVITY * scrollAmount;
 			scrollAmount = 0;
 			
 			// Detect if mouse over button
@@ -124,7 +124,6 @@ public class LegacyGui extends GuiScreen
 		}
 		
 		scrollbar = new Scrollbar();
-
 	}
 	
 	@Override
@@ -139,8 +138,6 @@ public class LegacyGui extends GuiScreen
 	@Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
-		Mouse.setGrabbed(false);
-		
 		Legacy legacy = (Legacy) legacyManager.legacyList.get(legacyIndex);
 		
 		
