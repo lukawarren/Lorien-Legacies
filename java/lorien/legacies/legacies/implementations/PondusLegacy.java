@@ -33,9 +33,10 @@ public class PondusLegacy extends Legacy {
 		
 		if (toggled)
 		{
+			// Search the ground below the player to identify if there is water or not
 			Material m = player.world.getBlockState(new BlockPos(MathHelper.floor(player.posX), 
-			          //MathHelper.floor(player.posY - 0.20000000298023224D - (double)player.getYOffset()), 
-					  MathHelper.floor(player.posY - 0.20000000298023224D - 0.2d), 
+			          //MathHelper.floor(player.posY - 0.20000000298023224D - (double)player.getYOffset()), 	  
+					  MathHelper.floor(player.posY - 0.1), 
 			          MathHelper.floor(player.posZ))).getMaterial();
 			boolean isWater = m.isLiquid();
 			
@@ -45,6 +46,7 @@ public class PondusLegacy extends Legacy {
 				player.motionX *= 1.0;
 				player.motionZ *= 1.0;
 
+				// Check if the player has the accelix legacy and change their speed accordingly. 
 				for (LegacyManager l : LorienLegacies.legacyManagers)
 				{
 					if (l.player.getUniqueID().equals(player.getUniqueID()))
@@ -56,12 +58,13 @@ public class PondusLegacy extends Legacy {
 						}
 					}
 				}
-
 				
-				//player.motionX = player.motionX;
-					player.motionY = 0.005f;
-				//player.jump();
-				//player.motionZ = player.motionZ;
+				
+				// This value was 0.005f. Changing it to 0 stops the player from floating up continuously
+				player.motionY = 0.000f;
+				
+				// This allows the player to jump
+				player.onGround = true;
 			}
 		}
 
