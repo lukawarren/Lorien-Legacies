@@ -34,6 +34,16 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 	public int avexLegacyLevel;
 	public int glacenLegacyLevel;
 	
+	public int lumenLegacyXP;
+	public int noxenLegacyXP;
+	public int submariLegacyXP;
+	public int novisLegacyXP;
+	public int accelixLegacyXP;
+	public int fortemLegacyXP;
+	public int pondusLegacyXP;
+	public int regenerasLegacyXP;
+	public int avexLegacyXP;
+	public int glacenLegacyXP;
 	
 	public MessageLegacyData()
 	{
@@ -68,6 +78,16 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 		buf.writeInt(avexLegacyLevel);
 		buf.writeInt(glacenLegacyLevel);
 
+		buf.writeInt(lumenLegacyXP);
+		buf.writeInt(noxenLegacyXP);
+		buf.writeInt(submariLegacyXP);
+		buf.writeInt(novisLegacyXP);
+		buf.writeInt(accelixLegacyXP);
+		buf.writeInt(fortemLegacyXP);
+		buf.writeInt(pondusLegacyXP);
+		buf.writeInt(regenerasLegacyXP);
+		buf.writeInt(avexLegacyXP);
+		buf.writeInt(glacenLegacyXP);
 	}
 
 	@Override
@@ -97,6 +117,17 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 		regenerasLegacyLevel = buf.readInt();
 		avexLegacyLevel = buf.readInt();
 		glacenLegacyLevel = buf.readInt();
+		
+		lumenLegacyXP = buf.readInt();
+		noxenLegacyXP = buf.readInt();
+		submariLegacyXP = buf.readInt();
+		novisLegacyXP = buf.readInt();
+		accelixLegacyXP = buf.readInt();
+		fortemLegacyXP = buf.readInt();
+		pondusLegacyXP = buf.readInt();
+		regenerasLegacyXP = buf.readInt();
+		avexLegacyXP = buf.readInt();
+		glacenLegacyXP = buf.readInt();
 	}
 	
 	@Override
@@ -129,6 +160,17 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 			LorienLegacies.clientLegacyManager.regenerasLegacy.currentLegacyLevel = message.regenerasLegacyLevel;
 			LorienLegacies.clientLegacyManager.avexLegacy.currentLegacyLevel = message.avexLegacyLevel;
 			LorienLegacies.clientLegacyManager.glacenLegacy.currentLegacyLevel = message.glacenLegacyLevel;
+			
+			LorienLegacies.clientLegacyManager.lumenLegacy.xp = message.lumenLegacyXP;
+			LorienLegacies.clientLegacyManager.noxenLegacy.xp = message.noxenLegacyXP;
+			LorienLegacies.clientLegacyManager.submariLegacy.xp = message.submariLegacyXP;
+			LorienLegacies.clientLegacyManager.novisLegacy.xp = message.novisLegacyXP;
+			LorienLegacies.clientLegacyManager.accelixLegacy.xp = message.accelixLegacyXP;
+			LorienLegacies.clientLegacyManager.fortemLegacy.xp = message.fortemLegacyXP;
+			LorienLegacies.clientLegacyManager.pondusLegacy.xp = message.pondusLegacyXP;
+			LorienLegacies.clientLegacyManager.regenerasLegacy.xp = message.regenerasLegacyXP;
+			LorienLegacies.clientLegacyManager.avexLegacy.xp = message.avexLegacyXP;
+			LorienLegacies.clientLegacyManager.glacenLegacy.xp = message.glacenLegacyXP;
 			
 			if (LorienLegacies.clientLegacyManager.legaciesEnabled)
 				LegacyLoader.displayBlessedMessgaes(player);			

@@ -50,6 +50,9 @@ public class LegacyWorldSaveData extends WorldSavedData {
 			
 			int[] levelsData = nbt.getIntArray(playerUUIDs.get(i).toString() + "levels");
 			legacyData.get(i).convertArrayToLegacyLevelData(levelsData);
+			
+			int[] xpData = nbt.getIntArray(playerUUIDs.get(i).toString() + "xp");
+			legacyData.get(i).convertArrayToLegacyXPData(xpData);
 		}
 	}
 
@@ -63,6 +66,7 @@ public class LegacyWorldSaveData extends WorldSavedData {
 			nbt.setString(Integer.toString(i), playerUUIDs.get(i).toString());
 			nbt.setIntArray(playerUUIDs.get(i).toString(), legacyData.get(i).convertLegacyEnabledDataToArray());
 			nbt.setIntArray(playerUUIDs.get(i).toString() + "levels", legacyData.get(i).convertLegacyLevelDataToArray());
+			nbt.setIntArray(playerUUIDs.get(i).toString() + "xp", legacyData.get(i).convertLegacyXPDataToArray());
 		}
 		
 		return nbt;
@@ -100,6 +104,12 @@ public class LegacyWorldSaveData extends WorldSavedData {
 				{
 					legacyData.get(i).levelData.get(j).name = newData.levelData.get(j).name;
 					legacyData.get(i).levelData.get(j).value = newData.levelData.get(j).value;
+				}
+				
+				for (int j = 0; j < legacyData.get(i).xpData.size(); j++)
+				{
+					legacyData.get(i).xpData.get(j).name = newData.xpData.get(j).name;
+					legacyData.get(i).xpData.get(j).value = newData.xpData.get(j).value;
 				}
 			}
 		}

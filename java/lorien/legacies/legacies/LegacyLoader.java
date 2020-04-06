@@ -109,6 +109,17 @@ public class LegacyLoader {
 		messageLegacyData.avexLegacyLevel = playerLegacyManager.avexLegacy.currentLegacyLevel;
 		messageLegacyData.glacenLegacyLevel = playerLegacyManager.glacenLegacy.currentLegacyLevel;
 		
+		messageLegacyData.lumenLegacyXP = playerLegacyManager.lumenLegacy.xp;
+		messageLegacyData.noxenLegacyXP = playerLegacyManager.noxenLegacy.xp;
+		messageLegacyData.submariLegacyXP = playerLegacyManager.submariLegacy.xp;
+		messageLegacyData.novisLegacyXP = playerLegacyManager.novisLegacy.xp;
+		messageLegacyData.accelixLegacyXP = playerLegacyManager.accelixLegacy.xp;
+		messageLegacyData.fortemLegacyXP = playerLegacyManager.fortemLegacy.xp;
+		messageLegacyData.pondusLegacyXP = playerLegacyManager.pondusLegacy.xp;
+		messageLegacyData.regenerasLegacyXP = playerLegacyManager.regenerasLegacy.xp;
+		messageLegacyData.avexLegacyXP = playerLegacyManager.avexLegacy.xp;
+		messageLegacyData.glacenLegacyXP = playerLegacyManager.glacenLegacy.xp;
+		
 		NetworkHandler.sendToPlayer(messageLegacyData, (EntityPlayerMP) playerLegacyManager.player);
 	}
 	
@@ -138,6 +149,17 @@ public class LegacyLoader {
 		playerLegacyManager.regenerasLegacy.currentLegacyLevel =  legacyData.regenerasLegacyLevel.value;
 		playerLegacyManager.avexLegacy.currentLegacyLevel =  legacyData.avexLegacyLevel.value;
 		playerLegacyManager.glacenLegacy.currentLegacyLevel =  legacyData.glacenLegacyLevel.value;
+		
+		playerLegacyManager.lumenLegacy.xp =  legacyData.lumenLegacyXP.value;
+		playerLegacyManager.noxenLegacy.xp =  legacyData.noxenLegacyXP.value;
+		playerLegacyManager.submariLegacy.xp =  legacyData.submariLegacyXP.value;
+		playerLegacyManager.novisLegacy.xp =  legacyData.novisLegacyXP.value;
+		playerLegacyManager.accelixLegacy.xp =  legacyData.accelixLegacyXP.value;
+		playerLegacyManager.fortemLegacy.xp =  legacyData.fortemLegacyXP.value;
+		playerLegacyManager.pondusLegacy.xp =  legacyData.pondusLegacyXP.value;
+		playerLegacyManager.regenerasLegacy.xp =  legacyData.regenerasLegacyXP.value;
+		playerLegacyManager.avexLegacy.xp =  legacyData.avexLegacyXP.value;
+		playerLegacyManager.glacenLegacy.xp =  legacyData.glacenLegacyXP.value;
 	}
 	
 	// Saves legacies to world
@@ -171,6 +193,17 @@ public class LegacyLoader {
 		legacyDataHolder.submariLegacyLevel.value = playerLegacyManager.submariLegacy.currentLegacyLevel;
 		legacyDataHolder.glacenLegacyLevel.value = playerLegacyManager.glacenLegacy.currentLegacyLevel;
 		
+		legacyDataHolder.accelixLegacyXP.value = playerLegacyManager.accelixLegacy.xp;
+		legacyDataHolder.avexLegacyXP.value = playerLegacyManager.avexLegacy.xp;
+		legacyDataHolder.fortemLegacyXP.value = playerLegacyManager.fortemLegacy.xp;
+		legacyDataHolder.lumenLegacyXP.value = playerLegacyManager.lumenLegacy.xp;
+		legacyDataHolder.novisLegacyXP.value = playerLegacyManager.novisLegacy.xp;
+		legacyDataHolder.noxenLegacyXP.value = playerLegacyManager.noxenLegacy.xp;
+		legacyDataHolder.pondusLegacyXP.value = playerLegacyManager.pondusLegacy.xp;
+		legacyDataHolder.regenerasLegacyXP.value = playerLegacyManager.regenerasLegacy.xp;
+		legacyDataHolder.submariLegacyXP.value = playerLegacyManager.submariLegacy.xp;
+		legacyDataHolder.glacenLegacyXP.value = playerLegacyManager.glacenLegacy.xp;
+		
 		saveData.setLegacyData(legacyDataHolder, playerLegacyManager.player.world, playerLegacyManager.player.getUniqueID());
 		
 	}
@@ -203,6 +236,17 @@ public class LegacyLoader {
 			playerLegacyManager.regenerasLegacy.currentLegacyLevel = 0;
 			playerLegacyManager.submariLegacy.currentLegacyLevel = 0;
 			playerLegacyManager.glacenLegacy.currentLegacyLevel = 0;
+			
+			playerLegacyManager.accelixLegacy.xp = 0;
+			playerLegacyManager.avexLegacy.xp = 0;
+			playerLegacyManager.fortemLegacy.xp = 0;
+			playerLegacyManager.lumenLegacy.xp = 0;
+			playerLegacyManager.novisLegacy.xp = 0;
+			playerLegacyManager.noxenLegacy.xp = 0;
+			playerLegacyManager.pondusLegacy.xp = 0;
+			playerLegacyManager.regenerasLegacy.xp = 0;
+			playerLegacyManager.submariLegacy.xp = 0;
+			playerLegacyManager.glacenLegacy.xp = 0;
 		}
 		
 		float chanceOfIndividualLegacyBeingChosen = AMOUNT_OF_LEGACIES_GIFTED / NUMBER_OF_LEGACIES;

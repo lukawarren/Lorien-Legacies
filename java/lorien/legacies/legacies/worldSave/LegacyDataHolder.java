@@ -37,6 +37,19 @@ public class LegacyDataHolder
 	public LegacyLevelData avexLegacyLevel = new LegacyLevelData("avexLegacyLevel");
 	public LegacyLevelData glacenLegacyLevel = new LegacyLevelData("glacenLegacyLevel");
 	
+	public List<LegacyLevelData> xpData = new ArrayList<>();
+	
+	public LegacyLevelData lumenLegacyXP = new LegacyLevelData("lumenLegacyXP");
+	public LegacyLevelData noxenLegacyXP = new LegacyLevelData("noxenLegacyXP");
+	public LegacyLevelData submariLegacyXP = new LegacyLevelData("submariLegacyXP");
+	public LegacyLevelData novisLegacyXP = new LegacyLevelData("novisLegacyXP");
+	public LegacyLevelData accelixLegacyXP = new LegacyLevelData("accelixLegacyXP");
+	public LegacyLevelData fortemLegacyXP = new LegacyLevelData("fortemLegacyXP");
+	public LegacyLevelData pondusLegacyXP = new LegacyLevelData("pondusLegacyXP");
+	public LegacyLevelData regenerasLegacyXP = new LegacyLevelData("regenerasLegacyXP");
+	public LegacyLevelData avexLegacyXP = new LegacyLevelData("avexLegacyXP");
+	public LegacyLevelData glacenLegacyXP = new LegacyLevelData("glacenLegacyXP");
+	
 	public LegacyDataHolder()
 	{	
 		enabledData.add(legacyDataSaved);
@@ -64,6 +77,17 @@ public class LegacyDataHolder
 		levelData.add(regenerasLegacyLevel);
 		levelData.add(avexLegacyLevel);
 		levelData.add(glacenLegacyLevel);
+		
+		xpData.add(lumenLegacyXP);
+		xpData.add(noxenLegacyXP);
+		xpData.add(submariLegacyXP);
+		xpData.add(novisLegacyXP);
+		xpData.add(accelixLegacyXP);
+		xpData.add(fortemLegacyXP);
+		xpData.add(pondusLegacyXP);
+		xpData.add(regenerasLegacyXP);
+		xpData.add(avexLegacyXP);
+		xpData.add(glacenLegacyXP);
 	}
 	
 	public void convertArrayToLegacyEnabledData(int[] array)
@@ -108,6 +132,29 @@ public class LegacyDataHolder
 		
 		for (int i = 0; i < levelData.size(); i++)
 			array[i] = levelData.get(i).value;
+		
+		return array;
+	}
+	
+	public void convertArrayToLegacyXPData(int[] array)
+	{	
+		try { int x = array[0]; } catch (Exception e)
+		{
+			for (LegacyLevelData l : xpData)
+				l.value = 0;
+			return;
+		}
+		
+		for (int i = 0; i < xpData.size(); i++)
+			xpData.get(i).value = array[i];
+	}
+	
+	public int[] convertLegacyXPDataToArray()
+	{
+		int[] array = new int[xpData.size()];
+		
+		for (int i = 0; i < xpData.size(); i++)
+			array[i] = xpData.get(i).value;
 		
 		return array;
 	}

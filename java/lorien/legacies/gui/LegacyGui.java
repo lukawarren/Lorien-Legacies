@@ -26,6 +26,7 @@ public class LegacyGui extends GuiScreen
 {
 	
 	private Scrollbar scrollbar;
+	private final ResourceLocation BUTTON_TEXTURES = new ResourceLocation("textures/gui/widgets.png");
 	
 	private class Scrollbar
 	{
@@ -129,6 +130,7 @@ public class LegacyGui extends GuiScreen
 	@Override
     protected void actionPerformed(GuiButton button) throws IOException
 	{
+		super.actionPerformed(button);
 		legacyIndex = button.id - 1;
     }
 
@@ -169,6 +171,45 @@ public class LegacyGui extends GuiScreen
         else
         	fontRenderer.drawSplitString("This legacy cannot be levelled up", this.width - 160, 90, 100, 0x0313fc);
       
+        if (legacy.hasLevels())
+        {
+        	// Calculate XP needed for next legacy level
+            int xpNeeded = legacy.legacyLevels.get(legacy.currentLegacyLevel).xpRequired;
+            float progress = (float)legacy.xp / (float)xpNeeded;
+            if (progress > 1.0f) progress = 1.0f;
+            
+            // Draw XP progress bar (actually two bars - one background and one progress bar)
+            float x = this.width - 170 + 2.5f;
+            float y = this.height - 50 - 2.5f;
+            float width = (this.width - 30) - x - 5;
+            float height = 20;
+            float widthPosMultipler = 200 / width;
+    		float heightPosMultiplier = 20 / height;
+            mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            GlStateManager.scale(width / 200, height / 20, 1.0f);
+            this.drawTexturedModalRect(x * widthPosMultipler, y * heightPosMultiplier, 0, 46 + 0 * 20, 200, 20);
+            GlStateManager.scale(200 / width, 20 / height, 1.0f);
+            
+            // Second bar
+            x += 0.7f;
+            width = ((this.width - 30) - x - 5) * progress;
+            widthPosMultipler = 200 / width;
+            mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
+            GlStateManager.color(0.0F, 0.0F, 1.0F, 1.0F);
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            GlStateManager.scale(width / 200, height / 20, 1.0f);
+            this.drawTexturedModalRect(x * widthPosMultipler, y * heightPosMultiplier, 0, 46 + 1 * 20, 200, 20);
+            GlStateManager.scale(200 / width, 20 / height, 1.0f);
+            
+            legacy.addXPForPlayer(1, legacyManager);
+        }        
+        
         // Draw scrollbar and do scrollbar logic
         float scrollAmount = scrollbar.draw(this, mouseX, mouseY, legacyManager.legacyList.size() * 25, Mouse.isButtonDown(0));
         for (int i = 0; i < buttonList.size(); i++)
@@ -177,8 +218,7 @@ public class LegacyGui extends GuiScreen
         	if (buttonList.get(i).y < 60) buttonList.get(i).visible = false;
         	else buttonList.get(i).visible = true;
         }
-        
-        
+                
     }
 
 	@Override
