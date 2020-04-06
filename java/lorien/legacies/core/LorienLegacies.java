@@ -32,6 +32,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = LorienLegacies.MODID, name = LorienLegacies.NAME, version = LorienLegacies.VERSION)
 
@@ -168,7 +169,8 @@ public class LorienLegacies {
 		MinecraftForge.EVENT_BUS.register(new KeyInputHandler());
 		proxy.init(e);
 		GameRegistry.registerWorldGenerator(new OreGen(), 0);
-		KeyBindings.init();
+		
+		if (e.getSide() == Side.CLIENT) KeyBindings.init();
 	}
 
 	@Mod.EventHandler

@@ -53,9 +53,6 @@ public class LegacyLoader {
 		{	
 			LorienLegacies.print("Loading legacies data for player with UUID " + playerLegacyManager.player.getUniqueID());
 			
-			for (LegacyEnabledData l : legacyData.enabledData)
-				LorienLegacies.print("Value with name " + l.name + " is set to " + l.value);
-			
 			loadLegaciesFromSave(playerLegacyManager, legacyData);
 			
 		}

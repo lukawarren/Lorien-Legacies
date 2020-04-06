@@ -9,6 +9,7 @@ import lorien.legacies.legacies.LegacyLoader;
 import lorien.legacies.legacies.LegacyManager;
 import lorien.legacies.network.NetworkHandler;
 import lorien.legacies.network.mesages.MessageLegacyData;
+import lorien.legacies.network.mesages.MessageLegacyLevelsScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -49,8 +50,22 @@ public class CommandLegacyLevels implements ICommand
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 	{
-		if (!server.worlds[0].isRemote)
-			Minecraft.getMinecraft().displayGuiScreen(new LegacyGui());
+		boolean hasLegacies = false;
+		for (LegacyManager l : LorienLegacies.legacyManagers)
+			if (l.player.getDisplayName().equals(sender.getDisplayName()))
+				if (l.legaciesEnabled)
+					hasLegacies = true;
+	
+		if (!server.worlds[0].isRemote && hasLegacies)
+		{
+			// Get player entity that sent the message (by name and position to be double sure), then send him the packet
+			for (String playerName : server.getOnlinePlayerNames())
+				if (playerName.equals(sender.getName()) && server.getPlayerList().getPlayerByUsername(playerName).getPosition().equals(sender.getPosition()))
+					NetworkHandler.sendToPlayer(new MessageLegacyLevelsScreen(), server.getPlayerList().getPlayerByUsername(playerName));
+		}
+			
+		else
+			sender.sendMessage(new TextComponentString("You do not have legacies").setStyle(new Style().setColor(TextFormatting.RED)));
 	}
 
 	@Override

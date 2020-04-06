@@ -2,8 +2,9 @@ package lorien.legacies.proxy;
 
 import lorien.legacies.blocks.ModBlocks;
 import lorien.legacies.entities.ModEntities;
-import lorien.legacies.entities.Chimaera.Chimaera;
 import lorien.legacies.items.ModItems;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -27,7 +28,11 @@ public class ClientProxy extends CommonProxy {
 		super.postInit(e);
 	}
 	
-	
+	@Override
+    public EntityPlayer getEntityPlayer()
+	{
+        return Minecraft.getMinecraft().player;
+    }
 	
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event)

@@ -4,16 +4,6 @@ import io.netty.buffer.ByteBuf;
 import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.LegacyLoader;
 import lorien.legacies.legacies.LegacyManager;
-import lorien.legacies.legacies.implementations.AccelixLegacy;
-import lorien.legacies.legacies.implementations.AvexLegacy;
-import lorien.legacies.legacies.implementations.FortemLegacy;
-import lorien.legacies.legacies.implementations.LumenLegacy;
-import lorien.legacies.legacies.implementations.NovisLegacy;
-import lorien.legacies.legacies.implementations.NoxenLegacy;
-import lorien.legacies.legacies.implementations.PondusLegacy;
-import lorien.legacies.legacies.implementations.RegenerasLegacy;
-import lorien.legacies.legacies.implementations.SubmariLegacy;
-import lorien.legacies.legacies.implementations.Telekinesis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -108,14 +98,14 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 		avexLegacyLevel = buf.readInt();
 		glacenLegacyLevel = buf.readInt();
 	}
-
+	
 	@Override
 	public void handleClientSide(MessageLegacyData message, EntityPlayer player)
 	{
 		
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			
-			LorienLegacies.clientLegacyManager = new LegacyManager(Minecraft.getMinecraft().player);
+			LorienLegacies.clientLegacyManager = new LegacyManager(player);
 			
 			LorienLegacies.clientLegacyManager.legaciesEnabled = message.legaciesEnabled;
 			LorienLegacies.clientLegacyManager.lumenLegacyEnabled = message.lumenLegacyEnabled;
@@ -141,7 +131,7 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 			LorienLegacies.clientLegacyManager.glacenLegacy.currentLegacyLevel = message.glacenLegacyLevel;
 			
 			if (LorienLegacies.clientLegacyManager.legaciesEnabled)
-				LegacyLoader.displayBlessedMessgaes(Minecraft.getMinecraft().player);			
+				LegacyLoader.displayBlessedMessgaes(player);			
 		});
 		
 		

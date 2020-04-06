@@ -18,7 +18,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.client.GuiScrollingList;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LegacyGui extends GuiScreen
 {
@@ -36,14 +38,22 @@ public class LegacyGui extends GuiScreen
 		private float lastMouseYSinceClick;
 		private float lastButtonYSinceClick;
 		
+		private final float SCROLL_SENSITIVITY = 10.0f;
+		private int scrollAmount;
+		
 		public Scrollbar()
 		{
 			this.x = 20;
 			this.y = 60;
+			this.scrollAmount = 0;
 		}
 		
 		public float draw(LegacyGui gui, float mouseX, float mouseY, float heightOfList, boolean mouseClicked)
-		{		
+		{
+			// If scrolling down or up, respond appropriately
+			y += SCROLL_SENSITIVITY * scrollAmount;
+			scrollAmount = 0;
+			
 			// Detect if mouse over button
 			boolean hovered = mouseX >= x-width && mouseX <= x && mouseY >= y && mouseY <= y+height;
 			
@@ -105,7 +115,7 @@ public class LegacyGui extends GuiScreen
 		super.initGui();
 		
 		// Get all legacies and add GUI stuff for each one
-		legacyManager = LorienLegacies.legacyManagers.get(0);
+		legacyManager = LorienLegacies.clientLegacyManager;
 		for (int i = 0; i < legacyManager.legacyList.size(); i++)
 		{
 			Legacy legacy = (Legacy) legacyManager.legacyList.get(i);
@@ -113,8 +123,7 @@ public class LegacyGui extends GuiScreen
 		}
 		
 		scrollbar = new Scrollbar();
-		
-		Minecraft.getMinecraft().mouseHelper.ungrabMouseCursor();
+
 	}
 	
 	@Override
@@ -128,7 +137,10 @@ public class LegacyGui extends GuiScreen
 	@Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
+		Mouse.setGrabbed(false);
+		
 		Legacy legacy = (Legacy) legacyManager.legacyList.get(legacyIndex);
+		
 		
 		// UI Background
         this.drawWorldBackground(0);
@@ -165,8 +177,17 @@ public class LegacyGui extends GuiScreen
         	if (buttonList.get(i).y < 60) buttonList.get(i).visible = false;
         	else buttonList.get(i).visible = true;
         }
+        
+        
     }
 
+	@Override
+	public void handleMouseInput() throws IOException
+	{
+		super.handleMouseInput();
+		scrollbar.scrollAmount = Integer.signum(Mouse.getEventDWheel());
+	}
+	
     @Override
     public boolean doesGuiPauseGame()
     {
