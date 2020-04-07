@@ -57,7 +57,8 @@ public abstract class Legacy {
 		{
 			currentLegacyLevel++;
 			xp -= legacyLevels.get(currentLegacyLevel-1).xpRequired;
-			System.out.println("Level up");
+			if (legacyManager.player.world.isRemote)
+				legacyManager.player.sendMessage(new TextComponentString("Your " + LEGACY_NAME + " has levelled up!").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 		}
 		
 		LegacyLoader.saveLegaciesToSave(legacyManager, LegacyWorldSaveData.get(legacyManager.player.world));
