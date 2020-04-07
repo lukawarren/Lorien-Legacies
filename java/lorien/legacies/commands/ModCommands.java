@@ -10,6 +10,7 @@ public class ModCommands
 	{
 		MinecraftForge.EVENT_BUS.register(new CommandLegacies());
 		MinecraftForge.EVENT_BUS.register(new CommandLegacyLevels());
+		MinecraftForge.EVENT_BUS.register(new CommandLegacyXp());
 	}
 	
 }
