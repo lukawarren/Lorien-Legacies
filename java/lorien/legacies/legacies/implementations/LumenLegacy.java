@@ -26,7 +26,7 @@ public class LumenLegacy extends Legacy {
 		MinecraftForge.EVENT_BUS.register(this);
 		
 		// Levels
-		legacyLevels.add(new LegacyLevel("Grants increased fire strength"));
+		legacyLevels.add(new LegacyLevel("Grants increased fire strength", 500));
 	}
 	
 	@Override

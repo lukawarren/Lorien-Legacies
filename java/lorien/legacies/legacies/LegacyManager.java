@@ -43,10 +43,9 @@ public class LegacyManager {
 	
 	public boolean legaciesEnabled;
 	
-	// Used in legacies.levels package
-	public List legacyList = new ArrayList<Legacy>(); // I don't have a clue why I'm not using a fancy array instead of all the code below,
-													// All I can remember is that I probably had a good reason... (by all means refactor the 
-													// code if you want to)
+	// Used in levels GUI
+	public List legacyList = new ArrayList<Legacy>();
+	public List legacyEnabledList = new ArrayList<Boolean>();
 	
 	public LumenLegacy lumenLegacy;
 	public boolean lumenLegacyEnabled;
@@ -146,6 +145,19 @@ public class LegacyManager {
 			glacenLegacy.computeLegacyTick(player);
 		
 		//telekinesis.computeLegacyTick(player, isServer);
+		
+		legacyEnabledList.clear();
+		legacyEnabledList.add(lumenLegacyEnabled);
+		legacyEnabledList.add(noxenLegacyEnabled);
+		legacyEnabledList.add(submariLegacyEnabled);
+		legacyEnabledList.add(accelixLegacyEnabled);
+		legacyEnabledList.add(fortemLegacyEnabled);
+		legacyEnabledList.add(novisLegacyEnabled);
+		legacyEnabledList.add(pondusLegacyEnabled);
+		legacyEnabledList.add(regenerasLegacyEnabled);
+		legacyEnabledList.add(avexLegacyEnabled);
+		legacyEnabledList.add(glacenLegacyEnabled);
+		legacyEnabledList.add(legaciesEnabled);
 	}
 	
 	@SubscribeEvent

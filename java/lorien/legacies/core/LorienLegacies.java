@@ -32,6 +32,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = LorienLegacies.MODID, name = LorienLegacies.NAME, version = LorienLegacies.VERSION)
 
@@ -71,8 +72,7 @@ public class LorienLegacies {
 	
 	@SubscribeEvent
 	public void PlayerRespawnEvent(PlayerRespawnEvent event)
-	{
-		
+	{		
 		// Get rid of old instances
 		clientLegacyManager = null;
 		
@@ -86,8 +86,6 @@ public class LorienLegacies {
 		
 		for (int i : offendingLegacyManagers)
 			legacyManagers.remove(i);
-		
-		System.out.println(offendingLegacyManagers.size());
 		
 		if (event.player.world.isRemote)
 			loadLegaciesForClient(event);
@@ -114,10 +112,7 @@ public class LorienLegacies {
 	
 	private void loadLegaciesForClient(PlayerEvent event)
 	{
-		clientLegacyManager = new LegacyManager((EntityPlayer) event.player);
-		
-		
-		//((EntityPlayer) event.player).inventory.armorInventory.add(new ItemStack(new ItemRedstone()));
+		clientLegacyManager = new LegacyManager((EntityPlayer) event.player); // No need for data, we get that from MessageLegacyData
 	}
 
 	private void loadLegaciesForServer(PlayerEvent event)
@@ -174,7 +169,8 @@ public class LorienLegacies {
 		MinecraftForge.EVENT_BUS.register(new KeyInputHandler());
 		proxy.init(e);
 		GameRegistry.registerWorldGenerator(new OreGen(), 0);
-		KeyBindings.init();
+		
+		if (e.getSide() == Side.CLIENT) KeyBindings.init();
 	}
 
 	@Mod.EventHandler

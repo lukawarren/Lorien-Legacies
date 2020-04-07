@@ -4,23 +4,13 @@ import io.netty.buffer.ByteBuf;
 import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.LegacyLoader;
 import lorien.legacies.legacies.LegacyManager;
-import lorien.legacies.legacies.implementations.AccelixLegacy;
-import lorien.legacies.legacies.implementations.AvexLegacy;
-import lorien.legacies.legacies.implementations.FortemLegacy;
-import lorien.legacies.legacies.implementations.LumenLegacy;
-import lorien.legacies.legacies.implementations.NovisLegacy;
-import lorien.legacies.legacies.implementations.NoxenLegacy;
-import lorien.legacies.legacies.implementations.PondusLegacy;
-import lorien.legacies.legacies.implementations.RegenerasLegacy;
-import lorien.legacies.legacies.implementations.SubmariLegacy;
-import lorien.legacies.legacies.implementations.Telekinesis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class MessageLegacyData extends MessageBase<MessageLegacyData>
 {
 
-public boolean legaciesEnabled;
+	public boolean legaciesEnabled;
 	
 	public boolean lumenLegacyEnabled;
 	public boolean noxenLegacyEnabled;
@@ -32,6 +22,28 @@ public boolean legaciesEnabled;
 	public boolean regenerasLegacyEnabled;
 	public boolean avexLegacyEnabled;
 	public boolean glacenLegacyEnabled;
+	
+	public int lumenLegacyLevel;
+	public int noxenLegacyLevel;
+	public int submariLegacyLevel;
+	public int novisLegacyLevel;
+	public int accelixLegacyLevel;
+	public int fortemLegacyLevel;
+	public int pondusLegacyLevel;
+	public int regenerasLegacyLevel;
+	public int avexLegacyLevel;
+	public int glacenLegacyLevel;
+	
+	public int lumenLegacyXP;
+	public int noxenLegacyXP;
+	public int submariLegacyXP;
+	public int novisLegacyXP;
+	public int accelixLegacyXP;
+	public int fortemLegacyXP;
+	public int pondusLegacyXP;
+	public int regenerasLegacyXP;
+	public int avexLegacyXP;
+	public int glacenLegacyXP;
 	
 	public MessageLegacyData()
 	{
@@ -55,6 +67,27 @@ public boolean legaciesEnabled;
 		buf.writeBoolean(avexLegacyEnabled);
 		buf.writeBoolean(glacenLegacyEnabled);
 		
+		buf.writeInt(lumenLegacyLevel);
+		buf.writeInt(noxenLegacyLevel);
+		buf.writeInt(submariLegacyLevel);
+		buf.writeInt(novisLegacyLevel);
+		buf.writeInt(accelixLegacyLevel);
+		buf.writeInt(fortemLegacyLevel);
+		buf.writeInt(pondusLegacyLevel);
+		buf.writeInt(regenerasLegacyLevel);
+		buf.writeInt(avexLegacyLevel);
+		buf.writeInt(glacenLegacyLevel);
+
+		buf.writeInt(lumenLegacyXP);
+		buf.writeInt(noxenLegacyXP);
+		buf.writeInt(submariLegacyXP);
+		buf.writeInt(novisLegacyXP);
+		buf.writeInt(accelixLegacyXP);
+		buf.writeInt(fortemLegacyXP);
+		buf.writeInt(pondusLegacyXP);
+		buf.writeInt(regenerasLegacyXP);
+		buf.writeInt(avexLegacyXP);
+		buf.writeInt(glacenLegacyXP);
 	}
 
 	@Override
@@ -73,15 +106,37 @@ public boolean legaciesEnabled;
 		regenerasLegacyEnabled = buf.readBoolean();
 		avexLegacyEnabled = buf.readBoolean();
 		glacenLegacyEnabled = buf.readBoolean();
+		
+		lumenLegacyLevel = buf.readInt();
+		noxenLegacyLevel = buf.readInt();
+		submariLegacyLevel = buf.readInt();
+		novisLegacyLevel = buf.readInt();
+		accelixLegacyLevel = buf.readInt();
+		fortemLegacyLevel = buf.readInt();
+		pondusLegacyLevel = buf.readInt();
+		regenerasLegacyLevel = buf.readInt();
+		avexLegacyLevel = buf.readInt();
+		glacenLegacyLevel = buf.readInt();
+		
+		lumenLegacyXP = buf.readInt();
+		noxenLegacyXP = buf.readInt();
+		submariLegacyXP = buf.readInt();
+		novisLegacyXP = buf.readInt();
+		accelixLegacyXP = buf.readInt();
+		fortemLegacyXP = buf.readInt();
+		pondusLegacyXP = buf.readInt();
+		regenerasLegacyXP = buf.readInt();
+		avexLegacyXP = buf.readInt();
+		glacenLegacyXP = buf.readInt();
 	}
-
+	
 	@Override
 	public void handleClientSide(MessageLegacyData message, EntityPlayer player)
 	{
 		
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			
-			LorienLegacies.clientLegacyManager = new LegacyManager(Minecraft.getMinecraft().player);
+			LorienLegacies.clientLegacyManager = new LegacyManager(player);
 			
 			LorienLegacies.clientLegacyManager.legaciesEnabled = message.legaciesEnabled;
 			LorienLegacies.clientLegacyManager.lumenLegacyEnabled = message.lumenLegacyEnabled;
@@ -95,8 +150,30 @@ public boolean legaciesEnabled;
 			LorienLegacies.clientLegacyManager.avexLegacyEnabled = message.avexLegacyEnabled;
 			LorienLegacies.clientLegacyManager.glacenLegacyEnabled = message.glacenLegacyEnabled;
 			
+			LorienLegacies.clientLegacyManager.lumenLegacy.currentLegacyLevel = message.lumenLegacyLevel;
+			LorienLegacies.clientLegacyManager.noxenLegacy.currentLegacyLevel = message.noxenLegacyLevel;
+			LorienLegacies.clientLegacyManager.submariLegacy.currentLegacyLevel = message.submariLegacyLevel;
+			LorienLegacies.clientLegacyManager.novisLegacy.currentLegacyLevel = message.novisLegacyLevel;
+			LorienLegacies.clientLegacyManager.accelixLegacy.currentLegacyLevel = message.accelixLegacyLevel;
+			LorienLegacies.clientLegacyManager.fortemLegacy.currentLegacyLevel = message.fortemLegacyLevel;
+			LorienLegacies.clientLegacyManager.pondusLegacy.currentLegacyLevel = message.pondusLegacyLevel;
+			LorienLegacies.clientLegacyManager.regenerasLegacy.currentLegacyLevel = message.regenerasLegacyLevel;
+			LorienLegacies.clientLegacyManager.avexLegacy.currentLegacyLevel = message.avexLegacyLevel;
+			LorienLegacies.clientLegacyManager.glacenLegacy.currentLegacyLevel = message.glacenLegacyLevel;
+			
+			LorienLegacies.clientLegacyManager.lumenLegacy.xp = message.lumenLegacyXP;
+			LorienLegacies.clientLegacyManager.noxenLegacy.xp = message.noxenLegacyXP;
+			LorienLegacies.clientLegacyManager.submariLegacy.xp = message.submariLegacyXP;
+			LorienLegacies.clientLegacyManager.novisLegacy.xp = message.novisLegacyXP;
+			LorienLegacies.clientLegacyManager.accelixLegacy.xp = message.accelixLegacyXP;
+			LorienLegacies.clientLegacyManager.fortemLegacy.xp = message.fortemLegacyXP;
+			LorienLegacies.clientLegacyManager.pondusLegacy.xp = message.pondusLegacyXP;
+			LorienLegacies.clientLegacyManager.regenerasLegacy.xp = message.regenerasLegacyXP;
+			LorienLegacies.clientLegacyManager.avexLegacy.xp = message.avexLegacyXP;
+			LorienLegacies.clientLegacyManager.glacenLegacy.xp = message.glacenLegacyXP;
+			
 			if (LorienLegacies.clientLegacyManager.legaciesEnabled)
-				LegacyLoader.displayBlessedMessgaes(Minecraft.getMinecraft().player);			
+				LegacyLoader.displayBlessedMessgaes(player);			
 		});
 		
 		

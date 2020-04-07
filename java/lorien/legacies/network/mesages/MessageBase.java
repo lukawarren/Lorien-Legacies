@@ -1,17 +1,18 @@
 package lorien.legacies.network.mesages;
 
 import lorien.legacies.core.LorienLegacies;
+import lorien.legacies.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class MessageBase<REQ extends IMessage> implements IMessage, IMessageHandler<REQ, REQ>
 {
 
-	
 	@Override
     public REQ onMessage(REQ message, MessageContext ctx)
 	{
@@ -21,11 +22,11 @@ public abstract class MessageBase<REQ extends IMessage> implements IMessage, IMe
         }
         else
         {
-            handleClientSide(message, Minecraft.getMinecraft().player);
+            handleClientSide(message, LorienLegacies.proxy.getEntityPlayer());
         }
         return null;
     }
-
+	
     /**
      * Handle a packet on the client side. Note this occurs after decoding has completed.
      * @param message

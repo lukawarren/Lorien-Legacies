@@ -6,7 +6,9 @@ import lorien.legacies.entities.ModEntities;
 import lorien.legacies.items.ModItems;
 import lorien.legacies.network.NetworkHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -60,6 +62,10 @@ public class CommonProxy {
     	ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation( item.getRegistryName(), "inventory"));
     }
     
+    public EntityPlayer getEntityPlayer()
+	{
+        return null;
+    }
     
     @SubscribeEvent
 	public static void registerRenders(ModelRegistryEvent event)
