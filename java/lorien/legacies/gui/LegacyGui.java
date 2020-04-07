@@ -26,12 +26,12 @@ public class LegacyGui extends GuiScreen
 {
 	
 	private Scrollbar scrollbar;
+	
 	private final ResourceLocation BUTTON_TEXTURES = new ResourceLocation("textures/gui/widgets.png");
+	private final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation("textures/gui/demo_background.png");
 	
 	private class Scrollbar
 	{
-
-		private final ResourceLocation BUTTON_TEXTURES = new ResourceLocation("textures/gui/widgets.png");
 		
 		public float x;
 		public float y;
@@ -44,7 +44,7 @@ public class LegacyGui extends GuiScreen
 		
 		public Scrollbar()
 		{
-			this.x = 20;
+			this.x = 21;
 			this.y = 60;
 			this.scrollAmount = 0;
 		}
@@ -81,7 +81,7 @@ public class LegacyGui extends GuiScreen
 			
 			// Keep y within reasonable bounds
 			if (y < 60) y = 60;
-			if (y + height > gui.height - 1) y = gui.height - height - 1;
+			if (y + height > gui.height - 3) y = gui.height - height - 3;
 			
 			// Work out deviation from standard button sizes for scale
 			float widthPosMultipler = 20 / width;
@@ -97,6 +97,7 @@ public class LegacyGui extends GuiScreen
 	        GlStateManager.rotate(90.0f, 0, 0, 1);
 	        GlStateManager.scale(height / 200, width / 20, 1.0f); // X and Y have to be swapped since we rotated it
 	        gui.drawTexturedModalRect(y*heightPosMultiplier, -x*widthPosMultipler, 0, 46 + i * 20, 200, 20); // X and Y have to be swapped since we rotated it
+	        GlStateManager.scale(200 / height, 20 / width, 1.0f); // X and Y have to be swapped since we rotated it
 	        
 	        // Calculate scroll amount - min 60, max gui.height - height + 30
 	        float percentage = (y - 60) / ((gui.height - height - 1) - 60);
@@ -120,7 +121,7 @@ public class LegacyGui extends GuiScreen
 		for (int i = 0; i < legacyManager.legacyList.size(); i++)
 		{
 			Legacy legacy = (Legacy) legacyManager.legacyList.get(i);
-			this.buttonList.add(new GuiButton(i+1, this.width / 20, 60 + i*25, legacy.LEGACY_NAME));
+			this.buttonList.add(new GuiButton(i+1, this.width / 20 + 2, 60 + i*25, legacy.LEGACY_NAME));
 		}
 		
 		scrollbar = new Scrollbar();
@@ -144,17 +145,49 @@ public class LegacyGui extends GuiScreen
 		// UI Background
         this.drawWorldBackground(0);
         
+        // Background panels
+        float x = this.width - 170;
+        float y = 40;
+     	float width = this.width - 30 - x;
+     	float height = this.height - y - 4;
+     	float widthPosMultipler = 247 / width;
+		float heightPosMultiplier = 165 / height;
+        mc.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.scale(width / 247, height / 165, 1.0f);
+        this.drawTexturedModalRect(x * widthPosMultipler, y * heightPosMultiplier, 0, 0, 256, 256);
+        GlStateManager.scale(247 / width, 165 / height, 1.0f);
+        
+        // Draw background panel 2
+     	x = 1;
+        y = 40;
+     	width = this.width / 20 + 200 + (this.width/20-x);
+     	height = this.height - y - 4;
+     	if (this.height < 60 + legacyManager.legacyList.size() * 25) height += 10; // If scrollbar needed, make panel taller
+     	
+     	widthPosMultipler = 247 / width;
+		heightPosMultiplier = 165 / height;
+        mc.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.scale(width / 247, height / 165, 1.0f);
+        this.drawTexturedModalRect(x * widthPosMultipler, y * heightPosMultiplier, 0, 0, 256, 256);
+        GlStateManager.scale(247 / width, 165 / height, 1.0f);
+        
+        // Draw buttons and stuff
         super.drawScreen(mouseX, mouseY, partialTicks);
         
         // Title bit
      	this.drawCenteredString(this.fontRenderer, "Your legacies have levelled up!", this.width / 2, 10, 0xFFFFFFFF);
      	this.drawCenteredString(this.fontRenderer, "Please select a legacy:", this.width / 2, 20, 0xFFFFFFFF);
-        
-     	// White background
-        this.drawGradientRect(this.width - 170, 60, this.width - 30, this.height - 30, 0xFFFFFFFF, 0xFF111111);
-        
+			
         // Legacy title
-        fontRenderer.drawString(legacy.LEGACY_NAME, ((this.width - 170) + (this.width - 30)) / 2 - fontRenderer.getStringWidth(legacy.LEGACY_NAME) / 2, 70, 0x0313fc);
+        fontRenderer.drawString(legacy.LEGACY_NAME, ((this.width - 170) + (this.width - 30)) / 2 - fontRenderer.getStringWidth(legacy.LEGACY_NAME) / 2, 60, 0x0313fc);
         
         // Draw rest of legacy window
         if (legacy.hasLevels())
@@ -162,7 +195,7 @@ public class LegacyGui extends GuiScreen
         	for (int i = 0; i < legacy.legacyLevels.size(); i++)
         	{
         		int colour = (legacy.currentLegacyLevel == i) ? 0xB400 : 0x0313fc; // Rule Britania! We're sticking to UK spelling if it kills me!
-        		fontRenderer.drawSplitString("Level " + (i+1) + ": " + legacy.legacyLevels.get(i).description, this.width - 160, 90 + i*25, 100, colour);
+        		fontRenderer.drawSplitString("Level " + (i+1) + ": " + legacy.legacyLevels.get(i).description, this.width - 160, 85 + i*25, 100, colour);
         	}
         }
         else
@@ -176,12 +209,12 @@ public class LegacyGui extends GuiScreen
             if (progress > 1.0f) progress = 1.0f;
             
             // Draw XP progress bar (actually two bars - one background and one progress bar)
-            float x = this.width - 170 + 2.5f;
-            float y = this.height - 50 - 2.5f;
-            float width = (this.width - 30) - x - 5;
-            float height = 20;
-            float widthPosMultipler = 200 / width;
-    		float heightPosMultiplier = 20 / height;
+            x = this.width - 160;
+            y = this.height - 30 - 2.5f;
+            width = (this.width - 30) - x - 10;
+            height = 20;
+            widthPosMultipler = 200 / width;
+            heightPosMultiplier = 20 / height;
             mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableBlend();
@@ -194,6 +227,7 @@ public class LegacyGui extends GuiScreen
             // Second bar
             x += 0.7f;
             width = ((this.width - 30) - x - 5) * progress;
+            if (width < 0.001f) width = 0.001f; // INFURIATING BUG ALERT - WIDTH MUST BE GREATER THAN ZERO OR IT BREAKS THE SCALE BECAUSE THE RECIPRICAL OF ZERO IS STILL ZERO WTF THIS TOOK HOURS
             widthPosMultipler = 200 / width;
             mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
             GlStateManager.color(0.0F, 0.0F, 1.0F, 1.0F);
@@ -204,7 +238,8 @@ public class LegacyGui extends GuiScreen
             this.drawTexturedModalRect(x * widthPosMultipler, y * heightPosMultiplier, 0, 46 + 1 * 20, 200, 20);
             GlStateManager.scale(200 / width, 20 / height, 1.0f);
             
-            legacy.addXPForPlayer(1, legacyManager);
+            // Draw XP label
+            fontRenderer.drawString("XP: " + (legacy.xp) + " / " + legacy.legacyLevels.get(legacy.currentLegacyLevel).xpRequired, this.width - 160, (int)y - 10, 0x0313fc);
         }        
         
         // Draw scrollbar and do scrollbar logic
