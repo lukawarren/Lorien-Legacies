@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import lorien.legacies.commands.CommandLegacies;
 import lorien.legacies.commands.CommandLegacyLevels;
+import lorien.legacies.commands.CommandLegacyXp;
 import lorien.legacies.items.ModItems;
 import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.KeyInputHandler;
@@ -183,6 +184,7 @@ public class LorienLegacies {
 	{	
 		event.registerServerCommand(new CommandLegacies());
 		event.registerServerCommand(new CommandLegacyLevels());
+		event.registerServerCommand(new CommandLegacyXp());
 	}
 	
 	
