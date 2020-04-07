@@ -9,6 +9,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class AvexLegacy extends Legacy {
 
@@ -110,6 +112,8 @@ public class AvexLegacy extends Legacy {
 		else if (toggled)
 		{
 			player.capabilities.isFlying = true;
+		} else if (!toggled) {
+			player.capabilities.isFlying = false;
 		}
 		
 	}
@@ -118,7 +122,6 @@ public class AvexLegacy extends Legacy {
 	{
 		sendMessageClientside(player, "Avex set to " + ((!hoverMode) ? "hover " : "flying ") + "mode");
 		hoverMode = !hoverMode;
-		
 		
 	}
 	
