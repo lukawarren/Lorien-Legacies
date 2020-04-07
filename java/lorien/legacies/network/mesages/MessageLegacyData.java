@@ -45,6 +45,8 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 	public int avexLegacyXP;
 	public int glacenLegacyXP;
 	
+	public boolean shouldSendMessage;
+	
 	public MessageLegacyData()
 	{
 		
@@ -88,6 +90,8 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 		buf.writeInt(regenerasLegacyXP);
 		buf.writeInt(avexLegacyXP);
 		buf.writeInt(glacenLegacyXP);
+		
+		buf.writeBoolean(shouldSendMessage);
 	}
 
 	@Override
@@ -128,6 +132,8 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 		regenerasLegacyXP = buf.readInt();
 		avexLegacyXP = buf.readInt();
 		glacenLegacyXP = buf.readInt();
+		
+		shouldSendMessage = buf.readBoolean();
 	}
 	
 	@Override
@@ -172,7 +178,7 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 			LorienLegacies.clientLegacyManager.avexLegacy.xp = message.avexLegacyXP;
 			LorienLegacies.clientLegacyManager.glacenLegacy.xp = message.glacenLegacyXP;
 			
-			if (LorienLegacies.clientLegacyManager.legaciesEnabled)
+			if (LorienLegacies.clientLegacyManager.legaciesEnabled && message.shouldSendMessage)
 				LegacyLoader.displayBlessedMessgaes(player);			
 		});
 		

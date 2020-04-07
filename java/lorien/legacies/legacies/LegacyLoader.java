@@ -79,11 +79,11 @@ public class LegacyLoader {
 			saveLegaciesToSave(playerLegacyManager, saveData);
 		}
 		
-		sendLegaciesToClient(playerLegacyManager);
+		sendLegaciesToClient(playerLegacyManager, true);
 		
 	}
 	
-	public static void sendLegaciesToClient(LegacyManager playerLegacyManager)
+	public static void sendLegaciesToClient(LegacyManager playerLegacyManager, boolean shouldShowMessage)
 	{
 		MessageLegacyData messageLegacyData = new MessageLegacyData();
 		messageLegacyData.legaciesEnabled = playerLegacyManager.legaciesEnabled;
@@ -119,6 +119,8 @@ public class LegacyLoader {
 		messageLegacyData.regenerasLegacyXP = playerLegacyManager.regenerasLegacy.xp;
 		messageLegacyData.avexLegacyXP = playerLegacyManager.avexLegacy.xp;
 		messageLegacyData.glacenLegacyXP = playerLegacyManager.glacenLegacy.xp;
+		
+		messageLegacyData.shouldSendMessage = shouldShowMessage;
 		
 		NetworkHandler.sendToPlayer(messageLegacyData, (EntityPlayerMP) playerLegacyManager.player);
 	}
@@ -203,6 +205,8 @@ public class LegacyLoader {
 		legacyDataHolder.regenerasLegacyXP.value = playerLegacyManager.regenerasLegacy.xp;
 		legacyDataHolder.submariLegacyXP.value = playerLegacyManager.submariLegacy.xp;
 		legacyDataHolder.glacenLegacyXP.value = playerLegacyManager.glacenLegacy.xp;
+		
+		System.out.println(legacyDataHolder.submariLegacyXP.value);
 		
 		saveData.setLegacyData(legacyDataHolder, playerLegacyManager.player.world, playerLegacyManager.player.getUniqueID());
 		

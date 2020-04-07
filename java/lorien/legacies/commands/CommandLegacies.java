@@ -57,7 +57,7 @@ public class CommandLegacies implements ICommand
 		}
 		
 		if (index != -1 && LorienLegacies.legacyManagers.get(index).legaciesEnabled)
-			LegacyLoader.sendLegaciesToClient(LorienLegacies.legacyManagers.get(index));
+			LegacyLoader.sendLegaciesToClient(LorienLegacies.legacyManagers.get(index), true);
 		else
 			sender.sendMessage(new TextComponentString("You do not have legacies").setStyle(new Style().setColor(TextFormatting.RED)));
 	}
