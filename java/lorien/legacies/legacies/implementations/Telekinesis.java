@@ -327,5 +327,10 @@ public class Telekinesis extends Legacy
 		try { return  player.world.getEntityByID(previousEntities.get(player.getEntityId())); } catch (Exception e) { return null; }
 	}
 
+	@Override
+	public int getStaminaPerSecond()
+	{
+		return 0;
+	}
 	
 }

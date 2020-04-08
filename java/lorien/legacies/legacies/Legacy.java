@@ -64,5 +64,6 @@ public abstract class Legacy {
 		LegacyLoader.sendLegaciesToClient(legacyManager, false);
 	}
 	
+	public abstract int getStaminaPerSecond();
 	
 }

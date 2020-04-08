@@ -24,5 +24,11 @@ public class FortemLegacy extends Legacy {
 		if (toggled && player.isPotionActive(Potion.getPotionFromResourceLocation("strength")) == false)
 			player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("strength"), 1, 30, true, false));
 	}
-
+	
+	@Override
+	public int getStaminaPerSecond()
+	{
+		return toggled ? 10 : 0;
+	}
+	
 }

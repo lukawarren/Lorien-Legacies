@@ -24,4 +24,10 @@ public class RegenerasLegacy extends Legacy {
 		
 	}
 	
+	@Override
+	public int getStaminaPerSecond()
+	{
+		return 0;
+	}
+	
 }
