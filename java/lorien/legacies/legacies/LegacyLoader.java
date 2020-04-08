@@ -206,8 +206,6 @@ public class LegacyLoader {
 		legacyDataHolder.submariLegacyXP.value = playerLegacyManager.submariLegacy.xp;
 		legacyDataHolder.glacenLegacyXP.value = playerLegacyManager.glacenLegacy.xp;
 		
-		System.out.println(legacyDataHolder.submariLegacyXP.value);
-		
 		saveData.setLegacyData(legacyDataHolder, playerLegacyManager.player.world, playerLegacyManager.player.getUniqueID());
 		
 	}
