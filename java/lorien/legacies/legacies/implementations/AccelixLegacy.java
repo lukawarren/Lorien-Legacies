@@ -23,7 +23,11 @@ public class AccelixLegacy extends Legacy
 		if (toggled && player.isPotionActive(Potion.getPotionFromResourceLocation("speed")) == false)
 			player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("speed"), 1, 35, true, false));
 	}
-	
 
+	@Override
+	public int getStaminaPerSecond()
+	{
+		return toggled ? 10 : 0;
+	}
 	
 }

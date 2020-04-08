@@ -125,4 +125,10 @@ public class AvexLegacy extends Legacy {
 		
 	}
 	
+	@Override
+	public int getStaminaPerSecond()
+	{
+		return toggled ? 10 : 0;
+	}
+	
 }

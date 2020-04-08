@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 
 import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.gui.LegacyGui;
+import lorien.legacies.gui.StaminaGui;
 import lorien.legacies.legacies.implementations.AccelixLegacy;
 import lorien.legacies.legacies.implementations.AvexLegacy;
 import lorien.legacies.legacies.implementations.FortemLegacy;
@@ -32,6 +33,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -79,6 +81,11 @@ public class LegacyManager {
 	
 	public Telekinesis telekinesis;
 	
+	public static final int MAX_STAMINA = 100;
+	public int stamina;
+	
+	private StaminaGui staminaGui;
+	
 	public LegacyManager(EntityPlayer player)
 	{
 		this.player = player;
@@ -110,39 +117,31 @@ public class LegacyManager {
 		legacyList.add(avexLegacy);
 		legacyList.add(glacenLegacy);
 		legacyList.add(telekinesis);
+		
+		staminaGui = new StaminaGui();
 	}
 	
 	public void computeLegacyTick(boolean isServer)
 	{
-		if (lumenLegacyEnabled && lumenLegacy.toggled)
-			lumenLegacy.computeLegacyTick(player);
+		if (lumenLegacyEnabled)lumenLegacy.computeLegacyTick(player);
 			
-		if (noxenLegacyEnabled)
-			noxenLegacy.computeLegacyTick(player);
+		if (noxenLegacyEnabled) noxenLegacy.computeLegacyTick(player);
 			
-		if (submariLegacyEnabled)
-			submariLegacy.computeLegacyTick(player);
+		if (submariLegacyEnabled) submariLegacy.computeLegacyTick(player);
 			
-		if (accelixLegacyEnabled)
-			accelixLegacy.computeLegacyTick(player);
+		if (accelixLegacyEnabled) accelixLegacy.computeLegacyTick(player);
 			
-		if (fortemLegacyEnabled)
-			fortemLegacy.computeLegacyTick(player);
+		if (fortemLegacyEnabled) fortemLegacy.computeLegacyTick(player);
 			
-		if (novisLegacyEnabled)
-			novisLegacy.computeLegacyTick(player);
+		if (novisLegacyEnabled) novisLegacy.computeLegacyTick(player);
 			
-		if (pondusLegacyEnabled)
-			pondusLegacy.computeLegacyTick(player);
+		if (pondusLegacyEnabled) pondusLegacy.computeLegacyTick(player);
 			
-		if (regenerasLegacyEnabled)
-			regenerasLegacy.computeLegacyTick(player);
+		if (regenerasLegacyEnabled) regenerasLegacy.computeLegacyTick(player);
 			
-		if (avexLegacyEnabled)
-			avexLegacy.computeLegacyTick(player);
+		if (avexLegacyEnabled) avexLegacy.computeLegacyTick(player);
 		
-		if (glacenLegacyEnabled)
-			glacenLegacy.computeLegacyTick(player);
+		if (glacenLegacyEnabled) glacenLegacy.computeLegacyTick(player);
 		
 		//telekinesis.computeLegacyTick(player, isServer);
 		
@@ -160,6 +159,23 @@ public class LegacyManager {
 		legacyEnabledList.add(legaciesEnabled);
 	}
 	
+	public void computeStaminaTick()
+	{
+		// Give the player some stamina every tick
+		stamina += 7;
+		
+		// Go through all legacies, and apply stamina logic
+		for (int i = 0; i < legacyList.size(); i++)
+		{
+			Legacy l =  (Legacy) legacyList.get(i);
+			stamina -= l.getStaminaPerSecond();
+		}
+		
+		if (stamina > MAX_STAMINA) stamina = MAX_STAMINA;
+		if (stamina < 0) stamina = 0;
+		
+	}
+	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event)
 	{	
@@ -168,21 +184,33 @@ public class LegacyManager {
 			return;
 
 		if (event.player.world.isRemote && legaciesEnabled) // Client
-			computeLegacyTick(false);
+		{
+			computeStaminaTick();
+			if (stamina > 0) computeLegacyTick(false);
+		}
 		else if (legaciesEnabled) // Server
-			computeLegacyTick(true);
+		{
+			computeStaminaTick();
+			if (stamina > 0) computeLegacyTick(true);
+		}
 	}
 	
 	@SubscribeEvent
 	public void onRenderTick(TickEvent.RenderTickEvent event)
-	{	
-		
+	{
 		onKeyClient();
 		
 		if (player == null)
 			return;
 
 		//telekinesis.computeLegacyTick(player, event.side.isServer());
+	}
+	
+	// Render stamina overlay
+	@SubscribeEvent
+	public void onRenderGui(RenderGameOverlayEvent.Post event)
+	{
+		staminaGui.render((float)stamina / (float)MAX_STAMINA, stamina, MAX_STAMINA);
 	}
 	
 	private boolean previousWaterDecision = false;

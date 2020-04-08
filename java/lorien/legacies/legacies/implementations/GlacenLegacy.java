@@ -260,5 +260,11 @@ public class GlacenLegacy extends Legacy {
         }
 	}
 
+	@Override
+	public int getStaminaPerSecond()
+	{
+		return 0;
+	}
+
 	
 }

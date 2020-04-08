@@ -47,4 +47,10 @@ public class NoxenLegacy extends Legacy {
 			return false;
 	}
 	
+	@Override
+	public int getStaminaPerSecond()
+	{
+		return 0;
+	}
+	
 }

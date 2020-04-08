@@ -24,5 +24,11 @@ public class SubmariLegacy extends Legacy {
 		if (player.isPotionActive(Potion.getPotionFromResourceLocation("water_breathing")) == false)
 			player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("water_breathing"), 1, 255, true, false));
 	}
+	
+	@Override
+	public int getStaminaPerSecond()
+	{
+		return toggled ? 10 : 0;
+	}
 
 }
