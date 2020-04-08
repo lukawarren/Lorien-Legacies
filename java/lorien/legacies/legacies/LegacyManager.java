@@ -210,7 +210,8 @@ public class LegacyManager {
 	@SubscribeEvent
 	public void onRenderGui(RenderGameOverlayEvent.Post event)
 	{
-		staminaGui.render((float)stamina / (float)MAX_STAMINA, stamina, MAX_STAMINA);
+		if (legaciesEnabled)
+			staminaGui.render((float)stamina / (float)MAX_STAMINA, stamina, MAX_STAMINA);
 	}
 	
 	private boolean previousWaterDecision = false;
