@@ -170,11 +170,10 @@ public class LumenLegacy extends Legacy {
 			}
 		}
 	}
-
+	
 	@Override
-	public int getStaminaPerSecond()
+	public int getStaminaPerSecond() 
 	{
 		return 0;
 	}
-	
 }
