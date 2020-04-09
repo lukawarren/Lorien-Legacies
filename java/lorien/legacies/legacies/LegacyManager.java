@@ -174,6 +174,8 @@ public class LegacyManager {
 		if (stamina > MAX_STAMINA) stamina = MAX_STAMINA;
 		if (stamina < 0) stamina = 0;
 		
+		staminaGui.percentage = (float)stamina / (float)MAX_STAMINA;
+		
 	}
 	
 	@SubscribeEvent
@@ -211,7 +213,7 @@ public class LegacyManager {
 	public void onRenderExperienceBar(RenderGameOverlayEvent event)
 	{
 		if (legaciesEnabled)
-			staminaGui.render((float)stamina / (float)MAX_STAMINA, stamina, MAX_STAMINA, event);
+			staminaGui.render(stamina, MAX_STAMINA, event);
 	}
 	
 	private boolean previousWaterDecision = false;

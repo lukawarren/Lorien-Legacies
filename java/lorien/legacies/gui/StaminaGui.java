@@ -16,6 +16,8 @@ public class StaminaGui extends GuiScreen // Extending for the drawTexturedModal
 	private final ResourceLocation BUTTON_TEXTURES = new ResourceLocation("textures/gui/widgets.png");
 	private ResourceLocation CUSTOM_ICON_TEXTURES = new ResourceLocation(LorienLegacies.MODID + ":textures/gui/customicons.png");;
 	
+	public float percentage = 0.0f;
+	
 	public void renderExpBar(ScaledResolution scaledRes, int x, int yOffset, float experience, boolean vanilla, boolean halfWidth) // Lifted from GuiIngame
     {
         Minecraft.getMinecraft().mcProfiler.startSection("expBar");
@@ -58,11 +60,11 @@ public class StaminaGui extends GuiScreen // Extending for the drawTexturedModal
         }
     }
 	
-    public void render(float percentage, int stamina, int maxStamina, RenderGameOverlayEvent event)
+    public void render(int stamina, int maxStamina, RenderGameOverlayEvent event)
 	{
 	
     	// If we're rendering the XP bar, intercept the event
-    	if (event.getType() == ElementType.EXPERIENCE && !Minecraft.getMinecraft().player.isRidingHorse())
+    	if (event.getType() == ElementType.EXPERIENCE && !Minecraft.getMinecraft().player.isRidingHorse() && Minecraft.getMinecraft().playerController.gameIsSurvivalOrAdventure())
     	{
     		event.setCanceled(true);
         	
@@ -78,20 +80,11 @@ public class StaminaGui extends GuiScreen // Extending for the drawTexturedModal
             if (percentage < 0.0f) percentage = 0.0f;
             
             GlStateManager.disableBlend();
-            
-            if (Minecraft.getMinecraft().playerController.gameIsSurvivalOrAdventure())
-            {
-            	renderExpBar(new ScaledResolution(Minecraft.getMinecraft()), screenWidth/2 - 182/2, yOffset, Minecraft.getMinecraft().player.experience, true, true); // Vanilla
-            	GlStateManager.color(0.5f, 0.5f, 0.6f);
-            	renderExpBar(new ScaledResolution(Minecraft.getMinecraft()), screenWidth/2, yOffset, percentage, false, true); // Stamina
-            } 
-            else if (!Minecraft.getMinecraft().playerController.isSpectator())
-            {
-            	GlStateManager.color(0.5f, 0.5f, 0.6f);
-            	renderExpBar(new ScaledResolution(Minecraft.getMinecraft()), screenWidth/2 - 182/2, yOffset, percentage, false, false); // Stamina
-            }
+
+            renderExpBar(new ScaledResolution(Minecraft.getMinecraft()), screenWidth/2 - 182/2, yOffset, Minecraft.getMinecraft().player.experience, true, true); // Vanilla
+            GlStateManager.color(0.5f, 0.5f, 0.6f);
+            renderExpBar(new ScaledResolution(Minecraft.getMinecraft()), screenWidth/2, yOffset, percentage, false, true); // Stamina
             GlStateManager.color(1.0f, 1.0f, 1.0f);
-            
             
             Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.ICONS); // Fix hunger by binding its texture again
     		
