@@ -164,11 +164,14 @@ public class LegacyManager {
 		// Give the player some stamina every tick
 		stamina += 7;
 		
-		// Go through all legacies, and apply stamina logic
-		for (int i = 0; i < legacyList.size(); i++)
+		if (player.isCreative() == false && player.isSpectator() == false)
 		{
-			Legacy l =  (Legacy) legacyList.get(i);
-			stamina -= l.getStaminaPerSecond();
+			// Go through all legacies, and apply stamina logic
+			for (int i = 0; i < legacyList.size(); i++)
+			{
+				Legacy l =  (Legacy) legacyList.get(i);
+				stamina -= l.getStaminaPerSecond();
+			}
 		}
 		
 		if (stamina > MAX_STAMINA) stamina = MAX_STAMINA;
