@@ -39,6 +39,8 @@ public class Telekinesis extends Legacy
 {
 	
 	private static final float DISTANCE = 10;
+	private static final float LAUNCH_POWER = 0.9f;
+	
 	public boolean activated = false;
 	
 	private Entity previousTickEntity; // Keep track of previous entity so we can get rid of the glow effect
@@ -52,7 +54,7 @@ public class Telekinesis extends Legacy
 	}
 
 	
-	public void computeLegacyTick(EntityPlayer player, boolean server)
+	public void computeLegacyTick(EntityPlayer player)
 	{
 		if (activated)
 		{
@@ -109,6 +111,24 @@ public class Telekinesis extends Legacy
 		}
 		
 
+	}
+	
+	public void launch(EntityPlayer player)
+	{
+		if (previousTickEntity == null) return;
+
+		// Calculate force
+		Vec3d force = new Vec3d(player.getLookVec().x * LAUNCH_POWER, player.getLookVec().y * LAUNCH_POWER, player.getLookVec().z * LAUNCH_POWER);
+		previousTickEntity.fallDistance = 1000; // Ensure the entity wall fall to its death
+		previousTickEntity.addVelocity(force.x, force.y, force.z); // Fling the entity
+		
+		// Deselect entity and "un-toggle" legacy
+		lockedOntoPointedEntity = false;
+		previousTickEntity.setGlowing(false);
+		previousTickEntity = null;
+		toggled = true;
+		toggle(player);
+		activated = false;
 	}
 	
 	// Perfectly lifted from CommandTP::teleportEntityToCoordinates()
@@ -293,12 +313,6 @@ public class Telekinesis extends Legacy
 		double diffZ = collider.maxZ - collider.minZ;
 		double finalDifference = diffX * diffY * diffZ;
 		return finalDifference;
-	}
-	
-	@Override
-	public void computeLegacyTick(EntityPlayer player)
-	{
-		System.err.println("Error - you're calling the wrong method!");
 	}
 
 	@Override

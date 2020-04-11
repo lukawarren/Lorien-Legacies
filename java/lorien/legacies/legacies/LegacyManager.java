@@ -143,7 +143,7 @@ public class LegacyManager {
 		
 		if (glacenLegacyEnabled) glacenLegacy.computeLegacyTick(player);
 		
-		if (legaciesEnabled) telekinesis.computeLegacyTick(player, isServer);
+		if (legaciesEnabled) telekinesis.computeLegacyTick(player);
 		
 		legacyEnabledList.clear();
 		legacyEnabledList.add(lumenLegacyEnabled);
@@ -188,6 +188,11 @@ public class LegacyManager {
 		if (event.player == null || player == null)
 			return;
 
+		// Try getting the player's game mode, which requires them to be connected to server. 
+		// If it fails, we need to wait. Best not crash too whilst we're at it!
+		try { player.isCreative(); }
+		catch (Exception e) { return; }
+		
 		if (event.player.world.isRemote && legaciesEnabled) // Client
 		{
 			computeStaminaTick();
@@ -248,6 +253,8 @@ public class LegacyManager {
 			action = LegacyAction.AvexHover;
 		else if (KeyBindings.activateTelekinesis.isPressed() && legaciesEnabled)
 			action = LegacyAction.Telekinesis;
+		else if (KeyBindings.launchTelekinesis.isPressed() && legaciesEnabled)
+			action = LegacyAction.TelekinesisLaunch;
 		
 		if (action != null)
 			NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
@@ -286,6 +293,8 @@ public class LegacyManager {
 			telekinesis.activated = !telekinesis.activated;
 			telekinesis.toggle(player);
 		}
+		
+		if (action == LegacyAction.TelekinesisLaunch && legaciesEnabled) telekinesis.launch(player);
 		
 	}
 	
