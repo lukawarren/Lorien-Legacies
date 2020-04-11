@@ -143,7 +143,7 @@ public class LegacyManager {
 		
 		if (glacenLegacyEnabled) glacenLegacy.computeLegacyTick(player);
 		
-		//telekinesis.computeLegacyTick(player, isServer);
+		if (legaciesEnabled) telekinesis.computeLegacyTick(player, isServer);
 		
 		legacyEnabledList.clear();
 		legacyEnabledList.add(lumenLegacyEnabled);
@@ -246,11 +246,13 @@ public class LegacyManager {
 			action = LegacyAction.Avex;
 		else if (KeyBindings.avexHover.isPressed() && avexLegacyEnabled)
 			action = LegacyAction.AvexHover;
-
+		else if (KeyBindings.activateTelekinesis.isPressed() && legaciesEnabled)
+			action = LegacyAction.Telekinesis;
+		
 		if (action != null)
 			NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
 		
-		// --- Also apply toggling on client-side --- \\
+		// --- Also apply toggling and stuff on client-side --- \\
 		
 		if (action == null)
 			return;
@@ -278,6 +280,12 @@ public class LegacyManager {
 		// Avex hover
 		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
 			avexLegacy.hover(player);
+		
+		if (action == LegacyAction.Telekinesis && legaciesEnabled)
+		{
+			telekinesis.activated = !telekinesis.activated;
+			telekinesis.toggle(player);
+		}
 		
 	}
 	
