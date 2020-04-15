@@ -109,8 +109,6 @@ public class Telekinesis extends Legacy
 			}
 			lockedOntoPointedEntity = false;
 		}
-		
-
 	}
 	
 	public void launch(EntityPlayer player)

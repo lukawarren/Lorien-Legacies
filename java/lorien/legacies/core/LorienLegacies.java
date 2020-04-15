@@ -97,18 +97,21 @@ public class LorienLegacies {
 	@SubscribeEvent
 	public void PlayerLoggedOutEvent(PlayerLoggedOutEvent event)
 	{		
-		boolean managerAlreadyExists = false;
-		int index = 0;
+		// Get rid of old instances
+		clientLegacyManager = null;
+				
+		List<Integer> offendingLegacyManagers = new ArrayList<>();
 		for (int i = 0; i < legacyManagers.size(); i++)
 		{
 			if (legacyManagers.get(i).player.getUniqueID().equals(event.player.getUniqueID()))
-			{
-				index = i;
-			}
+				offendingLegacyManagers.add(i);
 		}
+				
+				
+		for (int i : offendingLegacyManagers)
+			legacyManagers.remove(i);
 		
-		if (managerAlreadyExists)
-			legacyManagers.remove(index);
+		System.out.println(legacyManagers.size());
 	}
 	
 	private void loadLegaciesForClient(PlayerEvent event)

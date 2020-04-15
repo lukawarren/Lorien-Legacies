@@ -123,22 +123,23 @@ public class LegacyManager {
 	
 	public void computeLegacyTick(boolean isServer)
 	{
+
 		if (lumenLegacyEnabled)lumenLegacy.computeLegacyTick(player);
-			
+		
 		if (noxenLegacyEnabled) noxenLegacy.computeLegacyTick(player);
-			
+				
 		if (submariLegacyEnabled) submariLegacy.computeLegacyTick(player);
 			
 		if (accelixLegacyEnabled) accelixLegacy.computeLegacyTick(player);
-			
+				
 		if (fortemLegacyEnabled) fortemLegacy.computeLegacyTick(player);
-			
+				
 		if (novisLegacyEnabled) novisLegacy.computeLegacyTick(player);
-			
+				
 		if (pondusLegacyEnabled) pondusLegacy.computeLegacyTick(player);
-			
+				
 		if (regenerasLegacyEnabled) regenerasLegacy.computeLegacyTick(player);
-			
+				
 		if (avexLegacyEnabled) avexLegacy.computeLegacyTick(player);
 		
 		if (glacenLegacyEnabled) glacenLegacy.computeLegacyTick(player);
@@ -213,7 +214,7 @@ public class LegacyManager {
 		if (player == null)
 			return;
 
-		//telekinesis.computeLegacyTick(player, event.side.isServer());
+		telekinesis.computeLegacyTick(player);
 	}
 	
 	// Render stamina overlay
