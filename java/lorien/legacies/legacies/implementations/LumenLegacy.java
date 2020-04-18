@@ -56,7 +56,7 @@ public class LumenLegacy extends Legacy {
 	    	
 	        // Only cancel fire damage if greater than level 2
 	        if (event.getSource().equals(DamageSource.IN_FIRE) || event.getSource().equals(DamageSource.ON_FIRE)) {
-	        	if (LorienLegacies.legacyManagers.get(0).lumenLegacyEnabled) {
+	        	if (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID()) && LorienLegacies.instance.legacyManagers.get(player.getUniqueID()).lumenLegacyEnabled) {
 	        		if (currentLegacyLevel >= 2) {
 	        			event.setCanceled(true);
 	        		}
@@ -64,7 +64,7 @@ public class LumenLegacy extends Legacy {
 	        }
 	        // Only cancel lava and dragon fire damage if level 4
 	        else if (event.getSource().equals(DamageSource.LAVA) || event.getSource().equals(DamageSource.DRAGON_BREATH)) {
-	        	if (LorienLegacies.legacyManagers.get(0).lumenLegacyEnabled) {
+	        	if (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID()) && LorienLegacies.instance.legacyManagers.get(player.getUniqueID()).lumenLegacyEnabled) {
 	        		if (currentLegacyLevel >= 4) {
 	        			event.setCanceled(true);
 	        		}
@@ -159,7 +159,7 @@ public class LumenLegacy extends Legacy {
 			EntityPlayer player = (EntityPlayer)event.getSource().getTrueSource();
 			EntityLivingBase enemy = event.getEntityLiving();
 			
-			if (LorienLegacies.legacyManagers.get(0).lumenLegacyEnabled) {
+			if (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID()) && LorienLegacies.instance.legacyManagers.get(player.getUniqueID()).lumenLegacyEnabled) {
 				if (currentLegacyLevel >= 5) {
 					// Check if the player is unarmed
 					ItemStack stack = player.inventory.getCurrentItem();

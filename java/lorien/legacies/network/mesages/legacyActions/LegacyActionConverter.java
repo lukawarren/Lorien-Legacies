@@ -58,6 +58,17 @@ public class LegacyActionConverter
 			legacyManager.avexLegacy.hover(player);
 		}
 		
+		else if (action == LegacyAction.Telekinesis && legacyManager.legaciesEnabled)
+		{
+			legacyManager.telekinesis.activated = !legacyManager.telekinesis.activated;
+			legacyManager.telekinesis.toggle(player);
+		}
+		
+		else if (action == LegacyAction.TelekinesisLaunch && legacyManager.legaciesEnabled)
+		{
+			legacyManager.telekinesis.launch(player);
+		}
+		
 	}
 	
 	public static LegacyAction legacyActionFromInt(int i)
@@ -81,6 +92,10 @@ public class LegacyActionConverter
 			return LegacyAction.Avex;
 		else if (i == 8)
 			return LegacyAction.AvexHover;
+		else if (i == 9)
+			return LegacyAction.Telekinesis;
+		else if (i == 10)
+			return LegacyAction.TelekinesisLaunch;
 		
 		return null;
 		
@@ -107,6 +122,10 @@ public class LegacyActionConverter
 			return 7;
 		else if (i == LegacyAction.AvexHover)
 			return 8;
+		else if (i == LegacyAction.Telekinesis)
+			return 9;
+		else if (i == LegacyAction.TelekinesisLaunch)
+			return 10;
 		
 		return -1;
 		

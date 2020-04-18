@@ -142,43 +142,43 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 		
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			
-			LorienLegacies.clientLegacyManager = new LegacyManager(player);
+			LorienLegacies.instance.clientLegacyManager = new LegacyManager(player);
 			
-			LorienLegacies.clientLegacyManager.legaciesEnabled = message.legaciesEnabled;
-			LorienLegacies.clientLegacyManager.lumenLegacyEnabled = message.lumenLegacyEnabled;
-			LorienLegacies.clientLegacyManager.noxenLegacyEnabled = message.noxenLegacyEnabled;
-			LorienLegacies.clientLegacyManager.submariLegacyEnabled = message.submariLegacyEnabled;
-			LorienLegacies.clientLegacyManager.novisLegacyEnabled = message.novisLegacyEnabled;
-			LorienLegacies.clientLegacyManager.accelixLegacyEnabled = message.accelixLegacyEnabled;
-			LorienLegacies.clientLegacyManager.fortemLegacyEnabled = message.fortemLegacyEnabled;
-			LorienLegacies.clientLegacyManager.pondusLegacyEnabled = message.pondusLegacyEnabled;
-			LorienLegacies.clientLegacyManager.regenerasLegacyEnabled = message.regenerasLegacyEnabled;
-			LorienLegacies.clientLegacyManager.avexLegacyEnabled = message.avexLegacyEnabled;
-			LorienLegacies.clientLegacyManager.glacenLegacyEnabled = message.glacenLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.legaciesEnabled = message.legaciesEnabled;
+			LorienLegacies.instance.clientLegacyManager.lumenLegacyEnabled = message.lumenLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.noxenLegacyEnabled = message.noxenLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.submariLegacyEnabled = message.submariLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.novisLegacyEnabled = message.novisLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.accelixLegacyEnabled = message.accelixLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.fortemLegacyEnabled = message.fortemLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.pondusLegacyEnabled = message.pondusLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.regenerasLegacyEnabled = message.regenerasLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.avexLegacyEnabled = message.avexLegacyEnabled;
+			LorienLegacies.instance.clientLegacyManager.glacenLegacyEnabled = message.glacenLegacyEnabled;
 			
-			LorienLegacies.clientLegacyManager.lumenLegacy.currentLegacyLevel = message.lumenLegacyLevel;
-			LorienLegacies.clientLegacyManager.noxenLegacy.currentLegacyLevel = message.noxenLegacyLevel;
-			LorienLegacies.clientLegacyManager.submariLegacy.currentLegacyLevel = message.submariLegacyLevel;
-			LorienLegacies.clientLegacyManager.novisLegacy.currentLegacyLevel = message.novisLegacyLevel;
-			LorienLegacies.clientLegacyManager.accelixLegacy.currentLegacyLevel = message.accelixLegacyLevel;
-			LorienLegacies.clientLegacyManager.fortemLegacy.currentLegacyLevel = message.fortemLegacyLevel;
-			LorienLegacies.clientLegacyManager.pondusLegacy.currentLegacyLevel = message.pondusLegacyLevel;
-			LorienLegacies.clientLegacyManager.regenerasLegacy.currentLegacyLevel = message.regenerasLegacyLevel;
-			LorienLegacies.clientLegacyManager.avexLegacy.currentLegacyLevel = message.avexLegacyLevel;
-			LorienLegacies.clientLegacyManager.glacenLegacy.currentLegacyLevel = message.glacenLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.lumenLegacy.currentLegacyLevel = message.lumenLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.noxenLegacy.currentLegacyLevel = message.noxenLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.submariLegacy.currentLegacyLevel = message.submariLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.novisLegacy.currentLegacyLevel = message.novisLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.accelixLegacy.currentLegacyLevel = message.accelixLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.fortemLegacy.currentLegacyLevel = message.fortemLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.pondusLegacy.currentLegacyLevel = message.pondusLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.regenerasLegacy.currentLegacyLevel = message.regenerasLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.avexLegacy.currentLegacyLevel = message.avexLegacyLevel;
+			LorienLegacies.instance.clientLegacyManager.glacenLegacy.currentLegacyLevel = message.glacenLegacyLevel;
 			
-			LorienLegacies.clientLegacyManager.lumenLegacy.xp = message.lumenLegacyXP;
-			LorienLegacies.clientLegacyManager.noxenLegacy.xp = message.noxenLegacyXP;
-			LorienLegacies.clientLegacyManager.submariLegacy.xp = message.submariLegacyXP;
-			LorienLegacies.clientLegacyManager.novisLegacy.xp = message.novisLegacyXP;
-			LorienLegacies.clientLegacyManager.accelixLegacy.xp = message.accelixLegacyXP;
-			LorienLegacies.clientLegacyManager.fortemLegacy.xp = message.fortemLegacyXP;
-			LorienLegacies.clientLegacyManager.pondusLegacy.xp = message.pondusLegacyXP;
-			LorienLegacies.clientLegacyManager.regenerasLegacy.xp = message.regenerasLegacyXP;
-			LorienLegacies.clientLegacyManager.avexLegacy.xp = message.avexLegacyXP;
-			LorienLegacies.clientLegacyManager.glacenLegacy.xp = message.glacenLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.lumenLegacy.xp = message.lumenLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.noxenLegacy.xp = message.noxenLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.submariLegacy.xp = message.submariLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.novisLegacy.xp = message.novisLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.accelixLegacy.xp = message.accelixLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.fortemLegacy.xp = message.fortemLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.pondusLegacy.xp = message.pondusLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.regenerasLegacy.xp = message.regenerasLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.avexLegacy.xp = message.avexLegacyXP;
+			LorienLegacies.instance.clientLegacyManager.glacenLegacy.xp = message.glacenLegacyXP;
 			
-			if (LorienLegacies.clientLegacyManager.legaciesEnabled && message.shouldSendMessage)
+			if (LorienLegacies.instance.clientLegacyManager.legaciesEnabled && message.shouldSendMessage)
 				LegacyLoader.displayBlessedMessgaes(player);			
 		});
 		

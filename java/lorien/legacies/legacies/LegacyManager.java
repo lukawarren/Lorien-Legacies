@@ -123,27 +123,28 @@ public class LegacyManager {
 	
 	public void computeLegacyTick(boolean isServer)
 	{
+
 		if (lumenLegacyEnabled)lumenLegacy.computeLegacyTick(player);
-			
+		
 		if (noxenLegacyEnabled) noxenLegacy.computeLegacyTick(player);
-			
+				
 		if (submariLegacyEnabled) submariLegacy.computeLegacyTick(player);
 			
 		if (accelixLegacyEnabled) accelixLegacy.computeLegacyTick(player);
-			
+				
 		if (fortemLegacyEnabled) fortemLegacy.computeLegacyTick(player);
-			
+				
 		if (novisLegacyEnabled) novisLegacy.computeLegacyTick(player);
-			
+				
 		if (pondusLegacyEnabled) pondusLegacy.computeLegacyTick(player);
-			
+				
 		if (regenerasLegacyEnabled) regenerasLegacy.computeLegacyTick(player);
-			
+				
 		if (avexLegacyEnabled) avexLegacy.computeLegacyTick(player);
 		
 		if (glacenLegacyEnabled) glacenLegacy.computeLegacyTick(player);
 		
-		//telekinesis.computeLegacyTick(player, isServer);
+		if (legaciesEnabled) telekinesis.computeLegacyTick(player);
 		
 		legacyEnabledList.clear();
 		legacyEnabledList.add(lumenLegacyEnabled);
@@ -188,6 +189,11 @@ public class LegacyManager {
 		if (event.player == null || player == null)
 			return;
 
+		// Try getting the player's game mode, which requires them to be connected to server. 
+		// If it fails, we need to wait. Best not crash too whilst we're at it!
+		try { player.isCreative(); }
+		catch (Exception e) { return; }
+		
 		if (event.player.world.isRemote && legaciesEnabled) // Client
 		{
 			computeStaminaTick();
@@ -208,7 +214,7 @@ public class LegacyManager {
 		if (player == null)
 			return;
 
-		//telekinesis.computeLegacyTick(player, event.side.isServer());
+		telekinesis.computeLegacyTick(player);
 	}
 	
 	// Render stamina overlay
@@ -246,11 +252,15 @@ public class LegacyManager {
 			action = LegacyAction.Avex;
 		else if (KeyBindings.avexHover.isPressed() && avexLegacyEnabled)
 			action = LegacyAction.AvexHover;
-
+		else if (KeyBindings.activateTelekinesis.isPressed() && legaciesEnabled)
+			action = LegacyAction.Telekinesis;
+		else if (KeyBindings.launchTelekinesis.isPressed() && legaciesEnabled)
+			action = LegacyAction.TelekinesisLaunch;
+		
 		if (action != null)
 			NetworkHandler.sendToServer(new MessageLegacyAction(LegacyActionConverter.intFromLegacyAction(action)));
 		
-		// --- Also apply toggling on client-side --- \\
+		// --- Also apply toggling and stuff on client-side --- \\
 		
 		if (action == null)
 			return;
@@ -278,6 +288,14 @@ public class LegacyManager {
 		// Avex hover
 		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
 			avexLegacy.hover(player);
+		
+		if (action == LegacyAction.Telekinesis && legaciesEnabled)
+		{
+			telekinesis.activated = !telekinesis.activated;
+			telekinesis.toggle(player);
+		}
+		
+		if (action == LegacyAction.TelekinesisLaunch && legaciesEnabled) telekinesis.launch(player);
 		
 	}
 	

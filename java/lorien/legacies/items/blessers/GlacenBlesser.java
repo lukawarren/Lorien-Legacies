@@ -23,8 +23,8 @@ public class GlacenBlesser extends Blesser {
 	@Override
 	protected void handleClient(EntityPlayer player)
 	{
-		LorienLegacies.clientLegacyManager.legaciesEnabled = true;
-		LorienLegacies.clientLegacyManager.glacenLegacyEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.legaciesEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.glacenLegacyEnabled = true;
 		new GlacenLegacy().blessedMessage(player);
 	}
 

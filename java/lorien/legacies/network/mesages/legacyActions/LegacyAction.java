@@ -1,3 +1,3 @@
 package lorien.legacies.network.mesages.legacyActions;
 
-public enum LegacyAction { LumenFireball, LumenIgnition, Accelix, Fortem, Novis, Pondus, GlacenFreeze, Avex, AvexHover };
+public enum LegacyAction { LumenFireball, LumenIgnition, Accelix, Fortem, Novis, Pondus, GlacenFreeze, Avex, AvexHover, Telekinesis, TelekinesisLaunch };

@@ -36,8 +36,8 @@ private static String UNLOCALIZED_NAME = "avexblesser";
 	@Override
 	protected void handleClient(EntityPlayer player)
 	{
-		LorienLegacies.clientLegacyManager.legaciesEnabled = true;
-		LorienLegacies.clientLegacyManager.avexLegacyEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.legaciesEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.avexLegacyEnabled = true;
 		new AvexLegacy().blessedMessage(player);
 	}
 

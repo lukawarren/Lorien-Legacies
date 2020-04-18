@@ -15,8 +15,8 @@ public class LegacyWorldSaveData extends WorldSavedData {
 	private static final boolean IS_GLOBAL = true; // Exists across all dimensions (Nether, Overworld, etc)
 	private static final String DATA_NAME = LorienLegacies.MODID;
 
-	public static List<LegacyDataHolder> legacyData = new ArrayList<>();
-	public static List<UUID> playerUUIDs = new ArrayList<>();
+	public List<LegacyDataHolder> legacyData = new ArrayList<>();
+	public List<UUID> playerUUIDs = new ArrayList<>();
 	
 	public LegacyWorldSaveData()
 	{
@@ -71,7 +71,7 @@ public class LegacyWorldSaveData extends WorldSavedData {
 		
 		return nbt;
 	}
-	
+
 	public static LegacyWorldSaveData get(World world)
 	{	
 		//initialLoadingRequired = true;
@@ -130,7 +130,7 @@ public class LegacyWorldSaveData extends WorldSavedData {
 		return null;
 	}
 	
-	public static void addPlayer(UUID playerUUID)
+	public void addPlayer(UUID playerUUID)
 	{
 		playerUUIDs.add(playerUUID);
 		legacyData.add(new LegacyDataHolder());

@@ -1,7 +1,9 @@
 package lorien.legacies.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -15,12 +17,15 @@ import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.KeyInputHandler;
 import lorien.legacies.legacies.LegacyLoader;
 import lorien.legacies.legacies.LegacyManager;
+import lorien.legacies.legacies.worldSave.LegacyWorldSaveData;
 import lorien.legacies.proxy.CommonProxy;
 import lorien.legacies.worldgen.OreGen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -34,6 +39,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 @Mod(modid = LorienLegacies.MODID, name = LorienLegacies.NAME, version = LorienLegacies.VERSION)
 
@@ -56,15 +62,12 @@ public class LorienLegacies {
 	public static final Logger LOGGER = LogManager.getLogger(NAME);
 
 	// Legacies
-	public static List<LegacyManager> legacyManagers = new ArrayList<LegacyManager>(); // List of legacy managers - one
-																						// for each player. For server-side only
-	public static LegacyManager clientLegacyManager; // For client-side only
-
+	public HashMap<UUID, LegacyManager> legacyManagers = new HashMap<UUID, LegacyManager>(); // Server-side only
+	public LegacyManager clientLegacyManager; // For client-side only
+	
 	@SubscribeEvent
 	public void PlayerLoggedInEvent(PlayerLoggedInEvent event)
-	{
-		
-		
+	{				
 		if (event.player.world.isRemote)
 			loadLegaciesForClient(event);
 		else
@@ -76,17 +79,7 @@ public class LorienLegacies {
 	{		
 		// Get rid of old instances
 		clientLegacyManager = null;
-		
-		List<Integer> offendingLegacyManagers = new ArrayList<>();
-		for (int i = 0; i < legacyManagers.size(); i++)
-		{
-			if (legacyManagers.get(i).player.getUniqueID().equals(event.player.getUniqueID()))
-				offendingLegacyManagers.add(i);
-		}
-		
-		
-		for (int i : offendingLegacyManagers)
-			legacyManagers.remove(i);
+		legacyManagers.remove(event.player.getUniqueID());
 		
 		if (event.player.world.isRemote)
 			loadLegaciesForClient(event);
@@ -97,21 +90,12 @@ public class LorienLegacies {
 	@SubscribeEvent
 	public void PlayerLoggedOutEvent(PlayerLoggedOutEvent event)
 	{		
-		boolean managerAlreadyExists = false;
-		int index = 0;
-		for (int i = 0; i < legacyManagers.size(); i++)
-		{
-			if (legacyManagers.get(i).player.getUniqueID().equals(event.player.getUniqueID()))
-			{
-				index = i;
-			}
-		}
-		
-		if (managerAlreadyExists)
-			legacyManagers.remove(index);
+		// Get rid of old instances
+		clientLegacyManager = null;
+		legacyManagers.remove(event.player.getUniqueID());
 	}
 	
-	private void loadLegaciesForClient(PlayerEvent event)
+	private void loadLegaciesForClient(PlayerEvent event) // DOES NOT ACTUALLY GET CALLED!
 	{
 		clientLegacyManager = new LegacyManager((EntityPlayer) event.player); // No need for data, we get that from MessageLegacyData
 	}
@@ -125,7 +109,7 @@ public class LorienLegacies {
 		player.setNoGravity(false);
 				
 		LegacyManager playerLegacyManager = new LegacyManager(player);
-		legacyManagers.add(playerLegacyManager);
+		legacyManagers.put(player.getUniqueID(), playerLegacyManager);
 
 		// In order to fix Pondus
 		player.setNoGravity(false);

@@ -29,14 +29,10 @@ public abstract class Blesser extends Item
 		}
 		else // Server
 		{
-			for (LegacyManager l : LorienLegacies.legacyManagers)
-			{
-				if (l.player.getUniqueID().equals(player.getUniqueID()))
-				{
-					handleServer(l);
-					LegacyLoader.saveLegaciesToSave(l, LegacyWorldSaveData.get(worldIn));
-				}
-			}
+			LegacyManager l = LorienLegacies.instance.legacyManagers.get(player.getUniqueID());
+					
+			handleServer(l);
+			LegacyLoader.saveLegaciesToSave(l, LegacyWorldSaveData.get(worldIn));
 			
 		}
 		

@@ -37,8 +37,8 @@ public class NoxenBlesser extends Blesser {
 	@Override
 	protected void handleClient(EntityPlayer player)
 	{
-		LorienLegacies.clientLegacyManager.legaciesEnabled = true;
-		LorienLegacies.clientLegacyManager.noxenLegacyEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.legaciesEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.noxenLegacyEnabled = true;
 		new NoxenLegacy().blessedMessage(player);
 	}
 

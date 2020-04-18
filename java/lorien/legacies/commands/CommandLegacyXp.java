@@ -47,14 +47,9 @@ public class CommandLegacyXp implements ICommand
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 	{
 		// Get legacy manager of player
-		int index = -1;	
-		for (int i = 0; i < LorienLegacies.legacyManagers.size(); i++)
-		{
-			if (LorienLegacies.legacyManagers.get(i).player.getUniqueID().equals(sender.getCommandSenderEntity().getUniqueID()))
-				index = i;
-		}
+		LegacyManager l = LorienLegacies.instance.legacyManagers.get(sender.getCommandSenderEntity().getUniqueID());
 		
-		if (index != -1 && LorienLegacies.legacyManagers.get(index).legaciesEnabled)
+		if (l != null && l.legaciesEnabled)
 		{
 			// Retrieve arguments and parse XP number
 			if (args.length < 2)
@@ -75,11 +70,11 @@ public class CommandLegacyXp implements ICommand
 			
 			// Convert name to legacy and do logic accordingly
 			Legacy targetLegacy = null;
-			for (int i = 0; i < LorienLegacies.legacyManagers.get(index).legacyList.size(); ++i) // Each legacy already has a name attribute, so just go through each one until we find the right one
+			for (int i = 0; i < l.legacyList.size(); ++i) // Each legacy already has a name attribute, so just go through each one until we find the right one
 			{
-				Legacy l =  (Legacy) LorienLegacies.legacyManagers.get(index).legacyList.get(i);
-				if (l.LEGACY_NAME.toLowerCase().equals(name))
-					targetLegacy = (Legacy) LorienLegacies.legacyManagers.get(index).legacyList.get(i);
+				Legacy legacy =  (Legacy) l.legacyList.get(i);
+				if (legacy.LEGACY_NAME.toLowerCase().equals(name))
+					targetLegacy = (Legacy) l.legacyList.get(i);
 			}
 			if (targetLegacy == null)
 			{
@@ -88,7 +83,7 @@ public class CommandLegacyXp implements ICommand
 			}
 			
 			// Add XP and give the player confirmation
-			targetLegacy.addXPForPlayer(xp, LorienLegacies.legacyManagers.get(index));
+			targetLegacy.addXPForPlayer(xp, l);
 			sender.sendMessage(new TextComponentString("Added " + addXp + " xp to " + targetLegacy.LEGACY_NAME).setStyle(new Style().setColor(TextFormatting.GREEN)));
 			
 		} else sender.sendMessage(new TextComponentString("You do not have legacies").setStyle(new Style().setColor(TextFormatting.RED)));

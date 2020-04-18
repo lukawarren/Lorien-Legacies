@@ -41,7 +41,7 @@ public class LegacyLoader {
 		
 		if (legacyData == null || legacyData.enabledData == null) // If it doens't exist
 		{
-			LegacyWorldSaveData.addPlayer(playerLegacyManager.player.getUniqueID());
+			LegacyWorldSaveData.get(playerLegacyManager.player.world).addPlayer(playerLegacyManager.player.getUniqueID());
 			playerIsAlreadyAsigned = false;
 		}
 		else
@@ -360,28 +360,28 @@ public class LegacyLoader {
 		player.sendMessage(new TextComponentString("----------------------------------------").setStyle(new Style().setColor(TextFormatting.BLUE)));
 		player.sendMessage(new TextComponentString("You are blessed with legacies! They are:").setStyle(new Style().setColor(TextFormatting.RED)));
 		
-		if (LorienLegacies.clientLegacyManager.lumenLegacyEnabled)
-			LorienLegacies.clientLegacyManager.lumenLegacy.blessedMessage(player);
-		if (LorienLegacies.clientLegacyManager.noxenLegacyEnabled)
-			LorienLegacies.clientLegacyManager.noxenLegacy.blessedMessage(player);
-		if (LorienLegacies.clientLegacyManager.submariLegacyEnabled)
-			LorienLegacies.clientLegacyManager.submariLegacy.blessedMessage(player);
-		if (LorienLegacies.clientLegacyManager.novisLegacyEnabled)
-			LorienLegacies.clientLegacyManager.novisLegacy.blessedMessage(player);
-		if (LorienLegacies.clientLegacyManager.accelixLegacyEnabled)
-			LorienLegacies.clientLegacyManager.accelixLegacy.blessedMessage(player);
-		if (LorienLegacies.clientLegacyManager.fortemLegacyEnabled)
-			LorienLegacies.clientLegacyManager.fortemLegacy.blessedMessage(player);
-		if (LorienLegacies.clientLegacyManager.pondusLegacyEnabled)
-			LorienLegacies.clientLegacyManager.pondusLegacy.blessedMessage(player);
-		if (LorienLegacies.clientLegacyManager.regenerasLegacyEnabled)
-			LorienLegacies.clientLegacyManager.regenerasLegacy.blessedMessage(player);
-		if (LorienLegacies.clientLegacyManager.avexLegacyEnabled)
-			LorienLegacies.clientLegacyManager.avexLegacy.blessedMessage(player);
-		if (LorienLegacies.clientLegacyManager.glacenLegacyEnabled)
-			LorienLegacies.clientLegacyManager.glacenLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.lumenLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.lumenLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.noxenLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.noxenLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.submariLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.submariLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.novisLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.novisLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.accelixLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.accelixLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.fortemLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.fortemLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.pondusLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.pondusLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.regenerasLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.regenerasLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.avexLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.avexLegacy.blessedMessage(player);
+		if (LorienLegacies.instance.clientLegacyManager.glacenLegacyEnabled)
+			LorienLegacies.instance.clientLegacyManager.glacenLegacy.blessedMessage(player);
 		
-		LorienLegacies.clientLegacyManager.telekinesis.blessedMessage(player);
+		LorienLegacies.instance.clientLegacyManager.telekinesis.blessedMessage(player);
 		player.sendMessage(new TextComponentString("----------------------------------------").setStyle(new Style().setColor(TextFormatting.BLUE)));
 	}
 	

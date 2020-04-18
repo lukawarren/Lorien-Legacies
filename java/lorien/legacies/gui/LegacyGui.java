@@ -66,7 +66,7 @@ public class LegacyGui extends GuiScreen
 					
 		// Get all legacies and add GUI stuff for each one
 		levelLegacies.clear();
-		legacyManager = LorienLegacies.clientLegacyManager;
+		legacyManager = LorienLegacies.instance.clientLegacyManager;
 		for (int i = 0; i < legacyManager.legacyList.size(); i++)
 		{
 			Legacy legacy = (Legacy) legacyManager.legacyList.get(i);

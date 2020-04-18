@@ -50,11 +50,7 @@ public class CommandLegacyLevels implements ICommand
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 	{
-		boolean hasLegacies = false;
-		for (LegacyManager l : LorienLegacies.legacyManagers)
-			if (l.player.getDisplayName().equals(sender.getDisplayName()))
-				if (l.legaciesEnabled)
-					hasLegacies = true;
+		boolean hasLegacies = LorienLegacies.instance.legacyManagers.containsKey(sender.getCommandSenderEntity().getUniqueID());
 	
 		if (!server.worlds[0].isRemote && hasLegacies)
 		{

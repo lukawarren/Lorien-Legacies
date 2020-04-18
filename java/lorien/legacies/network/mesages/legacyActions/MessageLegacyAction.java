@@ -47,11 +47,8 @@ public class MessageLegacyAction extends MessageBase<MessageLegacyAction>
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			
 			LegacyManager legacyManager = null;
-			for (LegacyManager l : LorienLegacies.legacyManagers)
-			{
-				if (l.player.getUniqueID().equals(player.getUniqueID()))
-					legacyManager = l;
-			}
+			if (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID())) legacyManager = LorienLegacies.instance.legacyManagers.get(player.getUniqueID());
+			if (legacyManager == null) return;
 			
 			LegacyActionConverter.performLegacyAction(legacyManager, LegacyActionConverter.legacyActionFromInt(message.legacyActionID));
 		});
