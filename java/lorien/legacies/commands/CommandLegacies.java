@@ -47,17 +47,10 @@ public class CommandLegacies implements ICommand
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 	{
-		int index = -1;
-		
-		for (int i = 0; i < LorienLegacies.legacyManagers.size(); i++)
-		{
-			if (LorienLegacies.legacyManagers.get(i).player.getUniqueID().equals(sender.getCommandSenderEntity().getUniqueID()))
-				index = i;
-			
-		}
-		
-		if (index != -1 && LorienLegacies.legacyManagers.get(index).legaciesEnabled)
-			LegacyLoader.sendLegaciesToClient(LorienLegacies.legacyManagers.get(index), true);
+		LegacyManager l = LorienLegacies.instance.legacyManagers.get(sender.getCommandSenderEntity().getUniqueID());
+				
+		if (l != null && l.legaciesEnabled)
+			LegacyLoader.sendLegaciesToClient(l, true);
 		else
 			sender.sendMessage(new TextComponentString("You do not have legacies").setStyle(new Style().setColor(TextFormatting.RED)));
 	}

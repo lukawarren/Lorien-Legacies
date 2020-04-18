@@ -37,8 +37,8 @@ public class FortemBlesser extends Blesser {
 	@Override
 	protected void handleClient(EntityPlayer player)
 	{
-		LorienLegacies.clientLegacyManager.legaciesEnabled = true;
-		LorienLegacies.clientLegacyManager.fortemLegacyEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.legaciesEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.fortemLegacyEnabled = true;
 		new FortemLegacy().blessedMessage(player);
 	}
 

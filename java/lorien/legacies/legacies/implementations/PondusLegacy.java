@@ -47,17 +47,17 @@ public class PondusLegacy extends Legacy {
 				player.motionZ *= 1.0;
 
 				// Check if the player has the accelix legacy and change their speed accordingly. 
-				for (LegacyManager l : LorienLegacies.legacyManagers)
+				LegacyManager l = (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID())) ? LorienLegacies.instance.legacyManagers.get(player.getUniqueID()) : null;
+				
+				if (l != null)
 				{
-					if (l.player.getUniqueID().equals(player.getUniqueID()))
-					{
-						if (l.accelixLegacyEnabled && l.accelixLegacy.getToggled())
-						{				
-							player.motionX *= 1.01;
-							player.motionX *= 1.01;
-						}
+					if (l.accelixLegacyEnabled && l.accelixLegacy.getToggled())
+					{				
+						player.motionX *= 1.01;
+						player.motionX *= 1.01;
 					}
 				}
+				
 				
 				
 				// This value was 0.005f. Changing it to 0 stops the player from floating up continuously

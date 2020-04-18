@@ -37,8 +37,8 @@ public class SubmariBlesser extends Blesser {
 	@Override
 	protected void handleClient(EntityPlayer player)
 	{
-		LorienLegacies.clientLegacyManager.legaciesEnabled = true;
-		LorienLegacies.clientLegacyManager.submariLegacyEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.legaciesEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.submariLegacyEnabled = true;
 		new SubmariLegacy().blessedMessage(player);
 	}
 

@@ -6,6 +6,7 @@ import lorien.legacies.items.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -30,7 +31,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
     public EntityPlayer getEntityPlayer()
-	{
+	{	
         return Minecraft.getMinecraft().player;
     }
 	

@@ -34,14 +34,11 @@ public class LegacyBlesser extends Item {
 		{
 			boolean playerAlreadyHasLegacyManager = false;
 			LegacyManager legacyManager = null;
-			
-			for (LegacyManager l : LorienLegacies.legacyManagers)
+
+			if (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID()))
 			{
-				if (l.player.getUniqueID() == player.getUniqueID())
-				{
-					playerAlreadyHasLegacyManager = true;
-					legacyManager = l;
-				}
+				playerAlreadyHasLegacyManager = true;
+				legacyManager = LorienLegacies.instance.legacyManagers.get(player.getUniqueID());
 			}
 			
 			if (playerAlreadyHasLegacyManager == false)

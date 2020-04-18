@@ -64,7 +64,7 @@ public class Telekinesis extends Legacy
 			}
 			
 			// Play telekinesis sound effect for the player
-			if (player.world.isRemote && lockedOntoPointedEntity) player.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.1f, 0.1f);
+			//if (player.world.isRemote && lockedOntoPointedEntity) player.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.1f, 0.1f);
 			
 			// Get the entity the player is looking at, unless we're locked on, in which case use the previously selected entity
 			float partialTicks = (player.world.isRemote) ? Minecraft.getMinecraft().getRenderPartialTicks() : 0;

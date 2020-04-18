@@ -37,8 +37,8 @@ public class RegenerasBlesser extends Blesser {
 	@Override
 	protected void handleClient(EntityPlayer player)
 	{
-		LorienLegacies.clientLegacyManager.legaciesEnabled = true;
-		LorienLegacies.clientLegacyManager.regenerasLegacyEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.legaciesEnabled = true;
+		LorienLegacies.instance.clientLegacyManager.regenerasLegacyEnabled = true;
 		new RegenerasLegacy().blessedMessage(player);
 	}
 
