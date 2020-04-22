@@ -123,7 +123,6 @@ public class LegacyManager {
 	
 	public void computeLegacyTick(boolean isServer)
 	{
-
 		if (lumenLegacyEnabled)lumenLegacy.computeLegacyTick(player);
 		
 		if (noxenLegacyEnabled) noxenLegacy.computeLegacyTick(player);
@@ -184,8 +183,7 @@ public class LegacyManager {
 	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event)
-	{	
-		
+	{				
 		if (event.player == null || player == null)
 			return;
 
@@ -220,7 +218,7 @@ public class LegacyManager {
 	// Render stamina overlay
 	@SubscribeEvent
 	public void onRenderExperienceBar(RenderGameOverlayEvent event)
-	{
+	{	
 		if (legaciesEnabled)
 			staminaGui.render(stamina, MAX_STAMINA, event);
 	}
