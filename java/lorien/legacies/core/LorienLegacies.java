@@ -108,14 +108,13 @@ public class LorienLegacies {
 		// In order to fix Pondus
 		player.setNoGravity(false);
 				
-		LegacyManager playerLegacyManager = new LegacyManager(player);
-		legacyManagers.put(player.getUniqueID(), playerLegacyManager);
+		legacyManagers.put(player.getUniqueID(), new LegacyManager(player));
 
 		// In order to fix Pondus
 		player.setNoGravity(false);
 				
 		// Load legacies for the player
-		LegacyLoader.generateLegacies(playerLegacyManager, false);
+		LegacyLoader.generateLegacies(legacyManagers.get(player.getUniqueID()), false);
 	}
 
 	// Equivalent of System.Out.Println(), except with nice formatting

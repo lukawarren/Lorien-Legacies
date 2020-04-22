@@ -49,7 +49,7 @@ public class LegacyLoader {
 			playerIsAlreadyAsigned = true;
 		}
 		
-		if (playerIsAlreadyAsigned && !forceLegacies && legacyData.legaciesEnabled.value)
+		if (playerIsAlreadyAsigned && !forceLegacies && legacyData.legacyDataSaved.value)
 		{	
 			LorienLegacies.print("Loading legacies data for player with UUID " + playerLegacyManager.player.getUniqueID());
 			
@@ -84,7 +84,7 @@ public class LegacyLoader {
 	}
 	
 	public static void sendLegaciesToClient(LegacyManager playerLegacyManager, boolean shouldShowMessage)
-	{
+	{	
 		MessageLegacyData messageLegacyData = new MessageLegacyData();
 		messageLegacyData.legaciesEnabled = playerLegacyManager.legaciesEnabled;
 		messageLegacyData.lumenLegacyEnabled = playerLegacyManager.lumenLegacyEnabled;
