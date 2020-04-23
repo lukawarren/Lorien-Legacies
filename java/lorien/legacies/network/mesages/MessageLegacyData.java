@@ -55,6 +55,11 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
+		// There is a bug whereby the server will send this message to the client before the client has loaded in themselves,
+		// but only in survival singleplayer for some reason. By waiting a second, this problem will *probably* go away.
+		// I know it's bad practice but the error is quite hard to reproduce and this was the most painless way to fix it.
+		try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+		
 		// Must read and write in same order
 		buf.writeBoolean(legaciesEnabled);
 		
@@ -139,7 +144,6 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 	@Override
 	public void handleClientSide(MessageLegacyData message, EntityPlayer player)
 	{
-		
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			
 			LorienLegacies.instance.clientLegacyManager = new LegacyManager(player);
