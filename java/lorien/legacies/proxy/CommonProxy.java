@@ -2,6 +2,7 @@ package lorien.legacies.proxy;
 
 import lorien.legacies.blocks.ModBlocks;
 import lorien.legacies.commands.ModCommands;
+import lorien.legacies.config.LorienLegaciesConfig;
 import lorien.legacies.entities.ModEntities;
 import lorien.legacies.items.ModItems;
 import lorien.legacies.network.NetworkHandler;
@@ -21,6 +22,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
+	
+	public LorienLegaciesConfig.LegacyUse legacyUseData; // The client should respect the server's config
+	public boolean configHasChanged = false;
 	
 	public void preInit(FMLPreInitializationEvent e)
 	{

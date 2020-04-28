@@ -1,5 +1,6 @@
 package lorien.legacies.legacies.implementations;
 
+import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
@@ -28,6 +29,12 @@ public class AccelixLegacy extends Legacy
 	public int getStaminaPerSecond()
 	{
 		return toggled ? 10 : 0;
+	}
+
+	@Override
+	public boolean getEnabledInConfig()
+	{
+		return LorienLegacies.instance.proxy.legacyUseData.allowAccelix;
 	}
 	
 }

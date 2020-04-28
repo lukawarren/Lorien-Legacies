@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import lorien.legacies.commands.CommandLegacies;
 import lorien.legacies.commands.CommandLegacyLevels;
 import lorien.legacies.commands.CommandLegacyXp;
+import lorien.legacies.config.ConfigManager;
+import lorien.legacies.config.LorienLegaciesConfig;
 import lorien.legacies.items.ModItems;
 import lorien.legacies.legacies.KeyBindings;
 import lorien.legacies.legacies.KeyInputHandler;
@@ -65,6 +67,9 @@ public class LorienLegacies {
 	public HashMap<UUID, LegacyManager> legacyManagers = new HashMap<UUID, LegacyManager>(); // Server-side only
 	public LegacyManager clientLegacyManager; // For client-side only
 	
+	// Config
+	public ConfigManager configManager;
+	
 	@SubscribeEvent
 	public void PlayerLoggedInEvent(PlayerLoggedInEvent event)
 	{				
@@ -115,6 +120,9 @@ public class LorienLegacies {
 				
 		// Load legacies for the player
 		LegacyLoader.generateLegacies(legacyManagers.get(player.getUniqueID()), false);
+		
+		// Send them the config
+		configManager.updateConfigForClient(event.player);
 	}
 
 	// Equivalent of System.Out.Println(), except with nice formatting
@@ -151,8 +159,11 @@ public class LorienLegacies {
 	public void init(FMLInitializationEvent e) {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new KeyInputHandler());
+		
 		proxy.init(e);
 		GameRegistry.registerWorldGenerator(new OreGen(), 0);
+		
+		configManager = new ConfigManager();
 		
 		if (e.getSide() == Side.CLIENT) KeyBindings.init();
 	}

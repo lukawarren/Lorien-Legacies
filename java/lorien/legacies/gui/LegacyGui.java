@@ -70,7 +70,7 @@ public class LegacyGui extends GuiScreen
 		for (int i = 0; i < legacyManager.legacyList.size(); i++)
 		{
 			Legacy legacy = (Legacy) legacyManager.legacyList.get(i);
-			if ((boolean) legacyManager.legacyEnabledList.get(i))
+			if ((boolean) legacyManager.legacyEnabledList.get(i) && legacy.getEnabledInConfig())
 				levelLegacies.add(legacy);
 		}
 		

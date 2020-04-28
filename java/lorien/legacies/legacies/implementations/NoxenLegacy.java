@@ -1,5 +1,6 @@
 package lorien.legacies.legacies.implementations;
 
+import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -51,6 +52,12 @@ public class NoxenLegacy extends Legacy {
 	public int getStaminaPerSecond()
 	{
 		return 0;
+	}
+	
+	@Override
+	public boolean getEnabledInConfig()
+	{
+		return LorienLegacies.instance.proxy.legacyUseData.allowNoxen;
 	}
 	
 }

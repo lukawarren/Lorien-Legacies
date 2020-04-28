@@ -1,5 +1,6 @@
 package lorien.legacies.legacies.implementations;
 
+import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -129,6 +130,12 @@ public class AvexLegacy extends Legacy {
 	public int getStaminaPerSecond()
 	{
 		return toggled ? 10 : 0;
+	}
+	
+	@Override
+	public boolean getEnabledInConfig()
+	{
+		return LorienLegacies.instance.proxy.legacyUseData.allowAvex;
 	}
 	
 }

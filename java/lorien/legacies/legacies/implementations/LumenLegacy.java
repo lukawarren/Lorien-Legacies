@@ -56,7 +56,7 @@ public class LumenLegacy extends Legacy {
 	    	
 	        // Only cancel fire damage if greater than level 2
 	        if (event.getSource().equals(DamageSource.IN_FIRE) || event.getSource().equals(DamageSource.ON_FIRE)) {
-	        	if (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID()) && LorienLegacies.instance.legacyManagers.get(player.getUniqueID()).lumenLegacyEnabled) {
+	        	if (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID()) && LorienLegacies.instance.legacyManagers.get(player.getUniqueID()).lumenLegacyEnabled && getEnabledInConfig()) {
 	        		if (currentLegacyLevel >= 2) {
 	        			event.setCanceled(true);
 	        		}
@@ -64,7 +64,7 @@ public class LumenLegacy extends Legacy {
 	        }
 	        // Only cancel lava and dragon fire damage if level 4
 	        else if (event.getSource().equals(DamageSource.LAVA) || event.getSource().equals(DamageSource.DRAGON_BREATH)) {
-	        	if (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID()) && LorienLegacies.instance.legacyManagers.get(player.getUniqueID()).lumenLegacyEnabled) {
+	        	if (LorienLegacies.instance.legacyManagers.containsKey(player.getUniqueID()) && LorienLegacies.instance.legacyManagers.get(player.getUniqueID()).lumenLegacyEnabled && getEnabledInConfig()) {
 	        		if (currentLegacyLevel >= 4) {
 	        			event.setCanceled(true);
 	        		}
@@ -175,6 +175,12 @@ public class LumenLegacy extends Legacy {
 	public int getStaminaPerSecond()
 	{
 		return 0;
+	}
+	
+	@Override
+	public boolean getEnabledInConfig()
+	{
+		return LorienLegacies.instance.proxy.legacyUseData.allowLumen;
 	}
 	
 }

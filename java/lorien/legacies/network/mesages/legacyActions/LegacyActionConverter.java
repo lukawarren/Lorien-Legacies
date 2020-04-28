@@ -13,58 +13,58 @@ public class LegacyActionConverter
 		
 		EntityPlayer player = legacyManager.player;
 		
-		if (action == LegacyAction.LumenFireball && legacyManager.lumenLegacyEnabled)
+		if (action == LegacyAction.LumenFireball && legacyManager.lumenLegacyEnabled && legacyManager.lumenLegacy.getEnabledInConfig())
 		{
 			legacyManager.lumenLegacy.fireball(player);
 		}
 		
-		else if (action == LegacyAction.LumenIgnition && legacyManager.lumenLegacyEnabled)
+		else if (action == LegacyAction.LumenIgnition && legacyManager.lumenLegacyEnabled && legacyManager.lumenLegacy.getEnabledInConfig())
 		{
 			legacyManager.lumenLegacy.ignite(player);
 		}
 		
-		else if (action == LegacyAction.Accelix && legacyManager.accelixLegacyEnabled)
+		else if (action == LegacyAction.Accelix && legacyManager.accelixLegacyEnabled && legacyManager.accelixLegacy.getEnabledInConfig())
 		{
 			legacyManager.accelixLegacy.toggle(player);
 		}
 		
-		else if (action == LegacyAction.Fortem && legacyManager.fortemLegacyEnabled)
+		else if (action == LegacyAction.Fortem && legacyManager.fortemLegacyEnabled && legacyManager.fortemLegacy.getEnabledInConfig())
 		{
 			legacyManager.fortemLegacy.toggle(player);
 		}
 		
-		else if (action == LegacyAction.Novis && legacyManager.novisLegacyEnabled)
+		else if (action == LegacyAction.Novis && legacyManager.novisLegacyEnabled && legacyManager.novisLegacy.getEnabledInConfig())
 		{
 			legacyManager.novisLegacy.toggle(player);
 		}
 		
-		else if (action == LegacyAction.Pondus && legacyManager.pondusLegacyEnabled)
+		else if (action == LegacyAction.Pondus && legacyManager.pondusLegacyEnabled && legacyManager.pondusLegacy.getEnabledInConfig())
 		{
 			legacyManager.pondusLegacy.toggle(player);
 		}
 		
-		else if (action == LegacyAction.GlacenFreeze && legacyManager.glacenLegacyEnabled)
+		else if (action == LegacyAction.GlacenFreeze && legacyManager.glacenLegacyEnabled && legacyManager.glacenLegacy.getEnabledInConfig())
 		{
 			legacyManager.glacenLegacy.freezeWaterIfNeeded(player);
 		}
 		
-		else if (action == LegacyAction.Avex && legacyManager.avexLegacyEnabled)
+		else if (action == LegacyAction.Avex && legacyManager.avexLegacyEnabled && legacyManager.avexLegacy.getEnabledInConfig())
 		{
 			legacyManager.avexLegacy.toggle(player);
 		}
 		
-		else if (action == LegacyAction.AvexHover && legacyManager.avexLegacyEnabled)
+		else if (action == LegacyAction.AvexHover && legacyManager.avexLegacyEnabled && legacyManager.avexLegacy.getEnabledInConfig())
 		{
 			legacyManager.avexLegacy.hover(player);
 		}
 		
-		else if (action == LegacyAction.Telekinesis && legacyManager.legaciesEnabled)
+		else if (action == LegacyAction.Telekinesis && legacyManager.legaciesEnabled && legacyManager.telekinesis.getEnabledInConfig())
 		{
 			legacyManager.telekinesis.activated = !legacyManager.telekinesis.activated;
 			legacyManager.telekinesis.toggle(player);
 		}
 		
-		else if (action == LegacyAction.TelekinesisLaunch && legacyManager.legaciesEnabled)
+		else if (action == LegacyAction.TelekinesisLaunch && legacyManager.legaciesEnabled && legacyManager.telekinesis.getEnabledInConfig())
 		{
 			legacyManager.telekinesis.launch(player);
 		}

@@ -1,6 +1,7 @@
 package lorien.legacies.proxy;
 
 import lorien.legacies.blocks.ModBlocks;
+import lorien.legacies.config.LorienLegaciesConfig;
 import lorien.legacies.entities.ModEntities;
 import lorien.legacies.items.ModItems;
 import net.minecraft.client.Minecraft;
@@ -8,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
