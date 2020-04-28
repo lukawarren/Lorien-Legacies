@@ -123,27 +123,27 @@ public class LegacyManager {
 	
 	public void computeLegacyTick(boolean isServer)
 	{
-		if (lumenLegacyEnabled)lumenLegacy.computeLegacyTick(player);
+		if (lumenLegacyEnabled && lumenLegacy.getEnabledInConfig())lumenLegacy.computeLegacyTick(player);
 		
-		if (noxenLegacyEnabled) noxenLegacy.computeLegacyTick(player);
+		if (noxenLegacyEnabled && noxenLegacy.getEnabledInConfig()) noxenLegacy.computeLegacyTick(player);
 				
-		if (submariLegacyEnabled) submariLegacy.computeLegacyTick(player);
+		if (submariLegacyEnabled && submariLegacy.getEnabledInConfig()) submariLegacy.computeLegacyTick(player);
 			
-		if (accelixLegacyEnabled) accelixLegacy.computeLegacyTick(player);
+		if (accelixLegacyEnabled && accelixLegacy.getEnabledInConfig()) accelixLegacy.computeLegacyTick(player);
 				
-		if (fortemLegacyEnabled) fortemLegacy.computeLegacyTick(player);
+		if (fortemLegacyEnabled && fortemLegacy.getEnabledInConfig()) fortemLegacy.computeLegacyTick(player);
 				
-		if (novisLegacyEnabled) novisLegacy.computeLegacyTick(player);
+		if (novisLegacyEnabled && novisLegacy.getEnabledInConfig()) novisLegacy.computeLegacyTick(player);
 				
-		if (pondusLegacyEnabled) pondusLegacy.computeLegacyTick(player);
+		if (pondusLegacyEnabled && pondusLegacy.getEnabledInConfig()) pondusLegacy.computeLegacyTick(player);
 				
-		if (regenerasLegacyEnabled) regenerasLegacy.computeLegacyTick(player);
+		if (regenerasLegacyEnabled && regenerasLegacy.getEnabledInConfig()) regenerasLegacy.computeLegacyTick(player);
 				
-		if (avexLegacyEnabled) avexLegacy.computeLegacyTick(player);
+		if (avexLegacyEnabled && avexLegacy.getEnabledInConfig()) avexLegacy.computeLegacyTick(player);
 		
-		if (glacenLegacyEnabled) glacenLegacy.computeLegacyTick(player);
+		if (glacenLegacyEnabled && glacenLegacy.getEnabledInConfig()) glacenLegacy.computeLegacyTick(player);
 		
-		if (legaciesEnabled) telekinesis.computeLegacyTick(player);
+		if (legaciesEnabled && telekinesis.getEnabledInConfig()) telekinesis.computeLegacyTick(player);
 		
 		legacyEnabledList.clear();
 		legacyEnabledList.add(lumenLegacyEnabled);
@@ -170,7 +170,7 @@ public class LegacyManager {
 			for (int i = 0; i < legacyList.size(); i++)
 			{
 				Legacy l =  (Legacy) legacyList.get(i);
-				stamina -= l.getStaminaPerSecond();
+				if (l.getEnabledInConfig()) stamina -= l.getStaminaPerSecond();
 			}
 		}
 		
@@ -264,36 +264,36 @@ public class LegacyManager {
 			return;
 				
 		// Accelix toggle
-		if (action == LegacyAction.Accelix && legaciesEnabled && accelixLegacyEnabled)
+		if (action == LegacyAction.Accelix && legaciesEnabled && accelixLegacyEnabled && accelixLegacy.getEnabledInConfig())
 			accelixLegacy.toggle(player);
 					
 		// Fortem toggle
-		if (action == LegacyAction.Fortem && legaciesEnabled && fortemLegacyEnabled)
+		if (action == LegacyAction.Fortem && legaciesEnabled && fortemLegacyEnabled && fortemLegacy.getEnabledInConfig())
 			fortemLegacy.toggle(player);
 				
 		// Novis toggle
-		if (action == LegacyAction.Novis && legaciesEnabled && novisLegacyEnabled)
+		if (action == LegacyAction.Novis && legaciesEnabled && novisLegacyEnabled && novisLegacy.getEnabledInConfig())
 			novisLegacy.toggle(player);
 		
 		// Pondus toggle
-		if (action == LegacyAction.Pondus && legaciesEnabled && pondusLegacyEnabled)
+		if (action == LegacyAction.Pondus && legaciesEnabled && pondusLegacyEnabled && pondusLegacy.getEnabledInConfig())
 			pondusLegacy.toggle(player);
 		
 		// Avex toggle
-		if (action == LegacyAction.Avex && legaciesEnabled && avexLegacyEnabled)
+		if (action == LegacyAction.Avex && legaciesEnabled && avexLegacyEnabled && avexLegacy.getEnabledInConfig())
 			avexLegacy.toggle(player);
 		
 		// Avex hover
-		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled)
+		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled && avexLegacy.getEnabledInConfig())
 			avexLegacy.hover(player);
 		
-		if (action == LegacyAction.Telekinesis && legaciesEnabled)
+		if (action == LegacyAction.Telekinesis && legaciesEnabled && telekinesis.getEnabledInConfig())
 		{
 			telekinesis.activated = !telekinesis.activated;
 			telekinesis.toggle(player);
 		}
 		
-		if (action == LegacyAction.TelekinesisLaunch && legaciesEnabled) telekinesis.launch(player);
+		if (action == LegacyAction.TelekinesisLaunch && legaciesEnabled && telekinesis.getEnabledInConfig()) telekinesis.launch(player);
 		
 	}
 	

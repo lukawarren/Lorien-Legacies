@@ -1,5 +1,6 @@
 package lorien.legacies.legacies.implementations;
 
+import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
@@ -28,6 +29,12 @@ public class RegenerasLegacy extends Legacy {
 	public int getStaminaPerSecond()
 	{
 		return 0;
+	}
+	
+	@Override
+	public boolean getEnabledInConfig()
+	{
+		return LorienLegacies.instance.proxy.legacyUseData.allowRegeneras;
 	}
 	
 }

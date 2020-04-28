@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -324,6 +325,12 @@ public class Telekinesis extends Legacy
 	public int getStaminaPerSecond()
 	{
 		return 0;
+	}
+	
+	@Override
+	public boolean getEnabledInConfig()
+	{
+		return LorienLegacies.instance.proxy.legacyUseData.allowTelekinesis;
 	}
 	
 }

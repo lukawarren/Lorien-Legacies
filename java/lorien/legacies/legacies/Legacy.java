@@ -27,7 +27,10 @@ public abstract class Legacy {
 	
 	public void blessedMessage(EntityPlayer player)
 	{
+		if (getEnabledInConfig())
 		player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION + " - Level " + (currentLegacyLevel+1) + " (" + xp + " XP)").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+		else
+			player.sendMessage(new TextComponentString(LEGACY_NAME + " - " + DESCRIPTION + " - Level " + (currentLegacyLevel+1) + " (" + xp + " XP) - Disabled in config").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 	}
 	
 	public void toggle(EntityPlayer player)
@@ -65,5 +68,6 @@ public abstract class Legacy {
 	}
 	
 	public abstract int getStaminaPerSecond();
+	public abstract boolean getEnabledInConfig();
 	
 }

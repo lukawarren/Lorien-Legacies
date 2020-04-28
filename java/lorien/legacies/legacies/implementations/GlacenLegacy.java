@@ -1,5 +1,6 @@
 package lorien.legacies.legacies.implementations;
 
+import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.Legacy;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockIce;
@@ -264,6 +265,12 @@ public class GlacenLegacy extends Legacy {
 	public int getStaminaPerSecond()
 	{
 		return 0;
+	}
+	
+	@Override
+	public boolean getEnabledInConfig()
+	{
+		return LorienLegacies.instance.proxy.legacyUseData.allowGlacen;
 	}
 
 	

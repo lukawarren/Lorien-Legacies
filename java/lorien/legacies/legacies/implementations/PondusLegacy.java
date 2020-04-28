@@ -75,5 +75,11 @@ public class PondusLegacy extends Legacy {
 	{
 		return toggled ? 10 : 0;
 	}
+
+	@Override
+	public boolean getEnabledInConfig()
+	{
+		return LorienLegacies.instance.proxy.legacyUseData.allowPondus;
+	}
 	
 }
