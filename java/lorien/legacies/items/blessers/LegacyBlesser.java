@@ -45,6 +45,7 @@ public class LegacyBlesser extends Item {
 				legacyManager = new LegacyManager(player);
 			
 			LegacyLoader.generateLegacies(legacyManager, true);
+			LegacyLoader.saveLegaciesToSave(legacyManager, LegacyWorldSaveData.get(worldIn));
 		}
 
 		player.inventory.deleteStack(player.getHeldItem(handIn));

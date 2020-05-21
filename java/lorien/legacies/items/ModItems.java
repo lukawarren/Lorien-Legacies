@@ -95,12 +95,12 @@ public class ModItems {
 		event.getRegistry().register(avexBlesser);
 		event.getRegistry().register(glacenBlesser);
 		
-		event.getRegistry().register(loralitepickaxe);
-		event.getRegistry().register(loraliteaxe);
-		event.getRegistry().register(loralitespade);
-		event.getRegistry().register(loralitesword);
-		event.getRegistry().register(loralitedagger);
-		event.getRegistry().register(loralitehoe);
+		//event.getRegistry().register(loralitepickaxe);
+		//event.getRegistry().register(loraliteaxe);
+		//event.getRegistry().register(loralitespade);
+		//event.getRegistry().register(loralitesword);
+		//event.getRegistry().register(loralitedagger);
+		//event.getRegistry().register(loralitehoe);
 		//event.getRegistry().register(loralitestaff);
 	}
 	
@@ -120,12 +120,12 @@ public class ModItems {
 		CommonProxy.registerRender(avexBlesser);
 		CommonProxy.registerRender(glacenBlesser);
 		
-		CommonProxy.registerRender(loralitepickaxe);
-		CommonProxy.registerRender(loraliteaxe);
-		CommonProxy.registerRender(loralitesword);
-		CommonProxy.registerRender(loralitespade);
-		CommonProxy.registerRender(loralitedagger);
-		CommonProxy.registerRender(loralitehoe);
+		//CommonProxy.registerRender(loralitepickaxe);
+		//CommonProxy.registerRender(loraliteaxe);
+		//CommonProxy.registerRender(loralitesword);
+		//CommonProxy.registerRender(loralitespade);
+		//CommonProxy.registerRender(loralitedagger);
+		//CommonProxy.registerRender(loralitehoe);
 		//CommonProxy.registerRender(loralitestaff);
 	}
 	

@@ -95,6 +95,12 @@ public class LorienLegacies {
 	@SubscribeEvent
 	public void PlayerLoggedOutEvent(PlayerLoggedOutEvent event)
 	{		
+		// Write changes to save
+		if (legacyManagers.containsKey(event.player.getUniqueID()))
+		{
+			LegacyLoader.saveLegaciesToSave(legacyManagers.get(event.player.getUniqueID()), LegacyWorldSaveData.get(legacyManagers.get(event.player.getUniqueID()).player.world));
+		}
+		
 		// Get rid of old instances
 		clientLegacyManager = null;
 		legacyManagers.remove(event.player.getUniqueID());

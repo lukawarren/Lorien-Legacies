@@ -63,8 +63,9 @@ public abstract class Legacy {
 			if (!legacyManager.player.world.isRemote)
 				legacyManager.player.sendMessage(new TextComponentString("Your " + LEGACY_NAME + " has levelled up!").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 		}
+
 		LegacyLoader.saveLegaciesToSave(legacyManager, LegacyWorldSaveData.get(legacyManager.player.world));
-		LegacyLoader.sendLegaciesToClient(legacyManager, false);
+		//LegacyLoader.sendLegaciesToClient(legacyManager, false); - completely lags the game, it's probably fine without it
 	}
 	
 	public abstract int getStaminaPerSecond();

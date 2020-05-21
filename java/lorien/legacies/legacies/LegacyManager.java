@@ -166,11 +166,20 @@ public class LegacyManager {
 		
 		if (player.isCreative() == false && player.isSpectator() == false)
 		{
-			// Go through all legacies, and apply stamina logic
+			// Go through all legacies, and apply stamina and XP logic
 			for (int i = 0; i < legacyList.size(); i++)
 			{
 				Legacy l =  (Legacy) legacyList.get(i);
 				if (l.getEnabledInConfig()) stamina -= l.getStaminaPerSecond();
+				l.addXPForPlayer(l.getStaminaPerSecond(), this);
+			}
+		}
+		else if (player.isCreative()) // If creative just do XP stuff
+		{
+			for (int i = 0; i < legacyList.size(); i++)
+			{
+				Legacy l =  (Legacy) legacyList.get(i);
+				l.addXPForPlayer(l.getStaminaPerSecond(), this);
 			}
 		}
 		
