@@ -28,10 +28,11 @@ public class AvexLegacy extends Legacy {
 		LEGACY_NAME = "Avex";
 		DESCRIPTION = "grants swift flight";
 		
-		legacyLevels.add(new LegacyLevel("Your experience grants you greater speed", 5000));
-		legacyLevels.add(new LegacyLevel("Flying has less toll on your stamina", 7500));
-		legacyLevels.add(new LegacyLevel("You have mastered the art of speed", 10000));
-		legacyLevels.add(new LegacyLevel("Extreme endurance grants you greater stamina", 15000));
+		legacyLevels.set(0, new LegacyLevel("Base level", 20000));
+		legacyLevels.add(new LegacyLevel("Your experience grants you greater speed", 50000));
+		legacyLevels.add(new LegacyLevel("Flying has less toll on your stamina", 75000));
+		legacyLevels.add(new LegacyLevel("You have mastered the art of speed", 100000));
+		legacyLevels.add(new LegacyLevel("Extreme endurance grants you greater stamina", 150000));
 	}
 	
 	@Override
@@ -67,19 +68,19 @@ public class AvexLegacy extends Legacy {
 	}
 	
 	@Override
-	public int getStaminaPerTick()
+	public float getStaminaPerTick()
 	{
 		if (!toggled) return 0;
 		
-		int stamina = 0;
+		float stamina = 0;
 		
-		if (currentLegacyLevel == 0) stamina = 15;
-		if (currentLegacyLevel == 1) stamina = 15;
-		if (currentLegacyLevel == 2) stamina = 10;
-		if (currentLegacyLevel == 3) stamina = 10;
-		if (currentLegacyLevel >= 4) stamina = 8;
+		if (currentLegacyLevel == 0) stamina = 7.8f;
+		if (currentLegacyLevel == 1) stamina = 7.8f;
+		if (currentLegacyLevel == 2) stamina = 7.5f;
+		if (currentLegacyLevel == 3) stamina = 7.5f;
+		if (currentLegacyLevel >= 4) stamina = 7.1f;
 		
-		return sprintedLastTick ? stamina * 2 : stamina;
+		return sprintedLastTick ? stamina * 1.5f : stamina;
 	}
 	
 	@Override

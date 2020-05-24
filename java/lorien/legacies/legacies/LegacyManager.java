@@ -32,6 +32,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -81,8 +83,8 @@ public class LegacyManager {
 	
 	public Telekinesis telekinesis;
 	
-	public static final int MAX_STAMINA = 100;
-	public int stamina;
+	public static final float MAX_STAMINA = 100.0f;
+	public float stamina;
 	
 	private StaminaGui staminaGui;
 	
@@ -161,6 +163,18 @@ public class LegacyManager {
 	
 	public void computeStaminaTick()
 	{
+		// Untoggle each legacy if no stamina and legacy requires stamina
+		if (stamina <= 0)
+		{
+			for (int i = 0; i < legacyList.size(); ++i)
+			{
+				if (((Legacy) legacyList.get(i)).getStaminaPerTick() > 0 && ((Legacy) legacyList.get(i)).toggled)
+				{
+					((Legacy) legacyList.get(i)).toggled = false;
+				}
+			}
+		}
+		
 		// Give the player some stamina every tick
 		stamina += 7;
 		
@@ -171,7 +185,7 @@ public class LegacyManager {
 			{
 				Legacy l =  (Legacy) legacyList.get(i);
 				if (l.getEnabledInConfig()) stamina -= l.getStaminaPerTick();
-				l.addXPForPlayer(l.getStaminaPerTick(), this, false);
+				l.addXPForPlayer((int)l.getStaminaPerTick(), this, false);
 			}
 		}
 		else if (player.isCreative()) // If creative just do XP stuff
@@ -179,7 +193,7 @@ public class LegacyManager {
 			for (int i = 0; i < legacyList.size(); i++)
 			{
 				Legacy l =  (Legacy) legacyList.get(i);
-				l.addXPForPlayer(l.getStaminaPerTick(), this, false);
+				l.addXPForPlayer((int)l.getStaminaPerTick(), this, false);
 			}
 		}
 		
@@ -187,7 +201,6 @@ public class LegacyManager {
 		if (stamina < 0) stamina = 0;
 		
 		staminaGui.percentage = (float)stamina / (float)MAX_STAMINA;
-		
 	}
 	
 	@SubscribeEvent
@@ -227,7 +240,7 @@ public class LegacyManager {
 	// Render stamina overlay
 	@SubscribeEvent
 	public void onRenderExperienceBar(RenderGameOverlayEvent event)
-	{	
+	{
 		if (legaciesEnabled)
 			staminaGui.render(stamina, MAX_STAMINA, event);
 	}
@@ -300,5 +313,10 @@ public class LegacyManager {
 		
 	}
 	
+	// Beause the garbage collector is trash (geddit?)
+	public void destroy()
+	{ 
+		try { finalize(); } catch (Throwable e) { } 
+	}
 	
 }

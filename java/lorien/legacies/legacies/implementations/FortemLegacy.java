@@ -27,7 +27,7 @@ public class FortemLegacy extends Legacy {
 	}
 	
 	@Override
-	public int getStaminaPerTick()
+	public float getStaminaPerTick()
 	{
 		return toggled ? 10 : 0;
 	}

@@ -262,7 +262,7 @@ public class GlacenLegacy extends Legacy {
 	}
 
 	@Override
-	public int getStaminaPerTick()
+	public float getStaminaPerTick()
 	{
 		return 0;
 	}

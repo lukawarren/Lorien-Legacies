@@ -71,7 +71,7 @@ public class PondusLegacy extends Legacy {
 	}
 	
 	@Override
-	public int getStaminaPerTick()
+	public float getStaminaPerTick()
 	{
 		return toggled ? 10 : 0;
 	}
