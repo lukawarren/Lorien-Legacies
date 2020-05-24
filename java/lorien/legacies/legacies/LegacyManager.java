@@ -170,8 +170,8 @@ public class LegacyManager {
 			for (int i = 0; i < legacyList.size(); i++)
 			{
 				Legacy l =  (Legacy) legacyList.get(i);
-				if (l.getEnabledInConfig()) stamina -= l.getStaminaPerSecond();
-				l.addXPForPlayer(l.getStaminaPerSecond() / 20, this, false);
+				if (l.getEnabledInConfig()) stamina -= l.getStaminaPerTick();
+				l.addXPForPlayer(l.getStaminaPerTick(), this, false);
 			}
 		}
 		else if (player.isCreative()) // If creative just do XP stuff
@@ -179,7 +179,7 @@ public class LegacyManager {
 			for (int i = 0; i < legacyList.size(); i++)
 			{
 				Legacy l =  (Legacy) legacyList.get(i);
-				l.addXPForPlayer(l.getStaminaPerSecond() / 20, this, false);
+				l.addXPForPlayer(l.getStaminaPerTick(), this, false);
 			}
 		}
 		

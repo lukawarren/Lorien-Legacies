@@ -27,7 +27,7 @@ public class SubmariLegacy extends Legacy {
 	}
 	
 	@Override
-	public int getStaminaPerSecond()
+	public int getStaminaPerTick()
 	{
 		return toggled ? 10 : 0;
 	}

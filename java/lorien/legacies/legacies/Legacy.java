@@ -71,7 +71,7 @@ public abstract class Legacy {
 		if (sendToClient) LegacyLoader.sendLegaciesToClient(legacyManager, false); // Sending legacies to client completely lags the game, and it's only needed for commands
 	}
 	
-	public abstract int getStaminaPerSecond();
+	public abstract int getStaminaPerTick();
 	public abstract boolean getEnabledInConfig();
 	
 }

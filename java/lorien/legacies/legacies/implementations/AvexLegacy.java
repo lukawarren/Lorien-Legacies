@@ -67,7 +67,7 @@ public class AvexLegacy extends Legacy {
 	}
 	
 	@Override
-	public int getStaminaPerSecond()
+	public int getStaminaPerTick()
 	{
 		if (!toggled) return 0;
 		

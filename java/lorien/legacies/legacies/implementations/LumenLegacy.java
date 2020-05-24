@@ -172,7 +172,7 @@ public class LumenLegacy extends Legacy {
 	}
 
 	@Override
-	public int getStaminaPerSecond()
+	public int getStaminaPerTick()
 	{
 		return 0;
 	}
