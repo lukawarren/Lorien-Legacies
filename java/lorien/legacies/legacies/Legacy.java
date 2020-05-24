@@ -81,4 +81,6 @@ public abstract class Legacy {
 	public abstract float getStaminaPerTick();
 	public abstract boolean getEnabledInConfig();
 	
+	public void staminaExaughsted() {}
+	
 }

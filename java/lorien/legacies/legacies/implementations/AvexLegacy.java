@@ -22,6 +22,7 @@ public class AvexLegacy extends Legacy {
 	
 	private float ticksSinceToggle; // Used so that the ground calculation will not impede lift-off
 	private boolean sprintedLastTick; // Used for stamina
+	private boolean waitForGround; // For stamina too
 	
 	public AvexLegacy()
 	{
@@ -40,6 +41,9 @@ public class AvexLegacy extends Legacy {
 	{
 		// Check if toggled
 		if (!toggled) return;
+		
+		if (waitForGround && !player.onGround) return;
+		else if (waitForGround) waitForGround = false;
 		
 		// Get player's looking director scaled with speed
 		double speedModifier = player.capabilities.getFlySpeed() * SPEED;
@@ -87,6 +91,12 @@ public class AvexLegacy extends Legacy {
 	public boolean getEnabledInConfig()
 	{
 		return LorienLegacies.instance.proxy.legacyUseData.allowAvex;
+	}
+	
+	@Override
+	public void staminaExaughsted()
+	{
+		waitForGround = true;
 	}
 	
 }

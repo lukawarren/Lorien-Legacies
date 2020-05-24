@@ -171,6 +171,7 @@ public class LegacyManager {
 				if (((Legacy) legacyList.get(i)).getStaminaPerTick() > 0 && ((Legacy) legacyList.get(i)).toggled)
 				{
 					((Legacy) legacyList.get(i)).toggled = false;
+					((Legacy) legacyList.get(i)).staminaExaughsted();
 				}
 			}
 		}
