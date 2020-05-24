@@ -2,6 +2,7 @@ package lorien.legacies.legacies.implementations;
 
 import lorien.legacies.core.LorienLegacies;
 import lorien.legacies.legacies.Legacy;
+import lorien.legacies.legacies.levels.LegacyLevel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Vector3d;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,11 +21,17 @@ public class AvexLegacy extends Legacy {
 	private static final float FAST_MODIFIER = 2.0f;
 	
 	private float ticksSinceToggle; // Used so that the ground calculation will not impede lift-off
+	private boolean sprintedLastTick; // Used for stamina
 	
 	public AvexLegacy()
 	{
 		LEGACY_NAME = "Avex";
 		DESCRIPTION = "grants swift flight";
+		
+		legacyLevels.add(new LegacyLevel("Your experience grants you greater speed", 500));
+		legacyLevels.add(new LegacyLevel("Flying has less toll on your stamina", 750));
+		legacyLevels.add(new LegacyLevel("You have mastered the art of speed", 1000));
+		legacyLevels.add(new LegacyLevel("Extreme endurance grants you greater stamina", 1500));
 	}
 	
 	@Override
@@ -45,6 +52,7 @@ public class AvexLegacy extends Legacy {
 		if (player.onGround && ticksSinceToggle > 20) toggle(player);
 		
 		ticksSinceToggle++;
+		sprintedLastTick = player.isSprinting();
 	}
 	
 	// Override the toggle function to set ticksSinceToggle
@@ -61,7 +69,16 @@ public class AvexLegacy extends Legacy {
 	@Override
 	public int getStaminaPerSecond()
 	{
-		return toggled ? 10 : 0;
+		if (!toggled) return 0;
+		
+		int stamina = 0;
+		
+		if (currentLegacyLevel == 0) stamina = 10;
+		if (currentLegacyLevel == 1) stamina = 7;
+		if (currentLegacyLevel == 2) stamina = 7;
+		if (currentLegacyLevel == 3) stamina = 5;
+		
+		return sprintedLastTick ? stamina * 2 : stamina;
 	}
 	
 	@Override
