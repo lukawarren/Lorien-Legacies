@@ -257,8 +257,6 @@ public class LegacyManager {
 			action = LegacyAction.GlacenFreeze;
 		else if (KeyBindings.toggleAvex.isPressed() && avexLegacyEnabled)
 			action = LegacyAction.Avex;
-		else if (KeyBindings.avexHover.isPressed() && avexLegacyEnabled)
-			action = LegacyAction.AvexHover;
 		else if (KeyBindings.activateTelekinesis.isPressed() && legaciesEnabled)
 			action = LegacyAction.Telekinesis;
 		else if (KeyBindings.launchTelekinesis.isPressed() && legaciesEnabled)
@@ -291,11 +289,7 @@ public class LegacyManager {
 		// Avex toggle
 		if (action == LegacyAction.Avex && legaciesEnabled && avexLegacyEnabled && avexLegacy.getEnabledInConfig())
 			avexLegacy.toggle(player);
-		
-		// Avex hover
-		if (action == LegacyAction.AvexHover && legaciesEnabled && avexLegacyEnabled && avexLegacy.getEnabledInConfig())
-			avexLegacy.hover(player);
-		
+
 		if (action == LegacyAction.Telekinesis && legaciesEnabled && telekinesis.getEnabledInConfig())
 		{
 			telekinesis.activated = !telekinesis.activated;
