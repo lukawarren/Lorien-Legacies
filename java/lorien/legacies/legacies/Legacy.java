@@ -53,7 +53,7 @@ public abstract class Legacy {
 		return legacyLevels.size() > 1;
 	}
 	
-	public void addXPForPlayer(int xp, LegacyManager legacyManager)
+	public void addXPForPlayer(int xp, LegacyManager legacyManager, boolean sendToClient)
 	{
 		this.xp += xp;
 		while (this.xp > legacyLevels.get(currentLegacyLevel).xpRequired && currentLegacyLevel < legacyLevels.size()-1) // Level up if needed
@@ -64,11 +64,23 @@ public abstract class Legacy {
 				legacyManager.player.sendMessage(new TextComponentString("Your " + LEGACY_NAME + " has levelled up!").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 		}
 
+		// If the number's negative, we need to "undo" levels by working out the max possible level now achievable
+		if (xp < 0)
+		{
+			int maxLevel = 0;
+			while (this.xp > legacyLevels.get(maxLevel).xpRequired) maxLevel++;
+			currentLegacyLevel = maxLevel;
+			System.out.println(maxLevel);
+			if (this.xp < 0) this.xp = 0; // Make XP at least 0
+		}
+		
 		LegacyLoader.saveLegaciesToSave(legacyManager, LegacyWorldSaveData.get(legacyManager.player.world));
-		//LegacyLoader.sendLegaciesToClient(legacyManager, false); - completely lags the game, it's probably fine without it
+		if (sendToClient) LegacyLoader.sendLegaciesToClient(legacyManager, false); // Sending legacies to client completely lags the game, and it's only needed for commands
 	}
 	
-	public abstract int getStaminaPerSecond();
+	public abstract float getStaminaPerTick();
 	public abstract boolean getEnabledInConfig();
+	
+	public void staminaExaughsted() {}
 	
 }

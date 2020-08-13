@@ -60,7 +60,7 @@ public class StaminaGui extends GuiScreen // Extending for the drawTexturedModal
         }
     }
 	
-    public void render(int stamina, int maxStamina, RenderGameOverlayEvent event)
+    public void render(float stamina, float maxStamina, RenderGameOverlayEvent event)
 	{
 	
     	// If we're rendering the XP bar, intercept the event

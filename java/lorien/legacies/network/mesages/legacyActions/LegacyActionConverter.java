@@ -52,12 +52,7 @@ public class LegacyActionConverter
 		{
 			legacyManager.avexLegacy.toggle(player);
 		}
-		
-		else if (action == LegacyAction.AvexHover && legacyManager.avexLegacyEnabled && legacyManager.avexLegacy.getEnabledInConfig())
-		{
-			legacyManager.avexLegacy.hover(player);
-		}
-		
+
 		else if (action == LegacyAction.Telekinesis && legacyManager.legaciesEnabled && legacyManager.telekinesis.getEnabledInConfig())
 		{
 			legacyManager.telekinesis.activated = !legacyManager.telekinesis.activated;
@@ -91,10 +86,8 @@ public class LegacyActionConverter
 		else if (i == 7)
 			return LegacyAction.Avex;
 		else if (i == 8)
-			return LegacyAction.AvexHover;
-		else if (i == 9)
 			return LegacyAction.Telekinesis;
-		else if (i == 10)
+		else if (i == 9)
 			return LegacyAction.TelekinesisLaunch;
 		
 		return null;
@@ -120,12 +113,10 @@ public class LegacyActionConverter
 			return 6;
 		else if (i == LegacyAction.Avex)
 			return 7;
-		else if (i == LegacyAction.AvexHover)
-			return 8;
 		else if (i == LegacyAction.Telekinesis)
-			return 9;
+			return 8;
 		else if (i == LegacyAction.TelekinesisLaunch)
-			return 10;
+			return 9;
 		
 		return -1;
 		

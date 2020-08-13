@@ -83,7 +83,7 @@ public class CommandLegacyXp implements ICommand
 			}
 			
 			// Add XP and give the player confirmation
-			targetLegacy.addXPForPlayer(xp, l);
+			targetLegacy.addXPForPlayer(xp, l, true);
 			sender.sendMessage(new TextComponentString("Added " + addXp + " xp to " + targetLegacy.LEGACY_NAME).setStyle(new Style().setColor(TextFormatting.GREEN)));
 			
 		} else sender.sendMessage(new TextComponentString("You do not have legacies").setStyle(new Style().setColor(TextFormatting.RED)));

@@ -143,8 +143,16 @@ public class LegacyGui extends GuiScreen
         {
         	// Calculate XP needed for next legacy level
             int xpNeeded = legacy.legacyLevels.get(legacy.currentLegacyLevel).xpRequired;
-            float progress = (float)legacy.xp / (float)xpNeeded;
-            if (progress > 1.0f) progress = 1.0f;
+            float progress;
+            
+            // Adjust the progress bar taking into account the XP granted by the previous level if applicable
+            if (legacy.currentLegacyLevel > 0)
+            {
+            	progress = (float)(legacy.xp - legacy.legacyLevels.get(legacy.currentLegacyLevel-1).xpRequired) / (float)xpNeeded;
+            }
+            else progress = (float)legacy.xp / (float)xpNeeded; // Otherwise just do it normally
+            
+            if (progress > 1.0f) progress = 1.0f; // Cap it at 1
             
             // Draw XP progress bar (actually two bars - one background and one progress bar)
             x = panelStart + 30;

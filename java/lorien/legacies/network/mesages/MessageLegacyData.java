@@ -146,7 +146,7 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 	{
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			
-			LorienLegacies.instance.clientLegacyManager = new LegacyManager(player);
+			if (LorienLegacies.instance.clientLegacyManager == null) LorienLegacies.instance.clientLegacyManager = new LegacyManager(player);
 			
 			LorienLegacies.instance.clientLegacyManager.legaciesEnabled = message.legaciesEnabled;
 			LorienLegacies.instance.clientLegacyManager.lumenLegacyEnabled = message.lumenLegacyEnabled;

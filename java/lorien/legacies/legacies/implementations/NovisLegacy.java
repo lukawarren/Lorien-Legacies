@@ -45,7 +45,7 @@ public class NovisLegacy extends Legacy {
 	}
 	
 	@Override
-	public int getStaminaPerSecond()
+	public float getStaminaPerTick()
 	{
 		return toggled ? 10 : 0;
 	}

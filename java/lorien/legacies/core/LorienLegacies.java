@@ -83,7 +83,18 @@ public class LorienLegacies {
 	public void PlayerRespawnEvent(PlayerRespawnEvent event)
 	{		
 		// Get rid of old instances
+		clientLegacyManager.legaciesEnabled = false;
+		clientLegacyManager.destroy();
+		System.gc(); // Yes, I am paranoid about multiple instances, and yes, I do hate Java's garbage collection.
 		clientLegacyManager = null;
+		
+		if (legacyManagers.containsKey(event.player.getUniqueID()))
+		{
+			LegacyManager l = legacyManagers.get(event.player.getUniqueID());
+			l.legaciesEnabled = false;
+			l.destroy();
+			// delete l; // Oh wait, I forgot... Java sucks!
+		}
 		legacyManagers.remove(event.player.getUniqueID());
 		
 		if (event.player.world.isRemote)
