@@ -52,7 +52,7 @@ public class CommandLegacyLevels implements ICommand
 	{
 		boolean hasLegacies = LorienLegacies.instance.legacyManagers.containsKey(sender.getCommandSenderEntity().getUniqueID());
 	
-		if (!server.worlds[0].isRemote && hasLegacies)
+		if (!server.worlds[0].isRemote && hasLegacies && LorienLegacies.instance.legacyManagers.get(sender.getCommandSenderEntity().getUniqueID()).legaciesEnabled)
 		{
 			// Get player entity that sent the message (by name and position to be double sure), then send him the packet
 			for (String playerName : server.getOnlinePlayerNames())
