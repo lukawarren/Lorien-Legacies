@@ -1,0 +1,16 @@
+# Text files
+*.java text
+*.sh text eol=lf
+*.bat text eol=crlf
+*.md text
+
+# Binary files
+*.dat binary
+*.bin binary
+*.png binary
+*.exe binary
+*.dll binary
+*.zip binary
+*.jar binary
+*.7z binary
+*.db binary

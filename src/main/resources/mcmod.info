@@ -1,0 +1,16 @@
+[
+{
+  "modid": "lorienlegacies",
+  "name": "Lorien Legacies",
+  "description": "Lorien Legacies in Minecraft!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/lukawarren/Lorien-Legacies",
+  "updateUrl": "",
+  "authorList": ["Kerbo", "Blue20Boy17", "tebreca", "Phantom"],
+  "credits": "The Lorien Legacies community",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -1,32 +1,13 @@
 # Lorien-Legacies
 
 ## Description
-Lorien Legacies is a high-quality in-depth mod that seeks so recreate Lorien Legacies in Minecraft! It adds legacies such as Regeneras and Lumen, as well as telekinesis and a host of other awesome abilities. A levelling up system is implemented too, as well as a stamina system.
-
-## Prerequisites and setting up a workspace
-To contribute to the mod you'll need [a working environment of Forge for Minecraft version 1.12.2](https://www.youtube.com/watch?v=rmWBP5ifDlw) (any version of Forge should work, and the mod will most likely be compatible with different sub-versions of 1.12, but don't quote me on that). Once that's set up simply replace *src/main/resources* and *src/main/java* with the folders supplied in this GitHub repo (in the root directory). Run the project and if all goes well you should now have your workspace set up ready for working on Lorien Legacies! If you have any issues at all with setting things up please don't hesitate to ask for help (maybe start an issue on the repo or something).
-
-## Contributing
-Working on this mod takes time and effort, and as such our progress is limited. We'd welcome any contribution, no matter how big or small. Feel free to work on anything that interests you!
-
-If you're able to program, things you could do include:
-* Adding a new legacy (as long as it is balanced and lore friendly - if in doubt add it as an issue in the Issues tab under the label *question*)
-* Tweaking an existing legacy
-* Working on a new feature
-* Checking the Issues section for bugs, enhancements, and other requests
-* Finding bugs
-
-Alternatively, if you're great at making assets such as textures and sound effects, you could make new ones that are needed, or replace old ones with better, higher quality ones (if the need presents itself). 
-
-Since the code base is getting rather large at this point, you will most certainly want to become accustomed to the rough structure and order of the code. You can read about what different parts of the code (used to) do on our repo's [wiki](https://github.com/TheUltimateKerbonaut/Lorien-Legacies/wiki) (it's pretty outdated, but it's still mostly correct).
-
-To learn how to contribute to a GitHub open-source project, [read a guide such as this one](https://akrabat.com/the-beginners-guide-to-contributing-to-a-github-project/), or [watch this Youtube video](https://www.youtube.com/watch?v=yr6IzOGoMsQ).
+Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies such as Regeneras and Lumen, as well as telekinesis and a host of other awesome abilities. Each legacy has levels and a stamina system, and plenty of customisation, so you can play exactly how you please.
 
 ## Authors
-* [TheUltimateKerbonaut](https://github.com/TheUltimateKerbonaut)
+* [Kerbo](https://github.com/Kerbo)
 * [Blue20Boy17](https://github.com/Blue20Boy17)
 * [tebreca](https://github.com/Tebreca)
 * [Phantom](https://github.com/PhantomTheDev)
 
 ## Contact us
-Join [our discord](https://discord.gg/WU9qM39)!
+Join [our discord](https://discord.gg/rADuzGsGdY)!
