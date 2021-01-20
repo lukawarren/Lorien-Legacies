@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @Mod(modid = LorienLegacies.MODID, name = LorienLegacies.NAME, version = LorienLegacies.VERSION)
 public class LorienLegacies
 {
-	// Forge mod configuration and namming
+	// Forge mod configuration and naming
     public static final String MODID = "lorienlegacies";
     public static final String NAME = "Lorien Legacies";
     public static final String VERSION = "1.0";
