@@ -4,19 +4,19 @@ import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.Legacy;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class Lumen extends Legacy 
+public class Avex extends Legacy
 {
-	
-	public Lumen()
+
+	public Avex()
 	{
-		NAME = "Lumen";
-		DESCRIPTION = "Grants fire resistance and powers";
+		NAME = "Avex";
+		DESCRIPTION = "Grants swift flight";
 	}
 
 	@Override
 	protected void OnLegacyTick(EntityPlayer player)
 	{
-		LorienLegacies.logger.info("Lumen - OnLegacyTick()");
+		LorienLegacies.logger.info("Avex - OnLegacyTick()");
 	}
-
+	
 }

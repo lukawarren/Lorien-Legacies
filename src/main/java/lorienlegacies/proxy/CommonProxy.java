@@ -68,9 +68,8 @@ public class CommonProxy
     	
 	}
 
-	public EntityPlayer getPlayerEntityFromContext(MessageContext ctx)
+	public EntityPlayer GetPlayerEntityFromContext(MessageContext ctx)
 	{
 		return null;
 	}
-	
 }

@@ -7,8 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
  */
 public abstract class Legacy
 {
-	protected static String NAME;
-	protected static String DESCRIPTION;
+	protected String NAME;
+	protected String DESCRIPTION;
 	
 	protected String GetName() 			{ return NAME; }
 	protected String GetDescription() 	{ return DESCRIPTION; }

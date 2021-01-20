@@ -22,7 +22,7 @@ public abstract class MessageBase<REQ extends IMessage> implements IMessage, IMe
         }
         else
         {
-            handleClientSide(message, LorienLegacies.proxy.getPlayerEntityFromContext(ctx));
+            handleClientSide(message, LorienLegacies.proxy.GetPlayerEntityFromContext(ctx));
         }
         return null;
     }
