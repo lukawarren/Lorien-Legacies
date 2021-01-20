@@ -6,6 +6,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
+/**
+ * Handles network packets, delegates messages, etc
+ */
+
 public class NetworkHandler
 {
 	
