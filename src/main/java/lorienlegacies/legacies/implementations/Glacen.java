@@ -16,7 +16,7 @@ public class Glacen extends Legacy
 	@Override
 	protected void OnLegacyTick(EntityPlayer player)
 	{
-		LorienLegacies.logger.info("Avex - OnLegacyTick()");
+		LorienLegacies.logger.info("Glacen - OnLegacyTick()");
 	}
 
 }
