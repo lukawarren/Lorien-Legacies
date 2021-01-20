@@ -1,6 +1,5 @@
 package lorienlegacies.legacies.implementations;
 
-import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.Legacy;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -16,7 +15,7 @@ public class Lumen extends Legacy
 	@Override
 	protected void OnLegacyTick(EntityPlayer player)
 	{
-		LorienLegacies.logger.info("Lumen - OnLegacyTick()");
+		
 	}
 
 }

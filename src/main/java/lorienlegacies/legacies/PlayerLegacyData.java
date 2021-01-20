@@ -9,6 +9,14 @@ public class PlayerLegacyData
 {
 	public LinkedHashMap<String, Integer> legacies = new LinkedHashMap<String, Integer>();
 	
+	public PlayerLegacyData() {}
+	
+	// For creating empty legacies as in WorldLegacySaveData
+	public PlayerLegacyData(int blankLegacies)
+	{
+		for (int i = 0; i < blankLegacies; ++i) legacies.put("" + i, 0);
+	}
+	
 	public void RegisterLegacy(String name, Boolean enabled)
 	{
 		legacies.put(name, enabled ? 1 : 0);
