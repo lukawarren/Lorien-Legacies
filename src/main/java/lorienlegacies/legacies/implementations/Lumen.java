@@ -24,7 +24,7 @@ public class Lumen extends Legacy
 		if (event.getEntity() instanceof EntityPlayer == false) return;
 		
 		// If player does not have Lumen, return
-		if (GetLegacyData((EntityPlayer)event.getEntity()) == 0) return;
+		if (GetLegacyLevel((EntityPlayer)event.getEntity()) == 0) return;
 		
 		// Fire resistance
 		if (event.getSource().equals(DamageSource.IN_FIRE) || event.getSource().equals(DamageSource.ON_FIRE))  event.setCanceled(true);

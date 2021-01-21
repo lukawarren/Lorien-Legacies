@@ -21,7 +21,7 @@ public abstract class Legacy
 		return WorldLegacySaveData.get(player.world).GetPlayerData().get(player.getUniqueID());
 	}
 	
-	protected int GetLegacyData(EntityPlayer player)
+	protected int GetLegacyLevel(EntityPlayer player)
 	{
 		PlayerLegacyData data = GetPlayerData(player);
 		if (data != null) return data.legacies.get(NAME).intValue();
