@@ -13,6 +13,9 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 ### How do I get legacies?
 At the moment, upon joining a new world, each player has a chance to recieve any number of legacies. The likelihood of recieving legacies, as well as how many, can be changed in the mod's config.
 
+### How do I use them?
+Legacies have to be toggled to be used. By default, this is done with the left-alt key.
+
 ## Commands
 * /legacies - displays legacies
 * /toggleLegacies - brings up legacy toggle GUI
