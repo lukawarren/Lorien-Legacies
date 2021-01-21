@@ -3,6 +3,7 @@ package lorienlegacies.proxy;
 import lorienlegacies.blocks.ModBlocks;
 import lorienlegacies.entities.ModEntities;
 import lorienlegacies.items.ModItems;
+import lorienlegacies.legacies.LegacyManager;
 import lorienlegacies.legacies.PlayerLegacyData;
 import lorienlegacies.network.NetworkHandler;
 import net.minecraft.block.Block;
@@ -22,15 +23,17 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 @Mod.EventBusSubscriber
 public class CommonProxy 
 {
+	// Legacies
+	public LegacyManager legacyManager = new LegacyManager();
+	
 	public void preInit(FMLPreInitializationEvent e)
 	{
 		NetworkHandler.init();
-		ModEntities.register();
     }
 
     public void init(FMLInitializationEvent e)
     {
-    	
+    	ModEntities.register();
     }
 
     public void postInit(FMLPostInitializationEvent e)
@@ -76,6 +79,11 @@ public class CommonProxy
 	public PlayerLegacyData GetClientLegacyData()
 	{
 		return null;
+	}
+	
+	public LegacyManager GetLegacyManager()
+	{
+		return legacyManager;
 	}
 	
 }

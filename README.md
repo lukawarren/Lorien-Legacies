@@ -1,7 +1,7 @@
 # Lorien-Legacies
 
 ## Description
-Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies such as Regeneras and Lumen, as well as telekinesis and a host of other awesome abilities. Each legacy has levels and a stamina system, and plenty of customisation, so you can play exactly how you please.
+Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies such as Avex and Lumen, as well as telekinesis and a host of other awesome abilities.
 
 ## Legacies
 | Legacy | Level 1 | Level 2 | Level 3 | Complete |
@@ -10,9 +10,13 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 | Glacen | Ice powers | Better range | Better stamina | ❌ |
 | Avex | Flight | Better range | Better speed | ❌ |
 
+### How do I get legacies?
+At the moment, upon joining a new world, each player has a chance to recieve any number of legacies. The likelihood of recieving legacies, as well as how many, can be changed in the mod's config.
+
 ## Commands
 * /legacies - displays legacies
 * /toggleLegacies - brings up legacy toggle GUI
+* /giveLegacies - forcefully gives a player legacies
 
 ## Authors
 * [Kerbo](https://github.com/Kerbo)

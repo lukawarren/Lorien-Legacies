@@ -94,7 +94,6 @@ public class WorldLegacySaveData extends WorldSavedData
 		{
 			int[] data = entry.getValue().ToIntArray();
 			nbt.setIntArray(entry.getKey().toString(), data);
-			LorienLegacies.logger.info("Saved legacy data for player with UUID {} --- {}", entry.getKey().toString(), Arrays.toString(data));
 		}
 			
 		return nbt;

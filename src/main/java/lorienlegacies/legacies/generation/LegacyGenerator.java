@@ -22,19 +22,19 @@ public class LegacyGenerator
 		random.setSeed(seed);
 	}
 	
-	public void GenerateRandomLegacies(PlayerLegacyData playerData)
+	public void GenerateRandomLegacies(PlayerLegacyData playerData, boolean forceLegacies)
 	{
 		// Zero-out all legacies
 		for (String key : playerData.legacies.keySet())
 			playerData.legacies.put(key, 0);
 		
 		// Decide if to give player legacies
-		boolean playerShouldHaveLegacies = MakeDecisionWithChance(ConfigLorienLegacies.legacyChance);
-		int numLegacies = GetNumberBetween(ConfigLorienLegacies.minimumLegacies - 1, ConfigLorienLegacies.maximumLegacies);
+		boolean playerShouldHaveLegacies = MakeDecisionWithChance(ConfigLorienLegacies.legacyChance) || forceLegacies;
+		int numLegacies = GetNumberBetween(ConfigLorienLegacies.minimumLegacies, ConfigLorienLegacies.maximumLegacies);
 		
 		if (playerShouldHaveLegacies == false || numLegacies == 0) return;
 		
-		// Chose 3 random legacies by shuffling keys...
+		// Chose n random legacies by shuffling keys...
 		List<String> shuffledLegacies = new ArrayList<String>(playerData.legacies.keySet());
 		Collections.shuffle(shuffledLegacies);
 		

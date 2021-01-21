@@ -1,14 +1,10 @@
 package lorienlegacies.proxy;
 
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(Side.SERVER)
 public class ServerProxy extends CommonProxy
 {	
-	@Override
-	public void init(FMLInitializationEvent e)
-    {
-		
-    }
+	
 }

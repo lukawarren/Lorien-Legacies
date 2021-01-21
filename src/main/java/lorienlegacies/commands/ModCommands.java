@@ -1,6 +1,7 @@
 package lorienlegacies.commands;
 
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 public class ModCommands
 {
@@ -9,6 +10,11 @@ public class ModCommands
 	{
 		ClientCommandHandler.instance.registerCommand(new CommandLegacies());
 		ClientCommandHandler.instance.registerCommand(new CommandToggleLegacies());
+	}
+	
+	public static void RegisterServerCommands(FMLServerStartingEvent event)
+	{
+		event.registerServerCommand(new CommandGiveLegacies());
 	}
 	
 }

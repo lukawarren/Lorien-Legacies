@@ -1,5 +1,6 @@
 package lorienlegacies.legacies;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public class LegacyManager
 		LorienLegacies.logger.info("Registered {} legacies", legacies.size());
 	}
 	
-	public void RegisterPlayer(EntityPlayer player)
+	public void RegisterPlayer(EntityPlayer player, boolean forceLegacies)
 	{		
 		LorienLegacies.logger.info("Registering player with UUID {}", player.getUniqueID());
 		
@@ -44,8 +45,8 @@ public class LegacyManager
 		PlayerLegacyData data = new PlayerLegacyData();
 		for (Legacy l : legacies.values()) data.RegisterLegacy(l.GetName(), true);
 		
-		// If player has already had legacies generated
-		if (WorldLegacySaveData.get(player.world).IsPlayerAlreadySaved(player.getUniqueID()))
+		// If player has already had legacies generated and we are not to give them new ones
+		if (WorldLegacySaveData.get(player.world).IsPlayerAlreadySaved(player.getUniqueID()) && !forceLegacies)
 		{
 			data.FromIntArray(WorldLegacySaveData.get(player.world).GetPlayerData().get(player.getUniqueID()).ToIntArray());
 		}
@@ -53,7 +54,12 @@ public class LegacyManager
 		else 
 		{
 			LorienLegacies.logger.info("Generating legacies...");
-			new LegacyGenerator(player.world.getSeed() + player.getUniqueID().getLeastSignificantBits()).GenerateRandomLegacies(data);
+			
+			// If forcing legacies, we must change the seed every time
+			int seedOffset = 0;
+			if (forceLegacies) seedOffset = (int) (new Date().getTime() / 1000);
+			
+			new LegacyGenerator(player.world.getSeed() + player.getUniqueID().getLeastSignificantBits() + seedOffset).GenerateRandomLegacies(data, forceLegacies);
 		}
 		
 		// Add to save data
