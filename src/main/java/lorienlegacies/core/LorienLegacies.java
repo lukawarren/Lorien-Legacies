@@ -2,6 +2,7 @@ package lorienlegacies.core;
 
 import org.apache.logging.log4j.Logger;
 
+import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.legacies.LegacyManager;
 import lorienlegacies.proxy.CommonProxy;
 import net.minecraftforge.common.MinecraftForge;
@@ -48,9 +49,11 @@ public class LorienLegacies
         
         MinecraftForge.EVENT_BUS.register(this);
         
-        legacyManager.RegisterLegacies();
+        ConfigLorienLegacies.SanitiseValues(); // Config
         
-        proxy.init(event);
+        legacyManager.RegisterLegacies(); // Legacies
+        
+        proxy.init(event); // Proxy
     }
     
     @EventHandler

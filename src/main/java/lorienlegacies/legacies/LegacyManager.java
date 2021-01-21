@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 public class LegacyManager
 {
 
+	public static final int NUM_LEGACIES = 3;
+	
 	// Legacies
 	Map<String, Legacy> legacies = new HashMap<String, Legacy>();
 	
@@ -48,7 +50,7 @@ public class LegacyManager
 		else 
 		{
 			LorienLegacies.logger.info("Generating legacies...");
-			new LegacyGenerator().GenerateRandomLegacies(data);
+			new LegacyGenerator(player.world.getSeed()).GenerateRandomLegacies(data);
 		}
 		
 		// Add to save data
