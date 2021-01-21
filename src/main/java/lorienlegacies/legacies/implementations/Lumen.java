@@ -15,7 +15,7 @@ public class Lumen extends Legacy
 		NAME = "Lumen";
 		DESCRIPTION = "Grants fire resistance and powers";
 		
-		MinecraftForge.EVENT_BUS.register(this); // Need to recieve events
+		MinecraftForge.EVENT_BUS.register(this); // Need to receive events
 	}
 
 	@SubscribeEvent

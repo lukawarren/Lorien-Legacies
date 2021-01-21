@@ -8,7 +8,7 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 | ------ | ------- | ------- | ------- | -------- |
 | Lumen  | Fire resistance | Lava resistance | Fire powers | ❌ |
 | Glacen | Ice powers | Better range | Better stamina | ❌ |
-| Avex | Flight | Better range | Better speed | ❌ |
+| Avex | Flight and no fall damage | Better range | Better speed | ❌ |
 
 ### How do I get legacies?
 At the moment, upon joining a new world, each player has a chance to recieve any number of legacies. The likelihood of recieving legacies, as well as how many, can be changed in the mod's config.
