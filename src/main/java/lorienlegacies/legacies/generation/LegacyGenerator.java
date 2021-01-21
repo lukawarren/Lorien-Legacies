@@ -30,7 +30,7 @@ public class LegacyGenerator
 		
 		// Decide if to give player legacies
 		boolean playerShouldHaveLegacies = MakeDecisionWithChance(ConfigLorienLegacies.legacyChance);
-		int numLegacies = GetNumberBetween(ConfigLorienLegacies.minimumLegacies, ConfigLorienLegacies.maximumLegacies);
+		int numLegacies = GetNumberBetween(ConfigLorienLegacies.minimumLegacies - 1, ConfigLorienLegacies.maximumLegacies);
 		
 		if (playerShouldHaveLegacies == false || numLegacies == 0) return;
 		
@@ -55,7 +55,7 @@ public class LegacyGenerator
 	
 	private int GetNumberBetween(int min, int max)
 	{
-		return random.nextInt(max + 1) + min;
+		return random.nextInt(max) + min;
 	}
 	
 }
