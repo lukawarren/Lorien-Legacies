@@ -3,6 +3,7 @@ package lorienlegacies.core;
 import org.apache.logging.log4j.Logger;
 
 import lorienlegacies.config.ConfigLorienLegacies;
+import lorienlegacies.gui.ModGUIs;
 import lorienlegacies.legacies.LegacyManager;
 import lorienlegacies.proxy.CommonProxy;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,6 +16,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -82,8 +85,14 @@ public class LorienLegacies
     @SubscribeEvent
     public void onWorldTick(WorldTickEvent event)
     {
-    	// Server-side
-    	if (!event.world.isRemote) legacyManager.OnLegacyTick(event.world);
+    	// Server-side - events fire twice per tick, so check phase
+    	if (!event.world.isRemote && event.phase == Phase.START) legacyManager.OnLegacyTick(event.world);
+    }
+    
+    @SubscribeEvent
+    public void OnClientTick(ClientTickEvent event)
+    {
+    	if (event.side == Side.CLIENT && event.phase == Phase.END) ModGUIs.OnTick();
     }
     
 }

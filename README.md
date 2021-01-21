@@ -10,6 +10,10 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 | Glacen | Ice powers | Better range | Better stamina | ❌ |
 | Avex | Flight | Better range | Better speed | ❌ |
 
+## Commands
+* /legacies - displays legacies
+* /toggleLegacies - brings up legacy toggle GUI
+
 ## Authors
 * [Kerbo](https://github.com/Kerbo)
 * [Blue20Boy17](https://github.com/Blue20Boy17)

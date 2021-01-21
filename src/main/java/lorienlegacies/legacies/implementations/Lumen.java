@@ -14,7 +14,7 @@ public class Lumen extends Legacy
 	{
 		NAME = "Lumen";
 		DESCRIPTION = "Grants fire resistance and powers";
-	
+		
 		MinecraftForge.EVENT_BUS.register(this); // Need to recieve events
 	}
 
@@ -25,6 +25,9 @@ public class Lumen extends Legacy
 		
 		// If player does not have Lumen, return
 		if (GetLegacyLevel((EntityPlayer)event.getEntity()) == 0) return;
+		
+		// If player does not have Lumen toggled, return
+		if (IsLegacyToggled((EntityPlayer)event.getEntity()) == false) return;
 		
 		// Fire resistance
 		if (event.getSource().equals(DamageSource.IN_FIRE) || event.getSource().equals(DamageSource.ON_FIRE))  event.setCanceled(true);

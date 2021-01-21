@@ -27,4 +27,11 @@ public abstract class Legacy
 		if (data != null) return data.legacies.get(NAME).intValue();
 		else return 0;
 	}
+	
+	protected boolean IsLegacyToggled(EntityPlayer player)
+	{
+		PlayerLegacyData data = GetPlayerData(player);
+		if (data != null) return data.IsLegacyToggled(NAME);
+		return false;
+	}
 }

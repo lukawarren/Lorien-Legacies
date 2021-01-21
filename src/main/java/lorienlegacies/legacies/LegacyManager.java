@@ -89,7 +89,7 @@ public class LegacyManager
 			
 			// For each legacy
 			for (Map.Entry<String, Integer> legacy : entry.getValue().legacies.entrySet())
-				if (legacy.getValue() == 1) // If enabled
+				if (legacy.getValue() > 0 && entry.getValue().IsLegacyToggled(legacy.getKey())) // If enabled and toggled
 					legacies.get(legacy.getKey()).OnLegacyTick(player); // call OnLegacyTick()
 					
 		}

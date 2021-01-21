@@ -7,11 +7,15 @@ import java.util.LinkedHashMap;
  */
 public class PlayerLegacyData
 {
+	// Saved data
 	public LinkedHashMap<String, Integer> legacies = new LinkedHashMap<String, Integer>();
+	
+	// Non-saved data
+	public LinkedHashMap<String, Boolean> legacyToggles = new LinkedHashMap<String, Boolean>();
 	
 	public PlayerLegacyData() {}
 	
-	// For creating empty legacies as in WorldLegacySaveData
+	// For creating empty legacies as in WorldLegacySaveData (keys do not matter as it is merely a temporary class)
 	public PlayerLegacyData(int blankLegacies)
 	{
 		for (int i = 0; i < blankLegacies; ++i) legacies.put("" + i, 0);
@@ -20,6 +24,7 @@ public class PlayerLegacyData
 	public void RegisterLegacy(String name, Boolean enabled)
 	{
 		legacies.put(name, enabled ? 1 : 0);
+		legacyToggles.put(name, false);
 	}
 	
 	public int[] ToIntArray()
@@ -45,6 +50,17 @@ public class PlayerLegacyData
 			
 			legacies.replace(key, array[i]);
 		}
+	}
+	
+	public void ToggleLegacy(String legacy)
+	{
+		if (legacyToggles.get(legacy) == null) return;
+		legacyToggles.put(legacy, !legacyToggles.get(legacy));
+	}
+	
+	public boolean IsLegacyToggled(String legacy)
+	{
+		return legacyToggles.get(legacy);
 	}
 	
 }

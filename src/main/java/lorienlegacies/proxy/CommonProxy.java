@@ -22,7 +22,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 @Mod.EventBusSubscriber
 public class CommonProxy 
 {
-	
 	public void preInit(FMLPreInitializationEvent e)
 	{
 		NetworkHandler.init();
@@ -78,4 +77,5 @@ public class CommonProxy
 	{
 		return null;
 	}
+	
 }
