@@ -7,8 +7,11 @@ import java.util.UUID;
 import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.generation.LegacyGenerator;
 import lorienlegacies.legacies.implementations.*;
+import lorienlegacies.network.NetworkHandler;
+import lorienlegacies.network.mesages.MessageLegacyData;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 
 public class LegacyManager
@@ -55,6 +58,17 @@ public class LegacyManager
 		
 		// Add to save data
 		WorldLegacySaveData.get(player.world).SetPlayerData(player.getUniqueID(), data);
+		
+		// Send legacies to client
+		MessageLegacyData message = new MessageLegacyData();
+		message.legacies = data.ToIntArray();
+		NetworkHandler.sendToPlayer(message, (EntityPlayerMP)player);
+	}
+	
+	public void RegisterClientData(PlayerLegacyData data)
+	{
+		// Populate hashmap for later use
+		for (String legacy : legacies.keySet()) data.RegisterLegacy(legacy, true);
 	}
 	
 	public void DisconnectPlayer(EntityPlayer player)

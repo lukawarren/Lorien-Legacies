@@ -3,6 +3,7 @@ package lorienlegacies.proxy;
 import lorienlegacies.blocks.ModBlocks;
 import lorienlegacies.entities.ModEntities;
 import lorienlegacies.items.ModItems;
+import lorienlegacies.legacies.PlayerLegacyData;
 import lorienlegacies.network.NetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -69,6 +70,11 @@ public class CommonProxy
 	}
 
 	public EntityPlayer GetPlayerEntityFromContext(MessageContext ctx)
+	{
+		return null;
+	}
+	
+	public PlayerLegacyData GetClientLegacyData()
 	{
 		return null;
 	}

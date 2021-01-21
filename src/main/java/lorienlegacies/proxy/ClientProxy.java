@@ -3,6 +3,7 @@ package lorienlegacies.proxy;
 import lorienlegacies.blocks.ModBlocks;
 import lorienlegacies.entities.ModEntities;
 import lorienlegacies.items.ModItems;
+import lorienlegacies.legacies.PlayerLegacyData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -16,6 +17,8 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy
 {
+	
+    public PlayerLegacyData clientLegacies = new PlayerLegacyData();
 	
 	@Override
     public void preInit(FMLPreInitializationEvent e) 
@@ -41,6 +44,12 @@ public class ClientProxy extends CommonProxy
     public EntityPlayer GetPlayerEntityFromContext(MessageContext ctx)
 	{
 		return Minecraft.getMinecraft().player;
+	}
+    
+    @Override
+    public PlayerLegacyData GetClientLegacyData()
+	{
+		return clientLegacies;
 	}
     
 }

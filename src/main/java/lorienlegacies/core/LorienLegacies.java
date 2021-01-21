@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = LorienLegacies.MODID, name = LorienLegacies.NAME, version = LorienLegacies.VERSION)
 public class LorienLegacies
@@ -52,6 +53,8 @@ public class LorienLegacies
         ConfigLorienLegacies.SanitiseValues(); // Config
         
         legacyManager.RegisterLegacies(); // Legacies
+        
+        if (event.getSide() == Side.CLIENT) legacyManager.RegisterClientData(proxy.GetClientLegacyData()); // Client legacy data
         
         proxy.init(event); // Proxy
     }
