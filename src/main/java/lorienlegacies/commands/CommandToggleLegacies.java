@@ -53,7 +53,7 @@ public class CommandToggleLegacies implements ICommand
 		if (numLegacies == 0) sender.sendMessage(new TextComponentString("You do not have legacies").setStyle(new Style().setColor(TextFormatting.RED)));
 		else
 		{
-			ModGUIs.OpenGui(new GuiLegacyToggle());
+			ModGUIs.OpenGui(new GuiLegacyToggle(false));
 		}
 	}
 

@@ -4,11 +4,13 @@ import lorienlegacies.blocks.ModBlocks;
 import lorienlegacies.commands.ModCommands;
 import lorienlegacies.entities.ModEntities;
 import lorienlegacies.items.ModItems;
+import lorienlegacies.keybinds.ModKeybinds;
 import lorienlegacies.legacies.PlayerLegacyData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,17 +31,25 @@ public class ClientProxy extends CommonProxy
     }
 	
 	@Override
+	public void init(FMLInitializationEvent e)
+    {
+    	super.init(e);
+    	ModKeybinds.RegisterKeybinds();
+    }
+
+	
+	@Override
 	public void postInit(FMLPostInitializationEvent e)
 	{
 		super.postInit(e);
-		ModCommands.registerClientCommands();
+		ModCommands.RegisterClientCommands();
 	}
 	
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event)
     {
-    	ModBlocks.registerModels();
-    	ModItems.registerModels();
+    	ModBlocks.RegisterModels();
+    	ModItems.RegisterModels();
     }
 	
     @Override

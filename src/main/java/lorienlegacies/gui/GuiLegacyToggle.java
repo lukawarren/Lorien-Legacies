@@ -2,9 +2,13 @@ package lorienlegacies.gui;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
+
 import lorienlegacies.core.LorienLegacies;
+import lorienlegacies.keybinds.ModKeybinds;
 import lorienlegacies.network.NetworkHandler;
 import lorienlegacies.network.mesages.MessageToggleLegacy;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -16,6 +20,14 @@ public class GuiLegacyToggle extends GuiScreen
 	private static final int BUTTON_MARGIN = 5;
 	
 	private static final int NOT_TOGGLED_COLOUR = 0xFFAAAAAA;
+	
+	private boolean madeThroughKeybind;
+	
+	public GuiLegacyToggle(boolean madeThroughKeybind)
+	{
+		super();
+		this.madeThroughKeybind = madeThroughKeybind;
+	}
 	
 	@Override
 	public void initGui()
@@ -70,6 +82,9 @@ public class GuiLegacyToggle extends GuiScreen
 		
 		// Draw buttons and stuff
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		
+		// Close if alt key not held down and we wern't made by a command
+		if (madeThroughKeybind && !Keyboard.isKeyDown(ModKeybinds.keyToggleLegacies.getKeyCode())) Minecraft.getMinecraft().player.closeScreen();
 	}
 	
 	@Override

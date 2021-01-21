@@ -11,7 +11,7 @@ public class ModItems
 		
 	}
 	
-	public static void registerModels()
+	public static void RegisterModels()
 	{
 		
 	}
