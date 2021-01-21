@@ -53,7 +53,7 @@ public class LegacyManager
 		else 
 		{
 			LorienLegacies.logger.info("Generating legacies...");
-			new LegacyGenerator(player.world.getSeed()).GenerateRandomLegacies(data);
+			new LegacyGenerator(player.world.getSeed() + player.getUniqueID().getLeastSignificantBits()).GenerateRandomLegacies(data);
 		}
 		
 		// Add to save data

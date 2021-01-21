@@ -1,6 +1,7 @@
 package lorienlegacies.proxy;
 
 import lorienlegacies.blocks.ModBlocks;
+import lorienlegacies.commands.ModCommands;
 import lorienlegacies.entities.ModEntities;
 import lorienlegacies.items.ModItems;
 import lorienlegacies.legacies.PlayerLegacyData;
@@ -31,6 +32,7 @@ public class ClientProxy extends CommonProxy
 	public void postInit(FMLPostInitializationEvent e)
 	{
 		super.postInit(e);
+		ModCommands.registerClientCommands();
 	}
 	
     @SubscribeEvent

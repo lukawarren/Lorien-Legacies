@@ -24,7 +24,7 @@ public class ConfigLorienLegacies
 	@Name("Minimum legacies if given")
 	@RangeInt(min=1, max=LegacyManager.NUM_LEGACIES)
 	@Comment("If a player is to be given legacies, this is the minimum they will recieve.")
-	public static int minimumLegacies = 1;
+	public static int minimumLegacies = 2;
 	
 	@Name("Maximum legacies if given")
 	@RangeInt(min=1, max=LegacyManager.NUM_LEGACIES)
