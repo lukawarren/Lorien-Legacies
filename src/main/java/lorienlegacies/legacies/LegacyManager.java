@@ -1,7 +1,7 @@
 package lorienlegacies.legacies;
 
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,7 +25,15 @@ public class LegacyManager
 	public static final int NUM_LEGACIES = 3;
 	
 	// Legacies
-	Map<String, Legacy> legacies = new HashMap<String, Legacy>();
+	Map<String, Legacy> legacies = new LinkedHashMap<String, Legacy>();
+	
+	// Config (if you can think of a better way to do this, please do it)
+	public static final String[] CONFIG_LEGACIES =
+	{
+		"Lumen",
+		"Avex",
+		"Glacen"
+	};
 	
 	public void RegisterLegacies()
 	{
@@ -137,8 +145,8 @@ public class LegacyManager
 			}
 			
 			// Restore stamina and confine to reasonable bounds
-			entry.getValue().stamina += ConfigLorienLegacies.staminaRestoredPerTick;
-			if (entry.getValue().stamina >= ConfigLorienLegacies.maxStamina) entry.getValue().stamina = ConfigLorienLegacies.maxStamina;
+			entry.getValue().stamina += ConfigLorienLegacies.legacyStamina.staminaRestoredPerTick;
+			if (entry.getValue().stamina >= ConfigLorienLegacies.legacyStamina.maxStamina) entry.getValue().stamina = ConfigLorienLegacies.legacyStamina.maxStamina;
 			if (entry.getValue().stamina <= 0) entry.getValue().stamina = 0;
 		}
 	}

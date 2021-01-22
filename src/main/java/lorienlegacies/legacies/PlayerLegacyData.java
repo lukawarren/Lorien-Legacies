@@ -18,14 +18,14 @@ public class PlayerLegacyData
 	
 	public PlayerLegacyData()
 	{
-		stamina = ConfigLorienLegacies.maxStamina;
+		stamina = ConfigLorienLegacies.legacyStamina.maxStamina;
 	}
 	
 	// For creating empty legacies as in WorldLegacySaveData (keys do not matter as it is merely a temporary class)
 	public PlayerLegacyData(int blankLegacies)
 	{
 		for (int i = 0; i < blankLegacies; ++i) legacies.put("" + i, 0);
-		stamina = ConfigLorienLegacies.maxStamina;
+		stamina = ConfigLorienLegacies.legacyStamina.maxStamina;
 	}
 	
 	public void RegisterLegacy(String name, Boolean enabled)
@@ -58,7 +58,7 @@ public class PlayerLegacyData
 			legacies.replace(key, array[i]);
 		}
 		
-		stamina = ConfigLorienLegacies.maxStamina;
+		stamina = ConfigLorienLegacies.legacyStamina.maxStamina;
 	}
 	
 	public void ToggleLegacy(String legacy)

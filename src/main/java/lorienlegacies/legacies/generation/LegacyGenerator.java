@@ -29,8 +29,8 @@ public class LegacyGenerator
 			playerData.legacies.put(key, 0);
 		
 		// Decide if to give player legacies
-		boolean playerShouldHaveLegacies = MakeDecisionWithChance(ConfigLorienLegacies.legacyChance) || forceLegacies;
-		int numLegacies = GetNumberBetween(ConfigLorienLegacies.minimumLegacies, ConfigLorienLegacies.maximumLegacies);
+		boolean playerShouldHaveLegacies = MakeDecisionWithChance(ConfigLorienLegacies.legacyGeneration.legacyChance) || forceLegacies;
+		int numLegacies = GetNumberBetween(ConfigLorienLegacies.legacyGeneration.minimumLegacies, ConfigLorienLegacies.legacyGeneration.maximumLegacies);
 		
 		if (playerShouldHaveLegacies == false || numLegacies == 0) return;
 		

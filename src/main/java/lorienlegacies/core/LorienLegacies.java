@@ -51,9 +51,9 @@ public class LorienLegacies
         
         MinecraftForge.EVENT_BUS.register(this);
         
-        ConfigLorienLegacies.SanitiseValues(); // Config
+        proxy.GetLegacyManager().RegisterLegacies(); // Register legacies
         
-        proxy.GetLegacyManager().RegisterLegacies(); // Legacies
+        ConfigLorienLegacies.SanitiseValues(); // Config
         
         if (event.getSide() == Side.CLIENT) proxy.GetLegacyManager().RegisterClientData(proxy.GetClientLegacyData()); // Client legacy data
         

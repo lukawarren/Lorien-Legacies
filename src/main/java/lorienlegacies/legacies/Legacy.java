@@ -3,6 +3,7 @@ package lorienlegacies.legacies;
 import java.util.ArrayList;
 import java.util.List;
 
+import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -18,7 +19,7 @@ public abstract class Legacy
 	
 	protected String GetName() 			 { return NAME; }
 	protected String GetDescription() 	 { return DESCRIPTION; }
-	protected int    GetStaminaPerTick() { return STAMINA_PER_TICK; }
+	protected int    GetStaminaPerTick() { return STAMINA_PER_TICK * ConfigLorienLegacies.legacyStamina.staminaModifiers.get(NAME); }
 	
 	protected abstract void OnLegacyTick(EntityPlayer player);
 	

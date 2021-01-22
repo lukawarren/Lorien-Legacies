@@ -1,5 +1,8 @@
 package lorienlegacies.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.LegacyManager;
 import net.minecraftforge.common.config.Config;
@@ -15,31 +18,54 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Config(modid = LorienLegacies.MODID, name = LorienLegacies.MODID, type = Type.INSTANCE)
 public class ConfigLorienLegacies
 {
+
+	@Name("Legacy generation")
+	@Comment("Options related to the legacy generation system")
+	public static LegacyGeneration legacyGeneration = new LegacyGeneration();
 	
-	@Name("Chance of legacies per player")
-	@RangeInt(min=0, max=100)
-	@Comment("Upon a new player joining a world, he/she has a chance to recieve legacies. This is that chance, out of 100, as a percentage (%).")
-	public static int legacyChance = 100;
+	public static class LegacyGeneration
+	{
+		@Name("Chance of legacies per player")
+		@RangeInt(min=0, max=100)
+		@Comment("Upon a new player joining a world, he/she has a chance to recieve legacies. This is that chance, out of 100, as a percentage (%).")
+		public int legacyChance = 100;
+		
+		@Name("Minimum legacies if given")
+		@RangeInt(min=1, max=LegacyManager.NUM_LEGACIES)
+		@Comment("If a player is to be given legacies, this is the minimum they will recieve.")
+		public int minimumLegacies = 2;
+		
+		@Name("Maximum legacies if given")
+		@RangeInt(min=1, max=LegacyManager.NUM_LEGACIES)
+		@Comment("If a player is to be given legacies, this is the maximum they will recieve.")
+		public int maximumLegacies = 3;
+	}
 	
-	@Name("Minimum legacies if given")
-	@RangeInt(min=1, max=LegacyManager.NUM_LEGACIES)
-	@Comment("If a player is to be given legacies, this is the minimum they will recieve.")
-	public static int minimumLegacies = 2;
+	@Name("Legacy stamina")
+	@Comment("Options related to the legacy stamina system")
+	public static LegacyStamina legacyStamina = new LegacyStamina();
 	
-	@Name("Maximum legacies if given")
-	@RangeInt(min=1, max=LegacyManager.NUM_LEGACIES)
-	@Comment("If a player is to be given legacies, this is the maximum they will recieve.")
-	public static int maximumLegacies = 3;
-	
-	@Name("Max stamina")
-	@RangeInt(min=1)
-	@Comment("Maximum legacy stamina a player can have")
-	public static int maxStamina = 50;
-	
-	@Name("Stamina restoration rate")
-	@RangeInt(min=0)
-	@Comment("The amount of stamina restored per tick")
-	public static int staminaRestoredPerTick = 1;
+	public static class LegacyStamina
+	{
+		@Name("Max stamina")
+		@RangeInt(min=1)
+		@Comment("Maximum legacy stamina a player can have")
+		public int maxStamina = 50;
+		
+		@Name("Stamina restoration rate")
+		@RangeInt(min=0)
+		@Comment("The amount of stamina restored per tick")
+		public int staminaRestoredPerTick = 1;
+		
+		@Name("Legacy stamina modifiers")
+		@Comment("Multiplied by the amount of stamina used by each legacy")
+		public Map<String, Integer> staminaModifiers = new HashMap<>();
+		
+		LegacyStamina()
+		{
+			for (String legacy : LegacyManager.CONFIG_LEGACIES) staminaModifiers.put(legacy, 1);
+		}
+	}
 	
 	@Mod.EventBusSubscriber(modid = LorienLegacies.MODID)
 	private static class EventHandler
@@ -53,11 +79,11 @@ public class ConfigLorienLegacies
 	}
 	
 	public static void SanitiseValues()
-	{
+	{					
 		// Confine values to reasonable bounds
-		if (minimumLegacies > maximumLegacies)
+		if (legacyGeneration.minimumLegacies > legacyGeneration.maximumLegacies)
 		{
-			minimumLegacies = maximumLegacies;
+			legacyGeneration.minimumLegacies = legacyGeneration.maximumLegacies;
 			ConfigManager.sync(LorienLegacies.MODID, Type.INSTANCE);
 		}
 	}
