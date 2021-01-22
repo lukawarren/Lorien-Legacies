@@ -19,7 +19,7 @@ public abstract class Legacy
 	
 	protected String GetName() 			 { return NAME; }
 	protected String GetDescription() 	 { return DESCRIPTION; }
-	protected int    GetStaminaPerTick() { return STAMINA_PER_TICK * ConfigLorienLegacies.legacyStamina.staminaModifiers.get(NAME); }
+	protected int    GetStaminaPerTick() { return STAMINA_PER_TICK; }
 	
 	protected abstract void OnLegacyTick(EntityPlayer player);
 	

@@ -114,7 +114,7 @@ public class LegacyManager
 				if (legacy.getValue() > 0 && entry.getValue().IsLegacyToggled(legacy.getKey())) // If enabled and toggled
 				{
 					// Deplete stamina and add XP
-					int stamina = legacies.get(legacy.getKey()).GetStaminaPerTick();
+					int stamina = legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyStamina.staminaModifiers.get(legacy.getKey());
 					entry.getValue().stamina -= stamina;
 				}
 			}
