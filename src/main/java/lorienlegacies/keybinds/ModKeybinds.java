@@ -33,7 +33,7 @@ public class ModKeybinds
 		if (keyToggleLegacies.isPressed())
 		{
 			// Toggle legacies GUI
-			ModGUIs.OpenGui(new GuiLegacyToggle(true));
+			ModGUIs.OpenGui(new GuiLegacyToggle());
 		}
 	}
 	

@@ -18,7 +18,6 @@ Legacies have to be toggled to be used. By default, this is done with the left-a
 
 ## Commands
 * /legacies - displays legacies
-* /toggleLegacies - brings up legacy toggle GUI
 * /giveLegacies - forcefully gives a player legacies
 
 ## Authors
