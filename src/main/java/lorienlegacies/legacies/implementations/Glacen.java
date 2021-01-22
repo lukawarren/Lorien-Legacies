@@ -23,6 +23,7 @@ public class Glacen extends Legacy
 	{
 		NAME = "Glacen";
 		DESCRIPTION = "Grants ice powers";
+		STAMINA_PER_TICK = 1;
 	}
 
 	@Override

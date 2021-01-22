@@ -2,7 +2,6 @@ package lorienlegacies.network.mesages;
 
 import io.netty.buffer.ByteBuf;
 import lorienlegacies.world.WorldLegacySaveData;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
@@ -31,9 +30,7 @@ public class MessageToggleLegacy extends MessageBase<MessageToggleLegacy>
 	@Override
 	public void handleServerSide(MessageToggleLegacy message, EntityPlayer player)
 	{
-		Minecraft.getMinecraft().addScheduledTask(() -> {
-			WorldLegacySaveData.get(player.world).GetPlayerData().get(player.getUniqueID()).ToggleLegacy(message.legacy);
-		});
+		WorldLegacySaveData.get(player.world).GetPlayerData().get(player.getUniqueID()).ToggleLegacy(message.legacy);
 	}
 
 }

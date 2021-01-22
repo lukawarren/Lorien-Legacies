@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.generation.LegacyGenerator;
-import lorienlegacies.legacies.implementations.*;
+import lorienlegacies.legacies.implementations.Avex;
+import lorienlegacies.legacies.implementations.Glacen;
+import lorienlegacies.legacies.implementations.Lumen;
 import lorienlegacies.network.NetworkHandler;
+import lorienlegacies.network.mesages.MessageExhaustLegacies;
 import lorienlegacies.network.mesages.MessageLegacyData;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -81,6 +85,9 @@ public class LegacyManager
 	{
 		LorienLegacies.logger.info("Unregistering player with UUID {}", player.getUniqueID());
 		
+		// Save everything just in case
+		WorldLegacySaveData.get(player.world).markDirty();
+		
 		// We can assume that no further edits will be made to the player's save data, so remove from WorldLegacySaveData
 		WorldLegacySaveData.get(player.world).RemovePlayerFromDataToBeSaved(player.getUniqueID());
 	}
@@ -93,11 +100,46 @@ public class LegacyManager
 			EntityPlayer player = world.getPlayerEntityByUUID(entry.getKey());
 			if (player == null) continue; // Avoid players not actually logged on
 			
+			// Use up all stamina before using legacies
+			for (Map.Entry<String, Integer> legacy : entry.getValue().legacies.entrySet())
+			{
+				if (legacy.getValue() > 0 && entry.getValue().IsLegacyToggled(legacy.getKey())) // If enabled and toggled
+				{
+					// Deplete stamina and add XP
+					int stamina = legacies.get(legacy.getKey()).GetStaminaPerTick();
+					entry.getValue().stamina -= stamina;
+				}
+			}
+			
+			// If exhausted, "de-toggle" all legacies and alert player
+			if (entry.getValue().stamina <= 0)
+			{
+				// De-toggle server side
+				entry.getValue().DetoggleAllLegacies();
+
+				// Send message to client
+				NetworkHandler.sendToPlayer(new MessageExhaustLegacies(), (EntityPlayerMP)player);
+				
+			}
+			
 			// For each legacy
 			for (Map.Entry<String, Integer> legacy : entry.getValue().legacies.entrySet())
+			{
 				if (legacy.getValue() > 0 && entry.getValue().IsLegacyToggled(legacy.getKey())) // If enabled and toggled
-					legacies.get(legacy.getKey()).OnLegacyTick(player); // call OnLegacyTick()
-					
+				{
+					// If enough stamina remains, call OnLegacyTick() and add XP
+					if (entry.getValue().stamina > 0) 
+					{
+						entry.getValue().AddLegacyXP(legacy.getKey(), legacies.get(legacy.getKey()).GetStaminaPerTick());
+						legacies.get(legacy.getKey()).OnLegacyTick(player);
+					}
+				}
+			}
+			
+			// Restore stamina and confine to reasonable bounds
+			entry.getValue().stamina += ConfigLorienLegacies.staminaRestoredPerTick;
+			if (entry.getValue().stamina >= ConfigLorienLegacies.maxStamina) entry.getValue().stamina = ConfigLorienLegacies.maxStamina;
+			if (entry.getValue().stamina <= 0) entry.getValue().stamina = 0;
 		}
 	}
 	

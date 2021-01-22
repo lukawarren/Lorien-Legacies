@@ -31,6 +31,15 @@ public class ConfigLorienLegacies
 	@Comment("If a player is to be given legacies, this is the maximum they will recieve.")
 	public static int maximumLegacies = 3;
 	
+	@Name("Max stamina")
+	@RangeInt(min=1)
+	@Comment("Maximum legacy stamina a player can have")
+	public static int maxStamina = 50;
+	
+	@Name("Stamina restoration rate")
+	@RangeInt(min=0)
+	@Comment("The amount of stamina restored per tick")
+	public static int staminaRestoredPerTick = 1;
 	
 	@Mod.EventBusSubscriber(modid = LorienLegacies.MODID)
 	private static class EventHandler

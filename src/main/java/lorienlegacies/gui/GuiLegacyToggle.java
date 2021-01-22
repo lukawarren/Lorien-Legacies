@@ -61,6 +61,7 @@ public class GuiLegacyToggle extends GuiScreen
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
+		// Send to server
 		MessageToggleLegacy message = new MessageToggleLegacy();
 		message.legacy = button.displayString;
 		NetworkHandler.sendToServer(message);

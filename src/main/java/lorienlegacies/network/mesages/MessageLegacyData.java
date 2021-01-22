@@ -33,7 +33,8 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 	@Override
 	public void handleClientSide(MessageLegacyData message, EntityPlayer player)
 	{
-		Minecraft.getMinecraft().addScheduledTask(() -> {
+		Minecraft.getMinecraft().addScheduledTask(() ->
+		{
 			LorienLegacies.proxy.GetClientLegacyData().FromIntArray(message.legacies); // Set data
 			LorienLegacies.logger.info("Recieved legacy data {}", Arrays.toString(LorienLegacies.proxy.GetClientLegacyData().ToIntArray())); // Log data
 		});

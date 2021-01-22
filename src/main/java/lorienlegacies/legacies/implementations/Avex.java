@@ -17,6 +17,7 @@ public class Avex extends Legacy
 	{
 		NAME = "Avex";
 		DESCRIPTION = "Grants swift flight";
+		STAMINA_PER_TICK = 1;
 		
 		MinecraftForge.EVENT_BUS.register(this); // Need to receive events
 	}
