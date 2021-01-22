@@ -145,9 +145,9 @@ public class LegacyManager
 			}
 			
 			// Restore stamina and confine to reasonable bounds
-			entry.getValue().stamina += ConfigLorienLegacies.legacyStamina.staminaRestoredPerTick;
 			if (entry.getValue().stamina >= ConfigLorienLegacies.legacyStamina.maxStamina) entry.getValue().stamina = ConfigLorienLegacies.legacyStamina.maxStamina;
 			if (entry.getValue().stamina <= 0) entry.getValue().stamina = 0;
+			entry.getValue().stamina += ConfigLorienLegacies.legacyStamina.staminaRestoredPerTick;
 		}
 	}
 	
