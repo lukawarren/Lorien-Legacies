@@ -1,6 +1,6 @@
 package lorienlegacies.gui;
 
-import lorienlegacies.config.ConfigLorienLegacies;
+import lorienlegacies.core.LorienLegacies;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -25,7 +25,7 @@ public class GuiStamina extends GuiScreen
         	int screenWidth = scaled.getScaledWidth();
         	
         	// Confine stamina percentage to reasonable bounds
-        	float percentage = Math.max(Math.min(stamina / ConfigLorienLegacies.legacyStamina.maxStamina, 1.0f), 0.0f);
+        	float percentage = Math.max(Math.min(stamina / LorienLegacies.proxy.GetClientLegacyData().maxClientStamina, 1.0f), 0.0f);
         	
         	// Render XP and stamina bars
         	renderExpBar(new ScaledResolution(Minecraft.getMinecraft()), screenWidth/2 - VANILLA_XP_BAR_WIDTH/2, 0, Minecraft.getMinecraft().player.experience, true, true); // Vanilla

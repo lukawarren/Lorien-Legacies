@@ -1,7 +1,6 @@
 package lorienlegacies.network.mesages;
 
 import io.netty.buffer.ByteBuf;
-import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.core.LorienLegacies;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +31,7 @@ public class MessageStaminaSync extends MessageBase<MessageStaminaSync>
 		Minecraft.getMinecraft().addScheduledTask(() ->
 		{
 			LorienLegacies.proxy.GetClientLegacyData().stamina = message.stamina;
-			ConfigLorienLegacies.legacyStamina.maxStamina = message.maxStamina;
+			LorienLegacies.proxy.GetClientLegacyData().maxClientStamina = message.maxStamina;
 		});
 	}
 

@@ -3,6 +3,8 @@ package lorienlegacies.legacies;
 import java.util.LinkedHashMap;
 
 import lorienlegacies.config.ConfigLorienLegacies;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /*
  * Each player has an associated PlayerLegacyData entry
@@ -15,6 +17,10 @@ public class PlayerLegacyData
 	// Non-saved data
 	public LinkedHashMap<String, Boolean> legacyToggles = new LinkedHashMap<String, Boolean>();
 	public int stamina;
+	
+	// The client needs to know the max amount of stamina without overwriting the config
+	@SideOnly(Side.CLIENT)
+	public int maxClientStamina;
 	
 	public PlayerLegacyData()
 	{
