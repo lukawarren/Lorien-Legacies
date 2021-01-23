@@ -36,6 +36,10 @@ public class MessageLegacyData extends MessageBase<MessageLegacyData>
 		Minecraft.getMinecraft().addScheduledTask(() ->
 		{
 			LorienLegacies.proxy.GetClientLegacyData().FromIntArray(message.legacies); // Set data
+			
+			// Detoggle all legacies in case we just got re-given them
+			LorienLegacies.proxy.GetClientLegacyData().DetoggleAllLegacies();
+			
 			LorienLegacies.logger.info("Recieved legacy data {}", Arrays.toString(LorienLegacies.proxy.GetClientLegacyData().ToIntArray())); // Log data
 		});
 	}

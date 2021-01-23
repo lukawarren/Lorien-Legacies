@@ -1,6 +1,7 @@
 package lorienlegacies.gui;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
 
@@ -45,10 +46,15 @@ public class GuiLegacyToggle extends GuiScreen
 		// Draw background
 		super.drawDefaultBackground();
 		
+		// Get number of enabled legacies
+		int numLegacies = 0;
+		for (Integer legacy : LorienLegacies.proxy.GetClientLegacyData().legacies.values())
+			if (legacy > 0) numLegacies++;
+		
 		// Calculate positions and size
 		int wheelX = this.width / 2;
 		int wheelY = this.height / 2;
-		double radiansPerSegment = 2.0 * Math.PI / LorienLegacies.proxy.GetClientLegacyData().legacies.size();  // Each legacy will occupy a segment of the wheel
+		double radiansPerSegment = 2.0 * Math.PI / (double) numLegacies;  // Each legacy will occupy a segment of the wheel
 		
 		// Get segment mouse is over by converting to polar coordinate angle
 		double mouseAngle = Math.PI/2 + Math.atan2((double)mouseY - (double)wheelY, (double)mouseX - (double)wheelX) + radiansPerSegment/2;		
@@ -64,25 +70,29 @@ public class GuiLegacyToggle extends GuiScreen
 		// Draw segments
 		int count = 0;
 		String selectedLegacy = "";
-		for (String legacy : LorienLegacies.proxy.GetClientLegacyData().legacies.keySet())
+		for (Map.Entry<String, Integer> entry : LorienLegacies.proxy.GetClientLegacyData().legacies.entrySet())
 		{
-			// Rotate angle by 90 degrees anticlockwise
-			double angle = radiansPerSegment * count - Math.PI/2;
-			
-			// Get position by going from polar coordinates to cartesian
-			int x = (int) (distanceFromCentre * Math.cos(angle));
-			int y = (int) (distanceFromCentre * Math.sin(angle));
-			
-			// Is legacy currently toggled?
-			boolean toggled = LorienLegacies.proxy.GetClientLegacyData().legacyToggles.get(legacy);
-			boolean hovered = mouseSegment == count && distanceFromWheel > MIN_WHEEL_DISTANCE;
-			
-			if (toggled) super.drawCenteredString(fontRenderer, legacy, wheelX + x, wheelY + y, hovered ? HIGHLIGHTED_TOGGLED_COLOUR : TOGGLED_COLOUR );
-			else super.drawCenteredString(fontRenderer, legacy, wheelX + x, wheelY + y, hovered ? HIGHLIGHTED_NOT_TOGGLED_COLOUR * 2: NOT_TOGGLED_COLOUR * 2);
-			
-			if (mouseSegment == count) selectedLegacy = legacy; // For releasing of key below
-			
-			count++;
+			// If we have the legacy
+			if (entry.getValue() != 0)
+			{	
+				// Rotate angle by 90 degrees anticlockwise
+				double angle = radiansPerSegment * count - Math.PI/2;
+				
+				// Get position by going from polar coordinates to cartesian
+				int x = (int) (distanceFromCentre * Math.cos(angle));
+				int y = (int) (distanceFromCentre * Math.sin(angle));
+				
+				// Is legacy currently toggled?
+				boolean toggled = LorienLegacies.proxy.GetClientLegacyData().legacyToggles.get(entry.getKey());
+				boolean hovered = mouseSegment == count && distanceFromWheel > MIN_WHEEL_DISTANCE;
+				
+				if (toggled) super.drawCenteredString(fontRenderer, entry.getKey(), wheelX + x, wheelY + y, hovered ? HIGHLIGHTED_TOGGLED_COLOUR : TOGGLED_COLOUR );
+				else super.drawCenteredString(fontRenderer, entry.getKey(), wheelX + x, wheelY + y, hovered ? HIGHLIGHTED_NOT_TOGGLED_COLOUR * 2: NOT_TOGGLED_COLOUR * 2);
+				
+				if (mouseSegment == count) selectedLegacy = entry.getKey(); // For releasing of key below
+				
+				count++;
+			}
 		}
 		
 		// Close if alt key not held down
