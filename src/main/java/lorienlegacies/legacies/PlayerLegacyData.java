@@ -14,7 +14,7 @@ public class PlayerLegacyData
 	
 	// Non-saved data
 	public LinkedHashMap<String, Boolean> legacyToggles = new LinkedHashMap<String, Boolean>();
-	public float stamina;
+	public int stamina;
 	
 	public PlayerLegacyData()
 	{

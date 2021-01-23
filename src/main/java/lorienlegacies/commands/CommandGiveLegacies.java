@@ -30,7 +30,7 @@ public class CommandGiveLegacies implements ICommand
 	@Override
 	public String getUsage(ICommandSender sender)
 	{
-		return "giveLegacies <player>";
+		return "/giveLegacies <player>";
 	}
 
 	@Override

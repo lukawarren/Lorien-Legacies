@@ -32,7 +32,7 @@ public class CommandLegacies implements ICommand
 	@Override
 	public String getUsage(ICommandSender sender)
 	{
-		return "legacies";
+		return "/legacies";
 	}
 
 	@Override

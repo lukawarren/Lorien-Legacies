@@ -25,6 +25,7 @@ public class NetworkHandler
 		INSTANCE.registerMessage(MessageLegacyData.class, MessageLegacyData.class, 0, Side.CLIENT);
 		INSTANCE.registerMessage(MessageToggleLegacy.class, MessageToggleLegacy.class, 1, Side.SERVER);
 		INSTANCE.registerMessage(MessageExhaustLegacies.class, MessageExhaustLegacies.class, 2, Side.CLIENT);
+		INSTANCE.registerMessage(MessageStaminaSync.class, MessageStaminaSync.class, 3, Side.CLIENT);
 	}
 
 	public static void sendToServer(IMessage message)

@@ -14,6 +14,7 @@ import lorienlegacies.legacies.implementations.Lumen;
 import lorienlegacies.network.NetworkHandler;
 import lorienlegacies.network.mesages.MessageExhaustLegacies;
 import lorienlegacies.network.mesages.MessageLegacyData;
+import lorienlegacies.network.mesages.MessageStaminaSync;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -76,6 +77,9 @@ public class LegacyManager
 		
 		// Add to save data
 		WorldLegacySaveData.get(player.world).SetPlayerData(player.getUniqueID(), data);
+		
+		// Force toggling off
+		WorldLegacySaveData.get(player.world).GetPlayerData().get(player.getUniqueID()).DetoggleAllLegacies();
 		
 		// Send legacies to client
 		MessageLegacyData message = new MessageLegacyData();
@@ -148,6 +152,15 @@ public class LegacyManager
 			if (entry.getValue().stamina >= ConfigLorienLegacies.legacyStamina.maxStamina) entry.getValue().stamina = ConfigLorienLegacies.legacyStamina.maxStamina;
 			if (entry.getValue().stamina <= 0) entry.getValue().stamina = 0;
 			entry.getValue().stamina += ConfigLorienLegacies.legacyStamina.staminaRestoredPerTick;
+			
+			// Send stamina to player - possibly every nth tick to reduce lag
+			if (world.getTotalWorldTime() % ConfigLorienLegacies.legacyStamina.staminaSyncRate == 0)
+			{
+				MessageStaminaSync message = new MessageStaminaSync();
+				message.maxStamina = ConfigLorienLegacies.legacyStamina.maxStamina;
+				message.stamina = entry.getValue().stamina;
+				NetworkHandler.sendToPlayer(message, (EntityPlayerMP)player);
+			}
 		}
 	}
 	

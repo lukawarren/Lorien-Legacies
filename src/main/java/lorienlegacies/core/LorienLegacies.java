@@ -6,6 +6,7 @@ import lorienlegacies.commands.ModCommands;
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.gui.ModGUIs;
 import lorienlegacies.proxy.CommonProxy;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -97,6 +98,12 @@ public class LorienLegacies
     public void FMLServerStartingEvent(FMLServerStartingEvent event)
 	{
         ModCommands.RegisterServerCommands(event);
+    }
+    
+    @SubscribeEvent
+    public void OnRenderExperienceBar(RenderGameOverlayEvent event)
+    {
+    	ModGUIs.guiStamina.render(proxy.GetClientLegacyData().stamina, event);
     }
     
 }

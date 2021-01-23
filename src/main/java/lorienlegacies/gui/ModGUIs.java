@@ -8,12 +8,15 @@ import net.minecraft.client.gui.GuiScreen;
 
 /*
  * Opening a GUI from a command requires waiting a tick,
- * so this class takes care of a few oddities like that
+ * so this class takes care of a few oddities like that.
+ * It also holds the stamina GUI.
  */
+
 public class ModGUIs
 {
 	
 	public static List<GuiScreen> guiOpenQueues = new ArrayList<GuiScreen>();
+	public static GuiStamina guiStamina = new GuiStamina();
 	
 	public static void OnTick()
 	{

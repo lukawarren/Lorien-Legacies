@@ -61,6 +61,10 @@ public class ConfigLorienLegacies
 		@Comment("Multiplied by the amount of stamina used by each legacy")
 		public Map<String, Integer> staminaModifiers = new HashMap<>();
 		
+		@Name("Stamina synchronisation rate")
+		@Comment("The amount of ticks to wait before sending stamina data to client")
+		public int staminaSyncRate = 1;
+		
 		LegacyStamina()
 		{
 			for (String legacy : LegacyManager.CONFIG_LEGACIES) staminaModifiers.put(legacy, 1);
@@ -74,6 +78,7 @@ public class ConfigLorienLegacies
 		@SubscribeEvent
 		public static void onConfigChanged(final ConfigChangedEvent.OnConfigChangedEvent event)
 		{
+			LorienLegacies.logger.info("Syncing config...");
 			if (event.getModID().equals(LorienLegacies.MODID)) ConfigManager.sync(LorienLegacies.MODID, Type.INSTANCE);
 		}
 	}
