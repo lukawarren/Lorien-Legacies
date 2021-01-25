@@ -1,19 +1,14 @@
 package lorienlegacies.commands;
 
-import net.minecraftforge.client.ClientCommandHandler;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 
 public class ModCommands
 {
 	
-	public static void RegisterClientCommands()
+	public static void RegisterCommands(RegisterCommandsEvent event)
 	{
-		ClientCommandHandler.instance.registerCommand(new CommandLegacies());
-	}
-	
-	public static void RegisterServerCommands(FMLServerStartingEvent event)
-	{
-		event.registerServerCommand(new CommandGiveLegacies());
+		CommandLegacies.Register(event.getDispatcher(), new CommandGiveLegacies());
+		CommandLegacies.Register(event.getDispatcher(), new CommandLegacies());
 	}
 	
 }

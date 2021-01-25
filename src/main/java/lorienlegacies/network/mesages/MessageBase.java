@@ -1,44 +1,35 @@
 package lorienlegacies.network.mesages;
 
-import lorienlegacies.core.LorienLegacies;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
+import java.util.function.Supplier;
+
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 /*
  * Base class for network messages, to be extended
  */
-public abstract class MessageBase<REQ extends IMessage> implements IMessage, IMessageHandler<REQ, REQ>
+public abstract class MessageBase
 {
-
-	@Override
-    public REQ onMessage(REQ message, MessageContext ctx)
+	
+	public MessageBase(PacketBuffer buf)
 	{
-        if(ctx.side == Side.SERVER)
-        {
-            handleServerSide(message, ctx.getServerHandler().player);
-        }
-        else
-        {
-            handleClientSide(message, LorienLegacies.proxy.GetPlayerEntityFromContext(ctx));
-        }
-        return null;
+		OnDecode(buf);
+	}
+	
+	public MessageBase() {}
+	
+    public abstract void OnDecode(PacketBuffer buf);
+    public abstract void OnEncode(MessageBase packet, PacketBuffer buf);
+    
+    public static void Encode(MessageBase packet, PacketBuffer buf)
+    {
+    	packet.OnEncode(packet, buf);
     }
 	
-    /**
-     * Handle a packet on the client side. Note this occurs after decoding has completed.
-     * @param message
-     * @param player the player reference
-     */
-    public abstract void handleClientSide(REQ message, EntityPlayer player);
-
-    /**
-     * Handle a packet on the server side. Note this occurs after decoding has completed.
-     * @param message
-     * @param player the player reference
-     */
-    public abstract void handleServerSide(REQ message, EntityPlayer player);
-	
+    public abstract void OnMessage(final MessageBase packet, Supplier<NetworkEvent.Context> context);
+    public static void Handle(final MessageBase packet, Supplier<NetworkEvent.Context> context)
+    {
+    	packet.OnMessage(packet, context);
+    }
+    
 }

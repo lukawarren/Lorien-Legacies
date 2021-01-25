@@ -16,9 +16,10 @@ import lorienlegacies.network.mesages.MessageExhaustLegacies;
 import lorienlegacies.network.mesages.MessageLegacyData;
 import lorienlegacies.network.mesages.MessageStaminaSync;
 import lorienlegacies.world.WorldLegacySaveData;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class LegacyManager
 {
@@ -50,7 +51,7 @@ public class LegacyManager
 		LorienLegacies.logger.info("Registered {} legacies", legacies.size());
 	}
 	
-	public void RegisterPlayer(EntityPlayer player, boolean forceLegacies)
+	public void RegisterPlayer(PlayerEntity player, boolean forceLegacies)
 	{		
 		LorienLegacies.logger.info("Registering player with UUID {}", player.getUniqueID());
 		
@@ -72,7 +73,7 @@ public class LegacyManager
 			int seedOffset = 0;
 			if (forceLegacies) seedOffset = (int) (new Date().getTime() / 1000);
 			
-			new LegacyGenerator(player.world.getSeed() + player.getUniqueID().getLeastSignificantBits() + seedOffset).GenerateRandomLegacies(data, forceLegacies);
+			new LegacyGenerator(((ServerWorld)player.world).getSeed() + player.getUniqueID().getLeastSignificantBits() + seedOffset).GenerateRandomLegacies(data, forceLegacies);
 		}
 		
 		// Add to save data
@@ -84,7 +85,7 @@ public class LegacyManager
 		// Send legacies to client
 		MessageLegacyData message = new MessageLegacyData();
 		message.legacies = data.ToIntArray();
-		NetworkHandler.sendToPlayer(message, (EntityPlayerMP)player);
+		NetworkHandler.sendToPlayer(message, (ServerPlayerEntity)player);
 	}
 	
 	public void RegisterClientData(PlayerLegacyData data)
@@ -93,7 +94,7 @@ public class LegacyManager
 		for (String legacy : legacies.keySet()) data.RegisterLegacy(legacy, true);
 	}
 	
-	public void DisconnectPlayer(EntityPlayer player)
+	public void DisconnectPlayer(PlayerEntity player)
 	{
 		LorienLegacies.logger.info("Unregistering player with UUID {}", player.getUniqueID());
 		
@@ -109,7 +110,7 @@ public class LegacyManager
 		// For each player
 		for (Map.Entry<UUID, PlayerLegacyData> entry : WorldLegacySaveData.get(world).GetPlayerData().entrySet())
 		{
-			EntityPlayer player = world.getPlayerEntityByUUID(entry.getKey());
+			PlayerEntity player = world.getPlayerByUuid(entry.getKey());
 			if (player == null) continue; // Avoid players not actually logged on
 			
 			// Use up all stamina before using legacies
@@ -118,8 +119,10 @@ public class LegacyManager
 				if (legacy.getValue() > 0 && entry.getValue().IsLegacyToggled(legacy.getKey())) // If enabled and toggled
 				{
 					// Deplete stamina and add XP
-					int stamina = legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyStamina.staminaModifiers.get(legacy.getKey());
-					entry.getValue().stamina -= stamina;
+					int stamina = legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyStamina.staminaMultipliers.get(legacy.getKey());
+					
+					// ...but not in creative
+					if (player.isCreative() == false) entry.getValue().stamina -= stamina;
 				}
 			}
 			
@@ -130,7 +133,7 @@ public class LegacyManager
 				entry.getValue().DetoggleAllLegacies();
 
 				// Send message to client
-				NetworkHandler.sendToPlayer(new MessageExhaustLegacies(), (EntityPlayerMP)player);
+				NetworkHandler.sendToPlayer(new MessageExhaustLegacies(), (ServerPlayerEntity)player);
 				
 			}
 			
@@ -154,12 +157,12 @@ public class LegacyManager
 			entry.getValue().stamina += ConfigLorienLegacies.legacyStamina.staminaRestoredPerTick;
 			
 			// Send stamina to player - possibly every nth tick to reduce lag
-			if (world.getTotalWorldTime() % ConfigLorienLegacies.legacyStamina.staminaSyncRate == 0)
+			if (world.getWorldInfo().getGameTime() % ConfigLorienLegacies.legacyStamina.staminaSyncRate == 0)
 			{
 				MessageStaminaSync message = new MessageStaminaSync();
 				message.maxStamina = ConfigLorienLegacies.legacyStamina.maxStamina;
 				message.stamina = entry.getValue().stamina;
-				NetworkHandler.sendToPlayer(message, (EntityPlayerMP)player);
+				NetworkHandler.sendToPlayer(message, (ServerPlayerEntity)player);
 			}
 		}
 	}

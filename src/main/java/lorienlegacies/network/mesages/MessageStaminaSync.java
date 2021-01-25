@@ -1,44 +1,45 @@
 package lorienlegacies.network.mesages;
 
-import io.netty.buffer.ByteBuf;
-import lorienlegacies.core.LorienLegacies;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import java.util.function.Supplier;
 
-public class MessageStaminaSync extends MessageBase<MessageStaminaSync>
+import lorienlegacies.core.LorienLegacies;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
+
+public class MessageStaminaSync extends MessageBase
 {
 	
 	public int stamina;
 	public int maxStamina;
 	
+	public MessageStaminaSync(PacketBuffer buf) { super(buf); }
+	public MessageStaminaSync() {}
+	
 	@Override
-	public void fromBytes(ByteBuf buf)
+	public void OnDecode(PacketBuffer buf)
 	{
 		stamina = buf.readInt();
 		maxStamina = buf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
+	public void OnEncode(MessageBase packet, PacketBuffer buf)
 	{
 		buf.writeInt(stamina);
 		buf.writeInt(maxStamina);
 	}
 
 	@Override
-	public void handleClientSide(MessageStaminaSync message, EntityPlayer player)
+	public void OnMessage(MessageBase packet, Supplier<Context> context)
 	{
-		Minecraft.getMinecraft().addScheduledTask(() ->
+		NetworkEvent.Context ctx = context.get();
+		ctx.enqueueWork(() ->
 		{
-			LorienLegacies.proxy.GetClientLegacyData().stamina = message.stamina;
-			LorienLegacies.proxy.GetClientLegacyData().maxClientStamina = message.maxStamina;
+			LorienLegacies.proxy.GetClientLegacyData().stamina = ((MessageStaminaSync)packet).stamina;
+			LorienLegacies.proxy.GetClientLegacyData().maxClientStamina = ((MessageStaminaSync)packet).maxStamina;
 		});
-	}
-
-	@Override
-	public void handleServerSide(MessageStaminaSync message, EntityPlayer player)
-	{
 		
+		ctx.setPacketHandled(true);
 	}
-
 }

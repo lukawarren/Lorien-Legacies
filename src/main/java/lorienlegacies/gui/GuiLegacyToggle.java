@@ -1,19 +1,20 @@
 package lorienlegacies.gui;
 
-import java.io.IOException;
 import java.util.Map;
 
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.keybinds.ModKeybinds;
 import lorienlegacies.network.NetworkHandler;
 import lorienlegacies.network.mesages.MessageToggleLegacy;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.text.StringTextComponent;
 
-public class GuiLegacyToggle extends GuiScreen
+public class GuiLegacyToggle extends Screen
 {	
 	private static final int TOGGLED_COLOUR = 0xff0039e6;
 	private static final int NOT_TOGGLED_COLOUR = 0xffbbbbbb;
@@ -28,23 +29,14 @@ public class GuiLegacyToggle extends GuiScreen
 	
 	public GuiLegacyToggle()
 	{
-		super();
+		super(new StringTextComponent(""));
 	}
 	
 	@Override
-	public void initGui()
-	{
-		super.initGui();
-	}
-	
-	@Override
-	protected void actionPerformed(GuiButton button) throws IOException { }
-	
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
 	{
 		// Draw background
-		super.drawDefaultBackground();
+		super.renderBackground(matrixStack);
 		
 		// Get number of enabled legacies
 		int numLegacies = 0;
@@ -86,8 +78,8 @@ public class GuiLegacyToggle extends GuiScreen
 				boolean toggled = LorienLegacies.proxy.GetClientLegacyData().legacyToggles.get(entry.getKey());
 				boolean hovered = mouseSegment == count && distanceFromWheel > MIN_WHEEL_DISTANCE;
 				
-				if (toggled) super.drawCenteredString(fontRenderer, entry.getKey(), wheelX + x, wheelY + y, hovered ? HIGHLIGHTED_TOGGLED_COLOUR : TOGGLED_COLOUR );
-				else super.drawCenteredString(fontRenderer, entry.getKey(), wheelX + x, wheelY + y, hovered ? HIGHLIGHTED_NOT_TOGGLED_COLOUR * 2: NOT_TOGGLED_COLOUR * 2);
+				if (toggled) super.drawCenteredString(matrixStack, font, entry.getKey(), wheelX + x, wheelY + y, hovered ? HIGHLIGHTED_TOGGLED_COLOUR : TOGGLED_COLOUR );
+				else super.drawCenteredString(matrixStack, font, entry.getKey(), wheelX + x, wheelY + y, hovered ? HIGHLIGHTED_NOT_TOGGLED_COLOUR * 2: NOT_TOGGLED_COLOUR * 2);
 				
 				if (mouseSegment == count) selectedLegacy = entry.getKey(); // For releasing of key below
 				
@@ -96,7 +88,7 @@ public class GuiLegacyToggle extends GuiScreen
 		}
 		
 		// Close if alt key not held down
-		if (!Keyboard.isKeyDown(ModKeybinds.keyToggleLegacies.getKeyCode()) && selectedLegacy != "")
+		if (GLFW.glfwGetKey(Minecraft.getInstance().getMainWindow().getHandle(), ModKeybinds.keyToggleLegacies.getKey().getKeyCode()) == 0 && selectedLegacy != "")
 		{
 			// Toggle if distance from wheel is great enough
 			if (distanceFromWheel > MIN_WHEEL_DISTANCE)
@@ -110,11 +102,11 @@ public class GuiLegacyToggle extends GuiScreen
 				LorienLegacies.proxy.GetClientLegacyData().ToggleLegacy(selectedLegacy);
 			}
 
-			Minecraft.getMinecraft().player.closeScreen();
+			Minecraft.getInstance().player.closeScreen();
 		}
 	}
 	
 	@Override
-	public boolean doesGuiPauseGame() { return false; }
+	public boolean isPauseScreen() { return false; }
 	
 }

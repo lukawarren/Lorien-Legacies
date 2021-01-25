@@ -1,95 +1,142 @@
 package lorienlegacies.config;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.LegacyManager;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.Config.Comment;
-import net.minecraftforge.common.config.Config.Name;
-import net.minecraftforge.common.config.Config.RangeInt;
-import net.minecraftforge.common.config.Config.Type;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.config.ModConfig;
 
-@Config(modid = LorienLegacies.MODID, name = LorienLegacies.MODID, type = Type.INSTANCE)
+@EventBusSubscriber(modid = LorienLegacies.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ConfigLorienLegacies
 {
-
-	@Name("Legacy generation")
-	@Comment("Options related to the legacy generation system")
+	
+	public static final CommonConfig CONFIG;
+	public static final ForgeConfigSpec COMMON_SPEC;
+	
+	/*
+	 * Get static objects to build config
+	 */
+	static
+	{
+		final Pair<CommonConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
+		COMMON_SPEC = pair.getRight();
+		CONFIG = pair.getLeft();
+	}
+	
+	/*
+	 * Config values seperated by
+	 * category (remnant from 1.12.2)
+	 */
+	
 	public static LegacyGeneration legacyGeneration = new LegacyGeneration();
+	public static LegacyStamina legacyStamina = new LegacyStamina();
 	
 	public static class LegacyGeneration
 	{
-		@Name("Chance of legacies per player")
-		@RangeInt(min=0, max=100)
-		@Comment("Upon a new player joining a world, he/she has a chance to recieve legacies. This is that chance, out of 100, as a percentage (%).")
-		public int legacyChance = 100;
-		
-		@Name("Minimum legacies if given")
-		@RangeInt(min=1, max=LegacyManager.NUM_LEGACIES)
-		@Comment("If a player is to be given legacies, this is the minimum they will recieve.")
-		public int minimumLegacies = 2;
-		
-		@Name("Maximum legacies if given")
-		@RangeInt(min=1, max=LegacyManager.NUM_LEGACIES)
-		@Comment("If a player is to be given legacies, this is the maximum they will recieve.")
-		public int maximumLegacies = 3;
+		public int legacyChance;
+		public int minimumLegacies;
+		public int maximumLegacies;
 	}
-	
-	@Name("Legacy stamina")
-	@Comment("Options related to the legacy stamina system")
-	public static LegacyStamina legacyStamina = new LegacyStamina();
 	
 	public static class LegacyStamina
 	{
-		@Name("Max stamina")
-		@RangeInt(min=1)
-		@Comment("Maximum legacy stamina a player can have")
-		public int maxStamina = 50;
-		
-		@Name("Stamina restoration rate")
-		@RangeInt(min=0)
-		@Comment("The amount of stamina restored per tick")
-		public int staminaRestoredPerTick = 1;
-		
-		@Name("Legacy stamina modifiers")
-		@Comment("Multiplied by the amount of stamina used by each legacy")
-		public Map<String, Integer> staminaModifiers = new HashMap<>();
-		
-		@Name("Stamina synchronisation rate")
-		@Comment("The amount of ticks to wait before sending stamina data to client")
-		public int staminaSyncRate = 1;
-		
-		LegacyStamina()
-		{
-			for (String legacy : LegacyManager.CONFIG_LEGACIES) staminaModifiers.put(legacy, 1);
-		}
+		public int maxStamina ;
+		public int staminaRestoredPerTick;
+		public Map<String, Integer> staminaMultipliers = new LinkedHashMap<>();
+		public int staminaSyncRate;
 	}
 	
-	@Mod.EventBusSubscriber(modid = LorienLegacies.MODID)
-	private static class EventHandler
+	// Config builder
+	public static class CommonConfig
 	{
-		// Inject the new values and save to the config file when the config has been changed from the GUI.
-		@SubscribeEvent
-		public static void onConfigChanged(final ConfigChangedEvent.OnConfigChangedEvent event)
+		// Legacy generation
+		IntValue legacyChance;
+		IntValue minimumLegacies;
+		IntValue maximumLegacies;
+		
+		// Stamina
+		IntValue maxStamina;
+		IntValue staminaRestoredPerTick;
+		Map<String, IntValue> staminaMultipliers = new LinkedHashMap<>();
+		IntValue staminaSyncRate;
+		
+		public CommonConfig(ForgeConfigSpec.Builder builder)
 		{
-			LorienLegacies.logger.info("Syncing config...");
-			if (event.getModID().equals(LorienLegacies.MODID)) ConfigManager.sync(LorienLegacies.MODID, Type.INSTANCE);
+			/* Legacy generation */
+			
+			builder.push("Legacy generation");
+			
+			legacyChance = builder.comment("Upon a new player joining a world, he/she has a chance to recieve legacies. This is that chance, out of 100, as a percentage (%).")
+					.translation(LorienLegacies.MODID + ".config." + "legacyChance")
+					.defineInRange("legacyChance", 100, 0, 100);
+			
+			minimumLegacies = builder.comment("Minimum legacies if given")
+					.translation(LorienLegacies.MODID + ".config." + "minimumLegacies")
+					.defineInRange("minimumLegacies", 2, 1, LegacyManager.NUM_LEGACIES);
+			
+			maximumLegacies = builder.comment("Maximum legacies if given")
+					.translation(LorienLegacies.MODID + ".config." + "maximumLegacies")
+					.defineInRange("maximumLegacies", 3, 1, LegacyManager.NUM_LEGACIES);
+			
+			builder.pop();
+			
+			/* Stamina */
+			
+			builder.push("Stamina");
+			
+			maxStamina = builder.comment("Maximum legacy stamina a player can have")
+					.translation(LorienLegacies.MODID + ".config." + "maxStamina")
+					.defineInRange("maxStamina", 50, 1, Integer.MAX_VALUE);
+			
+			staminaRestoredPerTick = builder.comment("The amount of stamina restored per tick")
+					.translation(LorienLegacies.MODID + ".config." + "staminaRestoredPerTick")
+					.defineInRange("staminaRestoredPerTick", 1, 0, Integer.MAX_VALUE);
+			
+			for (String legacy : LegacyManager.CONFIG_LEGACIES)
+			{
+				staminaMultipliers.put(legacy, builder.comment(legacy + " stamina multiplier")
+					.translation(LorienLegacies.MODID + ".config." + legacy + "StaminaMultiplier")
+					.defineInRange(legacy + "StaminaMultiplier", 1, 0, Integer.MAX_VALUE));
+			}
+			
+			staminaSyncRate = builder.comment("The amount of ticks to wait every time before sending stamina data to client (so as to reduce lag)")
+					.translation(LorienLegacies.MODID + ".config." + "staminaSyncRate")
+					.defineInRange("staminaSyncRate", 1, 1, 10);
+			
+			builder.pop();
 		}
 	}
 	
-	public static void SanitiseValues()
-	{					
-		// Confine values to reasonable bounds
-		if (legacyGeneration.minimumLegacies > legacyGeneration.maximumLegacies)
+	// Baking (because getters and setters are more expensive)
+	public static void BakeConfig()
+	{
+		legacyGeneration.legacyChance = 		CONFIG.legacyChance.get();
+		legacyGeneration.minimumLegacies = 		CONFIG.minimumLegacies.get();
+		legacyGeneration.maximumLegacies = 		CONFIG.maximumLegacies.get();
+		
+		legacyStamina.maxStamina = 				CONFIG.maxStamina.get();
+		legacyStamina.staminaRestoredPerTick = 	CONFIG.staminaRestoredPerTick.get();
+		legacyStamina.staminaSyncRate = 		CONFIG.staminaSyncRate.get();
+		
+		for (Map.Entry<String, IntValue> entry : CONFIG.staminaMultipliers.entrySet())
+			legacyStamina.staminaMultipliers.put(entry.getKey(), entry.getValue().get());
+		
+	}
+	
+	@SubscribeEvent
+	public static void OnModConfigEvent(final ModConfig.ModConfigEvent configEvent)
+	{
+		if (configEvent.getConfig().getSpec() == COMMON_SPEC)
 		{
-			legacyGeneration.minimumLegacies = legacyGeneration.maximumLegacies;
-			ConfigManager.sync(LorienLegacies.MODID, Type.INSTANCE);
+			BakeConfig();
 		}
 	}
+	
 }

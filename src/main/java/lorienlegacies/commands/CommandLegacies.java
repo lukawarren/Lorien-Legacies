@@ -1,55 +1,34 @@
 package lorienlegacies.commands;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import lorienlegacies.core.LorienLegacies;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-public class CommandLegacies implements ICommand
+import lorienlegacies.core.LorienLegacies;
+import net.minecraft.command.CommandSource;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
+
+public class CommandLegacies extends LorienCommand
 {
 
 	@Override
-	public int compareTo(ICommand o)
+	protected int OnCommand(CommandSource source)
 	{
-		 return this.getName().compareTo(o.getName());
-	}
-
-	@Override
-	public String getName()
-	{
-		return "legacies";
-	}
-
-	@Override
-	public String getUsage(ICommandSender sender)
-	{
-		return "/legacies";
-	}
-
-	@Override
-	public List<String> getAliases()
-	{
-		return new ArrayList<String>();
-	}
-
-	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
-	{
+		// Get player
+		Entity entity;
+		try  { entity = source.assertIsEntity(); } 
+		catch (CommandSyntaxException e)  { LorienLegacies.logger.error("/legacies: {}", e.getStackTrace().toString()); return -1; }
+		
+		if (entity instanceof PlayerEntity == false) { return -1; }
+		
 		int numLegacies = 0;
 		for (Integer legacy : LorienLegacies.proxy.GetClientLegacyData().legacies.values())
 			if (legacy >= 0)
 				numLegacies++;
 		
-		if (numLegacies == 0) sender.sendMessage(new TextComponentString("You do not have legacies").setStyle(new Style().setColor(TextFormatting.RED)));
+		if (numLegacies == 0) { entity.sendMessage(new StringTextComponent("§cYou do not have legacies"), entity.getUniqueID()); return -1; }
 		else
 		{
 			String legacyString = "Your legacies are: ";
@@ -59,29 +38,21 @@ public class CommandLegacies implements ICommand
 
 			legacyString = legacyString.substring(0, legacyString.length() - 1); // Remove final space
 			
-			sender.sendMessage(new TextComponentString(legacyString));
-			
+			entity.sendMessage(new StringTextComponent(legacyString), entity.getUniqueID());
+			return 0;
 		}
 	}
-
-	@Override
-	public boolean checkPermission(MinecraftServer server, ICommandSender sender)
-	{
-		return true;
-	}
-
-	@Override
-	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos targetPos)
-	{
-		return new ArrayList<String>();
-	}
-
-	@Override
-	public boolean isUsernameIndex(String[] args, int index)
-	{
-		return false;
-	}
-
 	
+	@Override
+	protected String GetName() 
+	{
+		return "legacies";
+	}
+
+	@Override
+	protected int GetPermissionLevel()
+	{
+		return 4;
+	}
 
 }

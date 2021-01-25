@@ -1,72 +1,44 @@
 package lorienlegacies.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import lorienlegacies.core.LorienLegacies;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.command.CommandSource;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 
-public class CommandGiveLegacies implements ICommand
+public class CommandGiveLegacies extends LorienCommand
 {
-
 	@Override
-	public int compareTo(ICommand o)
+	protected int OnCommand(CommandSource source)
 	{
-		 return this.getName().compareTo(o.getName());
+		Entity entity;
+		try  { entity = source.assertIsEntity(); } 
+		catch (CommandSyntaxException e)  { LorienLegacies.logger.error("/giveLegacies: {}", e.getStackTrace().toString()); return -1; }
+		
+		if (entity instanceof PlayerEntity)
+		{
+			LorienLegacies.proxy.GetLegacyManager().RegisterPlayer((PlayerEntity)entity, true);
+			entity.sendMessage(new StringTextComponent("You now have new legacies- use /legacies to view them"), entity.getUniqueID());
+			
+			return 0;
+		}
+		
+		return -1;
 	}
 
 	@Override
-	public String getName()
+	protected String GetName() 
 	{
 		return "giveLegacies";
 	}
 
 	@Override
-	public String getUsage(ICommandSender sender)
+	protected int GetPermissionLevel()
 	{
-		return "/giveLegacies <player>";
+		return 4;
 	}
-
-	@Override
-	public List<String> getAliases()
-	{
-		return new ArrayList<String>();
-	}
-
-	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
-	{
-		if (sender.getCommandSenderEntity() instanceof EntityPlayer)
-		{
-			LorienLegacies.proxy.GetLegacyManager().RegisterPlayer((EntityPlayer)sender.getCommandSenderEntity(), true);
-			sender.sendMessage(new TextComponentString("You now have new legacies - use /legacies to view them"));
-		}
-	}
-
-	@Override
-	public boolean checkPermission(MinecraftServer server, ICommandSender sender)
-	{
-		return sender.canUseCommand(4, getName());
-	}
-
-	@Override
-	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos targetPos)
-	{
-		return new ArrayList<String>();
-	}
-
-	@Override
-	public boolean isUsernameIndex(String[] args, int index)
-	{
-		return false;
-	}
-
 	
 
 }

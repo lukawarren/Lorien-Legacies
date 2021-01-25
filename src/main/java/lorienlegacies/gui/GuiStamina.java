@@ -1,91 +1,109 @@
 package lorienlegacies.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import lorienlegacies.core.LorienLegacies;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
-public class GuiStamina extends GuiScreen
+public class GuiStamina extends Screen
 {
 	private static final int VANILLA_XP_BAR_WIDTH = 182;
 	
-	public void render(float stamina, RenderGameOverlayEvent event)
+	public GuiStamina()
 	{
-		// If we're rendering the XP bar, intercept the event
-		if (event.getType() == ElementType.EXPERIENCE && !Minecraft.getMinecraft().player.isRidingHorse() && Minecraft.getMinecraft().playerController.gameIsSurvivalOrAdventure())
+		super(new StringTextComponent(""));
+	}
+	
+	/*
+	 * Note: Not Screen#render
+	 */
+	public void Render(float stamina, RenderGameOverlayEvent event)
+	{
+		// If we're rendering the XP bar, intercept the event...
+		if (event.getType() == ElementType.EXPERIENCE && !Minecraft.getInstance().player.isRidingHorse() && Minecraft.getInstance().playerController.gameIsSurvivalOrAdventure())
 		{
-			event.setCanceled(true); // Cancel it
+			// ...but only if we have legacies
+			boolean legacies = false;
+			for (Integer i : LorienLegacies.proxy.GetClientLegacyData().legacies.values())
+				if (i > 0) legacies = true;
 			
-			// Calculate size of screen
-			ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
-        	int screenWidth = scaled.getScaledWidth();
-        	
+			event.setCanceled(true); // Cancel it
+
         	// Confine stamina percentage to reasonable bounds
         	float percentage = Math.max(Math.min(stamina / LorienLegacies.proxy.GetClientLegacyData().maxClientStamina, 1.0f), 0.0f);
         	
+        	// Calculate scaled width and height
+        	int width = Minecraft.getInstance().getMainWindow().getScaledWidth();
+        	int height = Minecraft.getInstance().getMainWindow().getScaledHeight();
+        	
         	// Render XP and stamina bars
-        	renderExpBar(new ScaledResolution(Minecraft.getMinecraft()), screenWidth/2 - VANILLA_XP_BAR_WIDTH/2, 0, Minecraft.getMinecraft().player.experience, true, true); // Vanilla
-            renderExpBar(new ScaledResolution(Minecraft.getMinecraft()), screenWidth/2, 0, percentage, false, true); // Stamina
+        	renderExpBar(event.getMatrixStack(), width, height, width/2 - VANILLA_XP_BAR_WIDTH/2, 0, Minecraft.getInstance().player.experience, true, true); // Vanilla
+            renderExpBar(event.getMatrixStack(), width, height, width/2, 0, percentage, false, true); // Stamina
             
-            Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.ICONS); // Fix hunger by binding its texture again
+            Minecraft.getInstance().getTextureManager().bindTexture(GUI_ICONS_LOCATION); // Fix hunger by binding its texture again
 		}
 	}
 	
 	/*
 	 * Modified version of GuiIngame's vanilla XP bar rendering code
+	 * (as of 1.12.2, then wrangled a bit to support the loss of ScaledResolution 
+	 * and the new matrix stack stuff)
 	 */
-	private void renderExpBar(ScaledResolution scaledRes, int x, int yOffset, float experience, boolean vanilla, boolean halfWidth)
+	private void renderExpBar(MatrixStack stack, int screenWidth, int screenHeight, int x, int yOffset, float experience, boolean vanilla, boolean halfWidth)
     {
-		Minecraft.getMinecraft().mcProfiler.startSection("expBar");
-        Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.ICONS);
-        int i = Minecraft.getMinecraft().player.xpBarCap();
+		
+		Minecraft.getInstance().getProfiler().startSection("expBar");
+        Minecraft.getInstance().getTextureManager().bindTexture(GUI_ICONS_LOCATION);
+        int i = Minecraft.getInstance().player.xpBarCap();
         
-        GlStateManager.color(1.0f, 1.0f, 1.0f); // Fix colours
-        
+        GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f); // Fix colours
+
         // Draw bar
         if (i > 0 || !vanilla)
         {
             int j = VANILLA_XP_BAR_WIDTH; // Width
             int k = (int)(experience * 183.0F)-1; // Fix off by 1 error
-            int l = scaledRes.getScaledHeight() - 32 + 3 - yOffset;
+            int l = screenHeight - 32 + 3 - yOffset;
             
             // Scale and render bar background
             if (halfWidth) x *= 2;
-            if (halfWidth) GlStateManager.scale(0.5, 1.0, 1.0); // Make half width (if need be)
-            this.drawTexturedModalRect(x, l, 0, 64, j, 5); // Draw bar texture
-            if (halfWidth) GlStateManager.scale(2.0, 1.0, 1.0); // "Un-make" half width (again, if need be)
+            if (halfWidth) GlStateManager.scaled(0.5, 1.0, 1.0); // Make half width (if need be)
+            this.blit(stack, x, l, 0, 64, j, 5); // Draw bar texture
+            if (halfWidth) GlStateManager.scaled(2.0, 1.0, 1.0); // "Un-make" half width (again, if need be)
             
             if (k > 0) // Fill in bar by rendering amount of XP (or stamina)
             {
-            	if (!vanilla) GlStateManager.color(0.3f, 0.3f, 1.0f);
+            	if (!vanilla) GlStateManager.color4f(0.3f, 0.3f, 1.0f, 1.0f);
             	
-            	if (halfWidth) GlStateManager.scale(0.5, 1.0, 1.0);
-                this.drawTexturedModalRect(x, l, 0, 69, k, 5);
-                if (halfWidth) GlStateManager.scale(2.0, 1.0, 1.0);
+            	if (halfWidth) GlStateManager.scaled(0.5, 1.0, 1.0);
+                this.blit(stack, x, l, 0, 69, k, 5);
+                if (halfWidth) GlStateManager.scaled(2.0, 1.0, 1.0);
                 
-                if (!vanilla) GlStateManager.color(1.0f, 1.0f, 1.0f);
+                if (!vanilla) GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
             }
         }
 
-        Minecraft.getMinecraft().mcProfiler.endSection();
+        Minecraft.getInstance().getProfiler().endSection();
         
         // Draw XP level text above bar
-        if (Minecraft.getMinecraft().player.experienceLevel > 0)
+        if (Minecraft.getInstance().player.experienceLevel > 0)
         {
-            Minecraft.getMinecraft().mcProfiler.startSection("expLevel");
-            String s = "" + Minecraft.getMinecraft().player.experienceLevel;
-            int i1 = (scaledRes.getScaledWidth() - Minecraft.getMinecraft().fontRenderer.getStringWidth(s)) / 2;
-            int j1 = scaledRes.getScaledHeight() - 31 - 4;
-            Minecraft.getMinecraft().fontRenderer.drawString(s, i1 + 1, j1, 0);
-            Minecraft.getMinecraft().fontRenderer.drawString(s, i1 - 1, j1, 0);
-            Minecraft.getMinecraft().fontRenderer.drawString(s, i1, j1 + 1, 0);
-            Minecraft.getMinecraft().fontRenderer.drawString(s, i1, j1 - 1, 0);
-            Minecraft.getMinecraft().fontRenderer.drawString(s, i1, j1, 8453920);
-            Minecraft.getMinecraft().mcProfiler.endSection();
+            Minecraft.getInstance().getProfiler().startSection("expLevel");
+            String s = "" + Minecraft.getInstance().player.experienceLevel;
+            int i1 = (screenWidth - Minecraft.getInstance().fontRenderer.getStringWidth(s)) / 2;
+            int j1 = screenHeight - 31 - 4;
+            Minecraft.getInstance().fontRenderer.drawString(stack, s, i1 + 1, j1, 0);
+            Minecraft.getInstance().fontRenderer.drawString(stack, s, i1 - 1, j1, 0);
+            Minecraft.getInstance().fontRenderer.drawString(stack, s, i1, j1 + 1, 0);
+            Minecraft.getInstance().fontRenderer.drawString(stack, s, i1, j1 - 1, 0);
+            Minecraft.getInstance().fontRenderer.drawString(stack, s, i1, j1, 8453920);
+            Minecraft.getInstance().getProfiler().endSection();
         }
+        
     }
 }

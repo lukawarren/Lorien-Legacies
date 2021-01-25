@@ -1,29 +1,36 @@
 package lorienlegacies.core;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import lorienlegacies.commands.ModCommands;
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.gui.ModGUIs;
+import lorienlegacies.keybinds.ModKeybinds;
+import lorienlegacies.proxy.ClientProxy;
 import lorienlegacies.proxy.CommonProxy;
+import lorienlegacies.proxy.ServerProxy;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(modid = LorienLegacies.MODID, name = LorienLegacies.NAME, version = LorienLegacies.VERSION)
+@Mod("lorienlegacies")
 public class LorienLegacies
 {
 	// Forge mod configuration and naming
@@ -32,53 +39,56 @@ public class LorienLegacies
     public static final String VERSION = "1.0";
 
     // Logging
-    public static Logger logger;
+    public static final Logger logger = LogManager.getLogger(MODID);
 
     // Proxy
-    @SidedProxy(clientSide = "lorienlegacies.proxy.ClientProxy", serverSide = "lorienlegacies.proxy.ServerProxy")
-	public static CommonProxy proxy;
-    
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        logger = event.getModLog();
-        proxy.preInit(event);
-    }
+    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
-    @EventHandler
-    public void init(FMLInitializationEvent event)
+    public LorienLegacies()
     {
-        logger.info("Initialising {} version {}", NAME, VERSION);
+    	// Register lifetime methods
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::EnqueueIMC);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ProcessIMC);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::OnClientSetup);
         
+        // Forge event bus
         MinecraftForge.EVENT_BUS.register(this);
         
-        proxy.GetLegacyManager().RegisterLegacies(); // Register legacies
-        
-        ConfigLorienLegacies.SanitiseValues(); // Config
-        
-        if (event.getSide() == Side.CLIENT) proxy.GetLegacyManager().RegisterClientData(proxy.GetClientLegacyData()); // Client legacy data
-        
-        proxy.init(event); // Proxy
+        // Config
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLorienLegacies.COMMON_SPEC);
     }
     
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
+    private void Setup(final FMLCommonSetupEvent event)
     {
-    	proxy.postInit(event);
+    	logger.info("Initialising {} version {}", NAME, VERSION);
+    
+    	proxy.GetLegacyManager().RegisterLegacies(); // Register legacies
+        
+        proxy.Setup(event); // Proxy
     }
+    
+    private void OnClientSetup(final FMLClientSetupEvent event)
+    {
+    	proxy.GetLegacyManager().RegisterClientData(proxy.GetClientLegacyData()); // Client legacy data
+    	ModKeybinds.RegisterKeybinds(); // Keybinds
+    }
+    
+    private void EnqueueIMC(final InterModEnqueueEvent event) { } // For sending intermod communication
+    private void ProcessIMC(final InterModProcessEvent event) { } // For receiving intermod communication
     
     @SubscribeEvent
 	public void PlayerLoggedInEvent(PlayerLoggedInEvent event)
 	{
     	// Server-side
-    	if (!event.player.world.isRemote) proxy.GetLegacyManager().RegisterPlayer(event.player, false);
+    	if (!event.getEntity().world.isRemote) proxy.GetLegacyManager().RegisterPlayer((PlayerEntity)event.getEntity(), false);
 	}
     
     @SubscribeEvent
     public void PlayerLoggedOutEvent(PlayerLoggedOutEvent event)
     {
     	// Server-side
-    	if (!event.player.world.isRemote) proxy.GetLegacyManager().DisconnectPlayer(event.player);
+    	if (!event.getEntity().world.isRemote) proxy.GetLegacyManager().DisconnectPlayer((PlayerEntity)event.getEntity());
     }
     
     @SubscribeEvent
@@ -91,19 +101,19 @@ public class LorienLegacies
     @SubscribeEvent
     public void OnClientTick(ClientTickEvent event)
     {
-    	if (event.side == Side.CLIENT && event.phase == Phase.END) ModGUIs.OnTick();
+    	if (event.phase == Phase.END) ModGUIs.OnTick();
     }
     
-    @EventHandler
-    public void FMLServerStartingEvent(FMLServerStartingEvent event)
+    @SubscribeEvent
+    public void RegisterCommandsEvent(RegisterCommandsEvent event)
 	{
-        ModCommands.RegisterServerCommands(event);
+        ModCommands.RegisterCommands(event);
     }
     
     @SubscribeEvent
     public void OnRenderExperienceBar(RenderGameOverlayEvent event)
     {
-    	ModGUIs.guiStamina.render(proxy.GetClientLegacyData().stamina, event);
+    	ModGUIs.guiStamina.Render(proxy.GetClientLegacyData().stamina, event);
     }
     
 }

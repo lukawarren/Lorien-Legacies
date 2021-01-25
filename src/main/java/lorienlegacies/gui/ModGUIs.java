@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 
 /*
  * Opening a GUI from a command requires waiting a tick,
@@ -15,19 +15,19 @@ import net.minecraft.client.gui.GuiScreen;
 public class ModGUIs
 {
 	
-	public static List<GuiScreen> guiOpenQueues = new ArrayList<GuiScreen>();
+	public static List<Screen> guiOpenQueues = new ArrayList<Screen>();
 	public static GuiStamina guiStamina = new GuiStamina();
 	
 	public static void OnTick()
 	{
 		// Open all pending GUIs
-		for (GuiScreen g : guiOpenQueues)
-			Minecraft.getMinecraft().displayGuiScreen(g);
+		for (Screen g : guiOpenQueues)
+			Minecraft.getInstance().displayGuiScreen(g);
 		
 		guiOpenQueues.clear();
 	}
 	
-	public static void OpenGui(GuiScreen e)
+	public static void OpenGui(Screen e)
 	{
 		guiOpenQueues.add(e);
 	}

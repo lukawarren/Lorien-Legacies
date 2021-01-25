@@ -3,9 +3,8 @@ package lorienlegacies.legacies;
 import java.util.ArrayList;
 import java.util.List;
 
-import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.world.WorldLegacySaveData;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 /*
  * Base class for each legacy.
@@ -21,14 +20,14 @@ public abstract class Legacy
 	protected String GetDescription() 	 { return DESCRIPTION; }
 	protected int    GetStaminaPerTick() { return STAMINA_PER_TICK; }
 	
-	protected abstract void OnLegacyTick(EntityPlayer player);
+	protected abstract void OnLegacyTick(PlayerEntity player);
 	
-	protected PlayerLegacyData GetPlayerData(EntityPlayer player)
+	protected PlayerLegacyData GetPlayerData(PlayerEntity player)
 	{
 		return WorldLegacySaveData.get(player.world).GetPlayerData().get(player.getUniqueID());
 	}
 	
-	protected boolean IsLegacyToggled(EntityPlayer player)
+	protected boolean IsLegacyToggled(PlayerEntity player)
 	{
 		PlayerLegacyData data = GetPlayerData(player);
 		if (data != null) return data.IsLegacyToggled(NAME);
@@ -44,7 +43,7 @@ public abstract class Legacy
 	 * Returns 0 if legacy is not given,
 	 * and 1 for level 1, etc
 	 */
-	protected int GetLegacyLevel(EntityPlayer player)
+	protected int GetLegacyLevel(PlayerEntity player)
 	{
 		PlayerLegacyData data = GetPlayerData(player);
 		if (data == null) return 0;

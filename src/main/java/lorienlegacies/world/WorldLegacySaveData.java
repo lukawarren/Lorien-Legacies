@@ -7,12 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.PlayerLegacyData;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.MapStorage;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
 
 /*
@@ -20,9 +22,8 @@ import net.minecraft.world.storage.WorldSavedData;
  * for use with the entire mod
  */
 
-public class WorldLegacySaveData extends WorldSavedData
+public class WorldLegacySaveData extends WorldSavedData implements Supplier<WorldLegacySaveData>
 {
-	private static final boolean IS_GLOBAL = true; // Exists across all dimensions (Nether, Overworld, etc)
 	private static final String DATA_NAME = LorienLegacies.MODID;
 	
 	private Map<UUID, PlayerLegacyData> playerData = new HashMap<UUID, PlayerLegacyData>();
@@ -39,7 +40,7 @@ public class WorldLegacySaveData extends WorldSavedData
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	public void read(CompoundNBT nbt)
 	{
 		playerData.clear();
 		
@@ -68,7 +69,7 @@ public class WorldLegacySaveData extends WorldSavedData
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
+	public CompoundNBT write(CompoundNBT nbt)
 	{
 		// Make Byte list of UUIDS
 		List<Byte> uuidBytes = new ArrayList<Byte>();
@@ -87,13 +88,13 @@ public class WorldLegacySaveData extends WorldSavedData
 		// Convert Byte list to byte[] and save
 		byte[] bytes = new byte[16 * playerData.size()]; // Each UUID is 16 bytes
 		for (int i = 0; i < bytes.length; ++i) bytes[i] = uuidBytes.get(i).byteValue();
-		nbt.setByteArray("legacyUUIDs", bytes);
+		nbt.putByteArray("legacyUUIDs", bytes);
 		
 		// For each player, serialise data and write to save
 		for (Map.Entry<UUID, PlayerLegacyData> entry : playerData.entrySet())
 		{
 			int[] data = entry.getValue().ToIntArray();
-			nbt.setIntArray(entry.getKey().toString(), data);
+			nbt.putIntArray(entry.getKey().toString(), data);
 		}
 			
 		return nbt;
@@ -101,18 +102,24 @@ public class WorldLegacySaveData extends WorldSavedData
 
 	public static WorldLegacySaveData get(World world)
 	{
-		// Get instance (if applicable)
-		MapStorage storage = IS_GLOBAL ? world.getMapStorage() : world.getPerWorldStorage();
-		WorldLegacySaveData instance = (WorldLegacySaveData) storage.getOrLoadData(WorldLegacySaveData.class, DATA_NAME);
-		
-		// If none exists, make new one
-		if (instance == null)
+		// Get instance (if applicable)...
+		DimensionSavedDataManager storage = ((ServerWorld)world).getSavedData();
+		Supplier<WorldLegacySaveData> sup = new WorldLegacySaveData();
+		WorldLegacySaveData saver = (WorldLegacySaveData) storage.getOrCreate(sup, LorienLegacies.MODID);
+
+		// ...or create a new one
+		if (saver == null) 
 		{
-			instance = new WorldLegacySaveData();
-			storage.setData(DATA_NAME, instance);
+			saver = new WorldLegacySaveData();
+			storage.set(saver);
 		}
-		
-		return instance;
+		return saver;
+	}
+	
+	@Override
+	public WorldLegacySaveData get()
+	{
+		return this;
 	}
 	
 	public void SetPlayerData(UUID uuid, PlayerLegacyData data)
@@ -135,4 +142,5 @@ public class WorldLegacySaveData extends WorldSavedData
 	{
 		return playerData.containsKey(uuid);
 	}
+
 }
