@@ -34,6 +34,12 @@ public abstract class Legacy
 		return false;
 	}
 	
+	protected void Toggle(PlayerEntity player)
+	{
+		PlayerLegacyData data = GetPlayerData(player);
+		if (data != null) data.ToggleLegacy(NAME);
+	}
+	
 	protected void AddLevel(String description, int requiredXP)
 	{
 		levels.add(new LegacyLevel(description, requiredXP));

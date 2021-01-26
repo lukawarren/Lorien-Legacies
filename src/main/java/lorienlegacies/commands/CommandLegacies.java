@@ -52,7 +52,7 @@ public class CommandLegacies extends LorienCommand
 	@Override
 	protected int GetPermissionLevel()
 	{
-		return 4;
+		return 0;
 	}
 
 }
