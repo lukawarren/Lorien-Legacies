@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.core.LorienLegacies;
+import lorienlegacies.effects.ModEffects;
 import lorienlegacies.legacies.generation.LegacyGenerator;
 import lorienlegacies.legacies.implementations.Avex;
 import lorienlegacies.legacies.implementations.Glacen;
@@ -18,6 +19,7 @@ import lorienlegacies.network.mesages.MessageStaminaSync;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -29,8 +31,14 @@ public class LegacyManager
 	// Legacies
 	Map<String, Legacy> legacies = new LinkedHashMap<String, Legacy>();
 	
-	// Config (if you can think of a better way to do this, please do it)
-	public static final String[] CONFIG_LEGACIES =
+	/*
+	 * Certain code, like in the config and effects packages, rely on
+	 * a constant set of legacies present before RegisterLegacies() has been
+	 * called, hence the multiple definition here. The point of RegisterLegacies()
+	 * is to make disabling legacies easier, but they should still be present
+	 * in any config, and we can't exactly remove effects mid-save.
+	 */
+	public static final String[] CONSTANT_LEGACIES =
 	{
 		"Lumen",
 		"Avex",

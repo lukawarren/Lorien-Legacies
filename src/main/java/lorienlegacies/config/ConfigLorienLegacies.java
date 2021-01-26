@@ -99,7 +99,7 @@ public class ConfigLorienLegacies
 					.translation(LorienLegacies.MODID + ".config." + "staminaRestoredPerTick")
 					.defineInRange("staminaRestoredPerTick", 1, 0, Integer.MAX_VALUE);
 			
-			for (String legacy : LegacyManager.CONFIG_LEGACIES)
+			for (String legacy : LegacyManager.CONSTANT_LEGACIES)
 			{
 				staminaMultipliers.put(legacy, builder.comment(legacy + " stamina multiplier")
 					.translation(LorienLegacies.MODID + ".config." + legacy + "StaminaMultiplier")

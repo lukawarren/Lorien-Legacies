@@ -37,7 +37,7 @@ public class Avex extends Legacy
 	}
 	
 	@SubscribeEvent
-	public void OnBurnDamage(LivingAttackEvent event)
+	public void OnLivingAttackEvent(LivingAttackEvent event)
 	{
 		// Check side is server-side
 		if (event.getEntity().world.isRemote) return;

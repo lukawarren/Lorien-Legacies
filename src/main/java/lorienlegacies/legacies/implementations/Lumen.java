@@ -20,7 +20,7 @@ public class Lumen extends Legacy
 	}
 
 	@SubscribeEvent
-	public void OnBurnDamage(LivingAttackEvent event)
+	public void OnLivingAttackEvent(LivingAttackEvent event)
 	{
 		// Check side is server-side
 		if (event.getEntity().world.isRemote) return;
@@ -38,6 +38,9 @@ public class Lumen extends Legacy
 		
 		// Lava resistance
 		if (event.getSource().equals(DamageSource.LAVA)) event.setCanceled(true);
+		
+		// Magma blocks
+		if (event.getSource().equals(DamageSource.HOT_FLOOR)) event.setCanceled(true);
 	}
 	
 	@Override

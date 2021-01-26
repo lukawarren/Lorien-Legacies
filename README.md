@@ -20,6 +20,25 @@ Legacies have to be toggled to be used. By default, this is done with the left-a
 * /legacies - displays legacies
 * /giveLegacies - forcefully gives a player legacies
 
+## Project roadmap
+
+### Initial release
+* Set of 10 legacies ❌
+* Loralite Ore ❌
+* Loralite Stone ❌
+
+### Release two
+* Second batch of legacies ❌
+* Other lorien items, particularly from chests ❌
+* Lorien mobs ❌
+* Mogodorian armour and blasters ❌
+
+### Release three
+* Third batch of legacies ❌
+* Garde and Cepan ❌
+* Chimaera ❌
+* Generated structures (eg mogodorian bases)
+
 ## Authors
 * [Kerbo](https://github.com/Kerbo)
 * [Blue20Boy17](https://github.com/Blue20Boy17)
