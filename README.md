@@ -37,7 +37,7 @@ Legacies have to be toggled to be used. By default, this is done with the left-a
 * Third batch of legacies ❌
 * Garde and Cepan ❌
 * Chimaera ❌
-* Generated structures (eg mogodorian bases)
+* Generated structures (eg mogodorian bases) ❌
 
 ## Authors
 * [Kerbo](https://github.com/Kerbo)
