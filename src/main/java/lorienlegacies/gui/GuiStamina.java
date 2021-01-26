@@ -32,6 +32,8 @@ public class GuiStamina extends Screen
 			for (Integer i : LorienLegacies.proxy.GetClientLegacyData().legacies.values())
 				if (i > 0) legacies = true;
 			
+			if (!legacies) return;
+			
 			event.setCanceled(true); // Cancel it
 
         	// Confine stamina percentage to reasonable bounds
@@ -54,6 +56,7 @@ public class GuiStamina extends Screen
 	 * (as of 1.12.2, then wrangled a bit to support the loss of ScaledResolution 
 	 * and the new matrix stack stuff)
 	 */
+	@SuppressWarnings("deprecation")
 	private void renderExpBar(MatrixStack stack, int screenWidth, int screenHeight, int x, int yOffset, float experience, boolean vanilla, boolean halfWidth)
     {
 		

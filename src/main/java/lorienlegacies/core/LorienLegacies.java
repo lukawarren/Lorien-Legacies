@@ -11,11 +11,9 @@ import lorienlegacies.proxy.ClientProxy;
 import lorienlegacies.proxy.CommonProxy;
 import lorienlegacies.proxy.ServerProxy;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.Effect;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -110,12 +108,6 @@ public class LorienLegacies
     public void RegisterCommandsEvent(RegisterCommandsEvent event)
 	{
         ModCommands.RegisterCommands(event);
-    }
-    
-    @SubscribeEvent
-    public void RegisterEffectsEvent(RegistryEvent.Register<Effect> event)
-    {
-    	ModEffects.RegisterEffects(event);
     }
     
     @SubscribeEvent

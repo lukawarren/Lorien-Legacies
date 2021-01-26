@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.core.LorienLegacies;
-import lorienlegacies.effects.ModEffects;
 import lorienlegacies.legacies.generation.LegacyGenerator;
 import lorienlegacies.legacies.implementations.Avex;
 import lorienlegacies.legacies.implementations.Glacen;
@@ -19,7 +18,6 @@ import lorienlegacies.network.mesages.MessageStaminaSync;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
