@@ -16,9 +16,9 @@ public abstract class Legacy
 	protected List<LegacyLevel> levels = new ArrayList<LegacyLevel>();
 	protected int STAMINA_PER_TICK;
 	
-	protected String GetName() 			 { return NAME; }
-	protected String GetDescription() 	 { return DESCRIPTION; }
-	protected int    GetStaminaPerTick() { return STAMINA_PER_TICK; }
+	public 		String GetName() 			{ return NAME; }
+	public 		String GetDescription() 	{ return DESCRIPTION; }
+	protected 	int    GetStaminaPerTick() 	{ return STAMINA_PER_TICK; }
 	
 	protected abstract void OnLegacyTick(PlayerEntity player);
 	
@@ -66,7 +66,7 @@ public abstract class Legacy
 		return level;
 	}
 	
-	private class LegacyLevel
+	public class LegacyLevel
 	{
 		public String description;
 		public int requiredXP;
@@ -77,4 +77,7 @@ public abstract class Legacy
 			this.requiredXP = requiredXP;
 		}
 	}
+	
+	public List<LegacyLevel> GetLevels() { return levels; }
+	
 }

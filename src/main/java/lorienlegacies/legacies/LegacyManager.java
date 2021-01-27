@@ -170,4 +170,9 @@ public class LegacyManager
 		}
 	}
 	
+	public Map<String, Legacy> GetLegacies()
+	{
+		return legacies;
+	}
+	
 }
