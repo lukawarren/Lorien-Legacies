@@ -25,7 +25,7 @@ public class Glacen extends Legacy
 	protected void OnLegacyTick(PlayerEntity player)
 	{
 		// Get block player is looking at
-		Vector3d startVec = player.getEyePosition(1.0f);
+		Vector3d startVec = player.getEyePosition(1.0f).add(player.getLookVec().mul(2.0f, 2.0f, 2.0f)); // Add 1 block minimum distance
 		Vector3d endVec = startVec.add(player.getLookVec().scale(DISTANCE));
 		BlockRayTraceResult rayResult = player.world.rayTraceBlocks(new RayTraceContext(startVec, endVec, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.ANY, player));
 		

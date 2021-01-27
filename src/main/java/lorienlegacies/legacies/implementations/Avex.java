@@ -17,6 +17,7 @@ public class Avex extends Legacy
 {
 
 	private static final int RANGE = 5;
+	private static final int FLY_SPEED = 3;
 	
 	public Avex()
 	{
@@ -60,7 +61,7 @@ public class Avex extends Legacy
 		nearestSquaredDistance = Math.max(Math.sqrt(nearestSquaredDistance), 1.0);
 		
 		// Get player's looking direction and scale with fly speed
-		Vector3d lookDirection = player.getLookVec().scale(player.abilities.getFlySpeed() * 3 * nearestSquaredDistance);
+		Vector3d lookDirection = player.getLookVec().scale(player.abilities.getFlySpeed() * FLY_SPEED * nearestSquaredDistance);
 		
 		// Apply velocity to player
 		player.setMotion(lookDirection.x, lookDirection.y, lookDirection.z);
