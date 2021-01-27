@@ -6,9 +6,9 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 ## Legacies
 | Legacy | Level 1                   | Level 2                       | Level 3                   | Level 4       | Level 5                                   | Complete |
 | ------ | ------------------------- | ----------------------------- | ------------------------  | ------------- | ----------------------------------------- | -------- |
-| Lumen  | Flammable hands           | Some fire and lava resistance | Fully fire and lava proof | Fireballs     | Fire wave                                 | ❌       |
-| Glacen | Frost touch               | Ice powers                    | Turn rain into snow       | Mob freeze    | Freeze wave                               | ❌       |
-| Avex   | Flight                    | Greater speed                 | Ability to carry mobs     |  Greater speed | Flight instinct negating all fall damage  | ❌       |
+| Lumen  | Flammable hands           | Fire resistance               | Lava resistance           | Fireballs     | Fire wave                                 | ❌ |
+| Glacen | Frost touch               | Ice powers                    | Turn rain into snow       | Mob freeze    | Freeze wave                               | ❌ |
+| Avex   | Flight                    | Greater speed                 | Ability to carry mobs     |  Greater speed | Flight instinct negating all fall damage | ❌ |
 
 ### How do I get legacies?
 At the moment, upon joining a new world, each player has a chance to recieve any number of legacies. The likelihood of recieving legacies, as well as how many, can be changed in the mod's config.
