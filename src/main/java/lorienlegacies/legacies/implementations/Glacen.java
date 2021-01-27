@@ -1,5 +1,7 @@
 package lorienlegacies.legacies.implementations;
 
+import java.util.Map;
+
 import lorienlegacies.legacies.Legacy;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
@@ -14,7 +16,7 @@ public class Glacen extends Legacy
 {
 	private static final float DISTANCE = 10f;
 	
-	public Glacen()
+	public Glacen(Map<LegacyAbility, String> legacyAbilities)
 	{
 		NAME = "Glacen";
 		DESCRIPTION = "Grants ice powers";

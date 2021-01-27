@@ -1,12 +1,15 @@
 package lorienlegacies.legacies.implementations;
 
+import java.util.Map;
 import java.util.Random;
 
+import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.legacies.Legacy;
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.entity.projectile.SnowballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -17,7 +20,9 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.Explosion.Mode;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -25,9 +30,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class Lumen extends Legacy 
 {
+	private static final int FIREBALL_EXPLOSION_RADIUS = 3;
+	private static final int FIREWAVE_PROJECTILES = 10;
+	private static final float FIREWAVE_FALL_AMOUNT = -0.3f;
+	
 	private Random random = new Random();
 	
-	public Lumen()
+	public Lumen(Map<LegacyAbility, String> legacyAbilities)
 	{
 		NAME = "Lumen";
 		DESCRIPTION = "Grants fire resistance and powers";
@@ -38,6 +47,9 @@ public class Lumen extends Legacy
 		AddLevel("Fully fire and lava proof", 2200);
 		AddLevel("Fireballs", 3000);
 		AddLevel("Fire wave", 5000);
+		
+		legacyAbilities.put(new LegacyAbility("Fireball", 4), NAME);
+		legacyAbilities.put(new LegacyAbility("Firewave", 5), NAME);
 		
 		MinecraftForge.EVENT_BUS.register(this); // Need to receive events
 	}
@@ -132,6 +144,50 @@ public class Lumen extends Legacy
 				player.world.setBlockState(offsetBlockPos, offsetBlockState, 11);
 			}
 		}
+	}
+
+	@Override
+	public int OnAbility(String ability, PlayerEntity player)
+	{
+		if (ability == "Fireball")
+		{
+			// Fireball
+			ShootFireProjectile(player, 0.0f, false);
+			
+			return 25;
+			
+		}
+		else
+		{
+			// Firewave
+			for (int i = 0; i < FIREWAVE_PROJECTILES; ++i)
+				ShootFireProjectile(player, (float) Math.toRadians(i * (360/FIREWAVE_PROJECTILES)), true);
+			
+			return ConfigLorienLegacies.legacyStamina.maxStamina * 2;
+		}
+	}
+	
+	private void ShootFireProjectile(PlayerEntity player, float rotateAmount, boolean wave)
+	{
+		Vector3d velocity = wave ?  new Vector3d(Math.sin(rotateAmount), FIREWAVE_FALL_AMOUNT, Math.cos(rotateAmount)) : player.getLookVec();
+		Vector3d position = wave ? player.getEyePosition(1).add(velocity.scale(2.0f)) : player.getPositionVec().add(player.getLookVec().rotateYaw(rotateAmount));
+		
+		FireballEntity fireball = new FireballEntity(player.world, position.x, position.y, position.z, velocity.x, velocity.y, velocity.z)
+		{
+			@Override
+			protected void onImpact(RayTraceResult result)
+			{
+				this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
+				if (this.world.isRemote == false)
+				{
+					this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), FIREBALL_EXPLOSION_RADIUS, true, Mode.DESTROY);
+					this.onKillCommand();
+				}
+			}
+		};
+		
+		player.world.addEntity(fireball);
+		fireball.playSound(SoundEvents.ENTITY_GHAST_SHOOT, 1.0f, 1.0f);
 	}
 	
 	@Override

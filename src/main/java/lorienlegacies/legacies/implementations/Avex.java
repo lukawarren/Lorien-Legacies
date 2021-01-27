@@ -1,5 +1,7 @@
 package lorienlegacies.legacies.implementations;
 
+import java.util.Map;
+
 import lorienlegacies.legacies.Legacy;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -19,7 +21,7 @@ public class Avex extends Legacy
 	private static final int RANGE = 5;
 	private static final int FLY_SPEED = 3;
 	
-	public Avex()
+	public Avex(Map<LegacyAbility, String> legacyAbilities)
 	{
 		NAME = "Avex";
 		DESCRIPTION = "Grants swift flight";

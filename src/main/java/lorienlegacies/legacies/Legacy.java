@@ -3,8 +3,12 @@ package lorienlegacies.legacies;
 import java.util.ArrayList;
 import java.util.List;
 
+import lorienlegacies.network.NetworkHandler;
+import lorienlegacies.network.mesages.MessageLegacyLevel;
+import lorienlegacies.network.mesages.MessageToggleLegacyClient;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 
 /*
@@ -39,6 +43,11 @@ public abstract class Legacy
 	{
 		PlayerLegacyData data = GetPlayerData(player);
 		if (data != null) data.ToggleLegacy(NAME);
+		
+		// Send to client
+		MessageToggleLegacyClient message = new MessageToggleLegacyClient();
+		message.legacy = NAME;
+		NetworkHandler.sendToPlayer(message, (ServerPlayerEntity)player);
 	}
 	
 	protected void AddLevel(String description, int requiredXP)
@@ -87,8 +96,27 @@ public abstract class Legacy
 	{
 		int level = GetLegacyLevel(player);
 		player.sendMessage(new StringTextComponent("§9Lumen§f has levelled up to level " + level + " - " + levels.get(level-1).description.toLowerCase()), player.getUniqueID());
+		
+		// Send updated levels to client
+		MessageLegacyLevel message = new MessageLegacyLevel();
+		message.legacyName = NAME;
+		message.legacyLevel = GetLegacyLevel(player);
+		NetworkHandler.sendToPlayer(message, (ServerPlayerEntity)player);
 	}
 	
 	public List<LegacyLevel> GetLevels() { return levels; }
 	
+	public class LegacyAbility
+	{
+		public String name;
+		public int requiredLevel;
+		
+		public LegacyAbility(String name, int requiredLevel)
+		{
+			this.name = name;
+			this.requiredLevel = requiredLevel;
+		}
+	}
+	
+	public int OnAbility(String ability, PlayerEntity player) { return 0; }  // Return stamina to be used
 }

@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.core.LorienLegacies;
+import lorienlegacies.legacies.Legacy.LegacyAbility;
 import lorienlegacies.legacies.generation.LegacyGenerator;
 import lorienlegacies.legacies.implementations.Avex;
 import lorienlegacies.legacies.implementations.Glacen;
@@ -14,6 +15,7 @@ import lorienlegacies.legacies.implementations.Lumen;
 import lorienlegacies.network.NetworkHandler;
 import lorienlegacies.network.mesages.MessageExhaustLegacies;
 import lorienlegacies.network.mesages.MessageLegacyData;
+import lorienlegacies.network.mesages.MessageLegacyLevel;
 import lorienlegacies.network.mesages.MessageStaminaSync;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,6 +30,7 @@ public class LegacyManager
 	
 	// Legacies
 	Map<String, Legacy> legacies = new LinkedHashMap<String, Legacy>();
+	Map<LegacyAbility, String> legacyAbilities = new LinkedHashMap<LegacyAbility, String>();
 	
 	/*
 	 * Certain code, like in the config and effects packages, rely on
@@ -45,13 +48,13 @@ public class LegacyManager
 	
 	public void RegisterLegacies()
 	{
-		Lumen lumen = new Lumen();
+		Lumen lumen = new Lumen(legacyAbilities);
 		legacies.put(lumen.GetName(), lumen);
 		
-		Avex avex = new Avex();
+		Avex avex = new Avex(legacyAbilities);
 		legacies.put(avex.GetName(), avex);
 		
-		Glacen glacen = new Glacen();
+		Glacen glacen = new Glacen(legacyAbilities);
 		legacies.put(glacen.GetName(), glacen);
 		
 		LorienLegacies.logger.info("Registered {} legacies", legacies.size());
@@ -92,6 +95,15 @@ public class LegacyManager
 		MessageLegacyData message = new MessageLegacyData();
 		message.legacies = data.ToIntArray();
 		NetworkHandler.sendToPlayer(message, (ServerPlayerEntity)player);
+		
+		// Send legacy levels to client
+		for (Legacy legacy : legacies.values())
+		{
+			MessageLegacyLevel levelMessage = new MessageLegacyLevel();
+			levelMessage.legacyName = legacy.GetName();
+			levelMessage.legacyLevel = legacy.GetLegacyLevel(player);
+			NetworkHandler.sendToPlayer(levelMessage, (ServerPlayerEntity)player);
+		}
 	}
 	
 	public void RegisterClientData(PlayerLegacyData data)
@@ -177,9 +189,41 @@ public class LegacyManager
 		}
 	}
 	
-	public Map<String, Legacy> GetLegacies()
+	public void OnAbility(LegacyAbility ability, String legacy, PlayerEntity player)
 	{
-		return legacies;
+		PlayerLegacyData playerData = WorldLegacySaveData.get(player.getServer()).GetPlayerData().get(player.getUniqueID());
+		
+		int stamina = legacies.get(legacy).OnAbility(ability.name, player);
+		playerData.stamina -= stamina * ConfigLorienLegacies.legacyStamina.staminaMultipliers.get(legacy);
+		
+		// If exhausted, "de-toggle" all legacies and alert player
+		if (playerData.stamina <= 0)
+		{
+			// De-toggle server side
+			playerData.DetoggleAllLegacies();
+
+			// Send message to client
+			NetworkHandler.sendToPlayer(new MessageExhaustLegacies(), (ServerPlayerEntity)player);
+		}
+		else
+		{
+			// Add XP
+			playerData.AddLegacyXP(legacy, stamina * ConfigLorienLegacies.legacyXP.xpMultipliers.get(legacy));
+		}
+		
+		// Restore stamina and confine to reasonable bounds
+		if (playerData.stamina >= ConfigLorienLegacies.legacyStamina.maxStamina) playerData.stamina = ConfigLorienLegacies.legacyStamina.maxStamina;
+		if (playerData.stamina <= 0) playerData.stamina = 0;
+		playerData.stamina += ConfigLorienLegacies.legacyStamina.staminaRestoredPerTick;
+		
+		// Send stamina to player
+		MessageStaminaSync message = new MessageStaminaSync();
+		message.maxStamina = ConfigLorienLegacies.legacyStamina.maxStamina;
+		message.stamina = playerData.stamina;
+		NetworkHandler.sendToPlayer(message, (ServerPlayerEntity)player);
 	}
+	
+	public Map<String, Legacy> GetLegacies() { return legacies; }
+	public Map<LegacyAbility, String> GetLegacyAbilities() { return legacyAbilities; }
 	
 }

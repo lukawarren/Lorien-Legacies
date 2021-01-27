@@ -43,6 +43,13 @@ public class GuiLegacyToggle extends Screen
 		for (Integer legacy : LorienLegacies.proxy.GetClientLegacyData().legacies.values())
 			if (legacy > 0) numLegacies++;
 		
+		if (numLegacies == 0)
+		{
+			Minecraft.getInstance().player.sendMessage(new StringTextComponent("§cYou do not have legacies"), Minecraft.getInstance().player.getUniqueID());
+			Minecraft.getInstance().player.closeScreen();
+			return;
+		}
+		
 		// Calculate positions and size
 		int wheelX = this.width / 2;
 		int wheelY = this.height / 2;

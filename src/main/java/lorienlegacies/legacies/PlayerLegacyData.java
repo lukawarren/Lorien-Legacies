@@ -17,8 +17,11 @@ public class PlayerLegacyData
 	public LinkedHashMap<String, Integer> legacyPrevLvl = new LinkedHashMap<String, Integer>();
 	public int stamina;
 	
-	// The client needs to know the max amount of stamina without overwriting the config
+	// The client needs to know the max amount of stamina without overwriting the config (well, as of 1.12.2, and it's done now)
 	public int maxClientStamina;
+	
+	// The client also needs to know their legacies' levels
+	public LinkedHashMap<String, Integer> clientLegacyLevels = new LinkedHashMap<String, Integer>();
 	
 	public PlayerLegacyData()
 	{
