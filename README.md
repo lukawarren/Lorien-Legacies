@@ -6,7 +6,7 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 ## Legacies
 | Legacy | Level 1                   | Level 2                       | Level 3                   | Level 4       | Level 5                                   | Complete |
 | ------ | ------------------------- | ----------------------------- | ------------------------  | ------------- | ----------------------------------------- | -------- |
-| Lumen  | Flammable hands           | Fire resistance               | Lava resistance           | Fireballs     | Fire wave                                 | ❌ |
+| Lumen  | Flammable hands           | Fire resistance               | Lava resistance           | Fireballs     | Fire wave                                 | ✅ |
 | Glacen | Frost touch               | Ice powers                    | Turn rain into snow       | Mob freeze    | Freeze wave                               | ❌ |
 | Avex   | Flight                    | Greater speed                 | Ability to carry mobs     |  Greater speed | Flight instinct negating all fall damage | ❌ |
 
@@ -15,6 +15,9 @@ At the moment, upon joining a new world, each player has a chance to recieve any
 
 ### How do I use them?
 Legacies have to be toggled to be used. By default, this is done with the left-alt key.
+
+### How do I use my abilities?
+Legacy abilities can be toggled with a similar selection wheel to the toggle menu. The default key for this is Z.
 
 ## Commands
 * /legacies - displays legacies the player has
