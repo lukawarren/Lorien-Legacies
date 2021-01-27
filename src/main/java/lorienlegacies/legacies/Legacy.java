@@ -49,19 +49,23 @@ public abstract class Legacy
 	 * Returns 0 if legacy is not given,
 	 * and 1 for level 1, etc
 	 */
-	protected int GetLegacyLevel(PlayerEntity player)
+	public int GetLegacyLevel(PlayerEntity player)
 	{
 		PlayerLegacyData data = GetPlayerData(player);
 		if (data == null) return 0;
 		
 		// Starting at level 1, march through each level until XP is exhausted
 		int xp = data.legacies.get(NAME).intValue();
+		if (xp == 0) return 0;
+		
 		int level = 1;
 		while (level <= levels.size() && xp >= levels.get(level-1).requiredXP)
 		{
-			level++;
 			xp -= levels.get(level-1).requiredXP;
+			level++;
 		}
+		
+		if (level > levels.size()) level--;
 		
 		return level;
 	}

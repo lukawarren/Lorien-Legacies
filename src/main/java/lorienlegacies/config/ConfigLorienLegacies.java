@@ -37,6 +37,7 @@ public class ConfigLorienLegacies
 	
 	public static LegacyGeneration legacyGeneration = new LegacyGeneration();
 	public static LegacyStamina legacyStamina = new LegacyStamina();
+	public static LegacyXP legacyXP = new LegacyXP();
 	
 	public static class LegacyGeneration
 	{
@@ -53,6 +54,11 @@ public class ConfigLorienLegacies
 		public int staminaSyncRate;
 	}
 	
+	public static class LegacyXP
+	{
+		public Map<String, Integer> xpMultipliers = new LinkedHashMap<>();
+	}
+	
 	// Config builder
 	public static class CommonConfig
 	{
@@ -66,6 +72,9 @@ public class ConfigLorienLegacies
 		IntValue staminaRestoredPerTick;
 		Map<String, IntValue> staminaMultipliers = new LinkedHashMap<>();
 		IntValue staminaSyncRate;
+		
+		// XP
+		Map<String, IntValue> xpMultipliers = new LinkedHashMap<>();
 		
 		public CommonConfig(ForgeConfigSpec.Builder builder)
 		{
@@ -111,6 +120,18 @@ public class ConfigLorienLegacies
 					.defineInRange("staminaSyncRate", 1, 1, 10);
 			
 			builder.pop();
+			
+			/* XP */
+			builder.push("XP");
+			
+			for (String legacy : LegacyManager.CONSTANT_LEGACIES)
+			{
+				xpMultipliers.put(legacy, builder.comment(legacy + " xp multiplier")
+					.translation(LorienLegacies.MODID + ".config." + legacy + "XpMultiplier")
+					.defineInRange(legacy + "XpMultiplier", 1, 0, Integer.MAX_VALUE));
+			}
+			
+			builder.pop();
 		}
 	}
 	
@@ -127,6 +148,9 @@ public class ConfigLorienLegacies
 		
 		for (Map.Entry<String, IntValue> entry : CONFIG.staminaMultipliers.entrySet())
 			legacyStamina.staminaMultipliers.put(entry.getKey(), entry.getValue().get());
+		
+		for (Map.Entry<String, IntValue> entry : CONFIG.xpMultipliers.entrySet())
+			legacyXP.xpMultipliers.put(entry.getKey(), entry.getValue().get());
 		
 	}
 	

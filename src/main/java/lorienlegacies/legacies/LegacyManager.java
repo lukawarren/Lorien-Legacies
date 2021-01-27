@@ -148,7 +148,7 @@ public class LegacyManager
 					// If enough stamina remains, call OnLegacyTick() and add XP
 					if (entry.getValue().stamina > 0) 
 					{
-						entry.getValue().AddLegacyXP(legacy.getKey(), legacies.get(legacy.getKey()).GetStaminaPerTick());
+						entry.getValue().AddLegacyXP(legacy.getKey(), legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyXP.xpMultipliers.get(legacy.getKey()));
 						legacies.get(legacy.getKey()).OnLegacyTick(player);
 					}
 				}

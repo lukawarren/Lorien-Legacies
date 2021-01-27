@@ -25,6 +25,12 @@ public class Avex extends Legacy
 		DESCRIPTION = "Grants swift flight";
 		STAMINA_PER_TICK = 1;
 		
+		AddLevel("Flight", 1200);
+		AddLevel("Greater speed", 1800);
+		AddLevel("Ability to carry mobs", 2200);
+		AddLevel("Greater speed", 3000);
+		AddLevel("Flight instinct negating all fall damage", 5000);
+		
 		MinecraftForge.EVENT_BUS.register(this); // Need to receive events
 	}
 

@@ -19,6 +19,12 @@ public class Glacen extends Legacy
 		NAME = "Glacen";
 		DESCRIPTION = "Grants ice powers";
 		STAMINA_PER_TICK = 1;
+		
+		AddLevel("Frost touch", 1200);
+		AddLevel("Ice powers", 1800);
+		AddLevel("Turn rain into snow", 2200);
+		AddLevel("Mob freeze", 3000);
+		AddLevel("Freeze wave", 5000);
 	}
 
 	@Override

@@ -16,6 +16,12 @@ public class Lumen extends Legacy
 		DESCRIPTION = "Grants fire resistance and powers";
 		STAMINA_PER_TICK = 1;
 		
+		AddLevel("Flammable hands", 1200);
+		AddLevel("Some fire and lava resistance", 1800);
+		AddLevel("Fully fire and lava proof", 2200);
+		AddLevel("Fireballs", 3000);
+		AddLevel("Fire wave", 5000);
+		
 		MinecraftForge.EVENT_BUS.register(this); // Need to receive events
 	}
 

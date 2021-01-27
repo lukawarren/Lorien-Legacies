@@ -27,14 +27,15 @@ public class CommandLegacyLevels extends LorienCommand
 		legacyName = legacyName.subSequence(0, 1).toString().toUpperCase() + legacyName.substring(1, legacyName.length()); // Capitalise first letter
 		Legacy legacy = LorienLegacies.proxy.GetLegacyManager().GetLegacies().get(legacyName);
 		if (legacy == null) { entity.sendMessage(new StringTextComponent("§cInvalid legacy \"" + legacyName + "\""), entity.getUniqueID()); return -1; }
-			
 		
-		entity.sendMessage(new StringTextComponent("§9" + legacy.GetName() + "§f :"), entity.getUniqueID());
+		int legacyLevel = legacy.GetLegacyLevel((PlayerEntity)source.getEntity());
+		String levelText = legacyLevel > 0 ? "level " + legacyLevel : "not given"; 
+		entity.sendMessage(new StringTextComponent("§9" + legacy.GetName() + "§f - currently " + levelText + ":"), entity.getUniqueID());
 		
 		int count = 1;
 		for (LegacyLevel level : legacy.GetLevels())
 		{
-			entity.sendMessage(new StringTextComponent("Level " + count + ": " + level.description + " (requires " + level.requiredXP + "xp)"), entity.getUniqueID());
+			entity.sendMessage(new StringTextComponent("Level " + count + ": " + level.description + " (requires " + level.requiredXP + " xp)"), entity.getUniqueID());
 			count++;
 		}
 		
