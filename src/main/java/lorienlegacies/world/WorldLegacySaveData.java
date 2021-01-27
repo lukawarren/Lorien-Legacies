@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.PlayerLegacyData;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
@@ -100,12 +101,14 @@ public class WorldLegacySaveData extends WorldSavedData implements Supplier<Worl
 		return nbt;
 	}
 
-	public static WorldLegacySaveData get(World world)
+	public static WorldLegacySaveData get(MinecraftServer server)
 	{
+		// Use the overworld for saving data as it is always present
+		World world = server.getWorld(World.OVERWORLD);
+		
 		// Get instance (if applicable)...
 		DimensionSavedDataManager storage = ((ServerWorld)world).getSavedData();
-		Supplier<WorldLegacySaveData> sup = new WorldLegacySaveData();
-		WorldLegacySaveData saver = (WorldLegacySaveData) storage.getOrCreate(sup, LorienLegacies.MODID);
+		WorldLegacySaveData saver = (WorldLegacySaveData) storage.getOrCreate(() -> new WorldLegacySaveData(), LorienLegacies.MODID);
 
 		// ...or create a new one
 		if (saver == null) 
@@ -126,11 +129,6 @@ public class WorldLegacySaveData extends WorldSavedData implements Supplier<Worl
 	{
 		playerData.put(uuid, data);
 		markDirty();
-	}
-	
-	public void RemovePlayerFromDataToBeSaved(UUID uuid)
-	{
-		playerData.remove(uuid);
 	}
 	
 	public Map<UUID, PlayerLegacyData> GetPlayerData()

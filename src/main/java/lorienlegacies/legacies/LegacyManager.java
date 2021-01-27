@@ -66,9 +66,9 @@ public class LegacyManager
 		for (Legacy l : legacies.values()) data.RegisterLegacy(l.GetName(), true);
 		
 		// If player has already had legacies generated and we are not to give them new ones
-		if (WorldLegacySaveData.get(player.world).IsPlayerAlreadySaved(player.getUniqueID()) && !forceLegacies)
+		if (WorldLegacySaveData.get(player.getServer()).IsPlayerAlreadySaved(player.getUniqueID()) && !forceLegacies)
 		{
-			data.FromIntArray(WorldLegacySaveData.get(player.world).GetPlayerData().get(player.getUniqueID()).ToIntArray());
+			data.FromIntArray(WorldLegacySaveData.get(player.getServer()).GetPlayerData().get(player.getUniqueID()).ToIntArray());
 		}
 		// Else generate legacies
 		else 
@@ -83,10 +83,10 @@ public class LegacyManager
 		}
 		
 		// Add to save data
-		WorldLegacySaveData.get(player.world).SetPlayerData(player.getUniqueID(), data);
+		WorldLegacySaveData.get(player.getServer()).SetPlayerData(player.getUniqueID(), data);
 		
 		// Force toggling off
-		WorldLegacySaveData.get(player.world).GetPlayerData().get(player.getUniqueID()).DetoggleAllLegacies();
+		WorldLegacySaveData.get(player.getServer()).GetPlayerData().get(player.getUniqueID()).DetoggleAllLegacies();
 		
 		// Send legacies to client
 		MessageLegacyData message = new MessageLegacyData();
@@ -105,16 +105,13 @@ public class LegacyManager
 		LorienLegacies.logger.info("Unregistering player with UUID {}", player.getUniqueID());
 		
 		// Save everything just in case
-		WorldLegacySaveData.get(player.world).markDirty();
-		
-		// We can assume that no further edits will be made to the player's save data, so remove from WorldLegacySaveData
-		WorldLegacySaveData.get(player.world).RemovePlayerFromDataToBeSaved(player.getUniqueID());
+		WorldLegacySaveData.get(player.getServer()).markDirty();
 	}
 	
 	public void OnLegacyTick(World world)
 	{
 		// For each player
-		for (Map.Entry<UUID, PlayerLegacyData> entry : WorldLegacySaveData.get(world).GetPlayerData().entrySet())
+		for (Map.Entry<UUID, PlayerLegacyData> entry : WorldLegacySaveData.get(world.getServer()).GetPlayerData().entrySet())
 		{
 			PlayerEntity player = world.getPlayerByUuid(entry.getKey());
 			if (player == null) continue; // Avoid players not actually logged on

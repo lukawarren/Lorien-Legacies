@@ -24,7 +24,7 @@ public abstract class Legacy
 	
 	protected PlayerLegacyData GetPlayerData(PlayerEntity player)
 	{
-		return WorldLegacySaveData.get(player.world).GetPlayerData().get(player.getUniqueID());
+		return WorldLegacySaveData.get(player.getServer()).GetPlayerData().get(player.getUniqueID());
 	}
 	
 	protected boolean IsLegacyToggled(PlayerEntity player)
