@@ -50,7 +50,7 @@ public class GuiAbility extends Screen
 		
 		if (numAbilities == 0)
 		{
-			Minecraft.getInstance().player.sendMessage(new StringTextComponent("§cYou do not have legacies"), Minecraft.getInstance().player.getUniqueID());
+			Minecraft.getInstance().player.sendMessage(new StringTextComponent("§cYou do not have any abilities as of yet"), Minecraft.getInstance().player.getUniqueID());
 			Minecraft.getInstance().player.closeScreen();
 			return;
 		}
