@@ -5,6 +5,7 @@ import java.util.List;
 
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 
 /*
  * Base class for each legacy.
@@ -80,6 +81,12 @@ public abstract class Legacy
 			this.description = description;
 			this.requiredXP = requiredXP;
 		}
+	}
+	
+	public void OnLevelChange(PlayerEntity player)
+	{
+		int level = GetLegacyLevel(player);
+		player.sendMessage(new StringTextComponent("§9Lumen§f has levelled up to level " + level + " - " + levels.get(level-1).description.toLowerCase()), player.getUniqueID());
 	}
 	
 	public List<LegacyLevel> GetLevels() { return levels; }

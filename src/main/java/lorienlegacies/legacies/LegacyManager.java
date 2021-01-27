@@ -116,16 +116,19 @@ public class LegacyManager
 			PlayerEntity player = world.getPlayerByUuid(entry.getKey());
 			if (player == null) continue; // Avoid players not actually logged on
 			
-			// Use up all stamina before using legacies
+			// Save current levels and use up all stamina before using legacies
 			for (Map.Entry<String, Integer> legacy : entry.getValue().legacies.entrySet())
 			{
 				if (legacy.getValue() > 0 && entry.getValue().IsLegacyToggled(legacy.getKey())) // If enabled and toggled
 				{
-					// Deplete stamina and add XP
+					// Deplete stamina and add XP...
 					int stamina = legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyStamina.staminaMultipliers.get(legacy.getKey());
 					
-					// ...but not in creative
+					// ...but not in creative...
 					if (player.isCreative() == false) entry.getValue().stamina -= stamina;
+					
+					//... and save current level
+					entry.getValue().legacyPrevLvl.put(legacy.getKey(), legacies.get(legacy.getKey()).GetLegacyLevel(player));
 				}
 			}
 			
@@ -150,6 +153,10 @@ public class LegacyManager
 					{
 						entry.getValue().AddLegacyXP(legacy.getKey(), legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyXP.xpMultipliers.get(legacy.getKey()));
 						legacies.get(legacy.getKey()).OnLegacyTick(player);
+						
+						// If level has increased, notify legacy
+						if (entry.getValue().legacyPrevLvl.get(legacy.getKey()) != legacies.get(legacy.getKey()).GetLegacyLevel(player))
+							legacies.get(legacy.getKey()).OnLevelChange(player);
 					}
 				}
 			}

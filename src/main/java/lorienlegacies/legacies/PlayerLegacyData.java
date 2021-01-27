@@ -14,6 +14,7 @@ public class PlayerLegacyData
 	
 	// Non-saved data
 	public LinkedHashMap<String, Boolean> legacyToggles = new LinkedHashMap<String, Boolean>();
+	public LinkedHashMap<String, Integer> legacyPrevLvl = new LinkedHashMap<String, Integer>();
 	public int stamina;
 	
 	// The client needs to know the max amount of stamina without overwriting the config
@@ -35,6 +36,7 @@ public class PlayerLegacyData
 	{
 		legacies.put(name, enabled ? 1 : 0);
 		legacyToggles.put(name, false);
+		legacyPrevLvl.put(name, 0);
 	}
 	
 	public int[] ToIntArray()
