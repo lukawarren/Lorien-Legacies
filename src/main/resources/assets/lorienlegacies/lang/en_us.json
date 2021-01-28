@@ -1,5 +1,9 @@
 {
 	"key.toggleLegacies": "Toggle legacies",
 	"key.legacyAbilities": "Legacy abilities",
-	"key.lorienlegacies.category": "Lorien Legacies"
+	"key.lorienlegacies.category": "Lorien Legacies",
+	
+	"itemGroup.lorienlegacies": "Lorien Legacies",
+	
+	"item.lorienlegacies.loric_stone": "Loric stone"
 }

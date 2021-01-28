@@ -1,19 +1,27 @@
 package lorienlegacies.core;
 
+import java.util.function.Supplier;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import lorienlegacies.commands.ModCommands;
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.gui.ModGUIs;
+import lorienlegacies.items.ItemLoricStone;
+import lorienlegacies.items.ModItems;
 import lorienlegacies.keybinds.ModKeybinds;
 import lorienlegacies.proxy.ClientProxy;
 import lorienlegacies.proxy.CommonProxy;
 import lorienlegacies.proxy.ServerProxy;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -44,6 +52,18 @@ public class LorienLegacies
     // Proxy
     public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
+    // Creative tab
+    public static final ItemGroup creativeTab = new ItemGroup(ItemGroup.GROUPS.length, MODID)
+    {	
+    	private Supplier<ItemStack> displayStack = () -> new ItemStack(ModItems.loricStone.get());
+    	
+		@Override
+		public ItemStack createIcon() 
+		{
+			return displayStack.get();
+		}
+	};
+    
     public LorienLegacies()
     {
     	// Register lifetime methods
@@ -54,6 +74,9 @@ public class LorienLegacies
         
         // Forge event bus
         MinecraftForge.EVENT_BUS.register(this);
+        
+        // Items
+        ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         
         // Config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLorienLegacies.COMMON_SPEC);
@@ -108,6 +131,13 @@ public class LorienLegacies
     public void RegisterCommandsEvent(RegisterCommandsEvent event)
 	{
         ModCommands.RegisterCommands(event);
+    }
+    
+    @SubscribeEvent
+    public void RegisterItems(RegistryEvent.Register<Item> event)
+    {
+    	while (true) System.out.println("bob");
+    	///ModItems.RegisterItems(event);
     }
     
     @SubscribeEvent
