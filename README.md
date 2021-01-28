@@ -43,6 +43,9 @@ Legacy abilities can be toggled with a similar selection wheel to the toggle men
 * Chimaera ❌
 * Generated structures (eg mogodorian bases) ❌
 
+### Other possible features
+* Garde's various idiosyncrasies (eg Nine's suuper hearing)
+
 ## Authors
 * [Kerbo](https://github.com/Kerbo)
 * [Blue20Boy17](https://github.com/Blue20Boy17)
