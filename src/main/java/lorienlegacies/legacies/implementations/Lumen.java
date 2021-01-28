@@ -46,12 +46,13 @@ public class Lumen extends Legacy
 	{
 		NAME = "Lumen";
 		DESCRIPTION = "Grants fire resistance and powers";
-		STAMINA_PER_TICK = 1;
+		STAMINA_PER_TICK = 0;
 		
-		AddLevel("Flammable hands", 1200);
-		AddLevel("Fire and lava resistance", 1800);
-		AddLevel("Fireballs", 2000);
-		AddLevel("Fire wave", 3000);
+		AddLevel("Flammable hands", 12000);
+		AddLevel("Some fire and lava resistance", 16000);
+		AddLevel("Fully fire and lava proof", 20000);
+		AddLevel("Fireballs", 24000);
+		AddLevel("Fire wave", 30000);
 		
 		legacyAbilities.put(new LegacyAbility("Fireball", 3), NAME);
 		legacyAbilities.put(new LegacyAbility("Firewave", 4), NAME);
@@ -157,7 +158,7 @@ public class Lumen extends Legacy
 	@Override
 	public int GetAbilityStamina(String ability)
 	{
-		return ability == "Fireball" ? 25 : ConfigLorienLegacies.legacyStamina.maxStamina;
+		return ability == "Fireball" ? 25 : ConfigLorienLegacies.legacyStamina.maxStamina + 1;
 	}
 	
 	@Override
