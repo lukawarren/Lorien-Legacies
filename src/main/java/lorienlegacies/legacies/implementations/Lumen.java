@@ -17,7 +17,7 @@ import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.entity.projectile.SnowballEntity;
-import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
@@ -71,9 +71,6 @@ public class Lumen extends Legacy
 		// If player does not have Lumen, return
 		if (GetLegacyLevel((PlayerEntity)event.getEntity()) == 0) return;
 		
-		// If player does not have Lumen toggled, return
-		if (IsLegacyToggled((PlayerEntity)event.getEntity()) == false) return;
-		
 		int level = GetLegacyLevel((PlayerEntity)event.getEntity());
 		
 		// Fire resistance
@@ -100,11 +97,8 @@ public class Lumen extends Legacy
 		// If player does not have Lumen, return
 		if (GetLegacyLevel((PlayerEntity)event.getEntity()) == 0) return;
 		
-		// If player does not have Lumen toggled, return
-		if (IsLegacyToggled((PlayerEntity)event.getEntity()) == false) return;
-		
 		// Check the hand is empty
-		if (event.getItemStack().getItem().getTranslationKey() != Item.getItemById(0).getTranslationKey()) return;
+		if (event.getPlayer().getHeldItem(event.getHand()).getTranslationKey() != Items.AIR.getTranslationKey()) return;
 		
 		// Get the block the player is looking at
 		PlayerEntity player = (PlayerEntity)event.getEntity();
