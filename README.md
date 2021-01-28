@@ -44,7 +44,7 @@ Legacy abilities can be toggled with a similar selection wheel to the toggle men
 * Generated structures (eg mogodorian bases) ❌
 
 ### Other possible features
-* Garde's various idiosyncrasies (eg Nine's suuper hearing)
+* Garde's various idiosyncrasies (eg Nine's super hearing)
 
 ## Authors
 * [Kerbo](https://github.com/Kerbo)
