@@ -118,5 +118,6 @@ public abstract class Legacy
 		}
 	}
 	
-	public int OnAbility(String ability, PlayerEntity player) { return 0; }  // Return stamina to be used
+	public void OnAbility(String ability, PlayerEntity player) {}
+	public int GetAbilityStamina(String ability) { return 0; }
 }

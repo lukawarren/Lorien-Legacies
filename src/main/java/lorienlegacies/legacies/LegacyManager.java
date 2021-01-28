@@ -20,6 +20,7 @@ import lorienlegacies.network.mesages.MessageStaminaSync;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -193,8 +194,16 @@ public class LegacyManager
 	{
 		PlayerLegacyData playerData = WorldLegacySaveData.get(player.getServer()).GetPlayerData().get(player.getUniqueID());
 		
-		int stamina = legacies.get(legacy).OnAbility(ability.name, player);
-		playerData.stamina -= stamina * ConfigLorienLegacies.legacyStamina.staminaMultipliers.get(legacy);
+		// Check player has enough stamina
+		int stamina = legacies.get(legacy).GetAbilityStamina(ability.name);
+		if (playerData.stamina < stamina && player.isCreative() == false)
+		{
+			player.sendMessage(new StringTextComponent("§cYou do not have sufficient stamina"), player.getUniqueID());
+			return;
+		}
+		
+		legacies.get(legacy).OnAbility(ability.name, player);
+		if (player.isCreative() == false) playerData.stamina -= stamina * ConfigLorienLegacies.legacyStamina.staminaMultipliers.get(legacy);
 		
 		// If exhausted, "de-toggle" all legacies and alert player
 		if (playerData.stamina <= 0)

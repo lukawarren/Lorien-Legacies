@@ -8,6 +8,12 @@ import lorienlegacies.legacies.Legacy;
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.LeverBlock;
+import net.minecraft.block.StoneButtonBlock;
+import net.minecraft.block.TrapDoorBlock;
+import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.entity.projectile.SnowballEntity;
@@ -108,17 +114,20 @@ public class Lumen extends Legacy
 		
 		if (rayResult == null || rayResult.getPos() == null || event.getWorld().getBlockState(rayResult.getPos()) == null) return;
 		
-		IgniteBlock(player, rayResult.getPos(), event.getHand(), event.getFace());
+		// If block is door, trapdoor, gate, button, or lever ignore
+		BlockState blockState = player.world.getBlockState(rayResult.getPos());
+		if (blockState.getBlock() instanceof DoorBlock || blockState.getBlock() instanceof TrapDoorBlock || blockState.getBlock() instanceof FenceGateBlock ||
+			blockState.getBlock() instanceof LeverBlock || blockState.getBlock() instanceof StoneButtonBlock ||  blockState.getBlock() instanceof WoodButtonBlock) return;
+		
+		IgniteBlock(player, rayResult.getPos(), blockState, event.getHand(), event.getFace());
 		event.getFace();
 		
 		event.setCanceled(true);
 	}
 	
 	// Partially lifted from FlintAndSteelItem#onItemUse, ignites block
-	private void IgniteBlock(PlayerEntity player, BlockPos block, Hand hand, Direction direction)
+	private void IgniteBlock(PlayerEntity player, BlockPos block, BlockState blockState, Hand hand, Direction direction)
 	{
-		BlockState blockState = player.world.getBlockState(block);
-		
 		if (CampfireBlock.canBeLit(blockState))
 		{
 			// Play sound audible to everyone by making a new entity at the position of player and making it play the sound
@@ -147,23 +156,24 @@ public class Lumen extends Legacy
 	}
 
 	@Override
-	public int OnAbility(String ability, PlayerEntity player)
+	public int GetAbilityStamina(String ability)
+	{
+		return ability == "Fireball" ? 25 : ConfigLorienLegacies.legacyStamina.maxStamina;
+	}
+	
+	@Override
+	public void OnAbility(String ability, PlayerEntity player)
 	{
 		if (ability == "Fireball")
 		{
 			// Fireball
-			ShootFireProjectile(player, 0.0f, false);
-			
-			return 25;
-			
+			ShootFireProjectile(player, 0.0f, false);		
 		}
 		else
 		{
 			// Firewave
 			for (int i = 0; i < FIREWAVE_PROJECTILES; ++i)
 				ShootFireProjectile(player, (float) Math.toRadians(i * (360/FIREWAVE_PROJECTILES)), true);
-			
-			return ConfigLorienLegacies.legacyStamina.maxStamina * 2;
 		}
 	}
 	
