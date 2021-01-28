@@ -6,10 +6,10 @@ public class ModCommands
 {
 	
 	public static void RegisterCommands(RegisterCommandsEvent event)
-	{
-		CommandLegacies.Register(event.getDispatcher(), new CommandGiveLegacies());
-		CommandLegacies.Register(event.getDispatcher(), new CommandLegacies());
-		CommandLegacies.Register(event.getDispatcher(), new CommandLegacyLevels());
+	{		
+		new CommandGiveLegacies().Register(event.getDispatcher());
+		new CommandLegacies().Register(event.getDispatcher());
+		new CommandLegacyLevels().Register(event.getDispatcher());
 	}
 	
 }

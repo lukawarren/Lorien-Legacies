@@ -16,7 +16,7 @@ public class CommandLegacies extends LorienCommand
 {
 
 	@Override
-	protected int OnCommand(CommandSource source, String argument)
+	protected int OnCommand(CommandSource source, Object arguments)
 	{
 		// Get player
 		Entity entity;

@@ -11,7 +11,7 @@ import net.minecraft.util.text.StringTextComponent;
 public class CommandGiveLegacies extends LorienCommand
 {
 	@Override
-	protected int OnCommand(CommandSource source, String argument)
+	protected int OnCommand(CommandSource source, Object arguments)
 	{
 		Entity entity;
 		try  { entity = source.assertIsEntity(); } 

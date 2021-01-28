@@ -95,7 +95,7 @@ public abstract class Legacy
 	public void OnLevelChange(PlayerEntity player)
 	{
 		int level = GetLegacyLevel(player);
-		player.sendMessage(new StringTextComponent("§9Lumen§f has levelled up to level " + level + " - " + levels.get(level-1).description.toLowerCase()), player.getUniqueID());
+		player.sendMessage(new StringTextComponent("§9" + NAME + "§f has levelled up to level " + level + " - " + levels.get(level-1).description.toLowerCase()), player.getUniqueID());
 		
 		// Send updated levels to client
 		MessageLegacyLevel message = new MessageLegacyLevel();
