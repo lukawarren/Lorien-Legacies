@@ -25,8 +25,7 @@ public class Glacen extends Legacy
 		AddLevel("Frost touch", 1200);
 		AddLevel("Ice powers", 1800);
 		AddLevel("Turn rain into snow", 2200);
-		AddLevel("Mob freeze", 3000);
-		AddLevel("Freeze wave", 5000);
+		AddLevel("Freeze wave", 3000);
 	}
 
 	@Override
