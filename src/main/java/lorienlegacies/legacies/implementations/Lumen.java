@@ -49,13 +49,12 @@ public class Lumen extends Legacy
 		STAMINA_PER_TICK = 1;
 		
 		AddLevel("Flammable hands", 1200);
-		AddLevel("Some fire and lava resistance", 1800);
-		AddLevel("Fully fire and lava proof", 2200);
-		AddLevel("Fireballs", 3000);
-		AddLevel("Fire wave", 5000);
+		AddLevel("Fire and lava resistance", 1800);
+		AddLevel("Fireballs", 2000);
+		AddLevel("Fire wave", 3000);
 		
-		legacyAbilities.put(new LegacyAbility("Fireball", 4), NAME);
-		legacyAbilities.put(new LegacyAbility("Firewave", 5), NAME);
+		legacyAbilities.put(new LegacyAbility("Fireball", 3), NAME);
+		legacyAbilities.put(new LegacyAbility("Firewave", 4), NAME);
 		
 		MinecraftForge.EVENT_BUS.register(this); // Need to receive events
 	}
@@ -83,7 +82,7 @@ public class Lumen extends Legacy
 		if (level >= 2 && event.getSource().equals(DamageSource.HOT_FLOOR)) event.setCanceled(true);
 		
 		// Lava resistance
-		if (level >= 3 && event.getSource().equals(DamageSource.LAVA)) event.setCanceled(true);
+		if (level >= 2 && event.getSource().equals(DamageSource.LAVA)) event.setCanceled(true);
 	}
 	
 	@SubscribeEvent

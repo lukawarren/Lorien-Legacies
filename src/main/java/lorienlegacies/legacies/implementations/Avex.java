@@ -5,8 +5,10 @@ import java.util.Map;
 import lorienlegacies.legacies.Legacy;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.SnowballEntity;
 import net.minecraft.network.play.server.SEntityVelocityPacket;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.vector.Vector3d;
@@ -20,6 +22,8 @@ public class Avex extends Legacy
 
 	private static final int RANGE = 5;
 	private static final int FLY_SPEED = 3;
+	private static final float LEVEL_2_SPEED_INCREASE = 1.5f;
+	private static final float UPDRAFT_FORCE = 3.0f;
 	
 	public Avex(Map<LegacyAbility, String> legacyAbilities)
 	{
@@ -29,9 +33,10 @@ public class Avex extends Legacy
 		
 		AddLevel("Flight", 1200);
 		AddLevel("Greater speed", 1800);
-		AddLevel("Ability to carry mobs", 2200);
-		AddLevel("Greater speed", 3000);
-		AddLevel("Flight instinct negating all fall damage", 5000);
+		AddLevel("Flight instinct negating all fall damage", 2200);
+		AddLevel("Air updraft", 3000);
+		
+		legacyAbilities.put(new LegacyAbility("Air updraft", 4), NAME);
 		
 		MinecraftForge.EVENT_BUS.register(this); // Need to receive events
 	}
@@ -69,7 +74,9 @@ public class Avex extends Legacy
 		nearestSquaredDistance = Math.max(Math.sqrt(nearestSquaredDistance), 1.0);
 		
 		// Get player's looking direction and scale with fly speed
-		Vector3d lookDirection = player.getLookVec().scale(player.abilities.getFlySpeed() * FLY_SPEED * nearestSquaredDistance);
+		float flySpeed = FLY_SPEED;
+		if (GetLegacyLevel(player) >= 2) flySpeed *= LEVEL_2_SPEED_INCREASE;
+		Vector3d lookDirection = player.getLookVec().scale(player.abilities.getFlySpeed() * flySpeed * nearestSquaredDistance);
 		
 		// Apply velocity to player
 		player.setMotion(lookDirection.x, lookDirection.y, lookDirection.z);
@@ -91,14 +98,33 @@ public class Avex extends Legacy
 		// If player does not have Avex, return
 		if (GetLegacyLevel((PlayerEntity)event.getEntity()) == 0) return;
 		
-		// If player does not have Avex toggled, return
-		if (IsLegacyToggled((PlayerEntity)event.getEntity()) == false) return;
+		// If player does not have Avex toggled and is less than level 5, return
+		if (IsLegacyToggled((PlayerEntity)event.getEntity()) == false && GetLegacyLevel((PlayerEntity)event.getEntity()) < 3) return;
 		
 		// Cancel fall damage
-		if (event.getSource().equals(DamageSource.FALL))  event.setCanceled(true);	
+		if (event.getSource().equals(DamageSource.FALL))
+		{
+			event.setCanceled(true);	
+		
+			// De-toggle legacy
+			if (IsLegacyToggled((PlayerEntity)event.getEntity())) Toggle((PlayerEntity)event.getEntity());
+		}
+	}
 	
-		// De-toggle legacy
-		Toggle((PlayerEntity)event.getEntity());
+	@Override
+	public int GetAbilityStamina(String ability) { return 50; }
+	
+	@Override
+	public void OnAbility(String ability, PlayerEntity player)
+	{
+		// Air updraft
+		player.addVelocity(0.0f, UPDRAFT_FORCE, 0.0f);	
+		((ServerPlayerEntity) player).connection.sendPacket(new SEntityVelocityPacket(player)); // Notify client
+		
+		// Play sound (only to player)
+		SnowballEntity entity = new SnowballEntity(player.world, player.getPosX(), player.getPosY() + 10.0f, player.getPosZ());
+		entity.playSound(SoundEvents.ENTITY_FIREWORK_ROCKET_LAUNCH, 10.0f, 1.0f);
+		entity.onKillCommand();
 	}
 	
 }
