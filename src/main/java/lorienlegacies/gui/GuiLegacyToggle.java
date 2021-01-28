@@ -40,8 +40,9 @@ public class GuiLegacyToggle extends Screen
 		
 		// Get number of enabled legacies
 		int numLegacies = 0;
-		for (Integer legacy : LorienLegacies.proxy.GetClientLegacyData().legacies.values())
-			if (legacy > 0) numLegacies++;
+		for (Map.Entry<String, Integer> entry : LorienLegacies.proxy.GetClientLegacyData().legacies.entrySet())
+			if (entry.getValue() > 0 && LorienLegacies.proxy.GetLegacyManager().GetLegacies().get(entry.getKey()).IsToggleable()) 
+				numLegacies++;
 		
 		if (numLegacies == 0)
 		{
@@ -71,8 +72,8 @@ public class GuiLegacyToggle extends Screen
 		String selectedLegacy = "";
 		for (Map.Entry<String, Integer> entry : LorienLegacies.proxy.GetClientLegacyData().legacies.entrySet())
 		{
-			// If we have the legacy
-			if (entry.getValue() != 0)
+			// If we have the legacy and it's toggleable
+			if (entry.getValue() != 0 && LorienLegacies.proxy.GetLegacyManager().GetLegacies().get(entry.getKey()).IsToggleable())
 			{	
 				// Rotate angle by 90 degrees anticlockwise
 				double angle = radiansPerSegment * count - Math.PI/2;

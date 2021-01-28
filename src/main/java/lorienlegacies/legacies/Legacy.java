@@ -32,10 +32,15 @@ public abstract class Legacy
 		return WorldLegacySaveData.get(player.getServer()).GetPlayerData().get(player.getUniqueID());
 	}
 	
+	public boolean IsToggleable()
+	{
+		return STAMINA_PER_TICK > 0;
+	}
+	
 	protected boolean IsLegacyToggled(PlayerEntity player)
 	{
 		PlayerLegacyData data = GetPlayerData(player);
-		if (data != null) return data.IsLegacyToggled(NAME);
+		if (data != null) return data.IsLegacyToggled(NAME) || !IsToggleable();
 		return false;
 	}
 	

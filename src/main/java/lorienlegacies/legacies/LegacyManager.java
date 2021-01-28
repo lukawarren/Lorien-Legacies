@@ -132,7 +132,7 @@ public class LegacyManager
 			// Save current levels and use up all stamina before using legacies
 			for (Map.Entry<String, Integer> legacy : entry.getValue().legacies.entrySet())
 			{
-				if (legacy.getValue() > 0 && entry.getValue().IsLegacyToggled(legacy.getKey())) // If enabled and toggled
+				if (legacy.getValue() > 0 && legacies.get(legacy.getKey()).IsLegacyToggled(player)) // If enabled and toggled
 				{
 					// Deplete stamina and add XP...
 					int stamina = legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyStamina.staminaMultipliers.get(legacy.getKey());
@@ -159,7 +159,7 @@ public class LegacyManager
 			// For each legacy
 			for (Map.Entry<String, Integer> legacy : entry.getValue().legacies.entrySet())
 			{
-				if (legacy.getValue() > 0 && entry.getValue().IsLegacyToggled(legacy.getKey())) // If enabled and toggled
+				if (legacy.getValue() > 0 && legacies.get(legacy.getKey()).IsLegacyToggled(player)) // If enabled and toggled
 				{
 					// If enough stamina remains, call OnLegacyTick() and add XP
 					if (entry.getValue().stamina > 0) 
