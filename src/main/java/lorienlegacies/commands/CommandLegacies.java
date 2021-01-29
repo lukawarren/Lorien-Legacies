@@ -34,9 +34,13 @@ public class CommandLegacies extends LorienCommand
 		else
 		{
 			entity.sendMessage(new StringTextComponent("Your legacies are:"), source.getEntity().getUniqueID());
-			for (Map.Entry<String, Legacy> entry : LorienLegacies.proxy.GetLegacyManager().GetLegacies().entrySet())
+			for (Map.Entry<String, Integer> entry : WorldLegacySaveData.get(source.getServer()).GetPlayerData().get(source.getEntity().getUniqueID()).legacies.entrySet())
 			{
-				entity.sendMessage(new StringTextComponent("§9" + entry.getValue().GetName() + "§f - " + entry.getValue().GetDescription()), entity.getUniqueID());
+				if (entry.getValue() > 0)
+				{
+					String description = LorienLegacies.proxy.GetLegacyManager().GetLegacies().get(entry.getKey()).GetDescription();
+					entity.sendMessage(new StringTextComponent("§9" + entry.getKey() + "§f - " + description), entity.getUniqueID());
+				}
 			}		
 			return 0;
 		}
