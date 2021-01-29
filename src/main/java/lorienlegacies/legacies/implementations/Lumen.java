@@ -100,6 +100,9 @@ public class Lumen extends Legacy
 		// Check the hand is empty
 		if (event.getPlayer().getHeldItem(event.getHand()).getTranslationKey() != Items.AIR.getTranslationKey()) return;
 		
+		// Check the player is crouched
+		if (event.getPlayer().isCrouching() == false) return;
+		
 		// Get the block the player is looking at
 		PlayerEntity player = (PlayerEntity)event.getEntity();
 		Vector3d startVec = player.getEyePosition(1.0f);
@@ -108,10 +111,9 @@ public class Lumen extends Legacy
 		
 		if (rayResult == null || rayResult.getPos() == null || event.getWorld().getBlockState(rayResult.getPos()) == null) return;
 		
-		// If block is door, trapdoor, gate, button, or lever ignore
+		// If block is a door, ignore
 		BlockState blockState = player.world.getBlockState(rayResult.getPos());
-		if (blockState.getBlock() instanceof DoorBlock || blockState.getBlock() instanceof TrapDoorBlock || blockState.getBlock() instanceof FenceGateBlock ||
-			blockState.getBlock() instanceof LeverBlock || blockState.getBlock() instanceof StoneButtonBlock ||  blockState.getBlock() instanceof WoodButtonBlock) return;
+		if (blockState.getBlock() instanceof DoorBlock) return;
 		
 		IgniteBlock(player, rayResult.getPos(), blockState, event.getHand(), event.getFace());
 		event.getFace();

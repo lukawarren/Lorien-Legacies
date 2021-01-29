@@ -46,7 +46,7 @@ public class GuiLegacyToggle extends Screen
 		
 		if (numLegacies == 0)
 		{
-			Minecraft.getInstance().player.sendMessage(new StringTextComponent("§cYou do not have legacies"), Minecraft.getInstance().player.getUniqueID());
+			Minecraft.getInstance().player.sendMessage(new StringTextComponent("§cYou do not have any toggleable legacies"), Minecraft.getInstance().player.getUniqueID());
 			Minecraft.getInstance().player.closeScreen();
 			return;
 		}

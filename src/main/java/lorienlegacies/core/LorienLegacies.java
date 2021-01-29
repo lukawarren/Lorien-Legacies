@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import lorienlegacies.commands.ModCommands;
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.gui.ModGUIs;
-import lorienlegacies.items.ItemLoricStone;
 import lorienlegacies.items.ModItems;
 import lorienlegacies.keybinds.ModKeybinds;
 import lorienlegacies.proxy.ClientProxy;
