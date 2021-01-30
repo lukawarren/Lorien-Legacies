@@ -21,7 +21,7 @@ public class GuiLegacyToggle extends Screen
 	private static final int HIGHLIGHTED_TOGGLED_COLOUR = 0xff4d79ff;
 	private static final int HIGHLIGHTED_NOT_TOGGLED_COLOUR = 0xffffffff;
 	
-	private static final int MIN_WHEEL_DISTANCE = 30;
+	private static final int MIN_WHEEL_DISTANCE = 10;
 	private static final int DISTANCE_FROM_WHEEL = 100;
 	
 	private static final int WHEEL_EXPAND_SPEED = 5;
