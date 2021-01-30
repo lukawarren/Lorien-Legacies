@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.LegacyManager;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -16,6 +17,8 @@ import net.minecraftforge.fml.config.ModConfig;
 @EventBusSubscriber(modid = LorienLegacies.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ConfigLorienLegacies
 {
+	
+	public static final float MORE_USER_FRIENDLY_MAX_DOUBLE_VALUE = 100000.0f;
 	
 	public static final CommonConfig CONFIG;
 	public static final ForgeConfigSpec COMMON_SPEC;
@@ -48,9 +51,9 @@ public class ConfigLorienLegacies
 	
 	public static class LegacyStamina
 	{
-		public int maxStamina ;
-		public int staminaRestoredPerTick;
-		public Map<String, Integer> staminaMultipliers = new LinkedHashMap<>();
+		public float maxStamina;
+		public float staminaRestoredPerTick;
+		public Map<String, Float> staminaMultipliers = new LinkedHashMap<>();
 		public int staminaSyncRate;
 	}
 	
@@ -68,9 +71,9 @@ public class ConfigLorienLegacies
 		IntValue maximumLegacies;
 		
 		// Stamina
-		IntValue maxStamina;
-		IntValue staminaRestoredPerTick;
-		Map<String, IntValue> staminaMultipliers = new LinkedHashMap<>();
+		DoubleValue maxStamina;
+		DoubleValue staminaRestoredPerTick;
+		Map<String, DoubleValue> staminaMultipliers = new LinkedHashMap<>();
 		IntValue staminaSyncRate;
 		
 		// XP
@@ -102,17 +105,17 @@ public class ConfigLorienLegacies
 			
 			maxStamina = builder.comment("Maximum legacy stamina a player can have")
 					.translation(LorienLegacies.MODID + ".config." + "maxStamina")
-					.defineInRange("maxStamina", 50, 1, Integer.MAX_VALUE);
+					.defineInRange("maxStamina", 50, 1, MORE_USER_FRIENDLY_MAX_DOUBLE_VALUE);
 			
 			staminaRestoredPerTick = builder.comment("The amount of stamina restored per tick")
 					.translation(LorienLegacies.MODID + ".config." + "staminaRestoredPerTick")
-					.defineInRange("staminaRestoredPerTick", 1, 0, Integer.MAX_VALUE);
+					.defineInRange("staminaRestoredPerTick", 0.8f, 0, MORE_USER_FRIENDLY_MAX_DOUBLE_VALUE);
 			
 			for (String legacy : LegacyManager.CONSTANT_LEGACIES)
 			{
 				staminaMultipliers.put(legacy, builder.comment(legacy + " stamina multiplier")
 					.translation(LorienLegacies.MODID + ".config." + legacy + "StaminaMultiplier")
-					.defineInRange(legacy + "StaminaMultiplier", 1, 0, Integer.MAX_VALUE));
+					.defineInRange(legacy + "StaminaMultiplier", 1, 0, MORE_USER_FRIENDLY_MAX_DOUBLE_VALUE));
 			}
 			
 			staminaSyncRate = builder.comment("The amount of ticks to wait every time before sending stamina data to client (so as to reduce lag)")
@@ -142,12 +145,12 @@ public class ConfigLorienLegacies
 		legacyGeneration.minimumLegacies = 		CONFIG.minimumLegacies.get();
 		legacyGeneration.maximumLegacies = 		CONFIG.maximumLegacies.get();
 		
-		legacyStamina.maxStamina = 				CONFIG.maxStamina.get();
-		legacyStamina.staminaRestoredPerTick = 	CONFIG.staminaRestoredPerTick.get();
+		legacyStamina.maxStamina = 				CONFIG.maxStamina.get().floatValue();
+		legacyStamina.staminaRestoredPerTick = 	CONFIG.staminaRestoredPerTick.get().floatValue();
 		legacyStamina.staminaSyncRate = 		CONFIG.staminaSyncRate.get();
 		
-		for (Map.Entry<String, IntValue> entry : CONFIG.staminaMultipliers.entrySet())
-			legacyStamina.staminaMultipliers.put(entry.getKey(), entry.getValue().get());
+		for (Map.Entry<String, DoubleValue> entry : CONFIG.staminaMultipliers.entrySet())
+			legacyStamina.staminaMultipliers.put(entry.getKey(), entry.getValue().get().floatValue());
 		
 		for (Map.Entry<String, IntValue> entry : CONFIG.xpMultipliers.entrySet())
 			legacyXP.xpMultipliers.put(entry.getKey(), entry.getValue().get());

@@ -19,11 +19,11 @@ public abstract class Legacy
 	protected String NAME;
 	protected String DESCRIPTION;
 	protected List<LegacyLevel> levels = new ArrayList<LegacyLevel>();
-	protected int STAMINA_PER_TICK;
+	protected float STAMINA_PER_TICK;
 	
 	public 		String GetName() 			{ return NAME; }
 	public 		String GetDescription() 	{ return DESCRIPTION; }
-	protected 	int    GetStaminaPerTick() 	{ return STAMINA_PER_TICK; }
+	protected 	float    GetStaminaPerTick(){ return STAMINA_PER_TICK; }
 	
 	protected abstract void OnLegacyTick(PlayerEntity player);
 	
@@ -124,5 +124,5 @@ public abstract class Legacy
 	}
 	
 	public void OnAbility(String ability, PlayerEntity player) {}
-	public int GetAbilityStamina(String ability) { return 0; }
+	public float GetAbilityStamina(String ability) { return 0; }
 }

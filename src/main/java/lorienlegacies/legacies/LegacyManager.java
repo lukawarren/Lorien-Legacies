@@ -135,7 +135,7 @@ public class LegacyManager
 				if (legacy.getValue() > 0 && legacies.get(legacy.getKey()).IsLegacyToggled(player)) // If enabled and toggled
 				{
 					// Deplete stamina and add XP...
-					int stamina = legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyStamina.staminaMultipliers.get(legacy.getKey());
+					float stamina = legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyStamina.staminaMultipliers.get(legacy.getKey());
 					
 					// ...but not in creative...
 					if (player.isCreative() == false) entry.getValue().stamina -= stamina;
@@ -165,9 +165,10 @@ public class LegacyManager
 					if (entry.getValue().stamina > 0) 
 					{
 						// If legacy is like Lumen, and uses 0 stamina, then we can assume that for XP we want to use a value of 1
-						int stamina = Math.max(legacies.get(legacy.getKey()).GetStaminaPerTick(), 1);
+						float stamina = Math.max(legacies.get(legacy.getKey()).GetStaminaPerTick(), 1);
+						int xpFromStamina = (int) Math.ceil(stamina);
 						
-						entry.getValue().AddLegacyXP(legacy.getKey(), stamina * ConfigLorienLegacies.legacyXP.xpMultipliers.get(legacy.getKey()));
+						entry.getValue().AddLegacyXP(legacy.getKey(), xpFromStamina * ConfigLorienLegacies.legacyXP.xpMultipliers.get(legacy.getKey()));
 						legacies.get(legacy.getKey()).OnLegacyTick(player);
 						
 						// If level has increased, notify legacy
@@ -198,7 +199,7 @@ public class LegacyManager
 		PlayerLegacyData playerData = WorldLegacySaveData.get(player.getServer()).GetPlayerData().get(player.getUniqueID());
 		
 		// Check player has enough stamina
-		int stamina = legacies.get(legacy).GetAbilityStamina(ability.name);
+		float stamina = legacies.get(legacy).GetAbilityStamina(ability.name);
 		if (playerData.stamina < stamina && player.isCreative() == false)
 		{
 			player.sendMessage(new StringTextComponent("§cYou do not have sufficient stamina"), player.getUniqueID());
@@ -220,7 +221,8 @@ public class LegacyManager
 		else
 		{
 			// Add XP
-			playerData.AddLegacyXP(legacy, stamina * ConfigLorienLegacies.legacyXP.xpMultipliers.get(legacy));
+			int xpFromStamina = (int)Math.ceil(stamina);
+			playerData.AddLegacyXP(legacy, xpFromStamina * ConfigLorienLegacies.legacyXP.xpMultipliers.get(legacy));
 		}
 		
 		// Restore stamina and confine to reasonable bounds

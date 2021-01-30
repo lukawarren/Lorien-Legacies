@@ -112,7 +112,7 @@ public class Avex extends Legacy
 	}
 	
 	@Override
-	public int GetAbilityStamina(String ability) { return 50; }
+	public float GetAbilityStamina(String ability) { return 50; }
 	
 	@Override
 	public void OnAbility(String ability, PlayerEntity player)

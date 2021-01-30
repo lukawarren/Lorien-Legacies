@@ -1,7 +1,6 @@
 package lorienlegacies.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 
 import lorienlegacies.core.LorienLegacies;
 import net.minecraft.client.Minecraft;
