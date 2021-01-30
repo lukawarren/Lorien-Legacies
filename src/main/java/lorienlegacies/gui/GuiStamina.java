@@ -6,12 +6,15 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import lorienlegacies.core.LorienLegacies;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 public class GuiStamina extends Screen
 {
+	private static final ResourceLocation MODDED_ICONS_TEXTURE = new ResourceLocation(LorienLegacies.MODID, "textures/gui/icons.png");
+	
 	private static final int VANILLA_XP_BAR_WIDTH = 182;
 	
 	public GuiStamina()
@@ -56,15 +59,13 @@ public class GuiStamina extends Screen
 	 * (as of 1.12.2, then wrangled a bit to support the loss of ScaledResolution 
 	 * and the new matrix stack stuff)
 	 */
-	@SuppressWarnings("deprecation")
 	private void renderExpBar(MatrixStack stack, int screenWidth, int screenHeight, int x, int yOffset, float experience, boolean vanilla, boolean halfWidth)
     {
 		
 		Minecraft.getInstance().getProfiler().startSection("expBar");
-        Minecraft.getInstance().getTextureManager().bindTexture(GUI_ICONS_LOCATION);
+        if (vanilla) Minecraft.getInstance().getTextureManager().bindTexture(GUI_ICONS_LOCATION);
+        else Minecraft.getInstance().getTextureManager().bindTexture(MODDED_ICONS_TEXTURE);
         int i = Minecraft.getInstance().player.xpBarCap();
-        
-        GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f); // Fix colours
 
         // Draw bar
         if (i > 0 || !vanilla)
@@ -75,19 +76,15 @@ public class GuiStamina extends Screen
             
             // Scale and render bar background
             if (halfWidth) x *= 2;
-            if (halfWidth) GlStateManager.scaled(0.5, 1.0, 1.0); // Make half width (if need be)
+            if (halfWidth) stack.scale(0.5f, 1.0f, 1.0f); // Make half width (if need be)
             this.blit(stack, x, l, 0, 64, j, 5); // Draw bar texture
-            if (halfWidth) GlStateManager.scaled(2.0, 1.0, 1.0); // "Un-make" half width (again, if need be)
+            if (halfWidth) stack.scale(2.0f, 1.0f, 1.0f); // "Un-make" half width (again, if need be)
             
             if (k > 0) // Fill in bar by rendering amount of XP (or stamina)
-            {
-            	if (!vanilla) GlStateManager.color4f(0.3f, 0.3f, 1.0f, 1.0f);
-            	
-            	if (halfWidth) GlStateManager.scaled(0.5, 1.0, 1.0);
+            {    	
+            	if (halfWidth) stack.scale(0.5f, 1.0f, 1.0f);
                 this.blit(stack, x, l, 0, 69, k, 5);
-                if (halfWidth) GlStateManager.scaled(2.0, 1.0, 1.0);
-                
-                if (!vanilla) GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
+                if (halfWidth) stack.scale(2.0f, 1.0f, 1.0f);
             }
         }
 

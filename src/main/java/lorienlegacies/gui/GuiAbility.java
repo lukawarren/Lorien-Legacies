@@ -21,7 +21,7 @@ public class GuiAbility extends Screen
 	private static final int TEXT_COLOUR = 0xffffffff;
 	private static final int SELECTED_COLOUR = 0xff0039e6;
 	
-	private static final int MIN_WHEEL_DISTANCE = 30;
+	private static final int MIN_WHEEL_DISTANCE = 10;
 	private static final int DISTANCE_FROM_WHEEL = 100;
 	
 	private static final int WHEEL_EXPAND_SPEED = 5;
