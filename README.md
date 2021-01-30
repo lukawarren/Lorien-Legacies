@@ -22,6 +22,7 @@ Legacy abilities can be toggled with a similar selection wheel to the toggle men
 ## Commands
 * /legacies - displays legacies the player has
 * /giveLegacies - forcefully gives a player legacies
+* /giveLegacy <legacy> - gives player a legacy
 * /legacyLevels <legacy> - displays levels for legacy
 
 ## Project roadmap
