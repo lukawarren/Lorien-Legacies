@@ -5,7 +5,6 @@ import java.util.Map;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import lorienlegacies.core.LorienLegacies;
-import lorienlegacies.legacies.Legacy;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;

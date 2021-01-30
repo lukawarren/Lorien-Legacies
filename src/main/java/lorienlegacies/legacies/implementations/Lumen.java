@@ -9,11 +9,6 @@ import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.block.DoorBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.LeverBlock;
-import net.minecraft.block.StoneButtonBlock;
-import net.minecraft.block.TrapDoorBlock;
-import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.entity.projectile.SnowballEntity;
@@ -46,7 +41,7 @@ public class Lumen extends Legacy
 	{
 		NAME = "Lumen";
 		DESCRIPTION = "Grants fire resistance and powers";
-		STAMINA_PER_TICK = 0;
+		STAMINA_PER_TICK = 0; // Giving zero stamina per tick disables the toggle GUI
 		
 		AddLevel("Flammable hands", 12000);
 		AddLevel("Some fire and lava resistance", 16000);

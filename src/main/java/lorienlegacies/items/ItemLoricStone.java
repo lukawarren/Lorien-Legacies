@@ -10,7 +10,6 @@ import lorienlegacies.legacies.PlayerLegacyData;
 import lorienlegacies.network.NetworkHandler;
 import lorienlegacies.network.mesages.MessageLegacyData;
 import lorienlegacies.network.mesages.MessageLegacyLevel;
-import lorienlegacies.network.mesages.MessageToggleLegacyClient;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
