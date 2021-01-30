@@ -10,8 +10,8 @@ import net.minecraftforge.fml.network.NetworkEvent.Context;
 public class MessageStaminaSync extends MessageBase
 {
 	
-	public int stamina;
-	public int maxStamina;
+	public float stamina;
+	public float maxStamina;
 	
 	public MessageStaminaSync(PacketBuffer buf) { super(buf); }
 	public MessageStaminaSync() {}
@@ -19,15 +19,15 @@ public class MessageStaminaSync extends MessageBase
 	@Override
 	public void OnDecode(PacketBuffer buf)
 	{
-		stamina = buf.readInt();
-		maxStamina = buf.readInt();
+		stamina = buf.readFloat();
+		maxStamina = buf.readFloat();
 	}
 
 	@Override
 	public void OnEncode(MessageBase packet, PacketBuffer buf)
 	{
-		buf.writeInt(stamina);
-		buf.writeInt(maxStamina);
+		buf.writeFloat(stamina);
+		buf.writeFloat(maxStamina);
 	}
 
 	@Override
