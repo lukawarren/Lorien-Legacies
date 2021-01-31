@@ -1,6 +1,7 @@
 package lorienlegacies.items;
 
 import lorienlegacies.core.LorienLegacies;
+import lorienLegacies.ToolMaterialLoricMetal;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -13,4 +14,8 @@ public class ModItems
 	
 	// Items
 	public static final RegistryObject<Item> loricStone = ITEMS.register("loric_stone", () -> new ItemLoricStone());
+	
+	//Leather Knife
+	public static final RegistryObject<ItemSword> leatherKnife = ITEMS.register("leather_knife", () -> new ItemLeatherKnife(new ToolMaterialLoricMetal);
+	
 }
