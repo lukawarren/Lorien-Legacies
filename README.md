@@ -53,6 +53,7 @@ Legacy abilities can be toggled with a similar selection wheel to the toggle men
 * [Blue20Boy17](https://github.com/Blue20Boy17)
 * [tebreca](https://github.com/Tebreca)
 * [Phantom](https://github.com/PhantomTheDev)
+* [5](https://github.com/walter-afk)
 
 ## Contact us
 Join [our discord](https://discord.gg/rADuzGsGdY)!
