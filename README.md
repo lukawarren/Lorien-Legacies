@@ -7,7 +7,7 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 | Legacy | Level 1                   | Level 2                       | Level 3                                   | Level 4      | Complete |
 | ------ | ------------------------- | ----------------------------- | ----------------------------------------- | ------------ | -------- |
 | Lumen  | Flammable hands           | Fire and lava resistance      | Fireballs                                 | Fire wave    | ✅ |
-| Glacen | Frost touch               | Ice powers                    | Turn rain into snow                       | Freeze wave  | ❌ |
+| Glacen | Frost touch               | Great range and ice spike     | Turn rain into snow                       | Freeze wave  | ❌ |
 | Avex   | Flight                    | Greater speed                 | Flight instinct negating all fall damage  | Air updraft  | ✅ |
 
 ### How do I get legacies?
