@@ -34,6 +34,7 @@ Legacy abilities can be toggled with a similar selection wheel to the toggle men
 
 ### Release two
 * Second batch of legacies ❌
+* Player stamina progression ❌
 * Other lorien items, particularly from chests ❌
 * Lorien mobs ❌
 * Mogodorian armour and blasters ❌
