@@ -31,7 +31,7 @@ logoFile="lorienlegacies.png" #optional
 # A text field displayed in the mod UI
 credits="The Lorien Legacies community" #optional
 # A text field displayed in the mod UI
-authors="Kerbo, Blue20Boy17, tebreca, Phantom" #optional
+authors="Kerbo, Blue20Boy17, tebreca, Phantom, 5" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 Lorien Legacies in Minecraft! See the GitHub repo (via the URL) for a comprehensive list of all features.
