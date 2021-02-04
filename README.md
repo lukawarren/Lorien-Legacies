@@ -29,8 +29,7 @@ Legacy abilities can be toggled with a similar selection wheel to the toggle men
 
 ### Initial release
 * Set of 10 legacies ❌
-* Loralite Ore ❌
-* Loralite Stone ❌
+* Loralite Ore and loralite ❌
 * Some lorien items ✔️
 
 ### Release two
