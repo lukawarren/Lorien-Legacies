@@ -16,6 +16,6 @@ public class ModItems
 	public static final RegistryObject<Item> loricStone = ITEMS.register("loric_stone", () -> new ItemLoricStone());
 	
 	//Leather Knife
-	public static final RegistryObject<ItemSword> leatherKnife = ITEMS.register("leather_knife", () -> new ItemLeatherKnife(MODITEMTIER.LORICMETAL);
+	public static final RegistryObject<ItemSword> leatherKnife = ITEMS.register("leather_knife", () -> new ItemLeatherKnife(ModItemTier.LORICMETAL);
 	
 }
