@@ -44,10 +44,9 @@ public class Lumen extends Legacy
 		STAMINA_PER_TICK = 0; // Giving zero stamina per tick disables the toggle GUI
 		
 		AddLevel("Flammable hands", 12000);
-		AddLevel("Some fire and lava resistance", 16000);
-		AddLevel("Fully fire and lava proof", 20000);
-		AddLevel("Fireballs", 24000);
-		AddLevel("Fire wave", 30000);
+		AddLevel("Fire and lava resistance", 16000);
+		AddLevel("Fireballs", 20000);
+		AddLevel("Fire wave", 000);
 		
 		legacyAbilities.put(new LegacyAbility("Fireball", 3), NAME);
 		legacyAbilities.put(new LegacyAbility("Firewave", 4), NAME);

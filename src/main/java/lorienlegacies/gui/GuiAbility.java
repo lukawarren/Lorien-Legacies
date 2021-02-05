@@ -60,8 +60,9 @@ public class GuiAbility extends Screen
 		int wheelY = this.height / 2;
 		double radiansPerSegment = 2.0 * Math.PI / (double) numAbilities;  // Each legacy will occupy a segment of the wheel
 		
-		// Get segment mouse is over by converting to polar coordinate angle
-		double mouseAngle = Math.PI/2 + Math.atan2((double)mouseY - (double)wheelY, (double)mouseX - (double)wheelX) + radiansPerSegment/2;		
+		// Get segment mouse is over by converting to polar coordinate angle and add half of radiansPerSegment to put boundary between options
+		double mouseAngle = Math.PI/2 + Math.atan2((double)mouseY - (double)wheelY, (double)mouseX - (double)wheelX) + radiansPerSegment/2;
+		if (mouseAngle < 0.0f) mouseAngle += Math.PI*2.0f; // Get rid of negative angles for easier maths
 		int mouseSegment = (int) (mouseAngle / radiansPerSegment);
 		
 		// Distance from wheel
