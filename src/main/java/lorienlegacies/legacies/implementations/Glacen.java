@@ -1,34 +1,38 @@
 package lorienlegacies.legacies.implementations;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import lorienlegacies.legacies.Legacy;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.SnowballEntity;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.biome.Biome.RainType;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class Glacen extends Legacy
 {
 	private static final float DISTANCE = 5.0f;
 	private static final float LEVEL_2_DISTANCE_MODIFIER = 2.0f;
-	private static final int AURA_SIZE = 5;
-	private static final int SNOW_RADIUS = 15;
+	private static final float ICE_BOLT_DAMAGE = 5.0f;
+	private static final int SNOW_RADIUS = 10;
+	private static final int SNOW_HEIGHT_VARIATION = 2;
+	
+	private Random random = new Random();
 	
 	public Glacen(Map<LegacyAbility, String> legacyAbilities)
 	{
@@ -38,10 +42,12 @@ public class Glacen extends Legacy
 		
 		AddLevel("Frost touch", 1200);
 		AddLevel("Greater range", 1800);
-		AddLevel("Ice aura", 2200);
-		AddLevel("Freeze wave", 3000);
+		AddLevel("Ice bolt", 2200);
+		AddLevel("Frost wave", 3000);
+		
+		legacyAbilities.put(new LegacyAbility("Frost wave", 4), NAME);
 	
-		legacyAbilities.put(new LegacyAbility("Freeze wave", 4), NAME);
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	@Override
@@ -70,32 +76,6 @@ public class Glacen extends Legacy
 			entity.playSound(SoundEvents.ENTITY_BOAT_PADDLE_WATER, 1f, 2f);
 			entity.onKillCommand();
 		}
-		
-		// For ice aura, get entities around player's (enlarged) bounding box
-		if (level >= 3)
-		{
-			AxisAlignedBB boundingBox = player.getBoundingBox().grow(AURA_SIZE);
-			List<Entity> entities = player.world.getEntitiesInAABBexcluding(player, boundingBox, e -> { return e instanceof LivingEntity; });
-			entities.forEach(e -> {
-				
-				LivingEntity livingEntity = (LivingEntity)e;
-				
-				// Effects and health
-				livingEntity.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 2, 5));
-				livingEntity.addPotionEffect(new EffectInstance(Effects.GLOWING, 2, 5));
-				livingEntity.setHealth(livingEntity.getHealth() - 0.5f);
-				
-				// Sounds and particles
-				if (livingEntity.world.getGameTime() % 10 == 0 && livingEntity.getHealth() > 0)
-				{
-					livingEntity.playSound(SoundEvents.BLOCK_GLASS_BREAK, 1.0f, 1.0f);
-					
-					Vector3d position = e.getPositionVec().add(0.0f, e.getHeight(), 0.0f);
-					int particleCount = 256;
-					((ServerWorld)player.world).spawnParticle(ParticleTypes.SPLASH, position.x, position.y, position.z, particleCount, 0, 0, 0, 0);
-				}
-			});
-		}
 	}
 	
 	@Override
@@ -105,7 +85,7 @@ public class Glacen extends Legacy
 	public void OnAbility(String ability, PlayerEntity player)
 	{
 		// Check it's raining
-		if (player.world.isRaining() == false)
+		if (player.world.isRaining() == false || player.world.getBiome(player.getPosition()).getPrecipitation() == RainType.NONE)
 		{
 			if (player.world.isRemote == false) player.sendMessage(new StringTextComponent("§cIt is not raining, and you find yourself without the water source you need."), player.getUniqueID());
 			return;
@@ -120,20 +100,30 @@ public class Glacen extends Legacy
 		// Snowballs
 		for (int x = -SNOW_RADIUS; x < SNOW_RADIUS; ++x)
 		{
-			for (int y = -SNOW_RADIUS; y < SNOW_RADIUS; ++y)
+			for (int z = -SNOW_RADIUS; z < SNOW_RADIUS; ++z)
 			{
-				// We want to make a circle, so avoid x's and y's outside radius
-				int squareDistance = x*x + y*y; // It's Pythagoras, mate
+				// We want to make a circle, so avoid x's and z's outside radius
+				int squareDistance = x*x + z*z; // It's Pythagoras, mate
 				if (squareDistance >= SNOW_RADIUS*SNOW_RADIUS) continue;
 				
-				player.world.addEntity(new SnowballEntity(player.world, position.x + x, position.y, position.z + y)
+				// Decide on a y, and add some variation
+				int y = random.nextInt(SNOW_HEIGHT_VARIATION + 1);
+				if (random.nextBoolean()) y = -y;
+				
+				// If the block is not air, fall back!
+				if (player.world.isAirBlock(new BlockPos(position.x + x, position.y, position.z + z)) == false)
+					y = 0;
+				
+				player.world.addEntity(new SnowballEntity(player.world, position.x + x, position.y + y, position.z + z)
 				{
 					@Override
 					protected void onImpact(RayTraceResult result)
 					{
 						// It'd do us good to avoid replacing non-air blocks!
-						if (Blocks.SNOW.isAir(player.world.getBlockState(new BlockPos(result.getHitVec())), player.world, new BlockPos(result.getHitVec())) == false) return;
-						
+						BlockPos pos = new BlockPos(result.getHitVec());
+						BlockState state = player.world.getBlockState(pos);
+						if (Blocks.SNOW.isAir(state, player.world, pos) == false && state.getBlock().getDefaultState()!= Blocks.FIRE.getDefaultState()) return;
+							
 						// We can't play too many sounds, as that'd fill the sound pool
 						this.playSound(SoundEvents.BLOCK_SNOW_FALL, 1.0f, 1.0f);
 						
@@ -146,11 +136,61 @@ public class Glacen extends Legacy
 				});
 			}
 		}
-				
+					
 		// Play sound (only to player)
 		SnowballEntity entity = new SnowballEntity(player.world, player.getPosX(), player.getPosY() + 10.0f, player.getPosZ());
 		entity.playSound(SoundEvents.BLOCK_GLASS_BREAK, 1.0f, 1.0f);
 		entity.onKillCommand();
+	}
+	
+	private void ShootIceBolt(PlayerEntity player, LivingEntity e)
+	{
+		// Shoot particle ray from player to entity by marching along vector
+		Vector3d playerPosition = player.getPositionVec();
+		Vector3d entityPosition = e.getPositionVec();
+		Vector3d substepPosition = new Vector3d(playerPosition.x, playerPosition.y, playerPosition.z);
+		final int substeps = 10;
+		
+		for (int i = 0; i < substeps; ++i)
+		{
+			substepPosition = substepPosition.add((entityPosition.x - playerPosition.x) / substeps, (entityPosition.y - playerPosition.y) / substeps, (entityPosition.z - playerPosition.z) / substeps);
+			((ServerWorld)player.world).spawnParticle(ParticleTypes.SPLASH, substepPosition.x, substepPosition.y, substepPosition.z, 10, 0, 0, 0, 0);
+		}
+		
+		// Health
+		e.setHealth(e.getHealth() - ICE_BOLT_DAMAGE);
+		
+		// Sounds and particles
+		if (e.getHealth() > 0)
+		{
+			e.playSound(SoundEvents.BLOCK_GLASS_BREAK, 1.0f, 1.0f);
+				
+			Vector3d position = e.getPositionVec().add(0.0f, e.getHeight(), 0.0f);
+			final int particleCount = 256;
+			((ServerWorld)player.world).spawnParticle(ParticleTypes.SPLASH, position.x, position.y, position.z, particleCount, 0, 0, 0, 0);
+		}
+	}
+	
+	@SubscribeEvent
+	public void OnLivingAttackEvent(LivingAttackEvent event)
+	{	
+		// Check side is server-side
+		if (event.getEntity().world.isRemote) return;
+		
+		// Check it's a valid living entity
+		if (event.getEntityLiving() == null) return;
+		
+		// Check the source is a player
+		if (event.getSource().getTrueSource() == null || event.getSource().getTrueSource() instanceof PlayerEntity == false) return;
+		PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+		
+		// If player does not have Glacen, return
+		if (GetLegacyLevel(player) == 0) return;
+		
+		// If player's Glacen level is less than level 3, return
+		if (GetLegacyLevel(player) < 3) return;
+		
+		ShootIceBolt(player, event.getEntityLiving());
 	}
 	
 }

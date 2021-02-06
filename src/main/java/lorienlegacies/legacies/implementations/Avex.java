@@ -98,8 +98,8 @@ public class Avex extends Legacy
 		// If player does not have Avex, return
 		if (GetLegacyLevel((PlayerEntity)event.getEntity()) == 0) return;
 		
-		// If player does not have Avex toggled and is less than level 4, return
-		if (IsLegacyToggled((PlayerEntity)event.getEntity()) == false && GetLegacyLevel((PlayerEntity)event.getEntity()) < 4) return;
+		// If player does not have Avex toggled and is less than level 3, return
+		if (IsLegacyToggled((PlayerEntity)event.getEntity()) == false && GetLegacyLevel((PlayerEntity)event.getEntity()) < 3) return;
 		
 		// Cancel fall damage
 		if (event.getSource().equals(DamageSource.FALL))
