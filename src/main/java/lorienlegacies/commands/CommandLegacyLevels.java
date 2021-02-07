@@ -44,7 +44,7 @@ public class CommandLegacyLevels extends LorienCommand
 		
 		int legacyLevel = legacy.GetLegacyLevel((PlayerEntity)source.getEntity());
 		String levelText = legacyLevel > 0 ? "level " + legacyLevel : "not given"; 
-		entity.sendMessage(new StringTextComponent("§9" + legacy.GetName() + "§f - currently " + levelText + ":"), entity.getUniqueID());
+		entity.sendMessage(new StringTextComponent("§9" + legacy.GetName() + "§f - currently " + levelText + " with " + legacy.GetXP((PlayerEntity)entity) + " xp:"), entity.getUniqueID());
 		
 		int count = 1;
 		for (LegacyLevel level : legacy.GetLevels())

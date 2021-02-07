@@ -58,8 +58,11 @@ public class ItemLoricStone extends Item
 		message.legacies = playerLegacyData.ToIntArray();
 		NetworkHandler.sendToPlayer(message, (ServerPlayerEntity)playerIn);
 		
-		// ...so send some contrived excuse
+		// ...so send some contrived excuse...
 		playerIn.sendMessage(new StringTextComponent("You now have §9" + legacy + "§f and rest your legacies temporarily..."), playerIn.getUniqueID());
+		
+		//...and actually do it on the server too
+		playerLegacyData.DetoggleAllLegacies();
 		
 		// Send legacy levels to client
 		for (Legacy legacyToBeSent : LorienLegacies.proxy.GetLegacyManager().GetLegacies().values())
@@ -69,6 +72,9 @@ public class ItemLoricStone extends Item
 			levelMessage.legacyLevel = legacyToBeSent.GetLegacyLevel(playerIn);
 			NetworkHandler.sendToPlayer(levelMessage, (ServerPlayerEntity)playerIn);
 		}
+		
+		// Save
+		WorldLegacySaveData.get(playerIn.getServer()).markDirty();
 		
 		return ActionResult.resultConsume(playerIn.getHeldItem(handIn));
 	}

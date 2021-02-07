@@ -121,7 +121,7 @@ public class Avex extends Legacy
 		player.addVelocity(0.0f, UPDRAFT_FORCE, 0.0f);	
 		((ServerPlayerEntity) player).connection.sendPacket(new SEntityVelocityPacket(player)); // Notify client
 		
-		// Play sound (only to player)
+		// Play sound
 		SnowballEntity entity = new SnowballEntity(player.world, player.getPosX(), player.getPosY() + 10.0f, player.getPosZ());
 		entity.playSound(SoundEvents.ENTITY_FIREWORK_ROCKET_LAUNCH, 10.0f, 1.0f);
 		entity.onKillCommand();

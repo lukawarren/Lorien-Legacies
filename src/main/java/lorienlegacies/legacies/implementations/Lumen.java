@@ -46,7 +46,7 @@ public class Lumen extends Legacy
 		AddLevel("Flammable hands", 12000);
 		AddLevel("Fire and lava resistance", 16000);
 		AddLevel("Fireballs", 20000);
-		AddLevel("Fire wave", 000);
+		AddLevel("Fire wave", 22000);
 		
 		legacyAbilities.put(new LegacyAbility("Fireball", 3), NAME);
 		legacyAbilities.put(new LegacyAbility("Firewave", 4), NAME);

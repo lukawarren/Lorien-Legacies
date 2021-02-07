@@ -12,6 +12,7 @@ import lorienlegacies.legacies.generation.LegacyGenerator;
 import lorienlegacies.legacies.implementations.Avex;
 import lorienlegacies.legacies.implementations.Glacen;
 import lorienlegacies.legacies.implementations.Lumen;
+import lorienlegacies.legacies.implementations.Submari;
 import lorienlegacies.network.NetworkHandler;
 import lorienlegacies.network.mesages.MessageExhaustLegacies;
 import lorienlegacies.network.mesages.MessageLegacyData;
@@ -27,7 +28,7 @@ import net.minecraft.world.server.ServerWorld;
 public class LegacyManager
 {
 
-	public static final int NUM_LEGACIES = 3;
+	public static final int NUM_LEGACIES = 4;
 	
 	// Legacies
 	Map<String, Legacy> legacies = new LinkedHashMap<String, Legacy>();
@@ -44,7 +45,8 @@ public class LegacyManager
 	{
 		"Lumen",
 		"Avex",
-		"Glacen"
+		"Glacen",
+		"Submari"
 	};
 	
 	public void RegisterLegacies()
@@ -57,6 +59,9 @@ public class LegacyManager
 		
 		Glacen glacen = new Glacen(legacyAbilities);
 		legacies.put(glacen.GetName(), glacen);
+		
+		Submari submari = new Submari(legacyAbilities);
+		legacies.put(submari.GetName(), submari);
 		
 		LorienLegacies.logger.info("Registered {} legacies", legacies.size());
 	}
@@ -105,6 +110,9 @@ public class LegacyManager
 			levelMessage.legacyLevel = legacy.GetLegacyLevel(player);
 			NetworkHandler.sendToPlayer(levelMessage, (ServerPlayerEntity)player);
 		}
+		
+		// Save
+		WorldLegacySaveData.get(player.getServer()).markDirty();
 	}
 	
 	public void RegisterClientData(PlayerLegacyData data)
@@ -192,6 +200,9 @@ public class LegacyManager
 				NetworkHandler.sendToPlayer(message, (ServerPlayerEntity)player);
 			}
 		}
+		
+		// Save as XP changes pretty much every tick
+		WorldLegacySaveData.get(world.getServer()).markDirty();
 	}
 	
 	public void OnAbility(LegacyAbility ability, String legacy, PlayerEntity player)

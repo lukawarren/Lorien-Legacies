@@ -85,6 +85,13 @@ public abstract class Legacy
 		return level;
 	}
 	
+	public int GetXP(PlayerEntity player)
+	{
+		PlayerLegacyData data = GetPlayerData(player);
+		if (data == null) return 0;
+		return data.legacies.get(NAME).intValue();
+	}
+	
 	public class LegacyLevel
 	{
 		public String description;
@@ -107,6 +114,9 @@ public abstract class Legacy
 		message.legacyName = NAME;
 		message.legacyLevel = GetLegacyLevel(player);
 		NetworkHandler.sendToPlayer(message, (ServerPlayerEntity)player);
+
+		// Save
+		WorldLegacySaveData.get(player.getServer()).markDirty();
 	}
 	
 	public List<LegacyLevel> GetLevels() { return levels; }
