@@ -148,7 +148,7 @@ public class Lumen extends Legacy
 	@Override
 	public float GetAbilityStamina(String ability)
 	{
-		return ability == "Fireball" ? 25 : ConfigLorienLegacies.legacyStamina.maxStamina + 1;
+		return ability == "Fireball" ? 25 : ConfigLorienLegacies.legacyStamina.maxStamina;
 	}
 	
 	@Override

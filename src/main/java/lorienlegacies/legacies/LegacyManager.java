@@ -9,16 +9,14 @@ import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.Legacy.LegacyAbility;
 import lorienlegacies.legacies.generation.LegacyGenerator;
-import lorienlegacies.legacies.implementations.Avex;
-import lorienlegacies.legacies.implementations.Glacen;
-import lorienlegacies.legacies.implementations.Lumen;
-import lorienlegacies.legacies.implementations.Submari;
+import lorienlegacies.legacies.implementations.*;
 import lorienlegacies.network.NetworkHandler;
 import lorienlegacies.network.mesages.MessageExhaustLegacies;
 import lorienlegacies.network.mesages.MessageLegacyData;
 import lorienlegacies.network.mesages.MessageLegacyLevel;
 import lorienlegacies.network.mesages.MessageStaminaSync;
 import lorienlegacies.world.WorldLegacySaveData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
@@ -27,8 +25,6 @@ import net.minecraft.world.server.ServerWorld;
 
 public class LegacyManager
 {
-
-	public static final int NUM_LEGACIES = 4;
 	
 	// Legacies
 	Map<String, Legacy> legacies = new LinkedHashMap<String, Legacy>();
@@ -46,7 +42,8 @@ public class LegacyManager
 		"Lumen",
 		"Avex",
 		"Glacen",
-		"Submari"
+		"Submari",
+		"Pondus"
 	};
 	
 	public void RegisterLegacies()
@@ -63,12 +60,18 @@ public class LegacyManager
 		Submari submari = new Submari(legacyAbilities);
 		legacies.put(submari.GetName(), submari);
 		
+		Pondus pondus = new Pondus(legacyAbilities);
+		legacies.put(pondus.GetName(), pondus);
+		
 		LorienLegacies.logger.info("Registered {} legacies", legacies.size());
 	}
 	
 	public void RegisterPlayer(PlayerEntity player, boolean forceLegacies)
 	{		
 		LorienLegacies.logger.info("Registering player with UUID {}", player.getUniqueID());
+		
+		// First things first, Pondus can break gravity, so fix that
+		player.setNoGravity(false);
 		
 		// Construct new PlayerLegacyData with all legacies registered
 		PlayerLegacyData data = new PlayerLegacyData();
@@ -117,6 +120,9 @@ public class LegacyManager
 	
 	public void RegisterClientData(PlayerLegacyData data)
 	{
+		// First things first, Pondus can break gravity, so fix that
+		Minecraft.getInstance().player.setNoGravity(false);
+		
 		// Populate hashmap for later use
 		for (String legacy : legacies.keySet()) data.RegisterLegacy(legacy, true);
 	}

@@ -91,11 +91,11 @@ public class ConfigLorienLegacies
 			
 			minimumLegacies = builder.comment("Minimum legacies if given")
 					.translation(LorienLegacies.MODID + ".config." + "minimumLegacies")
-					.defineInRange("minimumLegacies", 2, 1, LegacyManager.NUM_LEGACIES);
+					.defineInRange("minimumLegacies", 2, 1, LegacyManager.CONSTANT_LEGACIES.length);
 			
 			maximumLegacies = builder.comment("Maximum legacies if given")
 					.translation(LorienLegacies.MODID + ".config." + "maximumLegacies")
-					.defineInRange("maximumLegacies", 3, 1, LegacyManager.NUM_LEGACIES);
+					.defineInRange("maximumLegacies", 3, 1, LegacyManager.CONSTANT_LEGACIES.length);
 			
 			builder.pop();
 			
