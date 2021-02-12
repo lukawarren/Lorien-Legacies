@@ -29,8 +29,8 @@ public class ModKeybinds
 	}
 
 	@SubscribeEvent
-	public static void onEvent(KeyInputEvent event)
-	{
+	public static void OnEvent(KeyInputEvent event)
+	{	
 		if (keyToggleLegacies.isPressed())
 		{
 			// Toggle legacies GUI
@@ -42,5 +42,4 @@ public class ModKeybinds
 			ModGUIs.OpenGui(new GuiAbility());
 		}
 	}
-	
 }
