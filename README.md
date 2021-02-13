@@ -6,10 +6,11 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 ## Legacies
 | Legacy  | Level 1                   | Level 2                       | Level 3                                   | Level 4      | Complete |
 | ------- | ------------------------- | ----------------------------- | ----------------------------------------- | ------------ | -------- |
-| Lumen   | Flammable hands           | Fire and lava resistance      | Fireballs                                 | Fire wave    | ✅ |
-| Glacen  | Frost touch               | Greater range                 | Ice bolt                                  | Frost wave   | ✅ |
-| Avex    | Flight                    | Greater speed                 | Flight instinct negating all fall damage  | Air updraft  | ✅ |
-| Submari | Water breathing           | Water vision                  | Greater speed                             | Water vortex | ✅ |
+| Lumen   | Flammable hands           | Fire and lava resistance      | Fireballs                                 | Fire wave           | ✅ |
+| Glacen  | Frost touch               | Greater range                 | Ice bolt                                  | Frost wave          | ✅ |
+| Avex    | Flight                    | Greater speed                 | Flight instinct negating all fall damage  | Air updraft         | ✅ |
+| Submari | Water breathing           | Water vision                  | Greater speed                             | Water vortex        | ✅ |
+| Pondus  | Water walking             | Lava walking                  | Air walking                               | Phase through walls | ✅ |
 
 ### How do I get legacies?
 At the moment, upon joining a new world, each player has a chance to recieve any number of legacies. The likelihood of recieving legacies, as well as how many, can be changed in the mod's config.
@@ -25,6 +26,7 @@ Legacy abilities can be toggled with a similar selection wheel to the toggle men
 * /regiveLegacies - gives a player new legacies (and takes away the old ones)
 * /giveLegacy <legacy> - gives player a legacy
 * /legacyLevels <legacy> - displays levels for legacy
+* /maxLegacyLevels - maxes out levels of all current legacies
 
 ## Project roadmap
 

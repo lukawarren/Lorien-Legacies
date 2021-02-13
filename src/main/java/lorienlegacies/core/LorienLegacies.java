@@ -131,18 +131,4 @@ public class LorienLegacies
 	{
         ModCommands.RegisterCommands(event);
     }
-    
-    @SubscribeEvent
-    public void RegisterItems(RegistryEvent.Register<Item> event)
-    {
-    	while (true) System.out.println("bob");
-    	///ModItems.RegisterItems(event);
-    }
-    
-    @SubscribeEvent
-    public void OnRenderExperienceBar(RenderGameOverlayEvent event)
-    {
-    	ModGUIs.guiStamina.Render(proxy.GetClientLegacyData().stamina, event);
-    }
-    
 }

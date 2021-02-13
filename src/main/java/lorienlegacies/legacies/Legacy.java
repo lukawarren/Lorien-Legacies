@@ -121,6 +121,14 @@ public abstract class Legacy
 	
 	public List<LegacyLevel> GetLevels() { return levels; }
 	
+	public int GetTotalXpRequirements()
+	{
+		int xp = 0;
+		for (LegacyLevel level : levels)
+			xp += level.requiredXP;
+		return xp;
+	}
+	
 	public class LegacyAbility
 	{
 		public String name;
