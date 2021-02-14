@@ -4,13 +4,24 @@
 Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies such as Avex and Lumen, as well as telekinesis and a host of other awesome abilities.
 
 ## Legacies
-| Legacy  | Level 1                   | Level 2                       | Level 3                                   | Level 4             | Complete |
-| ------- | ------------------------- | ----------------------------- | ----------------------------------------- | ------------------- | -------- |
-| Lumen   | Flammable hands           | Fire and lava resistance      | Fireballs                                 | Fire wave           | ✅ |
-| Glacen  | Frost touch               | Greater range                 | Ice bolt                                  | Frost wave          | ✅ |
-| Avex    | Flight                    | Greater speed                 | Flight instinct negating all fall damage  | Air updraft         | ✅ |
-| Submari | Water breathing           | Water vision                  | Greater speed                             | Water vortex        | ✅ |
-| Pondus  | Water walking             | Lava walking                  | Air walking                               | Obsidian skin       | ✅ |
+
+### Active legacies
+| Legacy      | Level 1                   | Level 2                       | Level 3                                   | Level 4             | Complete |
+| ----------- | ------------------------- | ----------------------------- | ----------------------------------------- | ------------------- | -------- |
+| Lumen       | Flammable hands           | Fire and lava resistance      | Fireballs                                 | Fire wave           | ✅ |
+| Glacen      | Frost touch               | Greater range                 | Ice bolt                                  | Frost wave          | ✅ |
+| Avex        | Flight                    | Greater speed                 | Flight instinct negating all fall damage  | Air updraft         | ✅ |
+| Submari     | Water breathing           | Water vision                  | Greater speed                             | Water vortex        | ✅ |
+| Pondus      | Water walking             | Lava walking                  | Air walking                               | Obsidian skin       | ✅ |
+| Telekinesis | Levitate small mobs       | Launch small mobs             | Move blocks                               | Move players        | ❌ |
+
+### Passive legacies
+| Legacy      | Level 1                   | Level 2                       | Level 3                                   | Level 4             | Complete |
+| ----------- | ------------------------- | ----------------------------- | ----------------------------------------- | ------------------- | -------- |
+| Fortem      | Stength II                | Strength III                  | Strength IV                               | Strength V          | ❌ |
+| Novis       | Invisibility II           | Invisibility III              | Invisibility IV                           | Invisibility V      | ❌ |
+| Regeneras   | Stength II                | Strength III                  | Strength IV                               | Strength V          | ❌ |
+| Accelix     | Swiftness II              | Swiftness III                 | Swiftness IV                              | Swiftness V         | ❌ |
 
 ### How do I get legacies?
 At the moment, upon joining a new world, each player has a chance to recieve any number of legacies. The likelihood of recieving legacies, as well as how many, can be changed in the mod's config.
