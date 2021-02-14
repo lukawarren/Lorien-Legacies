@@ -16,11 +16,13 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 public class GuiPondusDensity extends Screen
 {	
 	private static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/widgets.png");
+	private static final ResourceLocation ICONS_LOCATION = new ResourceLocation("textures/gui/icons.png");
+	
+	private static final ResourceLocation OBSIDIAN_LOCATION = new ResourceLocation("textures/block/obsidian.png");
 	private static final ResourceLocation WATER_LOCATION = new ResourceLocation("textures/block/water_still.png");
 	private static final ResourceLocation LAVA_LOCATION = new ResourceLocation("textures/block/lava_still.png");
 	private static final ResourceLocation DIRT_LOCATION = new ResourceLocation("textures/block/dirt.png");
 	private static final ResourceLocation GRASS_LOCATION = new ResourceLocation("textures/block/grass_block_top.png");
-	private static final ResourceLocation ICONS_LOCATION = new ResourceLocation("textures/gui/icons.png");
 	
 	private static final float TICKS_ACTIVE = 1500;
 	
@@ -72,10 +74,14 @@ public class GuiPondusDensity extends Screen
 		
 		// Draw density icons
 		final int iconsX = sliderX*10 + 32;
-		final int iconsY = height*10 - 2040;
-		final int iconsHeight = 2000 / 4;
+		final int iconsY = height*10 - 1640;
+		final int iconsHeight = 2000 / 5;
 		
 		matrixStack.scale(0.1f, 0.1f, 0.1f);
+		
+		// Obsidian
+		Minecraft.getInstance().getTextureManager().bindTexture(OBSIDIAN_LOCATION);
+		this.blit(matrixStack, iconsX, iconsY + iconsHeight*-1, 0, 0, 256, 256);
 		
 		// Dirt
 		Minecraft.getInstance().getTextureManager().bindTexture(DIRT_LOCATION);
@@ -108,7 +114,7 @@ public class GuiPondusDensity extends Screen
 		// Close screen
 		if (ticksOpen > TICKS_ACTIVE)
 		{
-			ModGUIs.ClosePondusOverlay();
+			//ModGUIs.ClosePondusOverlay();
 		} else ticksOpen++;
 	}
 	

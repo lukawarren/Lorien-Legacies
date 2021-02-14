@@ -15,12 +15,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,7 +34,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 public class Pondus extends Legacy
 {
 	public static final int MIN_DENSITY = 1;
-	public static final int MAX_DENSITY = 4;
+	public static final int MAX_DENSITY = 5;
 	
 	Map <UUID, Integer> densityLevels = new HashMap<>();
 	
@@ -45,7 +47,7 @@ public class Pondus extends Legacy
 		AddLevel("Water walking", 11000);
 		AddLevel("Lava walking", 17000);
 		AddLevel("Air walking", 19000);
-		AddLevel("Phase through walls", 20000);
+		AddLevel("Obsidian skin", 20000);
 		
 		legacyAbilities.put(new LegacyAbility("Increase density", 1), NAME);
 		legacyAbilities.put(new LegacyAbility("Decrease density", 1), NAME);
@@ -71,9 +73,9 @@ public class Pondus extends Legacy
 		
 		// The player may have been re-given legacies, so correct for this
 		if (densityLevels.get(player.getUniqueID()) < GetMinimumDensityForLevel(level))
-		{
 			densityLevels.put(player.getUniqueID(), GetMinimumDensityForLevel(level));
-		}
+		if (densityLevels.get(player.getUniqueID()) > GetMaximumDensityForLevel(level))
+			densityLevels.put(player.getUniqueID(), GetMaximumDensityForLevel(level));
 		
 		if (ShouldCorrectPosition(player))
 		{
@@ -86,11 +88,33 @@ public class Pondus extends Legacy
 		
 		// Air density
 		if (densityLevels.get(player.getUniqueID()) == 1 && level >= 3) player.abilities.isFlying = true;
-		else player.abilities.isFlying = false;
+		else if (player.isCreative() == false) player.abilities.isFlying = false;
 		
 		// Noclip
-		if (densityLevels.get(player.getUniqueID()) == 1 && level >= 4) player.noClip = true;
+		if (densityLevels.get(player.getUniqueID()) == 1 && level >= 3) player.noClip = true;
 		else player.noClip = false;
+	}
+	
+	/*
+	 * Obsidian skin
+	 */
+	@SubscribeEvent
+	public void OnLivingAttackEvent(LivingAttackEvent event)
+	{
+		// Check side is server-side
+		if (event.getEntity().world.isRemote) return;
+		
+		if (event.getEntity() instanceof PlayerEntity == false) return;
+		
+		// If player does not have Pondus, return
+		int level = GetLegacyLevel((PlayerEntity)event.getEntity());
+		if (level == 0) return;
+		
+		if (level >= 4 && densityLevels.get(((PlayerEntity)event.getEntity()).getUniqueID()) == 5)
+		{
+			if (event.getSource() == DamageSource.SWEET_BERRY_BUSH || event.getSource().isProjectile() || event.getSource() == DamageSource.CACTUS)
+				event.setCanceled(true);
+		}
 	}
 	
 	/*
@@ -99,7 +123,7 @@ public class Pondus extends Legacy
 	@SubscribeEvent
 	public void PlayerLoggedInEvent(PlayerLoggedInEvent event)
 	{
-		densityLevels.put(event.getPlayer().getUniqueID(), MAX_DENSITY);
+		densityLevels.put(event.getPlayer().getUniqueID(), 4);
 		
     	// Pondus can break gravity so reset it
 		event.getPlayer().setNoGravity(false);
@@ -139,9 +163,10 @@ public class Pondus extends Legacy
 		Integer currentDensity = densityLevels.get(player.getUniqueID());
 		
 		// Check level requirements
-		if (directionUp == false && currentDensity == GetMinimumDensityForLevel(GetLegacyLevel(player)))
+		int level = GetLegacyLevel(player);
+		if ( (directionUp == false && currentDensity == GetMinimumDensityForLevel(level)) ||
+			 (directionUp == true && currentDensity == GetMaximumDensityForLevel(level)))
 		{
-			player.sendMessage(new StringTextComponent("§cYou find yourself unable to muster enough strength, for now at least..."), player.getUniqueID());
 			return;
 		}
 		
@@ -249,7 +274,13 @@ public class Pondus extends Legacy
 	{
 		if (level == 1) return 3; // Water walking
 		if (level == 2) return 2; // Lava
-		if (level == 3) return 0; // Air - 0 for no warning message
-		else return 0;
+		if (level == 3) return 1; // Air
+		else return 1;
+	}
+	
+	private int GetMaximumDensityForLevel(int level)
+	{
+		if (level == 4) return MAX_DENSITY;
+		else return MAX_DENSITY-1;
 	}
 }
