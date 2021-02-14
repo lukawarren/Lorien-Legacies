@@ -16,12 +16,12 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 | Telekinesis | Levitate small mobs       | Launch small mobs             | Move blocks                               | Move players        | ❌ |
 
 ### Passive legacies
-| Legacy      | Level 1                   | Level 2                       | Level 3                                   | Level 4             | Complete |
-| ----------- | ------------------------- | ----------------------------- | ----------------------------------------- | ------------------- | -------- |
-| Fortem      | Stength II                | Strength III                  | Strength IV                               | Strength V          | ❌ |
-| Novis       | Invisibility II           | Invisibility III              | Invisibility IV                           | Invisibility V      | ❌ |
-| Regeneras   | Stength II                | Strength III                  | Strength IV                               | Strength V          | ❌ |
-| Accelix     | Swiftness II              | Swiftness III                 | Swiftness IV                              | Swiftness V         | ❌ |
+| Legacy      | Effect (scales with level) | Complete |
+| ----------- | -------------------------- | ---------|
+| Fortem      | Stength                    | ❌ |
+| Novis       | Invisibility               | ❌ |
+| Regeneras   | Stength                    | ❌ |
+| Accelix     | Swiftness                  | ❌ |
 
 ### How do I get legacies?
 At the moment, upon joining a new world, each player has a chance to recieve any number of legacies. The likelihood of recieving legacies, as well as how many, can be changed in the mod's config.
