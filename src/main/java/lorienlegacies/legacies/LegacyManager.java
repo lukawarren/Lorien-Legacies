@@ -14,6 +14,11 @@ import lorienlegacies.legacies.implementations.Glacen;
 import lorienlegacies.legacies.implementations.Lumen;
 import lorienlegacies.legacies.implementations.Pondus;
 import lorienlegacies.legacies.implementations.Submari;
+import lorienlegacies.legacies.implementations.passive.Accelix;
+import lorienlegacies.legacies.implementations.passive.Fortem;
+import lorienlegacies.legacies.implementations.passive.Novis;
+import lorienlegacies.legacies.implementations.passive.Noxen;
+import lorienlegacies.legacies.implementations.passive.Regeneras;
 import lorienlegacies.network.NetworkHandler;
 import lorienlegacies.network.mesages.MessageExhaustLegacies;
 import lorienlegacies.network.mesages.MessageLegacyData;
@@ -46,11 +51,18 @@ public class LegacyManager
 		"Avex",
 		"Glacen",
 		"Submari",
-		"Pondus"
+		"Pondus",
+		
+		"Accelix",
+		"Fortem",
+		"Novis",
+		"Noxen",
+		"Regeneras"
 	};
 	
 	public void RegisterLegacies()
 	{
+		// Active legacies
 		Lumen lumen = new Lumen(legacyAbilities);
 		legacies.put(lumen.GetName(), lumen);
 		
@@ -65,6 +77,22 @@ public class LegacyManager
 		
 		Pondus pondus = new Pondus(legacyAbilities);
 		legacies.put(pondus.GetName(), pondus);
+		
+		// Passive legacies
+		Accelix accelix = new Accelix();
+		legacies.put(accelix.GetName(), accelix);
+		
+		Fortem fortem = new Fortem();
+		legacies.put(fortem.GetName(), fortem);
+		
+		Novis novis = new Novis();
+		legacies.put(novis.GetName(), novis);
+		
+		Noxen noxen = new Noxen();
+		legacies.put(noxen.GetName(), noxen);
+		
+		Regeneras regeneras = new Regeneras();
+		legacies.put(regeneras.GetName(), regeneras);
 		
 		LorienLegacies.logger.info("Registered {} legacies", legacies.size());
 	}

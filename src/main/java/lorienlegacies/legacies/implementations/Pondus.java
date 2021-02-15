@@ -135,6 +135,9 @@ public class Pondus extends Legacy
 	@SubscribeEvent
 	public void OnEvent(KeyInputEvent event)
 	{
+		// Are we even in game?
+		if (Minecraft.getInstance().world == null) return;
+		
 		// Are we jumping?
 		if (event.getKey() != Minecraft.getInstance().gameSettings.keyBindJump.getKey().getKeyCode() || event.getAction() != GLFW.GLFW_PRESS) return;
 		

@@ -114,7 +114,7 @@ public class GuiPondusDensity extends Screen
 		// Close screen
 		if (ticksOpen > TICKS_ACTIVE)
 		{
-			//ModGUIs.ClosePondusOverlay();
+			ModGUIs.ClosePondusOverlay();
 		} else ticksOpen++;
 	}
 	

@@ -18,10 +18,11 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 ### Passive legacies
 | Legacy      | Effect (scales with level) | Complete |
 | ----------- | -------------------------- | ---------|
-| Fortem      | Stength                    | ❌ |
-| Novis       | Invisibility               | ❌ |
-| Regeneras   | Stength                    | ❌ |
-| Accelix     | Swiftness                  | ❌ |
+| Fortem      | Stength                    | ✅ |
+| Novis       | Invisibility               | ✅ |
+| Regeneras   | Stength                    | ✅ |
+| Accelix     | Swiftness                  | ✅ |
+| Noxen       | Night vision               | ✅ |
 
 ### How do I get legacies?
 At the moment, upon joining a new world, each player has a chance to recieve any number of legacies. The likelihood of recieving legacies, as well as how many, can be changed in the mod's config.
@@ -42,7 +43,7 @@ Legacy abilities can be toggled with a similar selection wheel to the toggle men
 ## Project roadmap
 
 ### Initial release
-* Set of 10 legacies ❌
+* Set of 11 legacies ❌
 * Loralite Ore and loralite ❌
 * Some lorien items ✔️
 
