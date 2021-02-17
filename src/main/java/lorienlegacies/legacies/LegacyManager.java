@@ -14,6 +14,7 @@ import lorienlegacies.legacies.implementations.Glacen;
 import lorienlegacies.legacies.implementations.Lumen;
 import lorienlegacies.legacies.implementations.Pondus;
 import lorienlegacies.legacies.implementations.Submari;
+import lorienlegacies.legacies.implementations.Telekinesis;
 import lorienlegacies.legacies.implementations.passive.Accelix;
 import lorienlegacies.legacies.implementations.passive.Fortem;
 import lorienlegacies.legacies.implementations.passive.Novis;
@@ -52,6 +53,7 @@ public class LegacyManager
 		"Glacen",
 		"Submari",
 		"Pondus",
+		"Telekinesis",
 		
 		"Accelix",
 		"Fortem",
@@ -77,6 +79,9 @@ public class LegacyManager
 		
 		Pondus pondus = new Pondus(legacyAbilities);
 		legacies.put(pondus.GetName(), pondus);
+		
+		Telekinesis telekinesis = new Telekinesis(legacyAbilities);
+		legacies.put(telekinesis.GetName(), telekinesis);
 		
 		// Passive legacies
 		Accelix accelix = new Accelix();

@@ -13,7 +13,7 @@ Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies
 | Avex        | Flight                    | Greater speed                 | Flight instinct negating all fall damage  | Air updraft         | ✅ |
 | Submari     | Water breathing           | Water vision                  | Greater speed                             | Water vortex        | ✅ |
 | Pondus      | Water walking             | Lava walking                  | Air walking                               | Obsidian skin       | ✅ |
-| Telekinesis | Levitate small mobs       | Launch small mobs             | Move blocks                               | Move players        | ❌ |
+| Telekinesis | Levitate mobs             | Launch mobs                   | Move blocks                               | Move players        | ✅ |
 
 ### Passive legacies
 | Legacy      | Effect (scales with level) | Complete |
@@ -32,6 +32,9 @@ Legacies have to be toggled to be used. By default, this is done with the left-a
 
 ### How do I use my abilities?
 Legacy abilities can be toggled with a similar selection wheel to the toggle menu. The default key for this is Z.
+
+### Are there any keybinds?
+You can toggle the last used legacy by holding down 
 
 ## Commands
 * /legacies - displays legacies the player has

@@ -1,6 +1,7 @@
 {
 	"key.toggleLegacies": "Toggle legacies",
 	"key.legacyAbilities": "Legacy abilities",
+	"key.lastUsedLegacy": "Toggle last used legacy (hold down)",
 	"key.lorienlegacies.category": "Lorien Legacies",
 	
 	"itemGroup.lorienlegacies": "Lorien Legacies",

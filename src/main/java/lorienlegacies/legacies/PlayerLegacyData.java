@@ -20,8 +20,11 @@ public class PlayerLegacyData
 	// The client needs to know the max amount of stamina without overwriting the config (well, as of 1.12.2, and it's done now)
 	public float maxClientStamina;
 	
-	// The client also needs to know their legacies' levels
+	// The client also needs to know their legacies' levels...
 	public LinkedHashMap<String, Integer> clientLegacyLevels = new LinkedHashMap<String, Integer>();
+	
+	// ...and their last used legacy
+	public String lastUsedLegacy;
 	
 	public PlayerLegacyData()
 	{
@@ -73,6 +76,8 @@ public class PlayerLegacyData
 	{
 		if (legacyToggles.get(legacy) == null) return;
 		legacyToggles.put(legacy, !legacyToggles.get(legacy));
+		
+		lastUsedLegacy = legacy;
 	}
 	
 	public boolean IsLegacyToggled(String legacy)

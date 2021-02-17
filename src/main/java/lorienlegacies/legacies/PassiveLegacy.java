@@ -6,7 +6,7 @@ import net.minecraft.potion.EffectInstance;
 
 public class PassiveLegacy extends Legacy 
 {
-	Effect effect;
+	protected Effect effect;
 	
 	public PassiveLegacy(String name, Effect effect)
 	{
@@ -27,7 +27,7 @@ public class PassiveLegacy extends Legacy
 	protected void OnLegacyTick(PlayerEntity player)
 	{
 		int level = GetLegacyLevel(player);
-		player.addPotionEffect(new EffectInstance(effect, 20*11, level-1, false, true)); // Level "0" is actually level 1
+		player.addPotionEffect(new EffectInstance(effect, 2, level-1, true, false)); // Level "0" is actually level 1
 	}
 
 }
