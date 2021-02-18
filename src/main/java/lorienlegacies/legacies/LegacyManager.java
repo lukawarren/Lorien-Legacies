@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.core.LorienLegacies;
-import lorienlegacies.items.ItemLorienBook;
 import lorienlegacies.items.ModItems;
 import lorienlegacies.legacies.Legacy.LegacyAbility;
 import lorienlegacies.legacies.generation.LegacyGenerator;
