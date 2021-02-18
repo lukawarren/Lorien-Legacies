@@ -44,6 +44,8 @@ public class Pondus extends Legacy
 		DESCRIPTION = "Grants waterwalking";
 		STAMINA_PER_TICK = 0; // Cannot be toggled
 		
+		BOOK_DESCRIPTION = "Through Pondus you can change your very molecular structure, altering your density. Float on water, walk through air, or block bullets with your obsidian skin...";
+		
 		AddLevel("Water walking", 11000);
 		AddLevel("Lava walking", 17000);
 		AddLevel("Air walking", 19000);

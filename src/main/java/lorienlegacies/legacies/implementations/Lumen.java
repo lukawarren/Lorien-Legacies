@@ -40,8 +40,10 @@ public class Lumen extends Legacy
 	public Lumen(Map<LegacyAbility, String> legacyAbilities)
 	{
 		NAME = "Lumen";
-		DESCRIPTION = "Grants fire resistance and powers";
+		DESCRIPTION = "Grants fire powers";
 		STAMINA_PER_TICK = 0; // Giving zero stamina per tick disables the toggle GUI
+		
+		BOOK_DESCRIPTION = "Fire is your friend with Lumen. Ignite whatever stands in your way, and bathe in flames.";
 		
 		AddLevel("Flammable hands", 12000);
 		AddLevel("Fire and lava resistance", 16000);

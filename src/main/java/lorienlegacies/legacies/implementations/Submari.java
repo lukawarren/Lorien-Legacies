@@ -26,8 +26,10 @@ public class Submari extends Legacy
 	public Submari(Map<LegacyAbility, String> legacyAbilities)
 	{
 		NAME = "Submari";
-		DESCRIPTION = "Grants underwater powers";
+		DESCRIPTION = "Grants water powers";
 		STAMINA_PER_TICK = 0; // Does not need to be toggled
+		
+		BOOK_DESCRIPTION = "With Submari, you are one with water. You have no problems breathing when submerged, and will learn to see great distances and swim at great speeds.";
 		
 		AddLevel("Water breathing", 12000);
 		AddLevel("Water vision", 16000);

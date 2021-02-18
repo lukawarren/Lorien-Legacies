@@ -20,6 +20,8 @@ public class Noxen extends PassiveLegacy
 	{
 		super("Noxen", Effects.NIGHT_VISION);
 		MinecraftForge.EVENT_BUS.register(this);
+		
+		BOOK_DESCRIPTION = "Like a bat, darkness does not impede you. Your eyes have adjusted to see where others do not.";
 	}
 	
 	@Override

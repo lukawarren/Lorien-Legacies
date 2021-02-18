@@ -8,5 +8,7 @@ public class Accelix extends PassiveLegacy
 	public Accelix()
 	{
 		super("Accelix", Effects.SPEED);
+		
+		BOOK_DESCRIPTION = "Travel at super speed across vast distances.";
 	}
 }

@@ -8,5 +8,7 @@ public class Novis extends PassiveLegacy
 	public Novis()
 	{
 		super("Novis", Effects.INVISIBILITY);
+		
+		BOOK_DESCRIPTION = "Light seems to defract around you. Wait... where did you go?";
 	}
 }

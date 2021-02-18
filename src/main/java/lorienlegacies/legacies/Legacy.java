@@ -18,12 +18,15 @@ public abstract class Legacy
 {
 	protected String NAME;
 	protected String DESCRIPTION;
+	protected String BOOK_DESCRIPTION;
+	
 	protected List<LegacyLevel> levels = new ArrayList<LegacyLevel>();
 	protected float STAMINA_PER_TICK;
 	
-	public 		String GetName() 			{ return NAME; }
-	public 		String GetDescription() 	{ return DESCRIPTION; }
-	protected 	float    GetStaminaPerTick(){ return STAMINA_PER_TICK; }
+	public String GetName() { return NAME; }
+	public String GetDescription() 	{ return DESCRIPTION; }
+	public String GetBookDescription() { return BOOK_DESCRIPTION; }
+	protected 	float GetStaminaPerTick(){ return STAMINA_PER_TICK; }
 	
 	protected abstract void OnLegacyTick(PlayerEntity player);
 	

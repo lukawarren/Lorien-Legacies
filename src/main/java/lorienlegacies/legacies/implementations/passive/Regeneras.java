@@ -10,6 +10,8 @@ public class Regeneras extends PassiveLegacy
 	public Regeneras()
 	{
 		super("Regeneras", Effects.REGENERATION);
+		
+		BOOK_DESCRIPTION = "Healing comes naturally, and you find yourself able to regenerate rapidly.";
 	}
 	
 	@Override

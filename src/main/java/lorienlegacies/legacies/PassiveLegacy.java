@@ -16,11 +16,10 @@ public class PassiveLegacy extends Legacy
 		this.effect = effect;
 		DESCRIPTION = "Grants " + effect.getDisplayName().getString().toLowerCase();
 		
-		AddLevel("Level I",		10000);
-		AddLevel("Level II", 	10000);
-		AddLevel("Level III",	10000);
-		AddLevel("Level IV", 	10000);
-		AddLevel("Level V", 	10000);
+		AddLevel("Level 2", 10000);
+		AddLevel("Level 3",	10000);
+		AddLevel("Level 4", 10000);
+		AddLevel("Level 5", 10000);
 	}
 	
 	@Override

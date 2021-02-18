@@ -14,7 +14,10 @@ public class ModItems
 	// Items
 	public static final RegistryObject<Item> loricStone = ITEMS.register("loric_stone", () -> new ItemLoricStone());
 	
-	//Leather Knife
+	// Leather Knife
 	public static final RegistryObject<Item> hiddenLeatherKnife = ITEMS.register("leather_knife", () -> new ItemLeatherKnife());
+	
+	// Lorien book
+	public static final RegistryObject<Item> lorienBook = ITEMS.register("lorien_book", () -> new ItemLorienBook());
 	
 }

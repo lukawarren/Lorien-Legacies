@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.core.LorienLegacies;
+import lorienlegacies.items.ItemLorienBook;
+import lorienlegacies.items.ModItems;
 import lorienlegacies.legacies.Legacy.LegacyAbility;
 import lorienlegacies.legacies.generation.LegacyGenerator;
 import lorienlegacies.legacies.implementations.Avex;
@@ -28,6 +30,7 @@ import lorienlegacies.network.mesages.MessageStaminaSync;
 import lorienlegacies.world.WorldLegacySaveData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -149,6 +152,9 @@ public class LegacyManager
 		
 		// Save
 		WorldLegacySaveData.get(player.getServer()).markDirty();
+		
+		// Give play Lorien Book
+		player.addItemStackToInventory(new ItemStack(ModItems.lorienBook.get(), 1));
 	}
 	
 	public void RegisterClientData(PlayerLegacyData data)

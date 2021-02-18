@@ -31,6 +31,8 @@ public class Avex extends Legacy
 		DESCRIPTION = "Grants swift flight";
 		STAMINA_PER_TICK = 1;
 		
+		BOOK_DESCRIPTION = "Take to the skies and soar in the air.";
+		
 		AddLevel("Flight", 1200);
 		AddLevel("Greater speed", 1800);
 		AddLevel("Flight instinct negating all fall damage", 2200);
