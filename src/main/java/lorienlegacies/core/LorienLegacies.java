@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import lorienlegacies.blocks.ModBlocks;
 import lorienlegacies.commands.ModCommands;
 import lorienlegacies.config.ConfigLorienLegacies;
 import lorienlegacies.gui.ModGUIs;
@@ -13,6 +14,7 @@ import lorienlegacies.keybinds.ModKeybinds;
 import lorienlegacies.proxy.ClientProxy;
 import lorienlegacies.proxy.CommonProxy;
 import lorienlegacies.proxy.ServerProxy;
+import lorienlegacies.world.ModWorldgen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -23,6 +25,7 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -71,8 +74,12 @@ public class LorienLegacies
         // Forge event bus
         MinecraftForge.EVENT_BUS.register(this);
         
-        // Items
+        // Items and blocks
         ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        
+        // Worldgen
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ModWorldgen::RegisterOres);
         
         // Config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigLorienLegacies.COMMON_SPEC);

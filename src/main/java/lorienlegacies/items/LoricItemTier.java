@@ -3,7 +3,6 @@ package lorienlegacies.items;
 import java.util.function.Supplier;
 
 import net.minecraft.item.IItemTier;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
 
@@ -11,8 +10,7 @@ public enum LoricItemTier implements IItemTier
 {
 	
 	// Harvest level, durability, efficiency, damage, enchanability, repair item
-	 // TODO: Loralite not implemented yet
-	LORICMETAL(3, 3072, 2.5f, 5.5f, 3, () -> { return Ingredient.fromItems(Items.IRON_INGOT); });
+	LORICMETAL(3, 3072, 2.5f, 5.5f, 3, () -> { return Ingredient.fromItems(ModItems.loralite.get()); });
 
 	private final int harvestLevel;
 	private final int maxUses;

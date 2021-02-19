@@ -8,5 +8,9 @@
 	
 	"item.lorienlegacies.loric_stone": "Loric Stone",
 	"item.lorienlegacies.leather_knife": "Concealed Leather Blade",
-	"item.lorienlegacies.lorien_book": "§9§lLorien Book"
+	"item.lorienlegacies.lorien_book": "§9§lLorien Book",
+	"item.lorienlegacies.loralite": "Loralite",
+	
+	"block.lorienlegacies.loralite_ore": "Loralite Ore",
+	"block.lorienlegacies.loralite_block": "Loralite Block"
 }

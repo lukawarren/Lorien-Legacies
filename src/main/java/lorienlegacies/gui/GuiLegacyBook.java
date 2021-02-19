@@ -9,9 +9,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import lorienlegacies.core.LorienLegacies;
-import lorienlegacies.legacies.Legacy.LegacyLevel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.Sound;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
@@ -19,6 +17,10 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
+/*
+ * Uses WordUtils. Too bad!
+ */
+@SuppressWarnings("deprecation")
 public class GuiLegacyBook extends Screen
 {	
 	private static final ResourceLocation BOOK_TEXTURE = new ResourceLocation("minecraft:textures/gui/book.png");
@@ -71,10 +73,6 @@ public class GuiLegacyBook extends Screen
     
     private List<Page> pageList = new ArrayList<Page>();
     
-    /*
-     * Uses WordUtils. Too bad!
-     */
-	@SuppressWarnings("deprecation")
 	public GuiLegacyBook()
 	{
 		super(new StringTextComponent(""));

@@ -20,4 +20,7 @@ public class ModItems
 	// Lorien book
 	public static final RegistryObject<Item> lorienBook = ITEMS.register("lorien_book", () -> new ItemLorienBook());
 	
+	// Loralite
+	public static final RegistryObject<Item> loralite = ITEMS.register("loralite", () -> new ItemLoralite());
+	
 }

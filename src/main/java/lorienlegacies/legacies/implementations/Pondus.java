@@ -94,7 +94,7 @@ public class Pondus extends Legacy
 		
 		// Noclip
 		if (densityLevels.get(player.getUniqueID()) == 1 && level >= 3) player.noClip = true;
-		else player.noClip = false;
+		else player.noClip = player.isSpectator();
 	}
 	
 	/*
