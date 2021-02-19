@@ -33,6 +33,9 @@ public class Avex extends Legacy
 		
 		BOOK_DESCRIPTION = "Take to the skies and soar in the air.";
 		
+		GENERATION_WEIGHTING = 1;
+		GENERATION_POINTS = 3;
+		
 		AddLevel("Flight", 1200);
 		AddLevel("Greater speed", 1800);
 		AddLevel("Flight instinct negating all fall damage", 2200);

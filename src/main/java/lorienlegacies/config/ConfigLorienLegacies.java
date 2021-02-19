@@ -2,6 +2,7 @@ package lorienlegacies.config;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -45,8 +46,9 @@ public class ConfigLorienLegacies
 	public static class LegacyGeneration
 	{
 		public int legacyChance;
-		public int minimumLegacies;
-		public int maximumLegacies;
+		public int legacyPoints;
+		public Map<String, Integer> likelihoodMultipliers = new LinkedHashMap<>();
+		public Map<String, Integer> costMultipliers = new LinkedHashMap<>();
 	}
 	
 	public static class LegacyStamina
@@ -67,8 +69,9 @@ public class ConfigLorienLegacies
 	{
 		// Legacy generation
 		IntValue legacyChance;
-		IntValue minimumLegacies;
-		IntValue maximumLegacies;
+		IntValue legacyPoints;
+		Map<String, IntValue> likelihoodMultipliers = new LinkedHashMap<>();
+		Map<String, IntValue> costMultipliers = new LinkedHashMap<>();
 		
 		// Stamina
 		DoubleValue maxStamina;
@@ -89,13 +92,23 @@ public class ConfigLorienLegacies
 					.translation(LorienLegacies.MODID + ".config." + "legacyChance")
 					.defineInRange("legacyChance", 100, 0, 100);
 			
-			minimumLegacies = builder.comment("Minimum legacies if given")
-					.translation(LorienLegacies.MODID + ".config." + "minimumLegacies")
-					.defineInRange("minimumLegacies", 2, 1, LegacyManager.CONSTANT_LEGACIES.length);
+			legacyPoints = builder.comment("Amount of legacy points available - more points means more legacies.")
+					.translation(LorienLegacies.MODID + ".config." + "legacyPoints")
+					.defineInRange("legacyPoints", 5, 0, Integer.MAX_VALUE);
 			
-			maximumLegacies = builder.comment("Maximum legacies if given")
-					.translation(LorienLegacies.MODID + ".config." + "maximumLegacies")
-					.defineInRange("maximumLegacies", 3, 1, LegacyManager.CONSTANT_LEGACIES.length);
+			for (String legacy : LegacyManager.CONSTANT_LEGACIES)
+			{
+				likelihoodMultipliers.put(legacy, builder.comment(legacy + " likelihood multiplier")
+					.translation(LorienLegacies.MODID + ".config." + legacy + "LikelihoodMultiplier")
+					.defineInRange(legacy + "LikelihoodMultiplier", 1, 0, Integer.MAX_VALUE));
+			}
+			
+			for (String legacy : LegacyManager.CONSTANT_LEGACIES)
+			{
+				costMultipliers.put(legacy, builder.comment(legacy + " cost multiplier")
+					.translation(LorienLegacies.MODID + ".config." + legacy + "CostMultiplier")
+					.defineInRange(legacy + "CostMultiplier", 1, 1, Integer.MAX_VALUE));
+			}
 			
 			builder.pop();
 			
@@ -142,8 +155,13 @@ public class ConfigLorienLegacies
 	public static void BakeConfig()
 	{
 		legacyGeneration.legacyChance = 		CONFIG.legacyChance.get();
-		legacyGeneration.minimumLegacies = 		CONFIG.minimumLegacies.get();
-		legacyGeneration.maximumLegacies = 		CONFIG.maximumLegacies.get();
+		legacyGeneration.legacyPoints = 		CONFIG.legacyPoints.get();
+		
+		for (Entry<String, IntValue> entry : CONFIG.likelihoodMultipliers.entrySet())
+			legacyGeneration.likelihoodMultipliers.put(entry.getKey(), entry.getValue().get());
+		
+		for (Entry<String, IntValue> entry : CONFIG.costMultipliers.entrySet())
+			legacyGeneration.costMultipliers.put(entry.getKey(), entry.getValue().get());
 		
 		legacyStamina.maxStamina = 				CONFIG.maxStamina.get().floatValue();
 		legacyStamina.staminaRestoredPerTick = 	CONFIG.staminaRestoredPerTick.get().floatValue();

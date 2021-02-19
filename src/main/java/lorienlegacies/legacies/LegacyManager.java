@@ -127,6 +127,9 @@ public class LegacyManager
 			if (forceLegacies) seedOffset = (int) (new Date().getTime() / 1000);
 			
 			new LegacyGenerator(((ServerWorld)player.world).getSeed() + player.getUniqueID().getLeastSignificantBits() + seedOffset).GenerateRandomLegacies(data, forceLegacies);
+			
+			// Give play Lorien Book
+			player.addItemStackToInventory(new ItemStack(ModItems.lorienBook.get(), 1));
 		}
 		
 		// Add to save data
@@ -151,9 +154,6 @@ public class LegacyManager
 		
 		// Save
 		WorldLegacySaveData.get(player.getServer()).markDirty();
-		
-		// Give play Lorien Book
-		player.addItemStackToInventory(new ItemStack(ModItems.lorienBook.get(), 1));
 	}
 	
 	public void RegisterClientData(PlayerLegacyData data)

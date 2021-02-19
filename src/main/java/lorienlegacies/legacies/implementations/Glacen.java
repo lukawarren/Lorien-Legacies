@@ -40,6 +40,9 @@ public class Glacen extends Legacy
 		DESCRIPTION = "Grants ice powers";
 		STAMINA_PER_TICK = 1;
 		
+		GENERATION_WEIGHTING = 1;
+		GENERATION_POINTS = 3;
+		
 		BOOK_DESCRIPTION = "Your aptitude for all things icey allows you to freeze bodies of water, from raindrops to oceans.";
 		
 		AddLevel("Frost touch", 1200);

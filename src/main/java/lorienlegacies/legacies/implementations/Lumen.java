@@ -43,6 +43,9 @@ public class Lumen extends Legacy
 		DESCRIPTION = "Grants fire powers";
 		STAMINA_PER_TICK = 0; // Giving zero stamina per tick disables the toggle GUI
 		
+		GENERATION_WEIGHTING = 1;
+		GENERATION_POINTS = 3;
+		
 		BOOK_DESCRIPTION = "Fire is your friend with Lumen. Ignite whatever stands in your way, and bathe in flames.";
 		
 		AddLevel("Flammable hands", 12000);

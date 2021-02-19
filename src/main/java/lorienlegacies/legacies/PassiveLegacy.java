@@ -12,6 +12,8 @@ public class PassiveLegacy extends Legacy
 	{
 		NAME = name;
 		STAMINA_PER_TICK = 0.85f;
+		GENERATION_WEIGHTING = 3;
+		GENERATION_POINTS = 1;
 		
 		this.effect = effect;
 		DESCRIPTION = "Grants " + effect.getDisplayName().getString().toLowerCase();

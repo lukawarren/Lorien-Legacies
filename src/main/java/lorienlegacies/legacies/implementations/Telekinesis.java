@@ -35,6 +35,9 @@ public class Telekinesis extends Legacy
 		DESCRIPTION = "Grants mind powers";
 		STAMINA_PER_TICK = 2;
 		
+		GENERATION_WEIGHTING = 0;
+		GENERATION_POINTS = 0;
+		
 		BOOK_DESCRIPTION = "Telekinesis allows you to pick up and move mobs with your mind. As you gain more experience with it, you will be able to launch mobs, move blocks, and even players.";
 		
 		AddLevel("Levitate mobs", 1000);

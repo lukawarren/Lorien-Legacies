@@ -30,21 +30,44 @@ public class LegacyGenerator
 		
 		// Decide if to give player legacies
 		boolean playerShouldHaveLegacies = MakeDecisionWithChance(ConfigLorienLegacies.legacyGeneration.legacyChance) || forceLegacies;
-		int numLegacies = GetNumberBetween(ConfigLorienLegacies.legacyGeneration.minimumLegacies - 1, ConfigLorienLegacies.legacyGeneration.maximumLegacies);
+		if (playerShouldHaveLegacies == false) return;
 		
-		if (playerShouldHaveLegacies == false || numLegacies == 0) return;
+		// Construct "magic hat" with X entries for each legacy
+		List<String> legacyChoices = new ArrayList<String>();
+		for (String legacy : playerData.legacies.keySet())
+		{
+			// Get likelihood multiplier from legacy and config
+			int times = LorienLegacies.proxy.GetLegacyManager().GetLegacies().get(legacy).GetGenerationWeighting();
+			times *= ConfigLorienLegacies.legacyGeneration.likelihoodMultipliers.get(legacy);
+			
+			// Place in "magic hat"
+			for (int i = 0; i < times; ++i) legacyChoices.add(legacy);
+		}
 		
-		// Chose n random legacies by shuffling keys...
-		List<String> shuffledLegacies = new ArrayList<String>(playerData.legacies.keySet());
-		Collections.shuffle(shuffledLegacies);
+		// Shuffle entries
+		Collections.shuffle(legacyChoices);
 		
-		// ...then getting the first n
-		List<String> obtainedLegacies = shuffledLegacies.subList(0, numLegacies);
-		LorienLegacies.logger.info("Legacies generated: {}", obtainedLegacies.toString());
-		
-		// Use these legacies as keys in the hashmap to "enable" them
-		for (String legacy : obtainedLegacies)
+		// Pull legacies from "magic hat", avoiding duplicates
+		int pointsLeft = ConfigLorienLegacies.legacyGeneration.legacyPoints;
+		while (HasSufficientPointsToContinue(pointsLeft, legacyChoices))
+		{
+			// Pick legacy
+			String legacy = legacyChoices.get(0);
+			
+			// Remove all instances
+			legacyChoices.removeIf((e) -> e == legacy);
+			
+			// Remove points
+			int points = LorienLegacies.proxy.GetLegacyManager().GetLegacies().get(legacy).GetGenerationPoints();
+			points *= ConfigLorienLegacies.legacyGeneration.costMultipliers.get(legacy);
+			pointsLeft -= points;
+			
+			// Give to player
 			playerData.legacies.put(legacy, 1);
+		}
+		
+		// Give telekinesis (which hasn't been in that hat)
+		playerData.legacies.put("Telekinesis", 1);
 	}
 	
 	private boolean MakeDecisionWithChance(int percentage)
@@ -53,9 +76,23 @@ public class LegacyGenerator
 		return number <= percentage;
 	}
 	
-	private int GetNumberBetween(int min, int max)
+	private boolean HasSufficientPointsToContinue(int points, List<String> legacyChoices)
 	{
-		return random.nextInt(max) + min;
+		if (legacyChoices.size() == 0) return false;
+		
+		int minPointsRequired = Integer.MAX_VALUE;
+		for (String l : legacyChoices)
+		{
+			// Get cost
+			int times = LorienLegacies.proxy.GetLegacyManager().GetLegacies().get(l).GetGenerationPoints();
+			times *= ConfigLorienLegacies.legacyGeneration.costMultipliers.get(l);
+			
+			if (times < minPointsRequired) minPointsRequired = times;
+		}
+		
+		if (points < minPointsRequired) return false;
+		
+		return true;
 	}
 	
 }

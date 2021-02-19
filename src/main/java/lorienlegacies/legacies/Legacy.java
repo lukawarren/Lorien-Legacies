@@ -23,10 +23,15 @@ public abstract class Legacy
 	protected List<LegacyLevel> levels = new ArrayList<LegacyLevel>();
 	protected float STAMINA_PER_TICK;
 	
+	protected int GENERATION_WEIGHTING = 2;
+	protected int GENERATION_POINTS = 2;
+	
 	public String GetName() { return NAME; }
 	public String GetDescription() 	{ return DESCRIPTION; }
 	public String GetBookDescription() { return BOOK_DESCRIPTION; }
 	protected 	float GetStaminaPerTick(){ return STAMINA_PER_TICK; }
+	public int GetGenerationWeighting() { return GENERATION_WEIGHTING; }
+	public int GetGenerationPoints() { return GENERATION_POINTS; }
 	
 	protected abstract void OnLegacyTick(PlayerEntity player);
 	
