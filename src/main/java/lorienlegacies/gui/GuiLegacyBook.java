@@ -108,7 +108,7 @@ public class GuiLegacyBook extends Screen
 		pageList.add(new Page("§1§nHow do I get legacies?", new String[] {"Loric Ore can be", "mined to make a §1Loric", "§1Stone§0. It is said", "the energy it emits", "can prompt new", "legacies to emerge."}));
 		pageList.add(new Page("§1§nHow do I use them?", new String[] {"Some legacies are", "always active, like", "Lumen. Others, like", "Avex, can be toggled", "via the toggle menu.", "", "The default keybinding", "for this menu is", "left alt."}));
 		pageList.add(new Page("§1§nWhat of abilities?", new String[] {"Some legacies have", "abilities, like Pondus.", "", "The default keybinding", "for this is Z."}));
-		pageList.add(new Page("§1§nAre there keybinds?", new String[] {"See the previous two", "pages for general", "purpose keybinds.", "", "For convenience,", "the last used legacy", "can be toggled bu", "holding down `", "(the key above tab)."}));
+		pageList.add(new Page("§1§nAre there keybinds?", new String[] {"See the previous two", "pages for general", "purpose keybinds.", "", "For convenience,", "the last used legacy", "can be toggled by", "holding down `", "(the key above tab)."}));
 		pageList.add(new Page("§1§nStamina and XP", new String[] {"You gain XP any time", "a legacy is active,", "most often by", "using stamina. The", "exact rate of XP", "and stamina gain", "can be changed in the", "config for each", "legacy."}));
 		pageList.add(new Page("§1§nLegacy generation", new String[] {"Legacy generation is", "easy to tweak. Simply", "edit the included", "config."}));
 		pageList.add(new Page("§1§nIs there a config?", new String[] {"Of course! See the", "previous two", "questions for details."}));
