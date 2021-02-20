@@ -19,6 +19,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -70,6 +71,10 @@ public class Pondus extends Legacy
 		if (event.getEntityLiving() instanceof PlayerEntity == false) return;
 		PlayerEntity player = (PlayerEntity)event.getEntityLiving();
 		
+		// Init hashmap if null
+		if(densityLevels.containsKey(player.getUniqueID()) == false)
+			densityLevels.put(player.getUniqueID(), 4);
+		
 		// Get level
 		int level = player.world.isRemote ? LorienLegacies.proxy.GetClientLegacyData().clientLegacyLevels.get("Pondus") : GetLegacyLevel(player);
 		
@@ -81,7 +86,7 @@ public class Pondus extends Legacy
 		
 		if (ShouldCorrectPosition(player))
 		{
-			player.setVelocity(player.getMotion().x, 0, player.getMotion().z);
+			player.setMotion(player.getMotion().x, 0, player.getMotion().z);
 			player.setPosition(player.getPosX(), (int)player.getPosY()+1, player.getPosZ());
 		}
 		
@@ -124,9 +129,7 @@ public class Pondus extends Legacy
 	 */
 	@SubscribeEvent
 	public void PlayerLoggedInEvent(PlayerLoggedInEvent event)
-	{
-		densityLevels.put(event.getPlayer().getUniqueID(), 4);
-		
+	{	
     	// Pondus can break gravity so reset it
 		event.getPlayer().setNoGravity(false);
 	}
@@ -135,6 +138,7 @@ public class Pondus extends Legacy
 	 * Send message on jumping keyboard event
 	 */
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	public void OnEvent(KeyInputEvent event)
 	{
 		// Are we even in game?
@@ -223,6 +227,7 @@ public class Pondus extends Legacy
 	 * Fog whilst no-clipping
 	 */
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	public void FogDensityEvent(EntityViewRenderEvent.FogDensity event)
 	{
 		if (event.getInfo().getRenderViewEntity() instanceof PlayerEntity == false) return;

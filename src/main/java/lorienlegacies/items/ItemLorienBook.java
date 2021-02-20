@@ -3,8 +3,6 @@ package lorienlegacies.items;
 import java.util.List;
 
 import lorienlegacies.core.LorienLegacies;
-import lorienlegacies.gui.GuiLegacyBook;
-import lorienlegacies.gui.ModGUIs;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -29,7 +27,7 @@ public class ItemLorienBook extends Item
 		// Make sure client-side
 		if (worldIn.isRemote == false) return ActionResult.resultSuccess(playerIn.getHeldItem(handIn));
 		
-		ModGUIs.OpenGui(new GuiLegacyBook());
+		LorienLegacies.proxy.OpenLegacyBookGUI();
 		
 		return ActionResult.resultSuccess(playerIn.getHeldItem(handIn));
 	}

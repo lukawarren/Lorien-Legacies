@@ -20,6 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -80,6 +81,9 @@ public class Lumen extends Legacy
 		
 		// Lava resistance
 		if (level >= 2 && event.getSource().equals(DamageSource.LAVA)) event.setCanceled(true);
+		
+		// Explosions
+		if (level >= 3 && event.getSource().isExplosion()) event.setCanceled(true);
 	}
 	
 	@SubscribeEvent
@@ -175,13 +179,18 @@ public class Lumen extends Legacy
 	private void ShootFireProjectile(PlayerEntity player, float rotateAmount, boolean wave)
 	{
 		Vector3d velocity = wave ?  new Vector3d(Math.sin(rotateAmount), FIREWAVE_FALL_AMOUNT, Math.cos(rotateAmount)) : player.getLookVec();
-		Vector3d position = wave ? player.getEyePosition(1).add(velocity.scale(2.0f)) : player.getPositionVec().add(player.getLookVec().rotateYaw(rotateAmount));
 		
-		FireballEntity fireball = new FireballEntity(player.world, position.x, position.y, position.z, velocity.x, velocity.y, velocity.z)
+		FireballEntity fireball = new FireballEntity(player.world, player, velocity.x, velocity.y, velocity.z)
 		{
 			@Override
 			protected void onImpact(RayTraceResult result)
 			{
+				// Avoid colliding with player
+				if (result instanceof EntityRayTraceResult)
+				{
+					if (((EntityRayTraceResult)result).getEntity().getUniqueID() == player.getUniqueID()) return;
+				}
+				
 				this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 				if (this.world.isRemote == false)
 				{

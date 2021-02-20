@@ -2,8 +2,7 @@ package lorienlegacies.network.mesages;
 
 import java.util.function.Supplier;
 
-import lorienlegacies.gui.GuiPondusDensity;
-import lorienlegacies.gui.ModGUIs;
+import lorienlegacies.core.LorienLegacies;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
@@ -32,8 +31,8 @@ public class MessagePondusDensityChange extends MessageBase
 	{
 		NetworkEvent.Context ctx = context.get();
 		ctx.enqueueWork(() -> 
-		{
-			ModGUIs.guiPondus = new GuiPondusDensity(((MessagePondusDensityChange)packet).directionUp);
+		{	
+			LorienLegacies.proxy.OpenPondusGUI(((MessagePondusDensityChange)packet).directionUp);
 		});
 		
 		ctx.setPacketHandled(true);

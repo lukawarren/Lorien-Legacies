@@ -6,10 +6,9 @@ import java.util.List;
 import lorienlegacies.core.LorienLegacies;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 /*
  * Opening a GUI from a command requires waiting a tick,
@@ -19,15 +18,19 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
  * differently.
  */
 
-@EventBusSubscriber(Dist.CLIENT)
 public class ModGUIs
 {
 	
-	public static List<Screen> guiOpenQueues = new ArrayList<Screen>();
-	public static GuiStamina guiStamina = new GuiStamina();
-	public static GuiPondusDensity guiPondus = null;
+	public List<Screen> guiOpenQueues = new ArrayList<Screen>();
+	public GuiStamina guiStamina = new GuiStamina();
+	public GuiPondusDensity guiPondus = null;
 	
-	public static void OnTick()
+	public ModGUIs()
+	{
+		MinecraftForge.EVENT_BUS.register(this);
+	}
+	
+	public void OnTick()
 	{
 		// Open all pending GUIs
 		for (Screen g : guiOpenQueues)
@@ -36,19 +39,19 @@ public class ModGUIs
 		guiOpenQueues.clear();
 	}
 	
-	public static void OpenGui(Screen e)
+	public void OpenGUI(Screen screen)
 	{
-		guiOpenQueues.add(e);
+		guiOpenQueues.add(screen);
 	}
 	
-	@SubscribeEvent
-    public static void OnRenderOverlays(RenderGameOverlayEvent event)
+	@SubscribeEvent()
+    public void OnRenderOverlays(RenderGameOverlayEvent event)
     {
     	guiStamina.Render(LorienLegacies.proxy.GetClientLegacyData().stamina, event);
     	if (guiPondus != null) guiPondus.Render(event);
     }
 	
-	public static void ClosePondusOverlay()
+	public void ClosePondusOverlay()
 	{
 		guiPondus = null;
 	}

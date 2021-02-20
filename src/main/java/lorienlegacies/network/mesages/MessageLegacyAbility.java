@@ -20,7 +20,7 @@ public class MessageLegacyAbility extends MessageBase
 	@Override
 	public void OnDecode(PacketBuffer buf)
 	{
-		ability = buf.readString();
+		ability = buf.readString(256);
 	}
 
 	@Override

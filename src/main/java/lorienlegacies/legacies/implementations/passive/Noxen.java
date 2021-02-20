@@ -6,6 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,6 +33,7 @@ public class Noxen extends PassiveLegacy
 	 * Called just before the world is rendered
 	 */
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	public void RenderCameraEvent(EntityViewRenderEvent.CameraSetup event)
 	{
 		// Get player
@@ -58,6 +61,7 @@ public class Noxen extends PassiveLegacy
 	 * Called after the world is rendered
 	 */
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	public void RenderFinishedEvent(RenderWorldLastEvent event)
 	{
 		// Get player

@@ -54,8 +54,8 @@ public class Telekinesis extends Legacy
 	protected void OnLegacyTick(PlayerEntity player)
 	{
 		int level = GetLegacyLevel(player);
-		
 		Entity entity = GetEntityLookedAt(player);
+		
 		if (entity != null)
 		{
 			// Ignore blacklisted enemies for one tick
@@ -69,7 +69,7 @@ public class Telekinesis extends Legacy
 			Vector3d desiredPosition = player.getEyePosition(1).add(player.getLookVec().scale(2));
 			Vector3d currentPosition = entity.getPositionVec();
 			Vector3d appliedVelocity = desiredPosition.subtract(currentPosition).scale(1.0f);
-			entity.setVelocity(appliedVelocity.x, appliedVelocity.y, appliedVelocity.z);
+			entity.setMotion(appliedVelocity.x, appliedVelocity.y, appliedVelocity.z);
 			
 			// Sync
 			((ServerPlayerEntity) player).connection.sendPacket(new SEntityVelocityPacket(entity));
@@ -127,7 +127,7 @@ public class Telekinesis extends Legacy
 		
 		Vector3d rayStart = player.getEyePosition(1);
 		Vector3d rayEnd = rayStart.add(player.getLookVec().scale(ENTITY_DISTANCE));
-		EntityRayTraceResult result = ProjectileHelper.rayTraceEntities(player, rayStart, rayEnd, player.getBoundingBox().grow(ENTITY_DISTANCE), (e) -> { return IsValidEntity(level, e); }, ENTITY_DISTANCE);
+		EntityRayTraceResult result = ProjectileHelper.rayTraceEntities(player.world, player, rayStart, rayEnd, player.getBoundingBox().grow(ENTITY_DISTANCE), (e) -> { return IsValidEntity(level, e); });
 		
 		if (result == null) return null;
 		if (result.getEntity() == null) return null;

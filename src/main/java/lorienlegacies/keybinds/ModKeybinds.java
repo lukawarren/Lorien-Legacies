@@ -3,20 +3,18 @@ package lorienlegacies.keybinds;
 import org.lwjgl.glfw.GLFW;
 
 import lorienlegacies.core.LorienLegacies;
-import lorienlegacies.gui.GuiAbility;
-import lorienlegacies.gui.GuiLegacyToggle;
-import lorienlegacies.gui.ModGUIs;
 import lorienlegacies.network.NetworkHandler;
 import lorienlegacies.network.mesages.MessageToggleLegacy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@Mod.EventBusSubscriber(modid = LorienLegacies.MODID)
+@EventBusSubscriber(Dist.CLIENT)
 public class ModKeybinds
 {
 	
@@ -47,13 +45,13 @@ public class ModKeybinds
 		if (keyToggleLegacies.isPressed())
 		{
 			// Toggle legacies GUI
-			ModGUIs.OpenGui(new GuiLegacyToggle());
+			LorienLegacies.proxy.OpenToggleGUI();
 		}
 		
 		if (keyLegacyAbilities.isPressed())
 		{
 			// Abilities GUI
-			ModGUIs.OpenGui(new GuiAbility());
+			LorienLegacies.proxy.OpenAbilityGUI();
 		}
 		
 		// Toggling (or untoggling) last used legacy

@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import lorienlegacies.blocks.ModBlocks;
 import lorienlegacies.commands.ModCommands;
 import lorienlegacies.config.ConfigLorienLegacies;
-import lorienlegacies.gui.ModGUIs;
 import lorienlegacies.items.ModItems;
 import lorienlegacies.keybinds.ModKeybinds;
 import lorienlegacies.proxy.ClientProxy;
@@ -20,7 +19,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -122,12 +120,6 @@ public class LorienLegacies
     {
     	// Server-side - events fire twice per tick, so check phase
     	if (!event.world.isRemote && event.phase == Phase.START) proxy.GetLegacyManager().OnLegacyTick(event.world);
-    }
-    
-    @SubscribeEvent
-    public void OnClientTick(ClientTickEvent event)
-    {
-    	if (event.phase == Phase.END) ModGUIs.OnTick();
     }
     
     @SubscribeEvent

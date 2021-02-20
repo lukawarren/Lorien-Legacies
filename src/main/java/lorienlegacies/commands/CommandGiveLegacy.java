@@ -23,9 +23,8 @@ public class CommandGiveLegacy extends LorienCommand
 	@Override
 	public void Register(CommandDispatcher<CommandSource> dispatcher) {
 		dispatcher.register(
-			Commands.literal(GetName())
+			Commands.literal(GetName()).requires(requirement -> requirement.hasPermissionLevel(GetPermissionLevel()))
 			.then(Commands.argument("legacy", StringArgumentType.string())
-				.requires(requirement -> requirement.hasPermissionLevel(GetPermissionLevel()))
 				.executes(command -> OnCommand(command.getSource(), command.getArgument("legacy", String.class)))
 			)
 		);

@@ -42,6 +42,6 @@ public class CommandMaxLegacyLevels extends LorienCommand
 	protected String GetName()  { return "maxLegacyLevels"; }
 
 	@Override
-	protected int GetPermissionLevel() { return 0; }
+	protected int GetPermissionLevel() { return 4; }
 	
 }

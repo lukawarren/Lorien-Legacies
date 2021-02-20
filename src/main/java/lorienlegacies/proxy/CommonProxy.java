@@ -27,4 +27,9 @@ public class CommonProxy
 		return legacyManager;
 	}
 	
+	public void OpenPondusGUI(boolean up) {}
+	public void ClosePondusOverlay() {}
+	public void OpenLegacyBookGUI() {}
+	public void OpenToggleGUI() {}
+	public void OpenAbilityGUI() {}
 }

@@ -15,6 +15,8 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -64,7 +66,7 @@ public class Submari extends Legacy
 		if (player.isInWater() == false) return;
 		
 		Vector3d velocity = player.getLookVec().scale(WATER_VORTEX_FORCE);
-		player.setVelocity(velocity.x, velocity.y, velocity.z);
+		player.setMotion(velocity.x, velocity.y, velocity.z);
 		
 		// Notify the client
 		((ServerPlayerEntity) player).connection.sendPacket(new SEntityVelocityPacket(player));
@@ -102,6 +104,7 @@ public class Submari extends Legacy
 	}
 	
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	public void FogDensityEvent(EntityViewRenderEvent.FogDensity event)
 	{
 		if (!IsSwimmingAndOfRequiredLevel(event.getInfo().getRenderViewEntity())) return;

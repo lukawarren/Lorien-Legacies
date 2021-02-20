@@ -19,7 +19,7 @@ public class MessageLegacyLevel extends MessageBase
 	@Override
 	public void OnDecode(PacketBuffer buf)
 	{
-		legacyName = buf.readString();
+		legacyName = buf.readString(256);
 		legacyLevel = buf.readInt();
 	}
 

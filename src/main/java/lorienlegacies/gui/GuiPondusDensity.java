@@ -114,7 +114,7 @@ public class GuiPondusDensity extends Screen
 		// Close screen
 		if (ticksOpen > TICKS_ACTIVE)
 		{
-			ModGUIs.ClosePondusOverlay();
+			LorienLegacies.proxy.ClosePondusOverlay();
 		} else ticksOpen++;
 	}
 	

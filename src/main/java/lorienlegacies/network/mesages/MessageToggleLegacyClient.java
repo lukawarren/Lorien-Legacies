@@ -16,7 +16,7 @@ public class MessageToggleLegacyClient extends MessageBase
 	@Override
 	public void OnDecode(PacketBuffer buf)
 	{
-		legacy = buf.readString();
+		legacy = buf.readString(256);
 	}
 
 	@Override
