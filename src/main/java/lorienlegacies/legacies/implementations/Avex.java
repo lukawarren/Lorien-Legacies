@@ -1,8 +1,13 @@
 package lorienlegacies.legacies.implementations;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import lorienlegacies.core.LorienLegacies;
 import lorienlegacies.legacies.Legacy;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.SnowballEntity;
@@ -13,9 +18,12 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3i;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper.UnableToFindMethodException;
 
 public class Avex extends Legacy
 {
@@ -24,6 +32,10 @@ public class Avex extends Legacy
 	private static final int FLY_SPEED = 3;
 	private static final float LEVEL_2_SPEED_INCREASE = 1.5f;
 	private static final float UPDRAFT_FORCE = 3.0f;
+	
+	private Method setFlagMethod = null;
+	private Method getFlagMethod = null;
+	private HashMap<UUID, Boolean> flyingFlags = new HashMap<>();
 	
 	public Avex(Map<LegacyAbility, String> legacyAbilities)
 	{
@@ -44,11 +56,24 @@ public class Avex extends Legacy
 		legacyAbilities.put(new LegacyAbility("Air updraft", 4), NAME);
 		
 		MinecraftForge.EVENT_BUS.register(this); // Need to receive events
+	
+		// Reflection
+		try
+		{
+			setFlagMethod = ObfuscationReflectionHelper.findMethod(Entity.class, "func_70052_a", int.class, boolean.class);
+			setFlagMethod.setAccessible(true);
+			
+			getFlagMethod = ObfuscationReflectionHelper.findMethod(Entity.class, "func_70083_f", int.class);
+			getFlagMethod.setAccessible(true);
+		} catch (UnableToFindMethodException e)
+		{
+			LorienLegacies.logger.error("Unable to find method Entity#setFlag and/or Entity#getFlag for Pondus! Pondus will not have its flying animation applied.");
+		}
 	}
 
 	@Override
 	protected void OnLegacyTick(PlayerEntity player)
-	{	
+	{
 		// Get nearest obstruction by casting 6 rays, one for each direction
 		BlockRayTraceResult results[] = new BlockRayTraceResult[6];
 		results[0] = player.world.rayTraceBlocks(new RayTraceContext(player.getPositionVec(), player.getPositionVec().add(0, 0, RANGE), 
@@ -132,4 +157,63 @@ public class Avex extends Legacy
 		entity.onKillCommand();
 	}
 	
+	/*
+		Flying animation
+	*/
+	@SubscribeEvent
+	public void OnPreRenderPlayer(RenderPlayerEvent.Pre event)
+	{
+		if (event.getEntity() instanceof PlayerEntity == false) return;
+		PlayerEntity player = (PlayerEntity)event.getEntity();
+		
+		// Keep track of toggle status
+		boolean toggled = player.world.isRemote ? LorienLegacies.proxy.GetClientLegacyData().IsLegacyToggled(NAME) : IsLegacyToggled(player);
+		boolean toggledLastFrame = flyingFlags.containsKey(player.getUniqueID()) ? flyingFlags.get(player.getUniqueID()) : false;
+		flyingFlags.put(player.getUniqueID(), toggled);
+		
+		// On toggle (or if we should be flying but aren't), chance flying status (we cannot set this every tick or ElytraSound#tick tops itself)
+		if ((toggledLastFrame != toggled && toggled) || (player.isElytraFlying() == false && toggled))
+		{
+			try {
+				setFlagMethod.invoke(player, 7, true);
+			} catch (Exception e) { LorienLegacies.logger.error("Pondus failed to call Entity#setFlag!"); e.printStackTrace(); }
+		}
+		else if (toggledLastFrame != toggled && !toggled)
+		{
+			try {
+				setFlagMethod.invoke(player, 7, false);
+			} catch (Exception e) { LorienLegacies.logger.error("Pondus failed to call Entity#setFlag!"); e.printStackTrace(); }
+		}
+		
+		/*
+		if (setFlagMethod != null && getFlagMethod != null)
+		{
+			try {
+				boolean flag = (boolean) getFlagMethod.invoke(player, 7);
+				flyingFlags.put(player.getUniqueID(), flag);
+				
+				// To avoid a sound bug(which I think occurs in ElytraSound#tick), we must only do this if airborne
+				//if (player.isOnGround() == false)
+					setFlagMethod.invoke(player, 7, true);
+				
+			} catch (Exception e) { LorienLegacies.logger.error("Pondus failed to call Entity#getFlag and/or Entity#setFlag!"); e.printStackTrace(); }
+		}*/
+	}
+	
+	/*
+		Flying animation
+	*/
+	@SubscribeEvent
+	public void OnPostRenderPlayer(RenderPlayerEvent.Post event)
+	{
+		if (event.getEntity() instanceof PlayerEntity == false) return;
+		PlayerEntity player = (PlayerEntity)event.getEntity();
+		
+		if (setFlagMethod != null && getFlagMethod != null)
+		{
+			try {
+				//setFlagMethod.invoke(player, 7, flyingFlags.get(player.getUniqueID()));
+			} catch (Exception e) { LorienLegacies.logger.error("Pondus failed to call Entity#setFlag!"); e.printStackTrace(); }
+		}
+	}
 }

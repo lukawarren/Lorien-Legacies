@@ -24,7 +24,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class Telekinesis extends Legacy
 {	
-	private static final float ENTITY_DISTANCE = 20.0f; // EXTREMELY imprecise - doesn't work
+	private static final float ENTITY_DISTANCE = 5.0f;
 	private static final float BLOCK_DISTANCE = 5.0f;
 	Map <UUID, UUID> launchedEntities = new HashMap<>(); // Player, entity
 	Map <UUID, Integer> selectedEntities = new HashMap<>(); // So as to prevent picking up stuff by accident
@@ -144,7 +144,7 @@ public class Telekinesis extends Legacy
 		Entity entity = GetEntityLookedAt(player);
 		if (entity != null)
 		{
-			Vector3d launchVelocity = player.getLookVec().scale(4.0f);
+			Vector3d launchVelocity = player.getLookVec().scale(5.0f);
 			entity.addVelocity(launchVelocity.x, launchVelocity.y, launchVelocity.z);
 			
 			// Add to blacklist
