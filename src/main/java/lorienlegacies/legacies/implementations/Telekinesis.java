@@ -33,7 +33,7 @@ public class Telekinesis extends Legacy
 	{
 		NAME = "Telekinesis";
 		DESCRIPTION = "Grants mind powers";
-		STAMINA_PER_TICK = 2;
+		STAMINA_PER_TICK = 1;
 		
 		GENERATION_WEIGHTING = 0;
 		GENERATION_POINTS = 0;
