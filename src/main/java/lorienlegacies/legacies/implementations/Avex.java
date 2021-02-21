@@ -18,6 +18,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3i;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -75,6 +77,9 @@ public class Avex extends Legacy
 	@Override
 	protected void OnLegacyTick(PlayerEntity player)
 	{	
+		// Allow flying to stop player being kicked
+		player.abilities.allowFlying = true;
+		
 		// To allow for de-toggling, check if player is touching the ground, and has yet lifted off
 		boolean hasLeftGround = playersHaveLeftGround.containsKey(player.getUniqueID()) && playersHaveLeftGround.get(player.getUniqueID()).booleanValue();
 		if (hasLeftGround && player.isOnGround()) { Toggle(player); playersHaveLeftGround.put(player.getUniqueID(), false); return; }
@@ -185,6 +190,7 @@ public class Avex extends Legacy
 	}
 	
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	public void OnRenderPlayerEvent(RenderPlayerEvent event)
 	{
 		if (event.getEntity() instanceof PlayerEntity == false) return;
@@ -194,6 +200,7 @@ public class Avex extends Legacy
 	}
 	
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	public void OnRenderHandEvent(RenderHandEvent event)
 	{	
 		ApplyFlyingLogic(LorienLegacies.proxy.GetClientsidePlayer());
