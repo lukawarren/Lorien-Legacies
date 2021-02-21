@@ -80,7 +80,7 @@ The mod is balanced so that each player will have a different experience. Legaci
 * Some lorien items ✔️
 
 ### Release two
-* Second batch of legacies ❌
+* Second batch of legacies (eg Externa) ❌
 * Player stamina progression ❌
 * Other lorien items, particularly from chests ❌
 * Lorien mobs ❌
