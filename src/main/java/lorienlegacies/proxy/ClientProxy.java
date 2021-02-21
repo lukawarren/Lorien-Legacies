@@ -6,6 +6,8 @@ import lorienlegacies.gui.GuiLegacyToggle;
 import lorienlegacies.gui.GuiPondusDensity;
 import lorienlegacies.gui.ModGUIs;
 import lorienlegacies.legacies.PlayerLegacyData;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
@@ -33,6 +35,12 @@ public class ClientProxy extends CommonProxy
     public PlayerLegacyData GetClientLegacyData()
 	{
 		return clientLegacies;
+	}
+    
+    @Override
+    public PlayerEntity GetClientsidePlayer()
+	{
+		return Minecraft.getInstance().player;
 	}
     
     @Override

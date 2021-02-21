@@ -3,6 +3,7 @@ package lorienlegacies.proxy;
 import lorienlegacies.legacies.LegacyManager;
 import lorienlegacies.legacies.PlayerLegacyData;
 import lorienlegacies.network.NetworkHandler;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -25,6 +26,11 @@ public class CommonProxy
 	public LegacyManager GetLegacyManager()
 	{
 		return legacyManager;
+	}
+	
+	public PlayerEntity GetClientsidePlayer()
+	{
+		return null;
 	}
 	
 	public void OpenPondusGUI(boolean up) {}
