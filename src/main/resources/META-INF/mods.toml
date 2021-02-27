@@ -25,7 +25,7 @@ displayName="Lorien Legacies" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://github.com/lukawarren/Lorien-Legacies" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/lorien-legacies-mod/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="lorienlegacies.png" #optional
 # A text field displayed in the mod UI
@@ -34,8 +34,7 @@ credits="The Lorien Legacies community" #optional
 authors="Kerbo, Blue20Boy17, tebreca, Phantom, 5" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Lorien Legacies in Minecraft! See the GitHub repo (via the URL) for a comprehensive list of all features.
-'''
+Lorien Legacies in Minecraft! See the CurseForge page for a comprehensive list of all features.'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.examplemod]] #optional
     # the modid of the dependency

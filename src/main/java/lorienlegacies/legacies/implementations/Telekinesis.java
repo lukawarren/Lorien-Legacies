@@ -89,6 +89,9 @@ public class Telekinesis extends Legacy
 			BlockState blockState = player.world.getBlockState(rayResult.getPos());
 			Vector3d position = player.getEyePosition(1).add(player.getLookVec().scale(2));
 			
+			// Check block is reasonable (i.e. not bedrock)
+			if (blockState.getHarvestLevel() == -1) return;
+			
 			// Make falling sand (woops, I mean falling block) at player's eye position
 			FallingBlockEntity fallingBlockEntity = new FallingBlockEntity(player.world, position.x, position.y, position.z, blockState);
 			fallingBlockEntity.fallTime = 2;
