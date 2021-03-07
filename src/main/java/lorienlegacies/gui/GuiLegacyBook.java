@@ -81,8 +81,8 @@ public class GuiLegacyBook extends Screen
 		int nLegacies = 0;
 		for (Integer entry : LorienLegacies.proxy.GetClientLegacyData().legacies.values())
 			if (entry.intValue() > 0) nLegacies++;
-		pageList.add(new Page("§1§n§lLorien Guide", new String[]{"This book has been", "given to your by your", "Cepan. It contains", "all your current", "legacies.", 
-				"", "Perhaps in time", "this list will", "grow...", "", "§oAn FAQ is at the back.", "", "You have §1§l" + nLegacies + "§0 legacies"}));
+		pageList.add(new Page("§1§n§lLorien Guide", new String[]{"This book has been", "given to your by your", "Cepan. It contains", "all your legacies.", 
+				"", "Perhaps in time", "this list will grow...", "Even now, you feel", "somewhat stronger", "and more agile...", "", "§oAn FAQ is at the back.", "", "You have §1§l" + nLegacies + "§0 legacies"}));
 		
 		// Subsequent legacy pages
 		for (Map.Entry<String, Integer> entry: LorienLegacies.proxy.GetClientLegacyData().legacies.entrySet())

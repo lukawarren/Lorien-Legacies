@@ -64,6 +64,9 @@ public class LegacyManager
 		"Regeneras"
 	};
 	
+	// Passive boosts
+	PassiveLegacyEffects passiveLegacyEffects = new PassiveLegacyEffects();
+	
 	public void RegisterLegacies()
 	{
 		// Active legacies
