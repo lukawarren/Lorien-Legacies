@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import lorienlegacies.blocks.ModBlocks;
 import lorienlegacies.commands.ModCommands;
 import lorienlegacies.config.ConfigLorienLegacies;
+import lorienlegacies.entities.ModEntities;
 import lorienlegacies.items.ModItems;
 import lorienlegacies.keybinds.ModKeybinds;
 import lorienlegacies.proxy.ClientProxy;
@@ -76,6 +77,9 @@ public class LorienLegacies
         ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         
+        // Entities
+        ModEntities.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        
         // Worldgen
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ModWorldgen::RegisterOres);
         
@@ -89,11 +93,14 @@ public class LorienLegacies
     
     	proxy.GetLegacyManager().RegisterLegacies(); // Register legacies
         
+    	ModEntities.RegisterEntites(event); // Entities
+    	
         proxy.Setup(event); // Proxy
     }
     
     private void OnClientSetup(final FMLClientSetupEvent event)
     {
+    	proxy.Setup(event);
     	proxy.GetLegacyManager().RegisterClientData(proxy.GetClientLegacyData()); // Client legacy data
     	ModKeybinds.RegisterKeybinds(); // Keybinds
     }

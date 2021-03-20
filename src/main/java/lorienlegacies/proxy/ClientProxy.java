@@ -1,5 +1,6 @@
 package lorienlegacies.proxy;
 
+import lorienlegacies.entities.ModEntities;
 import lorienlegacies.gui.GuiAbility;
 import lorienlegacies.gui.GuiLegacyBook;
 import lorienlegacies.gui.GuiLegacyToggle;
@@ -14,6 +15,7 @@ import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
@@ -26,11 +28,17 @@ public class ClientProxy extends CommonProxy
 	@Override
     public void Setup(FMLCommonSetupEvent event) 
 	{
-        super.Setup(event);
+        super.Setup(event);     
         modGUIs = new ModGUIs();
-        MinecraftForge.EVENT_BUS.register(this);
+       MinecraftForge.EVENT_BUS.register(this);
 	}
     
+	@Override
+	public void Setup(FMLClientSetupEvent event)
+	{
+		ModEntities.RegisterRenderers(event);
+	}
+	
     @Override
     public PlayerLegacyData GetClientLegacyData()
 	{

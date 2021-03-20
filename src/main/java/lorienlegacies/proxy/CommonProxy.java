@@ -5,6 +5,7 @@ import lorienlegacies.legacies.PlayerLegacyData;
 import lorienlegacies.network.NetworkHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber
@@ -17,6 +18,11 @@ public class CommonProxy
 	{
 		NetworkHandler.init();
     }
+	
+	public void Setup(FMLClientSetupEvent event)
+	{
+		
+	}
 	
 	public PlayerLegacyData GetClientLegacyData()
 	{
