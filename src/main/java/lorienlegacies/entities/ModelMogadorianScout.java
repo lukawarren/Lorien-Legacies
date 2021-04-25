@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 public class ModelMogadorianScout extends EntityModel<EntityMogadorianScout>
 {
 	private final ModelRenderer head;
-	private final ModelRenderer nose;
 	private final ModelRenderer body;
 	private final ModelRenderer arm0;
 	private final ModelRenderer arm1;
@@ -24,11 +23,8 @@ public class ModelMogadorianScout extends EntityModel<EntityMogadorianScout>
 		head = new ModelRenderer(this);
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
 		head.setTextureOffset(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8.0F, 10.0F, 8.0F, 0.0F, false);
-
-		nose = new ModelRenderer(this);
-		nose.setRotationPoint(0.0F, -2.0F, 0.0F);
-		head.addChild(nose);
-		nose.setTextureOffset(24, 0).addBox(-1.0F, -1.0F, -6.0F, 2.0F, 4.0F, 2.0F, 0.0F, false);
+		head.setTextureOffset(32, 0).addBox(-2.0F, 0.0F, 3.0F, 4.0F, 6.0F, 1.0F, 0.0F, false);
+		head.setTextureOffset(24, 0).addBox(-1.0F, -3.0F, -6.0F, 2.0F, 4.0F, 2.0F, 0.0F, false);
 
 		body = new ModelRenderer(this);
 		body.setRotationPoint(0.0F, 24.0F, 0.0F);

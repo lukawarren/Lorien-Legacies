@@ -7,17 +7,21 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderMogadorianScout extends MobRenderer<EntityMogadorianScout, ModelMogadorianScout>
 {
-	protected ResourceLocation mogadorianTexture;
+	
+	protected ResourceLocation mogadorianTextureOne;
+	protected ResourceLocation mogodorianTextureTwo;
 	
 	protected RenderMogadorianScout(EntityRendererManager renderManager)
 	{
 		super(renderManager, new ModelMogadorianScout(), 0.5f);
-		mogadorianTexture = new ResourceLocation(LorienLegacies.MODID + ":textures/entity/mogadorian_scout.png");
+		
+		mogadorianTextureOne = new ResourceLocation(LorienLegacies.MODID + ":textures/entity/mogadorian_scout_one.png");
+		mogodorianTextureTwo = new ResourceLocation(LorienLegacies.MODID + ":textures/entity/mogadorian_scout_two.png");
 	}
 	
 	@Override
 	public ResourceLocation getEntityTexture(EntityMogadorianScout entity)
 	{
-		return mogadorianTexture;
+		return entity.getEntityId() % 2 == 0 ? mogadorianTextureOne : mogodorianTextureTwo;
 	}
 }
