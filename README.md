@@ -1,7 +1,7 @@
 # Lorien-Legacies
 
 ## Description
-Lorien Legacies seeks so recreate Lorien Legacies in Minecraft! It adds legacies such as Avex and Lumen, as well as telekinesis and a host of other awesome abilities and items.
+Lorien Legacies seeks to recreate Lorien Legacies in Minecraft! It adds legacies such as Avex and Lumen, as well as telekinesis and a host of other awesome abilities and items.
 
 ## Legacies
 
