@@ -62,7 +62,9 @@ public class Glacen extends Legacy
 		
 		// Work out distance
 		float distance = DISTANCE;
-		if (level >= 2) distance *= LEVEL_2_DISTANCE_MODIFIER;
+		if (level >= 2) {
+			distance *= LEVEL_2_DISTANCE_MODIFIER;
+		}
 		
 		// Get block player is looking at
 		Vector3d startVec = player.getEyePosition(1.0f).add(player.getLookVec().mul(2.0f, 2.0f, 2.0f)); // Add 1 block minimum distance
@@ -71,8 +73,9 @@ public class Glacen extends Legacy
 		
 		if (rayResult == null || rayResult.getPos() == null || player.world.getBlockState(rayResult.getPos()) == null) return;
 		
-		// Set the block to ice if it's water
-		if (player.world.getBlockState(rayResult.getPos()).getMaterial() == Material.WATER)
+		// Set the block to ice if it's water, or there's kelp, or sea-grass
+		if (player.world.getBlockState(rayResult.getPos()).getMaterial() == Material.WATER || player.world.getBlockState(rayResult.getPos()).getMaterial() == Material.SEA_GRASS
+				|| player.world.getBlockState(rayResult.getPos()).getBlock() == Blocks.KELP)
 		{
 			player.world.setBlockState(rayResult.getPos(), Blocks.ICE.getDefaultState());
 				

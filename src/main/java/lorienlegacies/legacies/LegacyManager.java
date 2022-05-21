@@ -190,7 +190,7 @@ public class LegacyManager
 					float stamina = legacies.get(legacy.getKey()).GetStaminaPerTick() * ConfigLorienLegacies.legacyStamina.staminaMultipliers.get(legacy.getKey());
 					
 					// ...but not in creative...
-					if (player.isCreative() == false) entry.getValue().stamina -= stamina;
+					if (player.isCreative() == false){entry.getValue().stamina -= stamina;}
 					
 					//... and save current level
 					entry.getValue().legacyPrevLvl.put(legacy.getKey(), legacies.get(legacy.getKey()).GetLegacyLevel(player));
