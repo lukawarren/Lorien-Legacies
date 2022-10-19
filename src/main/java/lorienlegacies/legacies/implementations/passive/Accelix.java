@@ -19,10 +19,11 @@ public class Accelix extends PassiveLegacy
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
+	// Now works underwater.
 	@SubscribeEvent
 	public void OnLivingUpdateEvent(LivingEvent.LivingUpdateEvent event){
 
-		if (event.getEntityLiving() instanceof PlayerEntity == false) return;
+		if (!(event.getEntityLiving() instanceof PlayerEntity)) return;
 		PlayerEntity player = (PlayerEntity)event.getEntityLiving();
 
 		if(player.getEntity().isInWater()){

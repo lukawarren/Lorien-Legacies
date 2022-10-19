@@ -2,15 +2,18 @@ package lorienlegacies.entities;
 
 import lorienlegacies.core.LorienLegacies;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryManager;
 
 public class ModEntities
 {
@@ -35,4 +38,6 @@ public class ModEntities
 	{
 		RenderingRegistry.registerEntityRenderingHandler(mogadorianScout.get(), RenderMogadorianScout::new);
 	}
+
+
 }
